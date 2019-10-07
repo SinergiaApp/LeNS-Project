@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "938337727228",
+    "firebase_url": "https://sinergiaapp-7e54e.firebaseio.com",
+    "project_id": "sinergiaapp-7e54e",
+    "storage_bucket": "sinergiaapp-7e54e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:938337727228:android:2a1f65c2e289bc97f4dd79",
+        "android_client_info": {
+          "package_name": "com.sinergia.eLibrary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "938337727228-rcjtapevdnk1sm87bapah6r46bkllvn3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sinergia.eLibrary",
+            "certificate_hash": "5d416f1209e0199081fd044dab13ce20d5ba1b80"
+          }
+        },
+        {
+          "client_id": "938337727228-kakbq2ar4busuhdk4v9qhpoj0uclb9mj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLYqNbDlrQt56RMR6n8kZ8B38AdrKrP9s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "938337727228-kakbq2ar4busuhdk4v9qhpoj0uclb9mj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
