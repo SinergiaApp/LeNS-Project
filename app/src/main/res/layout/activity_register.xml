@@ -11,27 +11,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nombre"
-        app:layout_constraintBottom_toTopOf="@+id/userName"
-        app:layout_constraintStart_toStartOf="@+id/userName" />
+        app:layout_constraintBottom_toTopOf="@+id/userRegisterName"
+        app:layout_constraintStart_toStartOf="@+id/userRegisterName" />
 
     <TextView
         android:id="@+id/userLastNameExplainText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Apellidos"
-        app:layout_constraintBottom_toTopOf="@+id/userLastName"
-        app:layout_constraintStart_toStartOf="@+id/userLastName" />
+        app:layout_constraintBottom_toTopOf="@+id/userRegisterLastName"
+        app:layout_constraintStart_toStartOf="@+id/userRegisterLastName" />
 
     <TextView
         android:id="@+id/userMailExplainText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Correo Electrónico"
-        app:layout_constraintBottom_toTopOf="@+id/userMail"
-        app:layout_constraintStart_toStartOf="@+id/userMail" />
+        app:layout_constraintBottom_toTopOf="@+id/userRegisterMail"
+        app:layout_constraintStart_toStartOf="@+id/userRegisterMail" />
 
     <EditText
-        android:id="@+id/userName"
+        android:id="@+id/userRegisterName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="128dp"
@@ -45,7 +45,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/userLastName"
+        android:id="@+id/userRegisterLastName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -54,10 +54,10 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userName" />
+        app:layout_constraintTop_toBottomOf="@+id/userRegisterName" />
 
     <EditText
-        android:id="@+id/userMail"
+        android:id="@+id/userRegisterMail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
@@ -66,18 +66,18 @@
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userLastName" />
+        app:layout_constraintTop_toBottomOf="@+id/userRegisterLastName" />
 
     <TextView
         android:id="@+id/userPassExplainText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="Contraseña"
-        app:layout_constraintBottom_toTopOf="@+id/userPass"
-        app:layout_constraintStart_toStartOf="@+id/userPass" />
+        app:layout_constraintBottom_toTopOf="@+id/userRegisterPass"
+        app:layout_constraintStart_toStartOf="@+id/userRegisterPass" />
 
     <EditText
-        android:id="@+id/userPass"
+        android:id="@+id/userRegisterPass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -86,7 +86,7 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userMail" />
+        app:layout_constraintTop_toBottomOf="@+id/userRegisterMail" />
 
     <Button
         android:onClick="sigIn"
@@ -98,5 +98,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userPass" />
+        app:layout_constraintTop_toBottomOf="@+id/userRegisterPass" />
+
+    <ProgressBar
+        android:id="@+id/RegisterProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="365dp"
+        android:layout_height="21dp"
+        android:indeterminate="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
