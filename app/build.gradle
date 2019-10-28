@@ -37,8 +37,9 @@ dependencies {
     //Firebase SDK for Google Analytics
     implementation 'com.google.firebase:firebase-analytics:17.2.0'
 
-    //Firebase SDK for Oauth
+    //Firebase SDK for Auth
     implementation 'com.google.firebase:firebase-auth:19.1.0'
+    implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
 
     //Firebase SDK for DataBase
     implementation 'com.google.firebase:firebase-database:19.1.0'

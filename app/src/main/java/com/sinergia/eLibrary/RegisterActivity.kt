@@ -25,6 +25,10 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var database:FirebaseDatabase
     private lateinit var auth: FirebaseAuth
 
+    val RC_SIGN_IN: Int = 1
+    lateinit var mGoogleSignInClient: GoogleSignInClient
+    lateinit var mGoogleSignInOptions: GoogleSignInOptions
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
