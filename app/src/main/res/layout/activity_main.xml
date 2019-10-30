@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/garybackground"
     tools:context=".MainActivity">
 
     <ImageView
@@ -25,8 +26,9 @@
         android:layout_width="266dp"
         android:layout_height="63dp"
         android:layout_marginTop="52dp"
-        android:background="@drawable/main_activity_main_buttons"
+        android:background="@drawable/main_activity_main_buttons_transparent"
         android:fontFamily="Verdana"
+        android:textColor="@color/colorWhite"
         android:text="ENTRAR"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,6 +44,7 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/main_activity_main_buttons"
         android:fontFamily="Verdana"
+        android:textColor="@color/colorWhite"
         android:text="REGISTRARSE"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
@@ -53,7 +56,8 @@
         android:layout_width="266dp"
         android:layout_height="63dp"
         android:layout_marginTop="96dp"
-        android:background="@drawable/common_google_signin_btn_text_dark"
+        android:background="@drawable/common_google_signin_btn_text_light_normal"
+
         android:fontFamily="Verdana"
         android:text="ENTRAR CON GOOGLE"
         app:layout_constraintEnd_toEndOf="parent"
