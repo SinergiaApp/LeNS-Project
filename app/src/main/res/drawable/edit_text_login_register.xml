@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape
+            android:shape="rectangle"
+        >
+
+            <!-- Broders color -->
+            <stroke
+
+                android:width="2dp"
+                android:color="@color/colorWhite"
+
+            />
+
+            <!-- Corners -->
+            <corners
+
+                android:radius="5dp"
+
+            />
+
+            <!-- Gradient Background -->
+            <gradient
+                android:startColor="#f4f4f4"
+                android:endColor="#cccccc"
+                android:angle="90"
+            />
+
+        </shape>
+    </item>
+
+</selector>

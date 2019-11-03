@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -22,14 +23,14 @@
 
 
     <Button
-        android:id="@+id/Login-btn"
+        android:id="@+id/login_btn"
         android:layout_width="266dp"
         android:layout_height="63dp"
         android:layout_marginTop="52dp"
-        android:background="@drawable/main_activity_main_buttons_transparent"
-        android:fontFamily="Verdana"
-        android:textColor="@color/colorWhite"
+        android:background="@drawable/main_button_style"
+        android:fontFamily="@font/imprima"
         android:text="ENTRAR"
+        android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
@@ -38,32 +39,34 @@
         app:layout_constraintVertical_bias="0.04" />
 
     <Button
-        android:id="@+id/SignIn-btn"
+        android:id="@+id/register_btn"
         android:layout_width="266dp"
         android:layout_height="63dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/main_activity_main_buttons"
-        android:fontFamily="Verdana"
-        android:textColor="@color/colorWhite"
+        android:background="@drawable/main_button_style"
+        android:fontFamily="@font/imprima"
+        android:focusedByDefault="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:text="REGISTRARSE"
+        android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Login-btn" />
+        app:layout_constraintTop_toBottomOf="@+id/login_btn" />
 
     <Button
-        android:id="@+id/LogInGoogle-btn"
+        android:id="@+id/login_google_btn"
         android:layout_width="266dp"
         android:layout_height="63dp"
         android:layout_marginTop="96dp"
         android:background="@drawable/common_google_signin_btn_text_light_normal"
-
-        android:fontFamily="Verdana"
+        android:fontFamily="@font/imprima"
         android:text="ENTRAR CON GOOGLE"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Login-btn" />
+        app:layout_constraintTop_toBottomOf="@+id/login_btn" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"

@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--suppress ALL -->
-
-<selector
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item>
         <shape
@@ -11,23 +8,19 @@
             >
 
             <!-- Button Color -->
-            <solid android:color="@color/colorGray"/>
+            <solid android:color="@color/fui_transparent"/>
 
             <!-- Button Borders -->
             <stroke
                 android:width="2dp"
                 android:color="@color/colorWhite"
-            />
+                />
 
             <!-- Button Corners -->
             <corners
                 android:radius="50dp"
-            />
-
+                />
         </shape>
     </item>
 
 </selector>
-
-
-

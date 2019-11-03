@@ -26,7 +26,7 @@ class AuthLoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_auth_login)
 
         //Login and Logout Buttons
-        login_btn = findViewById<Button>(R.id.loginButton)
+        login_btn = findViewById<Button>(R.id.login_btn)
         logout_btn = findViewById<Button>(R.id.logout_btn)
 
         providers = Arrays.asList<AuthUI.IdpConfig>(
