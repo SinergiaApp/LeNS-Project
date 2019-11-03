@@ -16,9 +16,7 @@ class LoginActivity : AppCompatActivity() {
         login_btn = findViewById<Button>(R.id.login_btn)
 
         login_btn.setOnClickListener(){
-
             Toast.makeText(this, "No lo intentes más pesadilla, que este botón no va aún.", Toast.LENGTH_LONG).show()
-
         }
 
     }

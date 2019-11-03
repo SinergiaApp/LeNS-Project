@@ -8,7 +8,6 @@ import android.widget.Button
 class MainActivity : AppCompatActivity() {
 
     private lateinit var login_btn: Button
-
     private lateinit var register_btn: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
