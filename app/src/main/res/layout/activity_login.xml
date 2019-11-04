@@ -20,8 +20,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
+    <TextView
+        android:id="@+id/UserExplainText"
+        android:layout_width="65dp"
+        android:layout_height="19dp"
+        android:text="Usuario:"
+        app:layout_constraintBottom_toTopOf="@+id/login_user"
+        app:layout_constraintStart_toStartOf="@+id/login_user" />
+
     <EditText
-        android:id="@+id/UserLogin"
+        android:id="@+id/login_user"
         android:layout_width="216dp"
         android:layout_height="35dp"
         android:layout_marginTop="320dp"
@@ -35,23 +43,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/UserExplainText"
-        android:layout_width="65dp"
-        android:layout_height="19dp"
-        android:text="Correo:"
-        app:layout_constraintBottom_toTopOf="@+id/UserLogin"
-        app:layout_constraintStart_toStartOf="@+id/UserLogin" />
-
-    <TextView
         android:id="@+id/PassExplainText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Contraseña:"
-        app:layout_constraintBottom_toTopOf="@+id/PassLogin"
-        app:layout_constraintStart_toStartOf="@+id/PassLogin" />
+        app:layout_constraintBottom_toTopOf="@+id/login_pass"
+        app:layout_constraintStart_toStartOf="@+id/login_pass" />
 
     <EditText
-        android:id="@+id/PassLogin"
+        android:id="@+id/login_pass"
         android:layout_width="216dp"
         android:layout_height="35dp"
         android:layout_marginTop="32dp"
@@ -61,7 +61,7 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/UserLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/login_user" />
 
     <Button
         android:id="@+id/login_btn"
@@ -80,7 +80,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/login_pass_forgotten"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -88,6 +88,6 @@
         android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PassLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/login_pass" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

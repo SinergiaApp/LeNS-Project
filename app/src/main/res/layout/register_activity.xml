@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/garybackground"
-    tools:context=".RegisterActivity">
+    tools:context=".RegisterActivity"
+    tools:layout_editor_absoluteY="81dp">
 
     <TextView
         android:id="@+id/nameExplainText"
@@ -22,8 +23,8 @@
         android:layout_marginTop="56dp"
         android:background="@drawable/edit_text_login_register"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="Nombre"
+        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,8 +45,8 @@
         android:layout_marginTop="28dp"
         android:background="@drawable/edit_text_login_register"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="Aoellido1 Apellido2"
+        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,8 +67,8 @@
         android:layout_marginTop="68dp"
         android:background="@drawable/edit_text_login_register"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="Nombre de Usuario"
+        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
@@ -88,12 +89,13 @@
         android:layout_marginTop="28dp"
         android:background="@drawable/edit_text_login_register"
         android:ems="10"
-        android:inputType="textPassword"
         android:hint="Contraseña"
+        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/register_username" />
+
     <EditText
         android:id="@+id/register_repeatpass"
         android:layout_width="326dp"
@@ -101,8 +103,8 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/edit_text_login_register"
         android:ems="10"
-        android:inputType="textPassword"
         android:hint="Repetir la contraseña"
+        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
@@ -114,10 +116,21 @@
         android:layout_height="52dp"
         android:layout_marginBottom="76dp"
         android:background="@drawable/main_button_style"
+        android:focusedByDefault="false"
         android:fontFamily="Verdana"
         android:text="REGISTRARSE"
         android:textColor="@color/colorWhite"
-        android:focusedByDefault="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/register_progress_bar"
+        style="@android:style/Widget.Holo.Light.ProgressBar.Horizontal"
+        android:layout_width="382dp"
+        android:layout_height="21dp"
+        android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
