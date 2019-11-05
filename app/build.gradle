@@ -45,7 +45,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:19.1.0'
 
     //Firebase SDK for Cloud Firestore
-    //implementation 'com.google.firebase:firebase-firestore:21.1.1'
+    implementation 'com.google.firebase:firebase-firestore:21.1.1'
 
 }
 
