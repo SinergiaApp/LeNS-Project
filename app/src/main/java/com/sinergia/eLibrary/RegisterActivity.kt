@@ -82,10 +82,12 @@ class RegisterActivity : AppCompatActivity() {
         //Register process
         if(firstName.isNullOrEmpty() || lastName.isNullOrEmpty() || email.isNullOrEmpty() || password.isNullOrEmpty() || repeatPassword.isNullOrEmpty()){
             Toast.makeText(this, "Todos los campos son obligatorios, por favor completa el formulario de Nuevo Usuario", Toast.LENGTH_SHORT).show()
+            register_progressBar.visibility=ProgressBar.INVISIBLE
         } else {
 
             if(password != repeatPassword){
                 Toast.makeText(this, "Las contraseñas no coinciden, por favor vuelve a escribirlas", Toast.LENGTH_SHORT).show()
+                register_progressBar.visibility=ProgressBar.INVISIBLE
             } else {
                 Toast.makeText(this, FirebaseAuth.getInstance().currentUser.toString(), Toast.LENGTH_LONG).show()
                 nelsAuth!!
