@@ -17,6 +17,7 @@ class LoginActivity : BaseActivity(), LoginContract.LoginView {
     lateinit var presenter: LoginPresenter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //presenter = LoginPresenter()
         presenter.attachView(this)
         setContentView(R.layout.activity_login)
 
