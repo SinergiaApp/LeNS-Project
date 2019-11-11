@@ -1,79 +1,58 @@
-package com.sinergia.eLibrary
+package com.sinergia.eLibrary.presentation.Register.View
 
 //import android.app.ProgressDialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.*
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import android.view.View
+import com.sinergia.eLibrary.R
+import com.sinergia.eLibrary.base.BaseActivity
+import com.sinergia.eLibrary.presentation.Login.View.LoginActivity
+import com.sinergia.eLibrary.presentation.Register.RegisterContract
 import kotlinx.android.synthetic.main.register_activity.*
 
-class RegisterActivity : AppCompatActivity() {
-
-    //Register Variables References
-    private lateinit var register_name: EditText
-    private lateinit var register_lastname: EditText
-    private lateinit var register_username: EditText
-    private lateinit var register_userpass1: EditText
-    private lateinit var register_userpass2: EditText
-    private lateinit var register_progressBar: ProgressBar
-    private lateinit var register_btn: Button
-
-    private var firstName: String? = null
-    private var lastName: String? = null
-    private var email: String? = null
-    private var password: String? = null
-    private var repeatPassword: String? = null
-
-    private val TAG = "CreateAccountActivity"
-
-    //Firebase References
-    private var nelsDatabaseReference: DatabaseReference? = null
-    private var nelsDatabase: FirebaseDatabase? = null
-    private var nelsAuth: FirebaseAuth? = null
+class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.register_activity)
 
-        initialize()
+        register_btn.setOnClickListener{ register() }
+    }
+
+    override fun showError(error: String) {
+        toast(this, error, "s")
+    }
+
+    override fun showMessage(message: String) {
+        toast(this, message, "s")
+    }
+
+    override fun showProgressBar() {
+        register_progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideProgressBar() {
+        register_progressBar.visibility = View.INVISIBLE
+    }
+
+    override fun navigateToLogin() {
+        startActivity(Intent(this, LoginActivity::class.java))
+    }
+
+    override fun register() {
+
+        var name = register_name.text.toString().trim()
+        val lastname = register_lastname.toString().trim()
+        val email = register_email.text.toString().trim()
+        val password = register_password.text.toString().trim()
+        val repeatPassword = register_repeatpassword.text.toString().trim()
+
+
 
     }
 
-    //Function to initialized all variables
-    fun initialize(){
 
-        //UI variables
-        register_name = findViewById<EditText>(R.id.register_name)
-        register_lastname = findViewById<EditText>(R.id.register_lastname)
-        register_username = findViewById<EditText>(R.id.register_username)
-        register_userpass1 = findViewById<EditText>(R.id.register_pass)
-        register_userpass2 = findViewById<EditText>(R.id.register_repeatpass)
-        register_progressBar = findViewById<ProgressBar>(R.id.register_progressBar)
-
-        //Register Function Variables
-        firstName = register_name?.text.toString()
-        lastName = register_lastname?.text.toString()
-        email = register_username?.text.toString()
-        password = register_pass?.text.toString()
-        repeatPassword = register_userpass2?.text.toString()
-
-        //Firebase Variables
-        nelsDatabase = FirebaseDatabase.getInstance()
-        nelsDatabaseReference = nelsDatabase!!.reference!!.child("Users")
-        nelsAuth = FirebaseAuth.getInstance()
-
-
-        //Register Button and function
-        register_btn = findViewById<Button>(R.id.register_btn)
-
-        register_btn.setOnClickListener(){ createNewAcount() }
-
-    }
-
+    /*
     //Function to create new Account
     fun createNewAcount(){
 
@@ -157,5 +136,5 @@ class RegisterActivity : AppCompatActivity() {
                 }
             }
 
-    }
+    }*/
 }

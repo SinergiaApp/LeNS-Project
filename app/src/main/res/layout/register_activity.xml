@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/garybackground"
-    tools:context=".RegisterActivity"
+    tools:context=".presentation.Register.View.RegisterActivity"
     tools:layout_editor_absoluteY="81dp">
 
     <EditText
@@ -27,16 +27,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Correo Electrónico"
-        app:layout_constraintBottom_toTopOf="@+id/register_username"
-        app:layout_constraintStart_toStartOf="@+id/register_username" />
+        app:layout_constraintBottom_toTopOf="@+id/register_email"
+        app:layout_constraintStart_toStartOf="@+id/register_email" />
 
     <TextView
         android:id="@+id/userpassExplainText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Contraseña"
-        app:layout_constraintBottom_toTopOf="@+id/register_pass"
-        app:layout_constraintStart_toStartOf="@+id/register_pass" />
+        app:layout_constraintBottom_toTopOf="@+id/register_password"
+        app:layout_constraintStart_toStartOf="@+id/register_password" />
 
     <EditText
         android:id="@+id/register_lastname"
@@ -61,7 +61,7 @@
         app:layout_constraintStart_toStartOf="@+id/register_name" />
 
     <EditText
-        android:id="@+id/register_username"
+        android:id="@+id/register_email"
         android:layout_width="329dp"
         android:layout_height="40dp"
         android:layout_marginTop="52dp"
@@ -75,7 +75,7 @@
         app:layout_constraintTop_toBottomOf="@+id/register_lastname" />
 
     <EditText
-        android:id="@+id/register_pass"
+        android:id="@+id/register_password"
         android:layout_width="326dp"
         android:layout_height="44dp"
         android:layout_marginTop="52dp"
@@ -86,7 +86,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.658"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_username" />
+        app:layout_constraintTop_toBottomOf="@+id/register_email" />
 
     <ProgressBar
         android:id="@+id/register_progressBar"
@@ -98,11 +98,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_repeatpass"
+        app:layout_constraintTop_toBottomOf="@+id/register_repeatpassword"
         app:layout_constraintVertical_bias="0.471" />
 
     <EditText
-        android:id="@+id/register_repeatpass"
+        android:id="@+id/register_repeatpassword"
         android:layout_width="326dp"
         android:layout_height="44dp"
         android:layout_marginTop="8dp"
@@ -113,7 +113,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.647"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_pass" />
+        app:layout_constraintTop_toBottomOf="@+id/register_password" />
 
     <TextView
         android:id="@+id/surnameExplainText"
@@ -145,7 +145,7 @@
         android:layout_height="47dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="12dp"
-        app:layout_constraintEnd_toStartOf="@+id/register_username"
+        app:layout_constraintEnd_toStartOf="@+id/register_email"
         app:layout_constraintTop_toTopOf="@+id/usernameExplainText"
         app:srcCompat="@drawable/mail_icon" />
 
@@ -154,7 +154,7 @@
         android:layout_width="33dp"
         android:layout_height="72dp"
         android:layout_marginEnd="12dp"
-        app:layout_constraintEnd_toStartOf="@+id/register_pass"
+        app:layout_constraintEnd_toStartOf="@+id/register_password"
         app:layout_constraintTop_toTopOf="@+id/userpassExplainText"
         app:srcCompat="@drawable/password_icon" />
 

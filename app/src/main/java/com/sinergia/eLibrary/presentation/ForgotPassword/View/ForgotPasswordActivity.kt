@@ -1,4 +1,4 @@
-package com.sinergia.eLibrary
+package com.sinergia.eLibrary.presentation.ForgotPassword.View
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +8,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.sinergia.eLibrary.R
+import com.sinergia.eLibrary.presentation.Main.View.MainActivity
 
 class ForgotPasswordActivity : AppCompatActivity() {
 

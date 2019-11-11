@@ -1,8 +1,8 @@
+//Plugins
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 29
@@ -24,6 +24,10 @@ android {
     }
 }
 
+androidExtensions {
+    experimental = true
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -35,17 +39,17 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
-    //Firebase SDK for Google Analytics
+    //Firebase Dependency for Google Analytics
     implementation 'com.google.firebase:firebase-analytics:17.2.0'
 
-    //Firebase SDK for Auth
+    //Firebase Dependency for Auth
     implementation 'com.google.firebase:firebase-auth:19.1.0'
     implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
 
-    //Firebase SDK for DataBase
+    //Firebase Dependency for DataBase
     implementation 'com.google.firebase:firebase-database:19.1.0'
 
-    //Firebase SDK for Cloud Firestore
+    //Firebase Dependency for Cloud Firestore
     implementation 'com.google.firebase:firebase-firestore:21.1.1'
 
     //Multidex
@@ -53,4 +57,3 @@ dependencies {
 
 }
 
-apply plugin: 'com.google.gms.google-services'

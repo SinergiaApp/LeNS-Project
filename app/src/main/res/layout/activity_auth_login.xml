@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AuthLoginActivity">
+    tools:context=".presentation.Login.View.AuthLoginActivity">
 
     <Button
-        android:id="@+id/login_btn"
+        android:id="@+id/main_login_btn"
         android:layout_width="236dp"
         android:layout_height="76dp"
         android:text="Sign In with Google"

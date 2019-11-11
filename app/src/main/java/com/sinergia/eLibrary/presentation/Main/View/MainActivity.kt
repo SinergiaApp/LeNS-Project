@@ -1,9 +1,12 @@
-package com.sinergia.eLibrary
+package com.sinergia.eLibrary.presentation.Main.View
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import com.sinergia.eLibrary.R
+import com.sinergia.eLibrary.presentation.Login.View.LoginActivity
+import com.sinergia.eLibrary.presentation.Register.View.RegisterActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        login_btn = findViewById<Button>(R.id.login_btn)
+        login_btn = findViewById<Button>(R.id.main_login_btn)
         register_btn = findViewById<Button>(R.id.register_btn)
 
 
