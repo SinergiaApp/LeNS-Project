@@ -4,8 +4,6 @@ import com.google.firebase.auth.FirebaseAuth
 
 class LoginInteractorImpl: LoginInteractor {
 
-
-
     override fun LoginWithEmailAndPassword(email: String, password: String, listener: LoginInteractor.LoginCallback) {
 
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)

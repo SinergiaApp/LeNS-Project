@@ -30,14 +30,15 @@
 
     <EditText
         android:id="@+id/login_user"
-        android:layout_width="216dp"
-        android:layout_height="35dp"
+        android:layout_width="329dp"
+        android:layout_height="40dp"
         android:layout_marginTop="320dp"
         android:background="@drawable/edit_text_login_register"
         android:ems="10"
         android:fontFamily="verdana"
         android:hint="Correo Electrónico"
         android:inputType="textEmailAddress"
+        android:paddingStart="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -52,13 +53,14 @@
 
     <EditText
         android:id="@+id/login_pass"
-        android:layout_width="216dp"
-        android:layout_height="35dp"
+        android:layout_width="329dp"
+        android:layout_height="40dp"
         android:layout_marginTop="32dp"
         android:background="@drawable/edit_text_login_register"
         android:ems="10"
         android:hint="Contraseña"
         android:inputType="textPassword"
+        android:paddingStart="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_user" />
@@ -101,5 +103,23 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_pass_forgotten" />
+
+    <ImageView
+        android:id="@+id/register_mailicon"
+        android:layout_width="30dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toStartOf="@+id/login_user"
+        app:layout_constraintTop_toBottomOf="@+id/UserExplainText"
+        app:srcCompat="@drawable/mail_icon" />
+
+    <ImageView
+        android:id="@+id/register_passicon3"
+        android:layout_width="32dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toStartOf="@+id/login_pass"
+        app:layout_constraintTop_toTopOf="@+id/login_pass"
+        app:srcCompat="@drawable/password_icon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

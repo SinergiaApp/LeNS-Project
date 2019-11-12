@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
+import com.sinergia.eLibrary.domain.interactors.LoginInteractor.LoginInteractorImpl
 import com.sinergia.eLibrary.presentation.ForgotPassword.View.ForgotPasswordActivity
 import com.sinergia.eLibrary.presentation.Login.LoginContract
 import com.sinergia.eLibrary.presentation.Login.Presenter.LoginPresenter
@@ -17,7 +18,7 @@ class LoginActivity : BaseActivity(), LoginContract.LoginView {
     lateinit var presenter: LoginPresenter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //presenter = LoginPresenter()
+        presenter = LoginPresenter(LoginInteractorImpl())
         presenter.attachView(this)
         setContentView(R.layout.activity_login)
 

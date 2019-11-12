@@ -3,14 +3,14 @@ package com.sinergia.eLibrary.presentation.Login.Presenter
 import com.sinergia.eLibrary.domain.interactors.LoginInteractor.LoginInteractor
 import com.sinergia.eLibrary.presentation.Login.LoginContract
 
-class LoginPresenter(LoginInteractor: LoginInteractor): LoginContract.LoginPresenter {
+class LoginPresenter(loginInteractor: LoginInteractor): LoginContract.LoginPresenter {
 
 
     var view: LoginContract.LoginView? = null
     var loginInteractor: LoginInteractor? = null
 
     init {
-        this.loginInteractor = LoginInteractor
+        this.loginInteractor = loginInteractor
     }
 
 
