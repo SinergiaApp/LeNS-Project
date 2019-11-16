@@ -9,9 +9,20 @@ import android.widget.EditText
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.sinergia.eLibrary.R
+import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.presentation.Main.View.MainActivity
 
-class ForgotPasswordActivity : AppCompatActivity() {
+class ForgotPasswordActivity : BaseActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        initialize()
+    }
+
+    override fun getLayout(): Int {
+        return R.layout.activity_forgot_password
+    }
 
     //Login Variables References
     private lateinit var forgot_pass_btn: Button
@@ -25,13 +36,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
     //Firebase References
     private var nelsAuth: FirebaseAuth? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_forgot_password)
 
-        initialize()
-
-    }
 
     //Initialize function
     fun initialize() {

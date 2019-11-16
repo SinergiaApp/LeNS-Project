@@ -9,7 +9,8 @@ interface RegisterContract {
         fun showProgressBar()
         fun hideProgressBar()
         fun register()
-        fun navigateToLogin()
+        fun navigateToMainPage()
+        fun navigateToRegister()
 
     }
 
@@ -18,8 +19,16 @@ interface RegisterContract {
         fun attachView(view: RegisterView)
         fun dettachView()
         fun isViewAttach(): Boolean
-        fun registerWithEmailAndPassword(email: String, password: String)
-        fun checkEmptyLoginFields(email: String, password: String, repearPassword: String): Boolean
+        fun registerWithEmailAndPassword(name:String, lastName: String, email: String, password: String)
+
+        fun checkEmptyRegisterName(name: String): Boolean
+        fun checkEmptyRegisteraLastName(lastName: String): Boolean
+        fun checkRegisterEmptyEmail(email: String): Boolean
+        fun checkEmptyRegisterPassword(password: String): Boolean
+        fun checkEmptyRegisterRepeatPassword(repearPassword: String): Boolean
+
+        fun checkValidRegisterEmail(email: String): Boolean
+        fun checkRegisterPasswordMatch(password: String, repearPassword: String): Boolean
 
     }
 }

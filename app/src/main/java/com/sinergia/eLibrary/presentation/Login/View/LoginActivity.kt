@@ -20,21 +20,24 @@ class LoginActivity : BaseActivity(), LoginContract.LoginView {
         super.onCreate(savedInstanceState)
         presenter = LoginPresenter(LoginInteractorImpl())
         presenter.attachView(this)
-        setContentView(R.layout.activity_login)
 
         login_pass_forgotten.setOnClickListener() { forgotPass() }
         main_login_btn.setOnClickListener(){ login() }
 
     }
 
+    override fun getLayout(): Int {
+        return R.layout.activity_login
+    }
+
 
     //LOGIN CONTRACT METHODS
     override fun showError(error: String) {
-        toast(this, error, "s")
+        toastS(this, error)
     }
 
     override fun showMessage(message: String) {
-        toast(this, message, "s")
+        toastS(this, message)
     }
 
     override fun showProgressBar() {
@@ -51,7 +54,9 @@ class LoginActivity : BaseActivity(), LoginContract.LoginView {
     }
 
     override fun navigateToMainPage() {
-        startActivity(Intent(this, MainActivity::class.java))
+        val intentBack = Intent(this, MainActivity::class.java)
+        intentBack.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intentBack)
     }
 
     override fun login(){
@@ -65,6 +70,20 @@ class LoginActivity : BaseActivity(), LoginContract.LoginView {
             presenter.logInWithEmailAndPassword(email, password)
         }
 
+    }
+
+    override fun googleLogin() {
+        toastL(this, "Esto aun no va!! =(, no le des mas al botón pesadilla !!")
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        presenter.dettachView()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.dettachView()
     }
 
 }

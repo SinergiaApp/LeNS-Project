@@ -1,9 +1,7 @@
 package com.sinergia.eLibrary.presentation.Main.View
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.presentation.Login.View.LoginActivity
@@ -13,23 +11,27 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity(), MainContract.MainView {
 
+
     //BASEACTIVITY METHODS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
         main_login_btn.setOnClickListener { navToLoginPage() }
         main_register_btn.setOnClickListener { navToRegisterPage() }
 
     }
 
-    //MAINCONTRACT METHODS
+    override fun getLayout(): Int {
+        return R.layout.activity_main
+    }
+
+    //MAIN CONTRACT METHODS
     override fun showError(error: String) {
-        toast(this, error, "s")
+        toastS(this, error)
     }
 
     override fun showMessage(message: String) {
-        toast(this, message, "s")
+        toastS(this, message)
     }
 
     override fun showProgressBar() {

@@ -9,6 +9,7 @@ interface LoginContract {
         fun showProgressBar()
         fun hideProgressBar()
         fun login()
+        fun googleLogin()
         fun forgotPass()
         fun navigateToMainPage()
 

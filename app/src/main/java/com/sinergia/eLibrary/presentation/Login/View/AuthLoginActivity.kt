@@ -21,6 +21,7 @@ class AuthLoginActivity : AppCompatActivity() {
 
     val RC_LoginGoogle: Int = 8888
 
+    //BASE ACTIVITY METHODS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth_login)

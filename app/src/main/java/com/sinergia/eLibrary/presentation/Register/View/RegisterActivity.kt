@@ -6,25 +6,50 @@ import android.os.Bundle
 import android.view.View
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
-import com.sinergia.eLibrary.presentation.Login.View.LoginActivity
+import com.sinergia.eLibrary.domain.interactors.RegisterInteractor.RegisterInteractorImpl
+import com.sinergia.eLibrary.presentation.MainPage.View.MainPage
+import com.sinergia.eLibrary.presentation.Register.Presenter.RegisterPresenter
 import com.sinergia.eLibrary.presentation.Register.RegisterContract
 import kotlinx.android.synthetic.main.register_activity.*
 
 class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
 
+    //PRESENTER INITIALIZATION
+    lateinit var presenter: RegisterPresenter
+
+    //BASE ACTIVITY METHODS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.register_activity)
+        presenter = RegisterPresenter(RegisterInteractorImpl())
+        presenter.attachView(this)
 
-        register_btn.setOnClickListener{ register() }
+        register_btn.setOnClickListener { register() }
+    }
+
+    override fun getLayout(): Int {
+        return R.layout.register_activity
+    }
+
+
+    //REGISTER CONTRACT METHODS
+    override fun navigateToMainPage() {
+        val intentMainPage = Intent(this, MainPage::class.java)
+        intentMainPage.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intentMainPage)
+    }
+
+    override fun navigateToRegister() {
+        val intentMainPage = Intent(this, RegisterActivity::class.java)
+        intentMainPage.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intentMainPage)
     }
 
     override fun showError(error: String) {
-        toast(this, error, "s")
+        toastS(this, error)
     }
 
     override fun showMessage(message: String) {
-        toast(this, message, "s")
+        toastS(this, message)
     }
 
     override fun showProgressBar() {
@@ -35,20 +60,66 @@ class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
         register_progressBar.visibility = View.INVISIBLE
     }
 
-    override fun navigateToLogin() {
-        startActivity(Intent(this, LoginActivity::class.java))
-    }
-
     override fun register() {
 
-        var name = register_name.text.toString().trim()
-        val lastname = register_lastname.toString().trim()
-        val email = register_email.text.toString().trim()
-        val password = register_password.text.toString().trim()
-        val repeatPassword = register_repeatpassword.text.toString().trim()
+        val name:String = register_name.text.toString().trim()
+        val lastname:String = register_lastname.toString().trim()
+        val email:String = register_email.text.toString().trim()
+        val password:String = register_password.text.toString().trim()
+        val repeatPassword:String = register_repeatpassword.text.toString().trim()
 
+        var checkers = true
 
+        if(presenter.checkEmptyRegisterName(name)){
+            register_name.error = "¡Cuidado! El campo 'Nombre' es obligatorio"
+            toastS(this, "Vaya... Hay errores en los campos introducidos.")
+            return
+        }
+        if(presenter.checkEmptyRegisteraLastName(lastname)){
+            register_lastname.error = "¡Cuidado! El campo 'Apellidos' es obligatorio"
+            toastS(this, "Vaya... Hay errores en los campos introducidos.")
+            return
+        }
+        if(presenter.checkRegisterEmptyEmail(email)){
+            register_email.error = "¡Cuidado! El campo 'Correo Electrónico' es obligatorio"
+            toastS(this, "Vaya... Hay errores en los campos introducidos.")
+            return
+        }
+        if(presenter.checkEmptyRegisterPassword(password)){
+            register_password.error = "¡Cuidado! El campo 'Contraseña' es obligatorio"
+            toastS(this, "Vaya... Hay errores en los campos introducidos.")
+            return
+        }
+        if(presenter.checkEmptyRegisterRepeatPassword(repeatPassword)){
+            register_repeatpassword.error = "¡Cuidado! El campo 'Repetir Contraseña' es obligatorio"
+            toastS(this, "Vaya... Hay errores en los campos introducidos.")
+            return
+        }
 
+        if(presenter.checkValidRegisterEmail(email)){
+            register_email.error = "¡Cuidado! El Correo Electrónico introducido no es válido."
+            toastS(this, "Vaya... Hay errores en los campos introducidos.")
+            return
+        }
+
+        if(!presenter.checkRegisterPasswordMatch(password, repeatPassword)){
+            register_repeatpassword.error = "¡Cuidado! Las contraseñas no coinciden."
+            toastS(this, "Vaya... Hay errores en los campos introducidos.")
+            return
+        }
+
+        presenter.registerWithEmailAndPassword(name, lastname, email, password)
+
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        presenter.dettachView()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.dettachView()
     }
 
 
