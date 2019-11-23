@@ -10,6 +10,7 @@ import com.sinergia.eLibrary.presentation.ForgotPassword.View.ForgotPasswordActi
 import com.sinergia.eLibrary.presentation.Login.LoginContract
 import com.sinergia.eLibrary.presentation.Login.Presenter.LoginPresenter
 import com.sinergia.eLibrary.presentation.Main.View.MainActivity
+import com.sinergia.eLibrary.presentation.MainPage.View.MainPage
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity(), LoginContract.LoginView {
@@ -22,7 +23,7 @@ class LoginActivity : BaseActivity(), LoginContract.LoginView {
         presenter.attachView(this)
 
         login_pass_forgotten.setOnClickListener() { forgotPass() }
-        main_login_btn.setOnClickListener(){ login() }
+        login_btn.setOnClickListener(){ login() }
 
     }
 
@@ -48,15 +49,25 @@ class LoginActivity : BaseActivity(), LoginContract.LoginView {
         login_progressBar.visibility = View.INVISIBLE
     }
 
+    override fun enableLoginButton() {
+        login_btn.isEnabled = true
+        login_btn.isClickable = true
+    }
+
+    override fun disableLoginButton() {
+        login_btn.isEnabled = false
+        login_btn.isClickable = false
+    }
+
     override fun forgotPass() {
         var forgotPasswordIntent = Intent(this@LoginActivity, ForgotPasswordActivity::class.java)
         startActivity(forgotPasswordIntent)
     }
 
     override fun navigateToMainPage() {
-        val intentBack = Intent(this, MainActivity::class.java)
-        intentBack.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-        startActivity(intentBack)
+        val intentMainPage = Intent(this, MainPage::class.java)
+        intentMainPage.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intentMainPage)
     }
 
     override fun login(){
@@ -65,7 +76,18 @@ class LoginActivity : BaseActivity(), LoginContract.LoginView {
         val password = login_pass.text.toString().trim()
 
         if (presenter.checkEmptyLoginFields(email, password)){
-            showError("Todos los campos son oblicatorios, por favor completa el formulario completo.")
+
+            if(presenter.checkEmptyLoginEmail(email)){
+                login_user.error = "¡Cuidado! El campo 'Correo Electrónico' es obligatorio."
+            }
+
+            if(presenter.checkEmptyLoginPassword(password)){
+                login_pass.error = "¡Cuidado! El campo 'Contraseña' es obligatorio."
+            }
+
+            toastL(this, "Vaya... Hay errores en los campos introducidos.")
+            return
+
         } else {
             presenter.logInWithEmailAndPassword(email, password)
         }

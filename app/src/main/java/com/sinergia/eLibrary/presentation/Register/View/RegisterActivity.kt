@@ -60,55 +60,66 @@ class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
         register_progressBar.visibility = View.INVISIBLE
     }
 
+    override fun enableRegisterButton() {
+        register_btn.isEnabled = true
+        register_btn.isClickable = true
+    }
+
+    override fun disableRegisterButton() {
+        register_btn.isEnabled = false
+        register_btn.isClickable = false
+    }
+
     override fun register() {
 
+        showProgressBar()
+
         val name:String = register_name.text.toString().trim()
-        val lastname:String = register_lastname.toString().trim()
+        val lastName:String = register_lastname.toString().trim()
         val email:String = register_email.text.toString().trim()
         val password:String = register_password.text.toString().trim()
         val repeatPassword:String = register_repeatpassword.text.toString().trim()
 
-        var checkers = true
+        if(presenter.checkEmptyFields(name, lastName, email, password, repeatPassword)) {
 
-        if(presenter.checkEmptyRegisterName(name)){
-            register_name.error = "¡Cuidado! El campo 'Nombre' es obligatorio"
-            toastS(this, "Vaya... Hay errores en los campos introducidos.")
+            if (presenter.checkEmptyRegisterName(name)) {
+                register_name.error = "¡Cuidado! El campo 'Nombre' es obligatorio."
+            }
+            if (presenter.checkEmptyRegisteraLastName(lastName)) {
+                register_lastname.error = "¡Cuidado! El campo 'Apellidos' es obligatorio."
+            }
+            if (presenter.checkRegisterEmptyEmail(email)) {
+                register_email.error = "¡Cuidado! El campo 'Correo Electrónico' es obligatorio."
+            }
+            if (presenter.checkEmptyRegisterPassword(password)) {
+                register_password.error = "¡Cuidado! El campo 'Contraseña' es obligatorio"
+            }
+            if (presenter.checkEmptyRegisterRepeatPassword(repeatPassword)) {
+                register_repeatpassword.error =
+                    "¡Cuidado! El campo 'Repetir Contraseña' es obligatorio."
+            }
+
+            toastL(this, "Vaya... Hay errores en los campos introducidos.")
             return
-        }
-        if(presenter.checkEmptyRegisteraLastName(lastname)){
-            register_lastname.error = "¡Cuidado! El campo 'Apellidos' es obligatorio"
-            toastS(this, "Vaya... Hay errores en los campos introducidos.")
-            return
-        }
-        if(presenter.checkRegisterEmptyEmail(email)){
-            register_email.error = "¡Cuidado! El campo 'Correo Electrónico' es obligatorio"
-            toastS(this, "Vaya... Hay errores en los campos introducidos.")
-            return
-        }
-        if(presenter.checkEmptyRegisterPassword(password)){
-            register_password.error = "¡Cuidado! El campo 'Contraseña' es obligatorio"
-            toastS(this, "Vaya... Hay errores en los campos introducidos.")
-            return
-        }
-        if(presenter.checkEmptyRegisterRepeatPassword(repeatPassword)){
-            register_repeatpassword.error = "¡Cuidado! El campo 'Repetir Contraseña' es obligatorio"
-            toastS(this, "Vaya... Hay errores en los campos introducidos.")
-            return
+
+        } else {
+
+            if(!presenter.checkValidRegisterEmail(email)){
+                register_email.error = "¡Cuidado! El Correo Electrónico introducido no es válido."
+                toastS(this, "Vaya... Hay errores en los campos introducidos.")
+                return
+            }
+
+            if(!presenter.checkRegisterPasswordMatch(password, repeatPassword)){
+                register_repeatpassword.error = "¡Cuidado! Las contraseñas no coinciden."
+                toastS(this, "Vaya... Hay errores en los campos introducidos.")
+                return
+            }
+
+            presenter.registerWithEmailAndPassword(name, lastName, email, password)
+
         }
 
-        if(presenter.checkValidRegisterEmail(email)){
-            register_email.error = "¡Cuidado! El Correo Electrónico introducido no es válido."
-            toastS(this, "Vaya... Hay errores en los campos introducidos.")
-            return
-        }
-
-        if(!presenter.checkRegisterPasswordMatch(password, repeatPassword)){
-            register_repeatpassword.error = "¡Cuidado! Las contraseñas no coinciden."
-            toastS(this, "Vaya... Hay errores en los campos introducidos.")
-            return
-        }
-
-        presenter.registerWithEmailAndPassword(name, lastname, email, password)
 
     }
 
@@ -122,90 +133,4 @@ class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
         presenter.dettachView()
     }
 
-
-    /*
-    //Function to create new Account
-    fun createNewAcount(){
-
-        register_progressBar.visibility=ProgressBar.VISIBLE
-
-        //Register process
-        if(firstName.isNullOrEmpty() || lastName.isNullOrEmpty() || email.isNullOrEmpty() || password.isNullOrEmpty() || repeatPassword.isNullOrEmpty()){
-            Toast.makeText(this, "Todos los campos son obligatorios, por favor completa el formulario de Nuevo Usuario", Toast.LENGTH_SHORT).show()
-            register_progressBar.visibility=ProgressBar.INVISIBLE
-        } else {
-
-            if(password != repeatPassword){
-                Toast.makeText(this, "Las contraseñas no coinciden, por favor vuelve a escribirlas", Toast.LENGTH_SHORT).show()
-                register_progressBar.visibility=ProgressBar.INVISIBLE
-            } else {
-                Toast.makeText(this, FirebaseAuth.getInstance().currentUser.toString(), Toast.LENGTH_LONG).show()
-                nelsAuth!!
-                    .createUserWithEmailAndPassword(email!!, password!!)
-                    .addOnCompleteListener(this) {task ->
-
-                            if(task.isSuccessful){
-
-                                // Sign in success, update UI with the signed-in user's information
-                                Log.d(TAG, "createUserWithEmail:success")
-                                val userId = nelsAuth!!.currentUser!!.uid
-                                Toast.makeText(this, "Creando Usuario, por favor espera...", Toast.LENGTH_SHORT).show()
-
-                                //Verify Email
-                                verifyEmail()
-
-                                //Update user profile information
-                                val currentUserDb = nelsDatabaseReference!!.child(userId)
-                                currentUserDb.child("Nombre").setValue(firstName)
-                                currentUserDb.child("Apellidos").setValue(lastName)
-                                currentUserDb.child("Email").setValue(email)
-                                currentUserDb.child("Contraseña").setValue(password)
-                                updateUserInfoAndUI()
-
-                                register_progressBar.visibility=ProgressBar.INVISIBLE
-
-                            } else {
-
-                                Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                                Toast.makeText(this, "Fallo de autenticación, intentalo más tarde.", Toast.LENGTH_SHORT).show()
-
-                                register_progressBar.visibility=ProgressBar.INVISIBLE
-
-                            }
-
-                        }
-
-            }
-
-        }
-    }
-
-    //Function to update user info and UI
-    private fun updateUserInfoAndUI() {
-        //start next activity
-        val intent = Intent(this, MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        startActivity(intent)
-    }
-
-    //Function to verify New User email
-    private fun verifyEmail() {
-
-        val newUser = nelsAuth!!.currentUser
-
-        newUser!!.sendEmailVerification()
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    Toast.makeText(this,
-                        "Verification email sent to " + newUser.getEmail(),
-                        Toast.LENGTH_SHORT).show()
-                } else {
-                    Log.e(TAG, "sendEmailVerification", task.exception)
-                    Toast.makeText(this,
-                        "Failed to send verification email.",
-                        Toast.LENGTH_SHORT).show()
-                }
-            }
-
-    }*/
 }

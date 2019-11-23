@@ -8,12 +8,12 @@
             >
 
             <!-- Button Color -->
-            <solid android:color="@color/fui_transparent"/>
+            <solid android:color="@color/colorGray"/>
 
             <!-- Button Borders -->
             <stroke
                 android:width="2dp"
-                android:color="@color/colorGray"
+                android:color="@color/colorWhite"
                 />
 
             <!-- Button Corners -->

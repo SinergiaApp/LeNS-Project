@@ -5,7 +5,6 @@ import com.sinergia.eLibrary.presentation.Login.LoginContract
 
 class LoginPresenter(loginInteractor: LoginInteractor): LoginContract.LoginPresenter {
 
-
     var view: LoginContract.LoginView? = null
     var loginInteractor: LoginInteractor? = null
 
@@ -26,13 +25,29 @@ class LoginPresenter(loginInteractor: LoginInteractor): LoginContract.LoginPrese
         return view != null
     }
 
+    override fun checkEmptyLoginFields(email: String, password: String): Boolean {
+        return (email.isEmpty() || password.isEmpty())
+    }
+
+    override fun checkEmptyLoginEmail(email: String): Boolean {
+        return email.isNullOrEmpty()
+    }
+
+    override fun checkEmptyLoginPassword(password: String): Boolean {
+        return password.isNullOrEmpty()
+    }
+
     override fun logInWithEmailAndPassword(email: String, password: String) {
+
         view?.showProgressBar()
+        view?.disableLoginButton()
+
         loginInteractor!!.LoginWithEmailAndPassword(email, password, object:LoginInteractor.LoginCallback{
 
             override fun onLoginSuccess() {
                 if(isViewAttach()){
                     view?.hideProgressBar()
+                    view?.enableLoginButton()
                     view?.navigateToMainPage()
                 }
             }
@@ -40,6 +55,7 @@ class LoginPresenter(loginInteractor: LoginInteractor): LoginContract.LoginPrese
             override fun onLoginFailure(errorMsg: String) {
                 if(isViewAttach()){
                     view?.hideProgressBar()
+                    view?.enableLoginButton()
                     view?.showError(errorMsg)
                 }
 
@@ -47,10 +63,6 @@ class LoginPresenter(loginInteractor: LoginInteractor): LoginContract.LoginPrese
 
         } )
 
-    }
-
-    override fun checkEmptyLoginFields(email: String, password: String): Boolean {
-        return (email.isEmpty() || password.isEmpty())
     }
 
 }

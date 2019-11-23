@@ -7,27 +7,35 @@
     android:background="@drawable/garybackground"
     tools:context=".presentation.MainPage.View.MainPage">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Algún día aquí habra algo =)"
-        android:textSize="70sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="125px"
+        android:background="@color/colorGrayHeader"
+        android:orientation="vertical"
+        android:gravity="right"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Bienvenidos a la APP!!"
-        android:textSize="70sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/header_logout_btn"
+            android:layout_width="37dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/logout_btn_icon"/>
+
+        <TextView
+            android:id="@+id/header_user_name"
+            android:layout_width="239dp"
+            android:layout_height="248dp"
+            android:layout_marginEnd="18dp"
+            android:layout_toStartOf="@+id/header_logout_btn"
+            android:gravity="center_vertical|right"
+            android:scrollHorizontally="false"
+            android:text="Nombre Usuario"
+            android:textColor="@color/colorWhite"
+            android:textSize="24sp" />
+
+    </RelativeLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

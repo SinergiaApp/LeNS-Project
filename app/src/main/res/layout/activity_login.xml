@@ -66,7 +66,7 @@
         app:layout_constraintTop_toBottomOf="@+id/login_user" />
 
     <Button
-        android:id="@+id/main_login_btn"
+        android:id="@+id/login_btn"
         android:layout_width="220dp"
         android:layout_height="52dp"
         android:layout_marginTop="226dp"
@@ -98,14 +98,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/main_login_btn"
+        app:layout_constraintBottom_toTopOf="@+id/login_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_pass_forgotten" />
 
     <ImageView
-        android:id="@+id/register_mailicon"
+        android:id="@+id/login_mailicon"
         android:layout_width="30dp"
         android:layout_height="41dp"
         android:layout_marginStart="8dp"
@@ -114,7 +114,7 @@
         app:srcCompat="@drawable/mail_icon" />
 
     <ImageView
-        android:id="@+id/register_passicon3"
+        android:id="@+id/login_passicon"
         android:layout_width="32dp"
         android:layout_height="42dp"
         android:layout_marginStart="8dp"

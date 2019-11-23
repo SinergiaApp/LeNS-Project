@@ -8,6 +8,8 @@ interface LoginContract {
         fun showMessage(message: String)
         fun showProgressBar()
         fun hideProgressBar()
+        fun enableLoginButton()
+        fun disableLoginButton()
         fun login()
         fun googleLogin()
         fun forgotPass()
@@ -21,6 +23,8 @@ interface LoginContract {
         fun isViewAttach(): Boolean
         fun logInWithEmailAndPassword(email: String, password: String)
         fun checkEmptyLoginFields(email: String, password: String): Boolean
+        fun checkEmptyLoginEmail(email: String): Boolean
+        fun checkEmptyLoginPassword(password: String): Boolean
 
     }
 
