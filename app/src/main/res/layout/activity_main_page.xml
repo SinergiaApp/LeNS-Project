@@ -8,11 +8,12 @@
     tools:context=".presentation.MainPage.View.MainPage">
 
     <RelativeLayout
+        android:id="@+id/main_page_header"
         android:layout_width="match_parent"
         android:layout_height="125px"
         android:background="@color/colorGrayHeader"
-        android:orientation="vertical"
         android:gravity="right"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,9 +21,9 @@
 
         <ImageView
             android:id="@+id/header_logout_btn"
-            android:layout_width="37dp"
+            android:layout_width="57dp"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/logout_btn_icon"/>
+            app:srcCompat="@drawable/logout_btn_icon" />
 
         <TextView
             android:id="@+id/header_user_name"
@@ -37,5 +38,29 @@
             android:textSize="24sp" />
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/main_page_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="555dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_page_header" >
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/main_page_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
+    </LinearLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
