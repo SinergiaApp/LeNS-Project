@@ -8,10 +8,6 @@ import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.presentation.Main.View.MainActivity
 import com.sinergia.eLibrary.presentation.MainPage.MainPageContract
 import kotlinx.android.synthetic.main.activity_main_page.*
-import androidx.core.app.ComponentActivity
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.widget.*
 
 

@@ -2,10 +2,13 @@ package com.sinergia.eLibrary.domain.interactors.RegisterInteractor
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
+import com.sinergia.eLibrary.domain.UseCases.UserUseCase
 
 class RegisterInteractorImpl: RegisterInteractor {
 
     override fun register(name: String, lastName: String, email: String, password: String, listener: RegisterInteractor.RegisterCallBack) {
+
+        val userUseCase = UserUseCase()
 
         FirebaseAuth
             .getInstance()
@@ -22,6 +25,7 @@ class RegisterInteractorImpl: RegisterInteractor {
                         .addOnCompleteListener{updateProfileTask ->
                             if(updateProfileTask.isSuccessful) {
                                 listener.onRegisterSuccess()
+                                userUseCase.addUserDB(name, lastName, email, password)
                             }
                         }
 
