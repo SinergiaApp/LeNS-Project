@@ -13,7 +13,7 @@ import com.sinergia.eLibrary.presentation.Register.RegisterContract
 import kotlinx.android.synthetic.main.register_activity.*
 
 class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
-
+    
     //PRESENTER INITIALIZATION
     lateinit var presenter: RegisterPresenter
 
@@ -30,6 +30,9 @@ class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
         return R.layout.register_activity
     }
 
+    override fun getPageTitle(): String {
+        return "REGISTRO"
+    }
 
     //REGISTER CONTRACT METHODS
     override fun navigateToMainPage() {

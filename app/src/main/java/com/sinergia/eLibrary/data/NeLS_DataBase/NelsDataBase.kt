@@ -34,11 +34,6 @@ class NelsDataBase {
         val userAccount = FirebaseAuth.getInstance().currentUser?.email.toString().trim()
 
         when(field){
-            "name" -> nelsDB.collection("users").document(userAccount).update("name", "newValue")
-            "lastName" -> nelsDB.collection("users").document(userAccount).update("lastName", "newValue")
-            "email" -> nelsDB.collection("users").document(userAccount).update("email", "newValue")
-            "password" -> nelsDB.collection("users").document(userAccount).update("password", "newValue")
-            else -> {}
         }
 
     }

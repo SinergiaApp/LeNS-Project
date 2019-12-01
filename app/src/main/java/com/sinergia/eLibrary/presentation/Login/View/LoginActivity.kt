@@ -31,6 +31,9 @@ class LoginActivity : BaseActivity(), LoginContract.LoginView {
         return R.layout.activity_login
     }
 
+    override fun getPageTitle(): String {
+        return "LOGIN"
+    }
 
     //LOGIN CONTRACT METHODS
     override fun showError(error: String) {

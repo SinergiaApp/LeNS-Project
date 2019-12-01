@@ -11,7 +11,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity(), MainContract.MainView {
 
-
     //BASEACTIVITY METHODS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +23,11 @@ class MainActivity : BaseActivity(), MainContract.MainView {
     override fun getLayout(): Int {
         return R.layout.activity_main
     }
+
+    override fun getPageTitle(): String {
+        return "PÁGINA PRINCIPAL"
+    }
+
 
     //MAIN CONTRACT METHODS
     override fun showError(error: String) {

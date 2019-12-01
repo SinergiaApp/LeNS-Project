@@ -1,25 +1,32 @@
 package com.sinergia.eLibrary.presentation.MainPage.View
 
-import android.content.Intent
 import android.os.Bundle
-import com.google.firebase.auth.FirebaseAuth
+import android.view.View
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
-import com.sinergia.eLibrary.presentation.Main.View.MainActivity
 import com.sinergia.eLibrary.presentation.MainPage.MainPageContract
 import kotlinx.android.synthetic.main.activity_main_page.*
 import android.widget.*
+import kotlinx.android.synthetic.main.activity_drawer_menu.*
 
 
 class MainPage : BaseActivity(), MainPageContract {
+
+    //ACTIVITY TITLE
+    override fun getPageTitle(): String {
+        return "CATÁLOGO"
+    }
 
 
     //BASE ACTIVITY METHODS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        header_logout_btn.setOnClickListener{ logout() }
-        header_user_name.text = FirebaseAuth.getInstance().currentUser?.displayName.toString()
+        main_page_title.text = getPageTitle()
+
+        menu_button.setOnClickListener { showHideMenu(drawer_menu) }
+        drawer_header_usermail.setText("Nombre de Usuario")
+        drawer_header_usermail.setText("Email del Usuario")
 
         initContent(main_page_content)
 
@@ -29,10 +36,7 @@ class MainPage : BaseActivity(), MainPageContract {
         return R.layout.activity_main_page
     }
 
-    override fun logout() {
-        FirebaseAuth.getInstance().signOut()
-        startActivity(Intent(this, MainActivity::class.java))
-    }
+
 
     fun initContent(content: LinearLayout){
         for(i in 1..20){
@@ -63,6 +67,14 @@ class MainPage : BaseActivity(), MainPageContract {
             resource.addView(description)
 
             content.addView(resource)
+        }
+    }
+
+    fun showHideMenu(drawer: View){
+        if(drawer.visibility == View.VISIBLE){
+            drawer.visibility = View.GONE
+        } else {
+            drawer.visibility = View.VISIBLE
         }
     }
 

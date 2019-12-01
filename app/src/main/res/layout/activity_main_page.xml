@@ -12,32 +12,52 @@
         android:layout_width="match_parent"
         android:layout_height="125px"
         android:background="@color/colorGrayHeader"
-        android:gravity="right"
+        android:gravity="center_vertical"
         android:orientation="vertical"
+        android:paddingLeft="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/main_page_scroll"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/header_logout_btn"
-            android:layout_width="57dp"
+            android:id="@+id/menu_button"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/logout_btn_icon" />
+            app:srcCompat="@android:drawable/ic_dialog_dialer" />
 
         <TextView
-            android:id="@+id/header_user_name"
-            android:layout_width="239dp"
-            android:layout_height="248dp"
-            android:layout_marginEnd="18dp"
-            android:layout_toStartOf="@+id/header_logout_btn"
+            android:id="@+id/main_page_title"
+            android:layout_width="348dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="22dp"
+            android:layout_toEndOf="@+id/menu_button"
+            android:fontFamily="@font/imprima"
             android:gravity="center_vertical|right"
-            android:scrollHorizontally="false"
-            android:text="Nombre Usuario"
+            android:paddingRight="20dp"
+            android:text=""
             android:textColor="@color/colorWhite"
             android:textSize="24sp" />
-
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/drawer_menu"
+        android:layout_width="301dp"
+        android:layout_height="559dp"
+        android:elevation="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/main_page_scroll"
+        app:layout_constraintStart_toStartOf="@+id/main_page_scroll"
+        app:layout_constraintTop_toTopOf="@+id/main_page_scroll">
+
+        <include
+            layout="@layout/activity_drawer_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:visibility="visible" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/main_page_scroll"
@@ -47,7 +67,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_page_header" >
+        app:layout_constraintTop_toBottomOf="@+id/main_page_header">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -57,10 +77,11 @@
                 android:id="@+id/main_page_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" />
+                android:orientation="vertical"
+                android:padding="20dp"/>
         </ScrollView>
-    </LinearLayout>
 
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

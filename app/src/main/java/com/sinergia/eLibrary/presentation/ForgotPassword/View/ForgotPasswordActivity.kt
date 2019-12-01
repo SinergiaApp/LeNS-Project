@@ -24,6 +24,10 @@ class ForgotPasswordActivity : BaseActivity() {
         return R.layout.activity_forgot_password
     }
 
+    override fun getPageTitle(): String {
+        return "FORGOT PASSWORD"
+    }
+
     //Login Variables References
     private lateinit var forgot_pass_btn: Button
 
