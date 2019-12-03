@@ -1,5 +1,6 @@
 package com.sinergia.eLibrary.presentation.MainPage.View
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.sinergia.eLibrary.R
@@ -7,7 +8,7 @@ import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.presentation.MainPage.MainPageContract
 import kotlinx.android.synthetic.main.activity_main_page.*
 import android.widget.*
-import kotlinx.android.synthetic.main.activity_drawer_menu.*
+import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenu
 
 
 class MainPage : BaseActivity(), MainPageContract {
@@ -24,9 +25,7 @@ class MainPage : BaseActivity(), MainPageContract {
 
         main_page_title.text = getPageTitle()
 
-        menu_button.setOnClickListener { showHideMenu(drawer_menu) }
-        drawer_header_usermail.setText("Nombre de Usuario")
-        drawer_header_usermail.setText("Email del Usuario")
+        menu_button.setOnClickListener { startActivity(Intent(this, MainMenu::class.java)) }
 
         initContent(main_page_content)
 

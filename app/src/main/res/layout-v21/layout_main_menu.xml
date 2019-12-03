@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:background="@drawable/garybackground">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/library_button"
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp"
+        android:padding="15dp"
+        android:elevation="21dp"
+        android:background="@drawable/menu_buttons_style">
+
+        <ImageView
+            android:id="@+id/library_icon"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/library_icon"
+            />
+
+        <TextView
+            android:id="@+id/library_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="35sp"
+            android:textColor="@color/colorBlack"
+            android:text="BIBLIOTECAS" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/catalog_button"
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp"
+        android:padding="15dp"
+        android:elevation="21dp"
+        android:background="@drawable/menu_buttons_style">
+        <ImageView
+            android:id="@+id/catalog_icon"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/book_icon"
+            />
+
+        <TextView
+            android:id="@+id/catalog_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="35sp"
+            android:textColor="@color/colorBlack"
+            android:text="CATALOGO" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/neurolinguistic_button"
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp"
+        android:padding="15dp"
+        android:elevation="21dp"
+        android:background="@drawable/menu_buttons_style">
+        <ImageView
+            android:id="@+id/neurolinguistic_icon"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/student_icon"
+            />
+
+        <TextView
+            android:id="@+id/neurolinguistic_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="35sp"
+            android:textColor="@color/colorBlack"
+            android:text="NEURO LINGÜÍSTICA" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/account_button"
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp"
+        android:padding="15dp"
+        android:elevation="21dp"
+        android:background="@drawable/menu_buttons_style">
+        <ImageView
+            android:id="@+id/account_icon"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/user_icon"
+            />
+
+        <TextView
+            android:id="@+id/account_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="35sp"
+            android:textColor="@color/colorBlack"
+            android:text="MI CUENTA" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/admin_button"
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp"
+        android:padding="15dp"
+        android:elevation="21dp"
+        android:background="@drawable/menu_buttons_style">
+        <ImageView
+            android:id="@+id/admin_icon"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/configuration_icon"
+            />
+
+        <TextView
+            android:id="@+id/admin_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="35sp"
+            android:textColor="@color/colorBlack"
+            android:text="ZONA GERENCIA" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

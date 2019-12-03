@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="rectangle"
+        >
+
+            <!-- Button Color -->
+            <gradient
+                android:angle="180"
+                android:startColor="@color/colorGray"
+                android:centerColor="@color/colorLightGray"
+                android:endColor="@color/colorGray"
+            />
+
+            <!-- Button Borders -->
+            <stroke
+                android:width="5dp"
+                android:color="@color/colorGray"
+            />
+
+            <!-- Button Corners -->
+            <corners
+                android:radius="20dp"
+            />
+
+        </shape>
+    </item>
+
+
+
+</selector>

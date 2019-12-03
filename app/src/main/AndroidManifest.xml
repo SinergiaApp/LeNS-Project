@@ -13,13 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".presentation.DrawerMenu"></activity>
-        <activity android:name=".presentation.Main.View.MainActivity" />
+        <activity
+            android:name=".presentation.MainMenu.View.MainMenu"
+            android:label="@string/title_activity_main_menu"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".presentation.MainPage.View.MainPage" />
         <activity android:name=".presentation.ForgotPassword.View.ForgotPasswordActivity" />
         <activity android:name=".presentation.Register.View.RegisterActivity" />
         <activity android:name=".presentation.Login.View.AuthLoginActivity" />
         <activity android:name=".presentation.Login.View.LoginActivity" />
-        <activity android:name=".presentation.MainPage.View.MainPage">
+        <activity android:name=".presentation.Main.View.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

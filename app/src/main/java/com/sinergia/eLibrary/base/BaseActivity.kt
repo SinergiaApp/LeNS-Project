@@ -4,9 +4,12 @@ import android.content.Context
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
+import java.util.*
+
 abstract class BaseActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,6 +25,7 @@ abstract class BaseActivity: AppCompatActivity() {
 
     @LayoutRes
     abstract fun getLayout(): Int
+    abstract fun getPageTitle() : String
 
     fun toastS(context: Context, message: String){
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
@@ -31,7 +35,7 @@ abstract class BaseActivity: AppCompatActivity() {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
-    abstract fun getPageTitle() : String
+
 
 }
 
