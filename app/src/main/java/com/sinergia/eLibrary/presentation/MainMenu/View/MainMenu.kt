@@ -17,6 +17,8 @@ class MainMenu : BaseActivity(), MainMenuContract.MainContractView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_menu)
 
+        main_page_title.text = intent.getStringExtra("activityName")
+
         menu_button.setOnClickListener { finish() }
 
         library_button.setOnClickListener { goToLibrary() }
