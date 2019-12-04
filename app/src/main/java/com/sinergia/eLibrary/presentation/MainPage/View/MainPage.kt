@@ -12,6 +12,7 @@ import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenu
 
 
 class MainPage : BaseActivity(), MainPageContract.MainPageView {
+
     override fun goToMainMenu() {
         val mainMenuIntent = Intent(this, MainMenu::class.java)
         val activityName : String = getPageTitle()

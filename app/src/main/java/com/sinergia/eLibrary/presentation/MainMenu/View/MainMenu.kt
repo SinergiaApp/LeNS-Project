@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
+import com.sinergia.eLibrary.presentation.AdminZone.View.AdminZone
 import com.sinergia.eLibrary.presentation.MainMenu.MainMenuContract
 import com.sinergia.eLibrary.presentation.MainPage.View.MainPage
 import kotlinx.android.synthetic.main.activity_main_menu.*
@@ -75,11 +76,10 @@ class MainMenu : BaseActivity(), MainMenuContract.MainContractView {
     }
 
     override fun goToAdminZone() {
-        //val adminZoneIntent = Intent(this, ------::class.java)
-        //adminZoneIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-        //startActivity(adminZoneIntent)
-        //disableAllButtons()
-        toastL(this, "Este botón aún no te lleva a ningun sitio pringao.")
+        val adminZoneIntent = Intent(this, AdminZone::class.java)
+        adminZoneIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(adminZoneIntent)
+        disableAllButtons()
     }
 
     override fun disableAllButtons() {
