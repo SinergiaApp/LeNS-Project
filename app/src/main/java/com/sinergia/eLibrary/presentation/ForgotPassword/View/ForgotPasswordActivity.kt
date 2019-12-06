@@ -57,7 +57,7 @@ class ForgotPasswordActivity : BaseActivity() {
     //Send Reset Password Email Function
     fun sendResetPassEmail() {
 
-        email = forgot_pass_email?.text.toString()
+        email = forgot_pass_email.text.toString()
 
         if(email!!.isEmpty()){
             Toast.makeText(this, "Debe indicar el correo electrónico de inicio de sesión.", Toast.LENGTH_SHORT).show()
@@ -70,7 +70,7 @@ class ForgotPasswordActivity : BaseActivity() {
                         Toast.makeText(this, "Se ha enviado el correo de reseteo de contraseña.", Toast.LENGTH_SHORT).show()
                         updateUI()
                     } else {
-                        Log.w(TAG, task.exception!!.message)
+                        Log.w(TAG, task.exception?.message.toString())
                         Toast.makeText(this, "No hay ningún usuario asociado a ese correo electrónico, por favor revisa las credenciales y vuelve a intentarlo", Toast.LENGTH_LONG).show()
                     }
                 }

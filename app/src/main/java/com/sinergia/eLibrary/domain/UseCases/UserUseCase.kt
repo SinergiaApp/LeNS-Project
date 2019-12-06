@@ -7,8 +7,8 @@ class UserUseCase {
 
     val nelsDB = NelsDataBase()
 
-    fun addUserDB(nombre: String, apellidos: String, email: String, contraseña: String){
-        nelsDB.addUser(nombre, apellidos, email, contraseña)
+    fun addUserDB(nombre: String, apellidos: String, email: String, contraseña: String, admin: Boolean){
+        nelsDB.addUser(nombre, apellidos, email, contraseña, admin)
     }
 
 }

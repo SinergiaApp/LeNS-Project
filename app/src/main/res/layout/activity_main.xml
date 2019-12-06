@@ -63,6 +63,7 @@
         android:background="@drawable/common_google_signin_btn_text_light_normal"
         android:fontFamily="@font/imprima"
         android:text="ENTRAR CON GOOGLE"
+        android:textColor="@color/colorBlack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

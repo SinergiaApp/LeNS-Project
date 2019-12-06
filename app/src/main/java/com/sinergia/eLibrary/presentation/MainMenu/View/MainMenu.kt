@@ -30,7 +30,7 @@ class MainMenu : BaseActivity(), MainMenuContract.MainContractView {
 
         account_button.setOnClickListener { goToAccount() }
 
-        admin_button.setOnClickListener { goToAccount() }
+        admin_button.setOnClickListener { goToAdminZone() }
 
     }
 

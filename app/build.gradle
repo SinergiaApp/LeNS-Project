@@ -64,6 +64,9 @@ dependencies {
     //Firebase Dependency for Cloud Firestore
     implementation 'com.google.firebase:firebase-firestore:21.1.1'
 
+    //ViewModel Dependency
+    implementation "androidx.lifecycle:lifecycle-viewmodel:2.1.0"
+
     //Multidex
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.google.android.material:material:1.0.0'

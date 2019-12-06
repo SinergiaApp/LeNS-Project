@@ -8,8 +8,6 @@ class RegisterInteractorImpl: RegisterInteractor {
 
     override fun register(name: String, lastName: String, email: String, password: String, listener: RegisterInteractor.RegisterCallBack) {
 
-        val userUseCase = UserUseCase()
-
         FirebaseAuth
             .getInstance()
             .createUserWithEmailAndPassword(email, password)
@@ -25,7 +23,6 @@ class RegisterInteractorImpl: RegisterInteractor {
                         .addOnCompleteListener{updateProfileTask ->
                             if(updateProfileTask.isSuccessful) {
                                 listener.onRegisterSuccess()
-                                userUseCase.addUserDB(name, lastName, email, password)
                             }
                         }
 

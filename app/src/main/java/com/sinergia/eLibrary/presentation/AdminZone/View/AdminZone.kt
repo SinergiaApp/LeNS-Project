@@ -1,15 +1,23 @@
 package com.sinergia.eLibrary.presentation.AdminZone.View
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.ViewModelProviders
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.presentation.AdminZone.AdminZoneContract
+import com.sinergia.eLibrary.presentation.AdminZone.AdminZoneContract.AdminZonePresenter
+import com.sinergia.eLibrary.presentation.AdminZone.Model.AdminViewModelImpl
+import com.sinergia.eLibrary.presentation.MainPage.View.MainPage
 import kotlinx.android.synthetic.main.activity_admin_zone.*
 import kotlinx.android.synthetic.main.layout_admin_zone.*
 
 class AdminZone : BaseActivity(), AdminZoneContract.AdminZoneView {
+
+    //ADMIN VIEW MODEL
+    private lateinit var adminPresenter: AdminZonePresenter
+    private lateinit var adminViewModel: AdminViewModelImpl
 
     //BASEACTIVITY METHODS
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,6 +25,12 @@ class AdminZone : BaseActivity(), AdminZoneContract.AdminZoneView {
         setContentView(R.layout.activity_admin_zone)
 
         main_page_title.text = getPageTitle()
+
+        adminPresenter = com.sinergia.eLibrary.presentation.AdminZone.Presenter.AdminZonePresenter(AdminViewModelImpl())
+        adminViewModel = ViewModelProviders.of(this).get(AdminViewModelImpl::class.java)
+
+        admin_zone_addResourceButton.setOnClickListener { showHideAddResource() }
+        admin_zone_addNewResourceButton.setOnClickListener { createNewResource() }
 
     }
 
@@ -28,14 +42,89 @@ class AdminZone : BaseActivity(), AdminZoneContract.AdminZoneView {
         return "Zona de Administración"
     }
 
-    //ADMIN ZONE CONTRACT VIEW METHODS
-    override fun showHideAddBook() {
+    //ADMIN ZONE CONTRACT METHODS
+    override fun showHideAddResource() {
         if(admin_zone_addResourceWindow.visibility == View.GONE){
             admin_zone_addResourceWindow.visibility = View.VISIBLE
         } else {
             admin_zone_addResourceWindow.visibility = View.GONE
         }
     }
+
+    override fun createNewResource() {
+
+        showProgressBar()
+        disableAddResourceButton()
+
+        val titulo = admin_zone_bookTitle.text.toString()
+        val autor = admin_zone_bookAuthor.text.toString()
+        val iban = admin_zone_bookIBAN.text.toString()
+        val edicion = admin_zone_bookEdition.text.toString()
+        val sinopsis = admin_zone_bookSinosis.text.toString()
+
+        if(adminPresenter.checkEmptyFields(titulo, autor, edicion, iban, sinopsis)){
+
+            if(adminPresenter.checkEmptyTitle(titulo)){
+                admin_zone_bookTitle.error = "¡Cuidado! El campo 'Título' es obligatorio."
+            }
+
+            if(adminPresenter.checkEmptyAuthor(autor)){
+                admin_zone_bookAuthor.error = "¡Cuidado! El campo 'Autor' es obligatorio."
+            }
+
+            if(adminPresenter.checkEmptyEdition(edicion)){
+                admin_zone_bookIBAN.error = "¡Cuidado! El campo 'Edición' es obligatorio."
+            }
+
+            if(adminPresenter.checkEmptyIBAN(iban)){
+                admin_zone_bookEdition.error = "¡Cuidado! El campo 'IBAN' es obligatorio."
+            }
+
+            if(adminPresenter.checkEmptySinopsis(sinopsis)){
+                admin_zone_bookSinosis.error = "¡Cuidado! El campo 'Sinopsis' es obligatorio."
+            }
+
+            hideProgressBar()
+            enableAddResourceButton()
+
+        } else {
+            adminPresenter.addNewResource(titulo, autor, iban, edicion, sinopsis)
+        }
+
+    }
+
+    override fun showError(error: String) {
+        toastL(this, error)
+    }
+
+    override fun showMessage(message: String) {
+        toastL(this,message)
+    }
+
+    override fun showProgressBar() {
+        admin_zone_progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideProgressBar() {
+        admin_zone_progressBar.visibility = View.GONE
+    }
+
+    override fun enableAddResourceButton() {
+        admin_zone_addNewResourceButton.isEnabled = true
+        admin_zone_addNewResourceButton.isClickable = true
+    }
+
+    override fun disableAddResourceButton() {
+        admin_zone_addNewResourceButton.isEnabled = false
+        admin_zone_addNewResourceButton.isClickable = false
+    }
+
+    override fun navigateToMainPage() {
+        val intentMainPage = Intent(this, MainPage::class.java)
+        intentMainPage.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intentMainPage)
+    }
+
 
 
 }

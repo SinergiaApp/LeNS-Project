@@ -10,7 +10,6 @@ class RegisterPresenter(registerInteractor: RegisterInteractor): RegisterContrac
     var view: RegisterContract.RegisterView? = null
     var registerInteractor: RegisterInteractor? = null
 
-
     init {
         this.registerInteractor = registerInteractor
     }
