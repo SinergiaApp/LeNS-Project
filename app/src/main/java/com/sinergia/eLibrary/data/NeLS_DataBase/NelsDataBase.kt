@@ -1,20 +1,22 @@
 package com.sinergia.eLibrary.data.NeLS_DataBase
 
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sinergia.eLibrary.presentation.AdminZone.Model.AdminViewModel
+import com.sinergia.eLibrary.presentation.Catalog.Model.CatalogViewModel
 
 class NelsDataBase {
 
     val nelsDB= FirebaseFirestore.getInstance()
 
 
-    fun getResources(){
+    fun getAllResourcesToCatalog(callBack: CatalogViewModel.CatalogViewModelCallBack){
 
         nelsDB.collection("resources").get().addOnCompleteListener{resources ->
-
-
-
+            if(resources.isSuccessful){
+                //devuelve ls recursos para cargarlos en la vista
+            } else {
+                //devuelve un error en formato String
+            }
         }
 
     }
@@ -34,9 +36,10 @@ class NelsDataBase {
             .add(newUser)
             .addOnCompleteListener{ adduser ->
                 if(adduser.isSuccessful){
-
+                    //TODO: Mensaje de Usuario agregado a la BBDD correctamente.
+                    //TODO: Este método va sujeto aque la creación del usuario en FireBase de Google tenga éxtito.
                 } else {
-
+                    //TODO: Mensaje de error al crear el usuario.
                 }
             }
 
@@ -64,7 +67,7 @@ class NelsDataBase {
             .addOnCompleteListener{addresource ->
 
                 if(addresource.isSuccessful){
-                    listener.onCreateResourceSucces()
+                    listener.onCreateResourceSuccess()
                 } else {
                     listener.onCreateResourceFailure(addresource.exception?.message.toString())
                 }

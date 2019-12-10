@@ -7,10 +7,10 @@ import android.view.View
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.domain.interactors.RegisterInteractor.RegisterInteractorImpl
-import com.sinergia.eLibrary.presentation.MainPage.View.MainPage
+import com.sinergia.eLibrary.presentation.Catalog.View.CatalogActivity
 import com.sinergia.eLibrary.presentation.Register.Presenter.RegisterPresenter
 import com.sinergia.eLibrary.presentation.Register.RegisterContract
-import kotlinx.android.synthetic.main.register_activity.*
+import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
     
@@ -27,7 +27,7 @@ class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
     }
 
     override fun getLayout(): Int {
-        return R.layout.register_activity
+        return R.layout.activity_register
     }
 
     override fun getPageTitle(): String {
@@ -36,7 +36,7 @@ class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
 
     //REGISTER CONTRACT METHODS
     override fun navigateToMainPage() {
-        val intentMainPage = Intent(this, MainPage::class.java)
+        val intentMainPage = Intent(this, CatalogActivity::class.java)
         intentMainPage.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intentMainPage)
     }

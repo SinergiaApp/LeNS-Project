@@ -9,8 +9,7 @@ import com.sinergia.eLibrary.domain.interactors.LoginInteractor.LoginInteractorI
 import com.sinergia.eLibrary.presentation.ForgotPassword.View.ForgotPasswordActivity
 import com.sinergia.eLibrary.presentation.Login.LoginContract
 import com.sinergia.eLibrary.presentation.Login.Presenter.LoginPresenter
-import com.sinergia.eLibrary.presentation.Main.View.MainActivity
-import com.sinergia.eLibrary.presentation.MainPage.View.MainPage
+import com.sinergia.eLibrary.presentation.Catalog.View.CatalogActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity(), LoginContract.LoginView {
@@ -68,7 +67,7 @@ class LoginActivity : BaseActivity(), LoginContract.LoginView {
     }
 
     override fun navigateToMainPage() {
-        val intentMainPage = Intent(this, MainPage::class.java)
+        val intentMainPage = Intent(this, CatalogActivity::class.java)
         intentMainPage.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intentMainPage)
     }

@@ -1,17 +1,16 @@
 package com.sinergia.eLibrary.presentation.MainMenu.View
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
-import com.sinergia.eLibrary.presentation.AdminZone.View.AdminZone
+import com.sinergia.eLibrary.presentation.AdminZone.View.AdminZoneActivity
 import com.sinergia.eLibrary.presentation.MainMenu.MainMenuContract
-import com.sinergia.eLibrary.presentation.MainPage.View.MainPage
+import com.sinergia.eLibrary.presentation.Catalog.View.CatalogActivity
 import kotlinx.android.synthetic.main.activity_main_menu.*
 import kotlinx.android.synthetic.main.layout_main_menu.*
 
-class MainMenu : BaseActivity(), MainMenuContract.MainContractView {
+class MainMenuActivity : BaseActivity(), MainMenuContract.MainContractView {
 
     //BASE ACTIVITY METHODS
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +52,7 @@ class MainMenu : BaseActivity(), MainMenuContract.MainContractView {
     }
 
     override fun goToCatalog() {
-        val catalogIntent = Intent(this, MainPage::class.java)
+        val catalogIntent = Intent(this, CatalogActivity::class.java)
         catalogIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(catalogIntent)
         disableAllButtons()
@@ -76,7 +75,7 @@ class MainMenu : BaseActivity(), MainMenuContract.MainContractView {
     }
 
     override fun goToAdminZone() {
-        val adminZoneIntent = Intent(this, AdminZone::class.java)
+        val adminZoneIntent = Intent(this, AdminZoneActivity::class.java)
         adminZoneIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(adminZoneIntent)
         disableAllButtons()

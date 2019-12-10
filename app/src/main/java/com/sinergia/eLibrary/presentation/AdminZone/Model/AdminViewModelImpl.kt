@@ -7,10 +7,8 @@ class AdminViewModelImpl: ViewModel(), AdminViewModel {
 
     val resourceUseCase = ResourcesUseCases()
 
-    override fun addNewResource(titulo: String, autor: String, iban: String, edicion: String, sinopsis: String, listener: AdminViewModel.AdminViewModelCallBack) {
-
-        resourceUseCase.addResource(titulo, autor, iban, edicion, sinopsis, listener)
-
+    override fun addNewResource(titulo: String, autor: String, isbn: String, edicion: String, sinopsis: String, listener: AdminViewModel.AdminViewModelCallBack) {
+        resourceUseCase.addResource(titulo, autor, isbn, edicion, sinopsis, listener)
     }
 
 }

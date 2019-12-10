@@ -3,7 +3,7 @@ package com.sinergia.eLibrary.presentation.AdminZone.Model
 interface AdminViewModel {
 
     interface AdminViewModelCallBack{
-        fun onCreateResourceSucces()
+        fun onCreateResourceSuccess()
         fun onCreateResourceFailure(errorMsg: String)
     }
 

@@ -9,11 +9,11 @@ import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.presentation.AdminZone.AdminZoneContract
 import com.sinergia.eLibrary.presentation.AdminZone.AdminZoneContract.AdminZonePresenter
 import com.sinergia.eLibrary.presentation.AdminZone.Model.AdminViewModelImpl
-import com.sinergia.eLibrary.presentation.MainPage.View.MainPage
+import com.sinergia.eLibrary.presentation.Catalog.View.CatalogActivity
 import kotlinx.android.synthetic.main.activity_admin_zone.*
 import kotlinx.android.synthetic.main.layout_admin_zone.*
 
-class AdminZone : BaseActivity(), AdminZoneContract.AdminZoneView {
+class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
 
     //ADMIN VIEW MODEL
     private lateinit var adminPresenter: AdminZonePresenter
@@ -27,6 +27,7 @@ class AdminZone : BaseActivity(), AdminZoneContract.AdminZoneView {
         main_page_title.text = getPageTitle()
 
         adminPresenter = com.sinergia.eLibrary.presentation.AdminZone.Presenter.AdminZonePresenter(AdminViewModelImpl())
+        adminPresenter.attachView(this)
         adminViewModel = ViewModelProviders.of(this).get(AdminViewModelImpl::class.java)
 
         admin_zone_addResourceButton.setOnClickListener { showHideAddResource() }
@@ -58,11 +59,11 @@ class AdminZone : BaseActivity(), AdminZoneContract.AdminZoneView {
 
         val titulo = admin_zone_bookTitle.text.toString()
         val autor = admin_zone_bookAuthor.text.toString()
-        val iban = admin_zone_bookIBAN.text.toString()
+        val isbn = admin_zone_bookISBN.text.toString()
         val edicion = admin_zone_bookEdition.text.toString()
         val sinopsis = admin_zone_bookSinosis.text.toString()
 
-        if(adminPresenter.checkEmptyFields(titulo, autor, edicion, iban, sinopsis)){
+        if(adminPresenter.checkEmptyFields(titulo, autor, edicion, isbn, sinopsis)){
 
             if(adminPresenter.checkEmptyTitle(titulo)){
                 admin_zone_bookTitle.error = "¡Cuidado! El campo 'Título' es obligatorio."
@@ -73,10 +74,10 @@ class AdminZone : BaseActivity(), AdminZoneContract.AdminZoneView {
             }
 
             if(adminPresenter.checkEmptyEdition(edicion)){
-                admin_zone_bookIBAN.error = "¡Cuidado! El campo 'Edición' es obligatorio."
+                admin_zone_bookISBN.error = "¡Cuidado! El campo 'Edición' es obligatorio."
             }
 
-            if(adminPresenter.checkEmptyIBAN(iban)){
+            if(adminPresenter.checkEmptyIBAN(isbn)){
                 admin_zone_bookEdition.error = "¡Cuidado! El campo 'IBAN' es obligatorio."
             }
 
@@ -88,7 +89,7 @@ class AdminZone : BaseActivity(), AdminZoneContract.AdminZoneView {
             enableAddResourceButton()
 
         } else {
-            adminPresenter.addNewResource(titulo, autor, iban, edicion, sinopsis)
+            adminPresenter.addNewResource(titulo, autor, isbn, edicion, sinopsis)
         }
 
     }
@@ -120,7 +121,7 @@ class AdminZone : BaseActivity(), AdminZoneContract.AdminZoneView {
     }
 
     override fun navigateToMainPage() {
-        val intentMainPage = Intent(this, MainPage::class.java)
+        val intentMainPage = Intent(this, CatalogActivity::class.java)
         intentMainPage.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intentMainPage)
     }

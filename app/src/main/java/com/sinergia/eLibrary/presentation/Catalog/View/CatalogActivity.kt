@@ -1,24 +1,17 @@
-package com.sinergia.eLibrary.presentation.MainPage.View
+package com.sinergia.eLibrary.presentation.Catalog.View
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
-import com.sinergia.eLibrary.presentation.MainPage.MainPageContract
-import kotlinx.android.synthetic.main.activity_main_page.*
+import com.sinergia.eLibrary.presentation.Catalog.CatalogContract
+import kotlinx.android.synthetic.main.activity_Catalog.*
 import android.widget.*
-import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenu
+import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 
 
-class MainPage : BaseActivity(), MainPageContract.MainPageView {
-
-    override fun goToMainMenu() {
-        val mainMenuIntent = Intent(this, MainMenu::class.java)
-        val activityName : String = getPageTitle()
-        mainMenuIntent.putExtra("activityName", activityName)
-        startActivity(mainMenuIntent)
-    }
+class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
 
     //ACTIVITY TITLE
     override fun getPageTitle(): String {
@@ -32,17 +25,28 @@ class MainPage : BaseActivity(), MainPageContract.MainPageView {
 
         main_page_title.text = getPageTitle()
 
-        menu_button.setOnClickListener { startActivity(Intent(this, MainMenu::class.java)) }
+        menu_button.setOnClickListener { startActivity(Intent(this, MainMenuActivity::class.java)) }
 
         initContent(main_page_content)
 
     }
 
     override fun getLayout(): Int {
-        return R.layout.activity_main_page
+        return R.layout.activity_Catalog
     }
 
+    //CATALOG CONTRACT METHODS
+    override fun showError(error: String) {
+        toastL(this, error)
+    }
 
+    override fun showMessage(message: String) {
+        toastS(this, message)
+    }
+
+    override fun initCatalog() {
+        //TODO: Función que inicia el catálogo con el contenido que le devuelve la consulta a la Base de Datos.
+    }
 
     fun initContent(content: LinearLayout){
         for(i in 1..20){
@@ -82,6 +86,13 @@ class MainPage : BaseActivity(), MainPageContract.MainPageView {
         } else {
             drawer.visibility = View.VISIBLE
         }
+    }
+
+    override fun goToMainMenu() {
+        val mainMenuIntent = Intent(this, MainMenuActivity::class.java)
+        val activityName : String = getPageTitle()
+        mainMenuIntent.putExtra("activityName", activityName)
+        startActivity(mainMenuIntent)
     }
 
 }

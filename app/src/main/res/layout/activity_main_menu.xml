@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/garybackground"
-    tools:context=".presentation.MainMenu.View.MainMenu">
+    tools:context=".presentation.MainMenu.View.MainMenuActivity">
 
     <RelativeLayout
         android:id="@+id/main_page_header"

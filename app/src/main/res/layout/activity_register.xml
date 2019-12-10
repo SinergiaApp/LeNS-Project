@@ -163,7 +163,7 @@
         android:id="@+id/register_passicon2"
         android:layout_width="32dp"
         android:layout_height="45dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="4dp"
         app:layout_constraintStart_toStartOf="@+id/register_repeatpassword"
         app:layout_constraintTop_toTopOf="@+id/register_repeatpassword"
         app:srcCompat="@drawable/password_icon" />
