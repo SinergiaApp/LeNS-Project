@@ -1,5 +1,6 @@
 package com.sinergia.eLibrary.presentation.Catalog.Presenter
 
+import com.sinergia.eLibrary.data.Model.Resource
 import com.sinergia.eLibrary.presentation.Catalog.CatalogContract
 import com.sinergia.eLibrary.presentation.Catalog.Model.CatalogViewModel
 import com.sinergia.eLibrary.presentation.Catalog.Model.CatalogViewModelIml
@@ -24,12 +25,12 @@ class CatalogPresenter(catalogViewModel: CatalogViewModelIml): CatalogContract.C
     override fun getAllResourcesToCatalog() {
 
         catalogViewModel?.getAllResourcesToCatalog(object: CatalogViewModel.CatalogViewModelCallBack{
-            override fun onGetResourcesSuccess() {
-                view?.initCatalog()
+            override fun onGetResourcesSuccess(resourcesList: ArrayList<Resource>) {
+                view?.initCatalog(resourcesList)
             }
 
-            override fun onGetResourcesFailure() {
-
+            override fun onGetResourcesFailure(errorMsg: String) {
+                view?.showError(errorMsg)
             }
 
         })

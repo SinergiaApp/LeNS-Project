@@ -6,8 +6,9 @@ import android.view.View
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.presentation.Catalog.CatalogContract
-import kotlinx.android.synthetic.main.activity_Catalog.*
+import kotlinx.android.synthetic.main.activity_catalog.*
 import android.widget.*
+import com.sinergia.eLibrary.data.Model.Resource
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 
 
@@ -32,7 +33,7 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
     }
 
     override fun getLayout(): Int {
-        return R.layout.activity_Catalog
+        return R.layout.activity_catalog
     }
 
     //CATALOG CONTRACT METHODS
@@ -44,7 +45,7 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
         toastS(this, message)
     }
 
-    override fun initCatalog() {
+    override fun initCatalog(resourcesList: ArrayList<Resource>) {
         //TODO: Función que inicia el catálogo con el contenido que le devuelve la consulta a la Base de Datos.
     }
 

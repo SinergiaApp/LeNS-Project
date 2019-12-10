@@ -1,5 +1,7 @@
 package com.sinergia.eLibrary.presentation.Catalog
 
+import com.sinergia.eLibrary.data.Model.Resource
+
 interface CatalogContract {
 
     interface CatalogView{
@@ -9,7 +11,7 @@ interface CatalogContract {
         fun showError(error: String)
         fun showMessage(message: String)
 
-        fun initCatalog()
+        fun initCatalog(resourcesList: ArrayList<Resource>)
 
     }
 

@@ -1,6 +1,7 @@
 package com.sinergia.eLibrary.data.NeLS_DataBase
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.sinergia.eLibrary.data.Model.Resource
 import com.sinergia.eLibrary.presentation.AdminZone.Model.AdminViewModel
 import com.sinergia.eLibrary.presentation.Catalog.Model.CatalogViewModel
 
@@ -9,13 +10,21 @@ class NelsDataBase {
     val nelsDB= FirebaseFirestore.getInstance()
 
 
-    fun getAllResourcesToCatalog(callBack: CatalogViewModel.CatalogViewModelCallBack){
+    fun getAllResourcesToCatalog(listener: CatalogViewModel.CatalogViewModelCallBack){
 
-        nelsDB.collection("resources").get().addOnCompleteListener{resources ->
+        var resourcesList: ArrayList<Resource> = arrayListOf<Resource>()
+
+        nelsDB.collection("resources").get().addOnCompleteListener{ resources ->
             if(resources.isSuccessful){
-                //devuelve ls recursos para cargarlos en la vista
+
+                for (resource in resources.getResult()!!){
+                    val inputResource: Resource = resource.toObject(Resource::class.java)
+                    resourcesList.add(inputResource)
+                }
+                listener.onGetResourcesSuccess(resourcesList)
+
             } else {
-                //devuelve un error en formato String
+                listener.onGetResourcesFailure(resources.exception.toString())
             }
         }
 
