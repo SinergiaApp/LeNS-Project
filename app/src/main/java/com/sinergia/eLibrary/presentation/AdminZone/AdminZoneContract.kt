@@ -1,5 +1,7 @@
 package com.sinergia.eLibrary.presentation.AdminZone
 
+import com.google.firebase.firestore.GeoPoint
+
 
 interface AdminZoneContract {
 
@@ -9,11 +11,19 @@ interface AdminZoneContract {
 
         fun showError(error: String)
         fun showMessage(message: String)
-        fun showProgressBar()
-        fun hideProgressBar()
+
+        fun showAddResourceProgressBar()
+        fun hideAddResourceProgressBar()
         fun enableAddResourceButton()
         fun disableAddResourceButton()
         fun createNewResource()
+
+        fun showAddLibraryProgressBar()
+        fun hideAddLibraryProgressBar()
+        fun enableAddLibraryButton()
+        fun disableAddLibraryButton()
+        fun createNewLibrary()
+
         fun navigateToMainPage()
 
     }
@@ -23,14 +33,22 @@ interface AdminZoneContract {
         fun attachView(view: AdminZoneView)
         fun dettachView()
         fun isViewAttach(): Boolean
-        fun addNewResource(titulo: String, autor: String, iban: String, edicion: String, sinopsis: String)
 
-        fun checkEmptyFields(titulo: String, autor: String, iban: String, edicion: String, sinopsis: String): Boolean
-        fun checkEmptyTitle(titulo: String): Boolean
-        fun checkEmptyAuthor(autor: String): Boolean
-        fun checkEmptyIBAN(iban: String): Boolean
-        fun checkEmptyEdition(edicion: String): Boolean
-        fun checkEmptySinopsis(sinopsis: String): Boolean
+        fun addNewResource(titulo: String, autor: String, iban: String, edicion: String, sinopsis: String)
+        fun addNewLibrary(nombre: String, direccion: String, geopoint: GeoPoint)
+
+        fun checkEmptyAddResourceFields(titulo: String, autor: String, iban: String, edicion: String, sinopsis: String): Boolean
+        fun checkEmptyAddResourceTitle(titulo: String): Boolean
+        fun checkEmptyAddResourceAuthor(autor: String): Boolean
+        fun checkEmptyAddResourceIBAN(iban: String): Boolean
+        fun checkEmptyAddResourceEdition(edicion: String): Boolean
+        fun checkEmptyAddResourceSinopsis(sinopsis: String): Boolean
+
+        fun checkEmptyAddLibraryFields(nombre: String, direccion: String, latitud: Double, longitud: Double): Boolean
+        fun checkEmptyAddLibraryName(nombre: String): Boolean
+        fun checkEmptyAddLibraryAddress(direccion: String): Boolean
+        fun checkWrongAddLibraryLatitude(latitud: Double): Boolean
+        fun checkWrongAddLibraryLongitude(longitud: Double): Boolean
 
         fun checkValidIBAN(iban: String): Boolean
 

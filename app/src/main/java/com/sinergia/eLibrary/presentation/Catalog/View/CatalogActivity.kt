@@ -49,7 +49,7 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
         //TODO: Función que inicia el catálogo con el contenido que le devuelve la consulta a la Base de Datos.
     }
 
-    fun initContent(content: LinearLayout){
+     fun initContent(content: LinearLayout){
         for(i in 1..20){
             val resource = LinearLayout(this)
             resource.setOrientation(LinearLayout.HORIZONTAL)

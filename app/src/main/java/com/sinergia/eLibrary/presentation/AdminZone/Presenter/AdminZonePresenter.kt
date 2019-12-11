@@ -1,5 +1,6 @@
 package com.sinergia.eLibrary.presentation.AdminZone.Presenter
 
+import com.google.firebase.firestore.GeoPoint
 import com.sinergia.eLibrary.presentation.AdminZone.AdminZoneContract
 import com.sinergia.eLibrary.presentation.AdminZone.Model.AdminViewModel
 import com.sinergia.eLibrary.presentation.AdminZone.Model.AdminViewModelImpl
@@ -26,27 +27,28 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
         return view != null
     }
 
-    override fun checkEmptyFields(titulo: String, autor: String, iban: String, edicion: String, sinopsis: String): Boolean {
-        return checkEmptyTitle(titulo) || checkEmptyAuthor(autor) || checkEmptyEdition(edicion) || checkEmptyIBAN(iban) || checkEmptySinopsis(sinopsis)
+    //ADD RESOURCE METHODS
+    override fun checkEmptyAddResourceFields(titulo: String, autor: String, iban: String, edicion: String, sinopsis: String): Boolean {
+        return checkEmptyAddResourceTitle(titulo) || checkEmptyAddResourceAuthor(autor) || checkEmptyAddResourceEdition(edicion) || checkEmptyAddResourceIBAN(iban) || checkEmptyAddResourceSinopsis(sinopsis)
     }
 
-    override fun checkEmptyTitle(titulo: String): Boolean {
+    override fun checkEmptyAddResourceTitle(titulo: String): Boolean {
         return titulo.isNullOrEmpty()
     }
 
-    override fun checkEmptyAuthor(autor: String): Boolean {
+    override fun checkEmptyAddResourceAuthor(autor: String): Boolean {
         return autor.isNullOrEmpty()
     }
 
-    override fun checkEmptyIBAN(isbn: String): Boolean {
+    override fun checkEmptyAddResourceIBAN(isbn: String): Boolean {
         return isbn.isNullOrEmpty()
     }
 
-    override fun checkEmptyEdition(edicion: String): Boolean {
+    override fun checkEmptyAddResourceEdition(edicion: String): Boolean {
         return edicion.isNullOrEmpty()
     }
 
-    override fun checkEmptySinopsis(sinopsis: String): Boolean {
+    override fun checkEmptyAddResourceSinopsis(sinopsis: String): Boolean {
         return sinopsis.isNullOrEmpty()
     }
 
@@ -58,19 +60,19 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
 
     override fun addNewResource(titulo: String, autor: String, isbn: String, edicion: String, sinopsis: String) {
 
-        view?.showProgressBar()
+        view?.showAddResourceProgressBar()
         view?.disableAddResourceButton()
 
         adminViewModel?.addNewResource(titulo, autor, isbn, edicion, sinopsis, object: AdminViewModel.AdminViewModelCallBack{
             override fun onCreateResourceSuccess() {
-                view?.hideProgressBar()
+                view?.hideAddResourceProgressBar()
                 view?.enableAddResourceButton()
                 view?.showMessage("El recurso se ha creado satisfactoriamente.")
                 view?.navigateToMainPage()
             }
 
             override fun onCreateResourceFailure(errorMsg: String) {
-                view?.hideProgressBar()
+                view?.hideAddResourceProgressBar()
                 view?.enableAddResourceButton()
                 view?.showError(errorMsg)
             }
@@ -78,7 +80,35 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
 
         })
 
+    }
 
+    //ADD LIBRARY METHODS
+    override fun checkEmptyAddLibraryFields(nombre: String, direccion: String, latitud: Double, longitud: Double): Boolean {
+        return checkEmptyAddLibraryName(nombre) || checkEmptyAddLibraryAddress(direccion) || checkWrongAddLibraryLatitude(latitud) || checkWrongAddLibraryLongitude(longitud)
+    }
+
+    override fun checkEmptyAddLibraryName(nombre: String): Boolean {
+        return nombre.isNullOrEmpty()
+    }
+
+    override fun checkEmptyAddLibraryAddress(direccion: String): Boolean {
+        return direccion.isNullOrEmpty()
+    }
+
+    override fun checkWrongAddLibraryLatitude(latitud: Double): Boolean {
+        return latitud.isNaN()
+    }
+
+    override fun checkWrongAddLibraryLongitude(longitud: Double): Boolean {
+        return longitud.isNaN()
+    }
+
+    override fun addNewLibrary(nombre: String, direccion: String, geopoint: GeoPoint) {
+
+        view?.showAddLibraryProgressBar()
+        view?.disableAddLibraryButton()
+
+        //TODO: Implementar en el AdminViewModel el método para crear la nueva biblioteca en la base de datos.
 
     }
 
