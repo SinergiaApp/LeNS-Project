@@ -7,17 +7,17 @@ interface AdminZoneContract {
 
     interface AdminZoneView {
 
-        fun showHideAddResource()
-
         fun showError(error: String)
         fun showMessage(message: String)
 
+        fun showHideAddResource()
         fun showAddResourceProgressBar()
         fun hideAddResourceProgressBar()
         fun enableAddResourceButton()
         fun disableAddResourceButton()
         fun createNewResource()
 
+        fun showHideAddLibrary()
         fun showAddLibraryProgressBar()
         fun hideAddLibraryProgressBar()
         fun enableAddLibraryButton()

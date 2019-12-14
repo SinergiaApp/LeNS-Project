@@ -63,7 +63,7 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
         view?.showAddResourceProgressBar()
         view?.disableAddResourceButton()
 
-        adminViewModel?.addNewResource(titulo, autor, isbn, edicion, sinopsis, object: AdminViewModel.AdminViewModelCallBack{
+        adminViewModel?.addNewResource(titulo, autor, isbn, edicion, sinopsis, object: AdminViewModel.createResourceCallBack{
             override fun onCreateResourceSuccess() {
                 view?.hideAddResourceProgressBar()
                 view?.enableAddResourceButton()
@@ -108,7 +108,21 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
         view?.showAddLibraryProgressBar()
         view?.disableAddLibraryButton()
 
-        //TODO: Implementar en el AdminViewModel el método para crear la nueva biblioteca en la base de datos.
+        adminViewModel?.addNewLibrary(nombre, direccion, geopoint, object: AdminViewModel.createLibrarylCallBack{
+            override fun onCreateLibrarySuccess() {
+                view?.hideAddLibraryProgressBar()
+                view?.enableAddLibraryButton()
+                view?.showMessage("La Biblioteca se ha creado satisfactoriamente.")
+                view?.navigateToMainPage()
+            }
+
+            override fun onCreateLibraryFailure(errorMsg: String) {
+                view?.hideAddLibraryProgressBar()
+                view?.enableAddLibraryButton()
+                view?.showError(errorMsg)
+            }
+
+        })
 
     }
 

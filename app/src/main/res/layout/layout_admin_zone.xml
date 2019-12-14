@@ -218,7 +218,7 @@
             android:layout_height="wrap_content"
             android:padding="20dp"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/libraryExplainText1"

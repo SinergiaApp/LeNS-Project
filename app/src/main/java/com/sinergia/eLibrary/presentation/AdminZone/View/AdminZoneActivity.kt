@@ -11,10 +11,15 @@ import com.sinergia.eLibrary.presentation.AdminZone.AdminZoneContract
 import com.sinergia.eLibrary.presentation.AdminZone.AdminZoneContract.AdminZonePresenter
 import com.sinergia.eLibrary.presentation.AdminZone.Model.AdminViewModelImpl
 import com.sinergia.eLibrary.presentation.Catalog.View.CatalogActivity
+import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import kotlinx.android.synthetic.main.activity_admin_zone.*
+import kotlinx.android.synthetic.main.activity_admin_zone.main_page_title
+import kotlinx.android.synthetic.main.activity_admin_zone.menu_button
+import kotlinx.android.synthetic.main.activity_catalog.*
 import kotlinx.android.synthetic.main.layout_admin_zone.*
 
 class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
+
 
     //ADMIN VIEW MODEL
     private lateinit var adminPresenter: AdminZonePresenter
@@ -27,12 +32,17 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
 
         main_page_title.text = getPageTitle()
 
+        menu_button.setOnClickListener { startActivity(Intent(this, MainMenuActivity::class.java)) }
+
         adminPresenter = com.sinergia.eLibrary.presentation.AdminZone.Presenter.AdminZonePresenter(AdminViewModelImpl())
         adminPresenter.attachView(this)
         adminViewModel = ViewModelProviders.of(this).get(AdminViewModelImpl::class.java)
 
         admin_zone_addResourceButton.setOnClickListener { showHideAddResource() }
         admin_zone_addNewResourceButton.setOnClickListener { createNewResource() }
+
+        admin_zone_addLibraryButton.setOnClickListener { showHideAddLibrary() }
+        admin_zone_addNewLibraryButton.setOnClickListener { createNewLibrary() }
 
     }
 
@@ -131,6 +141,14 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
 
 
         //CREATE LIBRARY METHODS
+        override fun showHideAddLibrary() {
+            if(admin_zone_addLibraryWindow.visibility == View.GONE){
+                admin_zone_addLibraryWindow.visibility = View.VISIBLE
+            } else {
+                admin_zone_addLibraryWindow.visibility = View.GONE
+            }
+        }
+
         override fun showAddLibraryProgressBar() {
             admin_zone_newLibraryProgressBar.visibility = View.VISIBLE
         }

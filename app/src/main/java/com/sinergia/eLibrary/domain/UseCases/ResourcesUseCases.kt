@@ -12,7 +12,7 @@ class ResourcesUseCases {
         nelsDB.getAllResourcesToCatalog(callBack)
     }
 
-    fun addResource(titulo: String, autor: String, isbn: String, edicion: String, sinopsis: String, listener: AdminViewModel.AdminViewModelCallBack){
+    fun addResource(titulo: String, autor: String, isbn: String, edicion: String, sinopsis: String, listener: AdminViewModel.createResourceCallBack){
         nelsDB.addResource(titulo, autor, isbn, edicion, sinopsis, listener)
     }
 

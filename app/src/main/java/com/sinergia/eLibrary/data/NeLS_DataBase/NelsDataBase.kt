@@ -1,6 +1,7 @@
 package com.sinergia.eLibrary.data.NeLS_DataBase
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.GeoPoint
 import com.sinergia.eLibrary.data.Model.Resource
 import com.sinergia.eLibrary.presentation.AdminZone.Model.AdminViewModel
 import com.sinergia.eLibrary.presentation.Catalog.Model.CatalogViewModel
@@ -9,27 +10,7 @@ class NelsDataBase {
 
     val nelsDB= FirebaseFirestore.getInstance()
 
-
-    fun getAllResourcesToCatalog(listener: CatalogViewModel.CatalogViewModelCallBack){
-
-        var resourcesList: ArrayList<Resource> = arrayListOf<Resource>()
-
-        nelsDB.collection("resources").get().addOnCompleteListener{ resources ->
-            if(resources.isSuccessful){
-
-                for (resource in resources.getResult()!!){
-                    val inputResource: Resource = resource.toObject(Resource::class.java)
-                    resourcesList.add(inputResource)
-                }
-                listener.onGetResourcesSuccess(resourcesList)
-
-            } else {
-                listener.onGetResourcesFailure(resources.exception.toString())
-            }
-        }
-
-    }
-
+    //USERS METHODS
     fun addUser(name: String, lastName: String, email: String, password: String, admin: Boolean){
 
         val newUser: HashMap<String, Any> = hashMapOf(
@@ -58,7 +39,29 @@ class NelsDataBase {
 
     }
 
-    fun addResource(titulo: String, autor: String, iban: String, edicion: String, sinopsis: String, listener: AdminViewModel.AdminViewModelCallBack){
+
+    //RESOURCES METHODS
+    fun getAllResourcesToCatalog(listener: CatalogViewModel.CatalogViewModelCallBack){
+
+        var resourcesList: ArrayList<Resource> = arrayListOf<Resource>()
+
+        nelsDB.collection("resources").get().addOnCompleteListener{ resources ->
+            if(resources.isSuccessful){
+
+                for (resource in resources.getResult()!!){
+                    val inputResource: Resource = resource.toObject(Resource::class.java)
+                    resourcesList.add(inputResource)
+                }
+                listener.onGetResourcesSuccess(resourcesList)
+
+            } else {
+                listener.onGetResourcesFailure(resources.exception.toString())
+            }
+        }
+
+    }
+
+    fun addResource(titulo: String, autor: String, iban: String, edicion: String, sinopsis: String, listener: AdminViewModel.createResourceCallBack){
 
         val newResource = hashMapOf<String, Any>(
 
@@ -90,5 +93,26 @@ class NelsDataBase {
     }
 
 
+    //LIBRARY METHODS
+    fun addLibrary(nombre: String, direccion: String, geopoint: GeoPoint, listener: AdminViewModel.createLibrarylCallBack){
+
+        val newLibrary: HashMap<String, Any> = hashMapOf(
+            "name" to nombre,
+            "direccion" to direccion,
+            "geopoint" to geopoint
+        )
+
+        nelsDB
+            .collection("libraries")
+            .add(newLibrary)
+            .addOnCompleteListener {newLibrary ->
+                if(newLibrary.isSuccessful){
+                    listener.onCreateLibrarySuccess()
+                } else {
+                    listener.onCreateLibraryFailure(newLibrary.exception.toString())
+                }
+            }
+
+    }
 
 }
