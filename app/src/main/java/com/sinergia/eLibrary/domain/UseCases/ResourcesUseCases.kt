@@ -9,7 +9,7 @@ class ResourcesUseCases {
     val nelsDB = NelsDataBase()
 
     fun getAllResourcesToCatalog(callBack: CatalogViewModel.CatalogViewModelCallBack){
-        nelsDB.getAllResourcesToCatalog(callBack)
+        nelsDB.getAllResources(callBack)
     }
 
     fun addResource(titulo: String, autor: String, isbn: String, edicion: String, sinopsis: String, listener: AdminViewModel.createResourceCallBack){

@@ -41,23 +41,44 @@ class NelsDataBase {
 
 
     //RESOURCES METHODS
-    fun getAllResourcesToCatalog(listener: CatalogViewModel.CatalogViewModelCallBack){
+    fun getAllResources(listener: CatalogViewModel.CatalogViewModelCallBack){
 
         var resourcesList: ArrayList<Resource> = arrayListOf<Resource>()
 
-        nelsDB.collection("resources").get().addOnCompleteListener{ resources ->
-            if(resources.isSuccessful){
+        nelsDB
+            .collection("resources")
+            .get()
+            .addOnCompleteListener{ resources ->
+                if(resources.isSuccessful){
 
-                for (resource in resources.getResult()!!){
-                    val inputResource: Resource = resource.toObject(Resource::class.java)
-                    resourcesList.add(inputResource)
+                    for (resource in resources.getResult()!!){
+                        val inputResource: Resource = resource.toObject(Resource::class.java)
+                        resourcesList.add(inputResource)
+                    }
+                    listener.onGetResourcesSuccess(resourcesList)
+
+                } else {
+                    listener.onGetResourcesFailure(resources.exception.toString())
                 }
-                listener.onGetResourcesSuccess(resourcesList)
-
-            } else {
-                listener.onGetResourcesFailure(resources.exception.toString())
             }
-        }
+
+    }
+
+    fun getResource(isbn: String){
+
+        nelsDB
+            .collection("resources/$isbn")
+            .get()
+            .addOnCompleteListener {resource ->
+
+                if(resource.isSuccessful){
+                    //TODO: CallBack de onGetResourceSuccess. Pendiente de programar.
+                    //TODO: Recuerda, hay que devolver en el CallBack resource.toObject(Resource::class.java)
+                } else {
+                  //TODO: CallBack de onGetResourcFailure. Pendiente de programar.
+                }
+
+            }
 
     }
 
