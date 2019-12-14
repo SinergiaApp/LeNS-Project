@@ -10,6 +10,8 @@ interface CatalogContract {
 
         fun showError(error: String)
         fun showMessage(message: String)
+        fun showPCatalogrogressBar()
+        fun hideCatalogProgressBar()
 
         fun initCatalog(resourcesList: ArrayList<Resource>)
 

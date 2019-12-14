@@ -83,8 +83,8 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
     }
 
     //ADD LIBRARY METHODS
-    override fun checkEmptyAddLibraryFields(nombre: String, direccion: String, latitud: Double, longitud: Double): Boolean {
-        return checkEmptyAddLibraryName(nombre) || checkEmptyAddLibraryAddress(direccion) || checkWrongAddLibraryLatitude(latitud) || checkWrongAddLibraryLongitude(longitud)
+    override fun checkEmptyAddLibraryFields(nombre: String, direccion: String, latitud: String, longitud: String): Boolean {
+        return checkEmptyAddLibraryName(nombre) || checkEmptyAddLibraryAddress(direccion) || checkEmptyAddLibraryLatitude(latitud) || checkEmptyAddLibraryLongitude(longitud)
     }
 
     override fun checkEmptyAddLibraryName(nombre: String): Boolean {
@@ -95,12 +95,12 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
         return direccion.isNullOrEmpty()
     }
 
-    override fun checkWrongAddLibraryLatitude(latitud: Double): Boolean {
-        return latitud.isNaN()
+    override fun checkEmptyAddLibraryLatitude(latitud: String): Boolean {
+        return latitud.isNullOrEmpty()
     }
 
-    override fun checkWrongAddLibraryLongitude(longitud: Double): Boolean {
-        return longitud.isNaN()
+    override fun checkEmptyAddLibraryLongitude(longitud: String): Boolean {
+        return longitud.isNullOrEmpty()
     }
 
     override fun addNewLibrary(nombre: String, direccion: String, geopoint: GeoPoint) {

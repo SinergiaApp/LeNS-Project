@@ -12,16 +12,12 @@ import com.sinergia.eLibrary.presentation.AdminZone.AdminZoneContract.AdminZoneP
 import com.sinergia.eLibrary.presentation.AdminZone.Model.AdminViewModelImpl
 import com.sinergia.eLibrary.presentation.Catalog.View.CatalogActivity
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
-import kotlinx.android.synthetic.main.activity_admin_zone.*
 import kotlinx.android.synthetic.main.activity_admin_zone.main_page_title
 import kotlinx.android.synthetic.main.activity_admin_zone.menu_button
-import kotlinx.android.synthetic.main.activity_catalog.*
 import kotlinx.android.synthetic.main.layout_admin_zone.*
 
 class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
 
-
-    //ADMIN VIEW MODEL
     private lateinit var adminPresenter: AdminZonePresenter
     private lateinit var adminViewModel: AdminViewModelImpl
 
@@ -169,14 +165,11 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
 
         override fun createNewLibrary() {
 
-            showAddLibraryProgressBar()
-            disableAddLibraryButton()
+            val nombre = admin_zone_libraryName.text.toString()
+            val direccion = admin_zone_libraryAddress.text.toString()
+            val latitud = admin_zone_libraryGeoPoint1.text.toString()
+            val longitud = admin_zone_libraryGeoPoint2.text.toString()
 
-            val nombre = admin_zone_libraryName.toString()
-            val direccion = admin_zone_libraryAddress.toString()
-            val latitud = admin_zone_libraryGeoPoint1.toString().toDouble()
-            val longitud = admin_zone_libraryGeoPoint2.toString().toDouble()
-            val geopoint = GeoPoint(latitud, longitud)
 
             if(adminPresenter.checkEmptyAddLibraryFields(nombre, direccion, latitud, longitud)){
 
@@ -188,15 +181,21 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
                     admin_zone_libraryAddress.error = "¡Cuidado! El campo 'Dirección' es obligatorio."
                 }
 
-                if(adminPresenter.checkWrongAddLibraryLatitude(latitud)){
+                if(adminPresenter.checkEmptyAddLibraryLatitude(latitud)){
                     admin_zone_libraryGeoPoint1.error = "¡Cuidado! El campo 'Latitud' introducido es erróneo, tiene que ser un número con decimales."
                 }
 
-                if(adminPresenter.checkWrongAddLibraryLongitude(longitud)){
+                if(adminPresenter.checkEmptyAddLibraryLongitude(longitud)){
                     admin_zone_libraryGeoPoint2.error = "¡Cuidado! El campo 'Logitud' introducido es erróneo, tiene que ser un número con decimales."
                 }
 
             } else {
+
+                showAddLibraryProgressBar()
+                disableAddLibraryButton()
+
+                val geopoint = GeoPoint(latitud.toDouble(), longitud.toDouble())
+
                 adminPresenter.addNewLibrary(nombre, direccion, geopoint)
             }
 

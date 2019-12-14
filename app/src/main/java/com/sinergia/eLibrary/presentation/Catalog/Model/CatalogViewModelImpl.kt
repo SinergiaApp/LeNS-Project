@@ -1,9 +1,10 @@
 package com.sinergia.eLibrary.presentation.Catalog.Model
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.sinergia.eLibrary.domain.UseCases.ResourcesUseCases
 
-class CatalogViewModelIml: ViewModel(), CatalogViewModel {
+class CatalogViewModelImpl: ViewModel(), CatalogViewModel {
 
     var resourceUseCase = ResourcesUseCases()
 

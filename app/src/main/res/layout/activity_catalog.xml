@@ -59,14 +59,14 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_marginTop="100dp"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:id="@+id/main_page_content"
+                android:id="@+id/catalog_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"

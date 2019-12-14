@@ -44,11 +44,11 @@ interface AdminZoneContract {
         fun checkEmptyAddResourceEdition(edicion: String): Boolean
         fun checkEmptyAddResourceSinopsis(sinopsis: String): Boolean
 
-        fun checkEmptyAddLibraryFields(nombre: String, direccion: String, latitud: Double, longitud: Double): Boolean
+        fun checkEmptyAddLibraryFields(nombre: String, direccion: String, latitud: String, longitud: String): Boolean
         fun checkEmptyAddLibraryName(nombre: String): Boolean
         fun checkEmptyAddLibraryAddress(direccion: String): Boolean
-        fun checkWrongAddLibraryLatitude(latitud: Double): Boolean
-        fun checkWrongAddLibraryLongitude(longitud: Double): Boolean
+        fun checkEmptyAddLibraryLatitude(latitud: String): Boolean
+        fun checkEmptyAddLibraryLongitude(longitud: String): Boolean
 
         fun checkValidIBAN(iban: String): Boolean
 

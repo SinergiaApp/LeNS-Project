@@ -61,20 +61,20 @@ class NelsDataBase {
 
     }
 
-    fun addResource(titulo: String, autor: String, iban: String, edicion: String, sinopsis: String, listener: AdminViewModel.createResourceCallBack){
+    fun addResource(titulo: String, autor: String, isbn: String, edicion: String, sinopsis: String, listener: AdminViewModel.createResourceCallBack){
 
         val newResource = hashMapOf<String, Any>(
 
             "title" to titulo,
             "author" to autor,
-            "iban" to iban,
+            "isbn" to isbn,
             "edition" to edicion,
             "sinopsis" to sinopsis
 
         )
 
         nelsDB
-            .document("resources/$iban")
+            .document("resources/$isbn")
             .set(newResource)
             .addOnCompleteListener{addresource ->
 

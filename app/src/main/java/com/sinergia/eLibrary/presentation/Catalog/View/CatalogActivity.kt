@@ -2,17 +2,25 @@ package com.sinergia.eLibrary.presentation.Catalog.View
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.presentation.Catalog.CatalogContract
 import kotlinx.android.synthetic.main.activity_catalog.*
 import android.widget.*
+import androidx.lifecycle.ViewModelProviders
 import com.sinergia.eLibrary.data.Model.Resource
+import com.sinergia.eLibrary.presentation.Catalog.Model.CatalogViewModel
+import com.sinergia.eLibrary.presentation.Catalog.Model.CatalogViewModelImpl
+import com.sinergia.eLibrary.presentation.Catalog.Presenter.CatalogPresenter
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 
 
 class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
+
+    private lateinit var catalogPresenter: CatalogContract.CatalogPresenter
+    private lateinit var catalogViewModel: CatalogViewModel
 
     //ACTIVITY TITLE
     override fun getPageTitle(): String {
@@ -24,12 +32,15 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        catalogPresenter = CatalogPresenter(CatalogViewModelImpl())
+        catalogPresenter.attachView(this)
+        catalogViewModel = ViewModelProviders.of(this).get(CatalogViewModelImpl::class.java)
+
         main_page_title.text = getPageTitle()
 
         menu_button.setOnClickListener { startActivity(Intent(this, MainMenuActivity::class.java)) }
 
-        initContent(main_page_content)
-
+        catalogPresenter.getAllResourcesToCatalog()
     }
 
     override fun getLayout(): Int {
@@ -45,47 +56,68 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
         toastS(this, message)
     }
 
+    override fun showPCatalogrogressBar() {
+        catalog_progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideCatalogProgressBar() {
+        catalog_progressBar.visibility = View.GONE
+    }
+
     override fun initCatalog(resourcesList: ArrayList<Resource>) {
-        //TODO: Función que inicia el catálogo con el contenido que le devuelve la consulta a la Base de Datos.
-    }
 
-     fun initContent(content: LinearLayout){
-        for(i in 1..20){
-            val resource = LinearLayout(this)
-            resource.setOrientation(LinearLayout.HORIZONTAL)
-            val description = LinearLayout(this)
-            description.setOrientation(LinearLayout.VERTICAL)
-
-
-            val imageLayout = RelativeLayout(this)
-            val image = ImageView(this)
-            image.setImageResource(R.drawable.logonels)
-            imageLayout.addView(image)
-            val layoutParams = LinearLayout.LayoutParams(250, 250)
-            imageLayout.setLayoutParams(layoutParams)
-
-            val title = TextView(this)
-            title.setText("Título: <Título del Libro $i.>")
-            description.addView(title)
-            val edition = TextView(this)
-            edition.setText("Edición: <Edición del Libro $i>")
-            description.addView(edition)
-            val iban = TextView(this)
-            iban.setText("IBAN: <IBAN del Libro $i>")
-            description.addView(iban)
-
-            resource.addView(imageLayout)
-            resource.addView(description)
-
-            content.addView(resource)
-        }
-    }
-
-    fun showHideMenu(drawer: View){
-        if(drawer.visibility == View.VISIBLE){
-            drawer.visibility = View.GONE
+        if(resourcesList.isEmpty()){
+            toastL(this, "Vaya... Parece que no hay ningún recurso en la Base de Datos...")
         } else {
-            drawer.visibility = View.VISIBLE
+
+            for (book in resourcesList) {
+                val resource = LinearLayout(this)
+                resource.setOrientation(LinearLayout.HORIZONTAL)
+                val description = LinearLayout(this)
+                description.setOrientation(LinearLayout.VERTICAL)
+
+
+                val imageLayout = RelativeLayout(this)
+                val image = ImageView(this)
+                image.setImageResource(R.drawable.logonels)
+                imageLayout.addView(image)
+                val layoutParams = LinearLayout.LayoutParams(250, 250)
+                imageLayout.setLayoutParams(layoutParams)
+
+                //Título del Libro
+                val title = TextView(this)
+                val titletxt = book.title
+                title.setText("Título: $titletxt.")
+                //Autor del Libro
+                val author = TextView(this)
+                val authortxt = book.author
+                author.setText("Autor: $authortxt.")
+                //Editorial del Libro
+                val publisher = TextView(this)
+                val publishertxt = book.publisher
+                publisher.setText("Editorial: $publishertxt.")
+                //Edición del Libro
+                val edition = TextView(this)
+                val editiontxt = book.edition
+                edition.setText("Edicion: $editiontxt.")
+                //ISBN del Libro
+                val isbn = TextView(this)
+                val isbntxt =book.isbn
+                isbn.setText("ISBN: $isbntxt.")
+
+
+                description.addView(title)
+                description.addView(author)
+                description.addView(publisher)
+                description.addView(edition)
+                description.addView(isbn)
+
+                resource.addView(imageLayout)
+                resource.addView(description)
+                Log.d("RESOURCES", "resource: $book")
+                catalog_content.addView(resource)
+            }
+
         }
     }
 

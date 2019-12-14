@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/garybackground">
+    android:background="@color/fui_transparent">
 
 
     <LinearLayout
@@ -272,6 +272,7 @@
                 android:background="@drawable/edit_text_login_register"
                 android:textColor="@color/colorBlack"
                 android:ems="2"
+                android:inputType="numberSigned|numberDecimal"
                 android:hint="Localización (Latitud)" />
 
             <EditText
@@ -283,6 +284,7 @@
                 android:background="@drawable/edit_text_login_register"
                 android:textColor="@color/colorBlack"
                 android:ems="2"
+                android:inputType="numberSigned|numberDecimal"
                 android:hint="Localización (Longitud)" />
 
             <ProgressBar
