@@ -1,12 +1,22 @@
 package com.sinergia.eLibrary.presentation.Login.Presenter
 
+import android.util.Log
 import com.sinergia.eLibrary.domain.interactors.LoginInteractor.LoginInteractor
+import com.sinergia.eLibrary.presentation.Login.Exceptions.FirebaseLoginException
 import com.sinergia.eLibrary.presentation.Login.LoginContract
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
-class LoginPresenter(loginInteractor: LoginInteractor): LoginContract.LoginPresenter {
+class LoginPresenter(loginInteractor: LoginInteractor): LoginContract.LoginPresenter, CoroutineScope {
+
+    val TAG = "[LOGIN_ACTIVITY]"
 
     var view: LoginContract.LoginView? = null
     var loginInteractor: LoginInteractor? = null
+    private val loginJob = Job()
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + loginJob
 
     init {
         this.loginInteractor = loginInteractor
@@ -19,6 +29,10 @@ class LoginPresenter(loginInteractor: LoginInteractor): LoginContract.LoginPrese
 
     override fun dettachView() {
         view = null
+    }
+
+    override fun dettachJob() {
+        coroutineContext.cancel()
     }
 
     override fun isViewAttach(): Boolean {
@@ -39,29 +53,34 @@ class LoginPresenter(loginInteractor: LoginInteractor): LoginContract.LoginPrese
 
     override fun logInWithEmailAndPassword(email: String, password: String) {
 
-        view?.showProgressBar()
-        view?.disableLoginButton()
+        launch {
 
-        loginInteractor!!.LoginWithEmailAndPassword(email, password, object:LoginInteractor.LoginCallback{
+            Log.d(TAG, "Trying to login with email $email...")
 
-            override fun onLoginSuccess() {
+            view?.showProgressBar()
+            view?.disableLoginButton()
+
+            try {
+                loginInteractor?.LoginWithEmailAndPassword(email, password)
+
                 if(isViewAttach()){
                     view?.hideProgressBar()
                     view?.enableLoginButton()
                     view?.navigateToMainPage()
+
+                    Log.d(TAG, "Succesfully logged with email $email.")
                 }
+            }catch (error: FirebaseLoginException) {
+
+                val errorMsg = error.message
+                view?.showError(errorMsg)
+                view?.hideProgressBar()
+
+                Log.d(TAG, "ERROR: Cannot login with email $email --> $errorMsg")
             }
 
-            override fun onLoginFailure(errorMsg: String) {
-                if(isViewAttach()){
-                    view?.hideProgressBar()
-                    view?.enableLoginButton()
-                    view?.showError(errorMsg)
-                }
 
-            }
-
-        } )
+        }
 
     }
 

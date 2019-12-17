@@ -1,14 +1,22 @@
 package com.sinergia.eLibrary.presentation.Register.Presenter
 
-import androidx.core.util.PatternsCompat
+import android.util.Log
 import com.sinergia.eLibrary.domain.interactors.RegisterInteractor.RegisterInteractor
+import com.sinergia.eLibrary.presentation.Register.Exceptions.FirebaseRegisterException
 import com.sinergia.eLibrary.presentation.Register.RegisterContract
-import java.util.regex.Pattern
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
-class RegisterPresenter(registerInteractor: RegisterInteractor): RegisterContract.RegisterPresenter {
+class RegisterPresenter(registerInteractor: RegisterInteractor): RegisterContract.RegisterPresenter, CoroutineScope{
+
+    private val TAG = "[REGISTER_ACTIVITY]"
+    private val registerJob = Job()
 
     var view: RegisterContract.RegisterView? = null
     var registerInteractor: RegisterInteractor? = null
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + registerJob
 
     init {
         this.registerInteractor = registerInteractor
@@ -20,6 +28,10 @@ class RegisterPresenter(registerInteractor: RegisterInteractor): RegisterContrac
 
     override fun dettachView() {
         view = null
+    }
+
+    override fun dettachJob() {
+        coroutineContext.cancel()
     }
 
     override fun isViewAttach(): Boolean {
@@ -61,23 +73,34 @@ class RegisterPresenter(registerInteractor: RegisterInteractor): RegisterContrac
 
     override fun registerWithEmailAndPassword(name: String, lastName: String, email: String, password: String) {
 
-        view?.showProgressBar()
-        view?.disableRegisterButton()
+        launch {
 
-        registerInteractor?.register(name, lastName, email, password, object: RegisterInteractor.RegisterCallBack{
+            Log.d(TAG, "Trying to register with email $email...")
 
-            override fun onRegisterSuccess() {
-                view?.navigateToMainPage()
+            view?.showProgressBar()
+            view?.disableRegisterButton()
+
+            try {
+                registerInteractor?.register(name, lastName, email, password)
+
+                if(isViewAttach()){
+                    view?.navigateToMainPage()
+                    view?.hideProgressBar()
+                    view?.enableRegisterButton()
+
+                    Log.d(TAG, "Sucesfully register with email $email.")
+                }
+            }catch(error: FirebaseRegisterException){
+
+                val errorMsg = error?.message
+                view?.showError(errorMsg)
                 view?.hideProgressBar()
                 view?.enableRegisterButton()
+
+                Log.d(TAG, "ERROR: Cannot register with email $email --> $errorMsg")
+
             }
 
-            override fun onRegisterFailure(erroMsg: String) {
-                view?.showError(erroMsg)
-                view?.hideProgressBar()
-                view?.enableRegisterButton()
-            }
-
-        })
+        }
     }
 }

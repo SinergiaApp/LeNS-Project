@@ -4,7 +4,7 @@ package com.sinergia.eLibrary.presentation.Login
 interface LoginContract {
 
     interface LoginView{
-        fun showError(error: String)
+        fun showError(error: String?)
         fun showMessage(message: String)
         fun showProgressBar()
         fun hideProgressBar()
@@ -20,6 +20,7 @@ interface LoginContract {
     interface LoginPresenter {
         fun attachView(view: LoginView)
         fun dettachView()
+        fun dettachJob()
         fun isViewAttach(): Boolean
         fun logInWithEmailAndPassword(email: String, password: String)
         fun checkEmptyLoginFields(email: String, password: String): Boolean

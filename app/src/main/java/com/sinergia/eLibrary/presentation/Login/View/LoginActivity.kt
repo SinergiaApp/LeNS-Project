@@ -35,7 +35,7 @@ class LoginActivity : BaseActivity(), LoginContract.LoginView {
     }
 
     //LOGIN CONTRACT METHODS
-    override fun showError(error: String) {
+    override fun showError(error: String?) {
         toastS(this, error)
     }
 
@@ -103,11 +103,13 @@ class LoginActivity : BaseActivity(), LoginContract.LoginView {
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         presenter.dettachView()
+        presenter.dettachJob()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         presenter.dettachView()
+        presenter.dettachJob()
     }
 
 }

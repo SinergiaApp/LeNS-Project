@@ -114,7 +114,6 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
 
                 resource.addView(imageLayout)
                 resource.addView(description)
-                Log.d("RESOURCES", "resource: $book")
                 catalog_content.addView(resource)
             }
 

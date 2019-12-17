@@ -34,14 +34,15 @@ interface AdminZoneContract {
         fun dettachView()
         fun isViewAttach(): Boolean
 
-        fun addNewResource(titulo: String, autor: String, iban: String, edicion: String, sinopsis: String)
+        fun addNewResource(titulo: String, autor: String, isbn: String, edicion: String, editorial: String, sinopsis: String)
         fun addNewLibrary(nombre: String, direccion: String, geopoint: GeoPoint)
 
-        fun checkEmptyAddResourceFields(titulo: String, autor: String, iban: String, edicion: String, sinopsis: String): Boolean
+        fun checkEmptyAddResourceFields(titulo: String, autor: String, isbn: String, edicion: String, editorial: String, sinopsis: String): Boolean
         fun checkEmptyAddResourceTitle(titulo: String): Boolean
         fun checkEmptyAddResourceAuthor(autor: String): Boolean
-        fun checkEmptyAddResourceIBAN(iban: String): Boolean
+        fun checkEmptyAddResourceISBN(iban: String): Boolean
         fun checkEmptyAddResourceEdition(edicion: String): Boolean
+        fun checkEmptyAddResourcePublisher(editorial: String): Boolean
         fun checkEmptyAddResourceSinopsis(sinopsis: String): Boolean
 
         fun checkEmptyAddLibraryFields(nombre: String, direccion: String, latitud: String, longitud: String): Boolean

@@ -84,9 +84,10 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
             val autor = admin_zone_bookAuthor.text.toString()
             val isbn = admin_zone_bookISBN.text.toString()
             val edicion = admin_zone_bookEdition.text.toString()
+            val editorial = admin_zone_bookPublisher.text.toString()
             val sinopsis = admin_zone_bookSinosis.text.toString()
 
-            if(adminPresenter.checkEmptyAddResourceFields(titulo, autor, edicion, isbn, sinopsis)){
+            if(adminPresenter.checkEmptyAddResourceFields(titulo, autor, isbn, edicion, editorial, sinopsis)){
 
                 if(adminPresenter.checkEmptyAddResourceTitle(titulo)){
                     admin_zone_bookTitle.error = "¡Cuidado! El campo 'Título' es obligatorio."
@@ -97,11 +98,15 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
                 }
 
                 if(adminPresenter.checkEmptyAddResourceEdition(edicion)){
-                    admin_zone_bookISBN.error = "¡Cuidado! El campo 'Edición' es obligatorio."
+                    admin_zone_bookEdition.error = "¡Cuidado! El campo 'Edición' es obligatorio."
                 }
 
-                if(adminPresenter.checkEmptyAddResourceIBAN(isbn)){
-                    admin_zone_bookEdition.error = "¡Cuidado! El campo 'IBAN' es obligatorio."
+                if(adminPresenter.checkEmptyAddResourcePublisher(editorial)){
+                    admin_zone_bookPublisher.error = "¡Cuidado! El campo 'Editorial' es obligatorio."
+                }
+
+                if(adminPresenter.checkEmptyAddResourceISBN(isbn)){
+                    admin_zone_bookISBN.error = "¡Cuidado! El campo 'IBAN' es obligatorio."
                 }
 
                 if(adminPresenter.checkEmptyAddResourceSinopsis(sinopsis)){
@@ -112,7 +117,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
                 enableAddResourceButton()
 
             } else {
-                adminPresenter.addNewResource(titulo, autor, isbn, edicion, sinopsis)
+                adminPresenter.addNewResource(titulo, autor, isbn, edicion, editorial, sinopsis)
             }
 
         }

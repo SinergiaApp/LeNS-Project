@@ -47,7 +47,7 @@ class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
         startActivity(intentMainPage)
     }
 
-    override fun showError(error: String) {
+    override fun showError(error: String?) {
         toastS(this, error)
     }
 
@@ -129,11 +129,13 @@ class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         presenter.dettachView()
+        presenter.dettachJob()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         presenter.dettachView()
+        presenter.dettachJob()
     }
 
 }

@@ -28,8 +28,8 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
     }
 
     //ADD RESOURCE METHODS
-    override fun checkEmptyAddResourceFields(titulo: String, autor: String, iban: String, edicion: String, sinopsis: String): Boolean {
-        return checkEmptyAddResourceTitle(titulo) || checkEmptyAddResourceAuthor(autor) || checkEmptyAddResourceEdition(edicion) || checkEmptyAddResourceIBAN(iban) || checkEmptyAddResourceSinopsis(sinopsis)
+    override fun checkEmptyAddResourceFields(titulo: String, autor: String, isbn: String, edicion: String, editorial: String, sinopsis: String): Boolean {
+        return checkEmptyAddResourceTitle(titulo) || checkEmptyAddResourceAuthor(autor) || checkEmptyAddResourceEdition(edicion) || checkEmptyAddResourcePublisher(editorial) || checkEmptyAddResourceISBN(isbn) || checkEmptyAddResourceSinopsis(sinopsis)
     }
 
     override fun checkEmptyAddResourceTitle(titulo: String): Boolean {
@@ -40,12 +40,16 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
         return autor.isNullOrEmpty()
     }
 
-    override fun checkEmptyAddResourceIBAN(isbn: String): Boolean {
+    override fun checkEmptyAddResourceISBN(isbn: String): Boolean {
         return isbn.isNullOrEmpty()
     }
 
     override fun checkEmptyAddResourceEdition(edicion: String): Boolean {
         return edicion.isNullOrEmpty()
+    }
+
+    override fun checkEmptyAddResourcePublisher(editorial: String): Boolean {
+        return editorial.isNullOrEmpty()
     }
 
     override fun checkEmptyAddResourceSinopsis(sinopsis: String): Boolean {
@@ -58,12 +62,12 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
         return isbn_pattern.matcher(isbn).matches()
     }
 
-    override fun addNewResource(titulo: String, autor: String, isbn: String, edicion: String, sinopsis: String) {
+    override fun addNewResource(titulo: String, autor: String, isbn: String, edicion: String, editorial: String, sinopsis: String) {
 
         view?.showAddResourceProgressBar()
         view?.disableAddResourceButton()
 
-        adminViewModel?.addNewResource(titulo, autor, isbn, edicion, sinopsis, object: AdminViewModel.createResourceCallBack{
+        adminViewModel?.addNewResource(titulo, autor, isbn, edicion, editorial, sinopsis, object: AdminViewModel.createResourceCallBack{
             override fun onCreateResourceSuccess() {
                 view?.hideAddResourceProgressBar()
                 view?.enableAddResourceButton()

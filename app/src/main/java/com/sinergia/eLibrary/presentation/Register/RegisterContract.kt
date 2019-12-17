@@ -4,7 +4,7 @@ interface RegisterContract {
 
     interface RegisterView {
 
-        fun showError(error: String)
+        fun showError(error: String?)
         fun showMessage(message: String)
         fun showProgressBar()
         fun hideProgressBar()
@@ -20,6 +20,7 @@ interface RegisterContract {
 
         fun attachView(view: RegisterView)
         fun dettachView()
+        fun dettachJob()
         fun isViewAttach(): Boolean
         fun registerWithEmailAndPassword(name:String, lastName: String, email: String, password: String)
 

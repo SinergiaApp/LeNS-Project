@@ -43,7 +43,7 @@ class NelsDataBase {
     //RESOURCES METHODS
     fun getAllResources(listener: CatalogViewModel.CatalogViewModelCallBack){
 
-        var resourcesList: ArrayList<Resource> = arrayListOf<Resource>()
+        var resourcesList: ArrayList<Resource> = arrayListOf()
 
         nelsDB
             .collection("resources")
@@ -82,7 +82,7 @@ class NelsDataBase {
 
     }
 
-    fun addResource(titulo: String, autor: String, isbn: String, edicion: String, sinopsis: String, listener: AdminViewModel.createResourceCallBack){
+    fun addResource(titulo: String, autor: String, isbn: String, edicion: String, editorial: String, sinopsis: String, listener: AdminViewModel.createResourceCallBack){
 
         val newResource = hashMapOf<String, Any>(
 
@@ -90,6 +90,7 @@ class NelsDataBase {
             "author" to autor,
             "isbn" to isbn,
             "edition" to edicion,
+            "publisher" to editorial,
             "sinopsis" to sinopsis
 
         )

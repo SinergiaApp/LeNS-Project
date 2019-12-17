@@ -9,7 +9,7 @@ interface AdminViewModel {
         fun onCreateResourceFailure(errorMsg: String)
     }
 
-    fun addNewResource(titulo: String, autor: String, iban: String, edicion: String, sinopsis: String, listener: AdminViewModel.createResourceCallBack)
+    fun addNewResource(titulo: String, autor: String, isbn: String, edicion: String, editorial: String, sinopsis: String, listener: AdminViewModel.createResourceCallBack)
 
     interface createLibrarylCallBack{
 
