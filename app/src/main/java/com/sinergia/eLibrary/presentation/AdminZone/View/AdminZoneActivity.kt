@@ -206,6 +206,14 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
 
         }
 
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        adminPresenter.dettachView()
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        adminPresenter.dettachView()
+    }
 
 }

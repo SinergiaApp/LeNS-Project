@@ -15,13 +15,13 @@ import kotlinx.android.synthetic.main.activity_register.*
 class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
     
     //PRESENTER INITIALIZATION
-    lateinit var presenter: RegisterPresenter
+    lateinit var registerPresenter: RegisterPresenter
 
     //BASE ACTIVITY METHODS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter = RegisterPresenter(RegisterInteractorImpl())
-        presenter.attachView(this)
+        registerPresenter = RegisterPresenter(RegisterInteractorImpl())
+        registerPresenter.attachView(this)
 
         register_btn.setOnClickListener { register() }
     }
@@ -75,29 +75,27 @@ class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
 
     override fun register() {
 
-        showProgressBar()
-
         val name:String = register_name.text.toString().trim()
         val lastName:String = register_lastname.toString().trim()
         val email:String = register_email.text.toString().trim()
         val password:String = register_password.text.toString().trim()
         val repeatPassword:String = register_repeatpassword.text.toString().trim()
 
-        if(presenter.checkEmptyFields(name, lastName, email, password, repeatPassword)) {
+        if(registerPresenter.checkEmptyFields(name, lastName, email, password, repeatPassword)) {
 
-            if (presenter.checkEmptyRegisterName(name)) {
+            if (registerPresenter.checkEmptyRegisterName(name)) {
                 register_name.error = "¡Cuidado! El campo 'Nombre' es obligatorio."
             }
-            if (presenter.checkEmptyRegisteraLastName(lastName)) {
+            if (registerPresenter.checkEmptyRegisteraLastName(lastName)) {
                 register_lastname.error = "¡Cuidado! El campo 'Apellidos' es obligatorio."
             }
-            if (presenter.checkRegisterEmptyEmail(email)) {
+            if (registerPresenter.checkRegisterEmptyEmail(email)) {
                 register_email.error = "¡Cuidado! El campo 'Correo Electrónico' es obligatorio."
             }
-            if (presenter.checkEmptyRegisterPassword(password)) {
+            if (registerPresenter.checkEmptyRegisterPassword(password)) {
                 register_password.error = "¡Cuidado! El campo 'Contraseña' es obligatorio"
             }
-            if (presenter.checkEmptyRegisterRepeatPassword(repeatPassword)) {
+            if (registerPresenter.checkEmptyRegisterRepeatPassword(repeatPassword)) {
                 register_repeatpassword.error =
                     "¡Cuidado! El campo 'Repetir Contraseña' es obligatorio."
             }
@@ -107,19 +105,19 @@ class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
 
         } else {
 
-            if(!presenter.checkValidRegisterEmail(email)){
+            if(!registerPresenter.checkValidRegisterEmail(email)){
                 register_email.error = "¡Cuidado! El Correo Electrónico introducido no es válido."
                 toastS(this, "Vaya... Hay errores en los campos introducidos.")
                 return
             }
 
-            if(!presenter.checkRegisterPasswordMatch(password, repeatPassword)){
+            if(!registerPresenter.checkRegisterPasswordMatch(password, repeatPassword)){
                 register_repeatpassword.error = "¡Cuidado! Las contraseñas no coinciden."
                 toastS(this, "Vaya... Hay errores en los campos introducidos.")
                 return
             }
 
-            presenter.registerWithEmailAndPassword(name, lastName, email, password)
+            registerPresenter.registerWithEmailAndPassword(name, lastName, email, password)
 
         }
 
@@ -128,14 +126,14 @@ class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        presenter.dettachView()
-        presenter.dettachJob()
+        registerPresenter.dettachView()
+        registerPresenter.dettachJob()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        presenter.dettachView()
-        presenter.dettachJob()
+        registerPresenter.dettachView()
+        registerPresenter.dettachJob()
     }
 
 }

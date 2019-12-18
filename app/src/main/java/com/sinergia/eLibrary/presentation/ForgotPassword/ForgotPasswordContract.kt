@@ -6,24 +6,31 @@ interface ForgotPasswordContract {
 
     interface ForgotPasswordView{
 
-        fun showError(error: String)
+        fun showError(error: String?)
         fun showMessage(message: String)
         fun showProgressBar()
         fun hideProgressBar()
 
+        fun enableGoToLoginButton()
+        fun disableGoToLoginButton()
+        fun enableResetPasswordButton()
+        fun disableResetPasswordButton()
+
+
         fun resetPassword()
-        fun navigateToMain()
         fun navigateToLogin()
 
     }
 
     interface ForgotPasswordPresenter {
 
-        fun attachView(view: RegisterContract.RegisterView)
+        fun attachView(view: ForgotPasswordContract.ForgotPasswordView)
         fun dettachView()
+        fun detachJob()
         fun isViewAttach(): Boolean
-        fun checkEmptyLoginFields(email: String, password: String, repearPassword: String): Boolean
-        fun sendPasswordResetEmail()
+        fun checkResetPasswordEmptyEmail(email: String): Boolean
+        fun checkResetPasswordValidEmail(email: String): Boolean
+        fun sendPasswordResetEmail(email: String)
 
     }
 

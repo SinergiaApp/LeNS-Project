@@ -127,5 +127,15 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
         startActivity(mainMenuIntent)
     }
 
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        catalogPresenter.dettachView()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        catalogPresenter.dettachView()
+    }
+
 }
 

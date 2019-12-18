@@ -1,5 +1,7 @@
 package com.sinergia.eLibrary.presentation.Register
 
+import com.sinergia.eLibrary.presentation.Register.RegisterContract
+
 interface RegisterContract {
 
     interface RegisterView {

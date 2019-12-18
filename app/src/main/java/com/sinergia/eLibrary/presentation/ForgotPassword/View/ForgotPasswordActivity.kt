@@ -1,88 +1,109 @@
 package com.sinergia.eLibrary.presentation.ForgotPassword.View
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
-import com.google.firebase.auth.FirebaseAuth
+import android.view.View
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
-import com.sinergia.eLibrary.presentation.Main.View.MainActivity
+import com.sinergia.eLibrary.domain.interactors.ForgotPasswordInteractor.ForgotPasswordInteractorImpl
+import com.sinergia.eLibrary.presentation.ForgotPassword.ForgotPasswordContract
+import com.sinergia.eLibrary.presentation.ForgotPassword.Presenter.ForgotPasswordPresenter
+import com.sinergia.eLibrary.presentation.Login.View.LoginActivity
+import kotlinx.android.synthetic.main.activity_forgot_password.*
 
-class ForgotPasswordActivity : BaseActivity() {
+class ForgotPasswordActivity : BaseActivity(), ForgotPasswordContract.ForgotPasswordView {
 
+    //BASE ACTIVITY METHODS
+    lateinit var forgotPasswordPresenter: ForgotPasswordPresenter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initialize()
-    }
+        forgotPasswordPresenter = ForgotPasswordPresenter(ForgotPasswordInteractorImpl())
+        forgotPasswordPresenter.attachView(this)
 
+        disableGoToLoginButton()
+        forgot_pass_btn.setOnClickListener{ resetPassword() }
+        forgot_pass_goToLogin_btn.setOnClickListener { navigateToLogin() }
+
+    }
     override fun getLayout(): Int {
         return R.layout.activity_forgot_password
     }
 
     override fun getPageTitle(): String {
-        return "FORGOT PASSWORD"
+        return "RESETEO DE CONTRASEÑA"
     }
 
-    //Login Variables References
-    private lateinit var forgot_pass_btn: Button
-
-    private lateinit var forgot_pass_email: EditText
-
-    private var email: String? = null
-
-    private val TAG = "ForgotPasswordActivity"
-
-    //Firebase References
-    private var nelsAuth: FirebaseAuth? = null
-
-
-
-    //Initialize function
-    fun initialize() {
-
-        //Forgot Password Variables
-        forgot_pass_email = findViewById<EditText>(R.id.forgot_pass_email)
-
-        //Forgot Password Button
-        forgot_pass_btn = findViewById<Button>(R.id.forgot_pass_btn)
-        forgot_pass_btn.setOnClickListener{ sendResetPassEmail() }
-
+    //FORGOT PASSWORD CONTRACT METHODS
+    override fun showError(error: String?) {
+        toastS(this, error)
     }
 
-    //Send Reset Password Email Function
-    fun sendResetPassEmail() {
+    override fun showMessage(message: String) {
+        toastS(this, message)
+    }
 
-        email = forgot_pass_email.text.toString()
+    override fun showProgressBar() {
+        forgot_pass_progressBar.visibility = View.VISIBLE
+    }
 
-        if(email!!.isEmpty()){
-            Toast.makeText(this, "Debe indicar el correo electrónico de inicio de sesión.", Toast.LENGTH_SHORT).show()
+    override fun hideProgressBar() {
+        forgot_pass_progressBar.visibility = View.INVISIBLE
+    }
+
+    override fun enableResetPasswordButton() {
+        forgot_pass_btn.isEnabled = true
+        forgot_pass_btn.isClickable = true
+    }
+
+    override fun disableResetPasswordButton() {
+        forgot_pass_btn.isEnabled = false
+        forgot_pass_btn.isClickable = false
+    }
+
+    override fun enableGoToLoginButton() {
+        forgot_pass_goToLogin_btn.isEnabled = true
+        forgot_pass_goToLogin_btn.isClickable = true
+    }
+
+    override fun disableGoToLoginButton() {
+        forgot_pass_goToLogin_btn.isEnabled = false
+        forgot_pass_goToLogin_btn.isClickable = false
+    }
+
+    override fun resetPassword() {
+
+        val email = forgot_pass_email.text.toString()
+
+        if(forgotPasswordPresenter.checkResetPasswordEmptyEmail(email)){
+            forgot_pass_email.error = "¡Cuidado! El campo 'Correo Electrónico' es obligatorio."
+            toastL(this, "Vaya... Hay errores en los campos introducidos.")
+        } else if(forgotPasswordPresenter.checkResetPasswordValidEmail(email)) {
+            forgot_pass_email.error = "¡Cuidado! El formato del campo 'Correo Electrónico' es incorrecto."
+            toastL(this, "Vaya... Hay errores en los campos introducidos.")
         } else {
-            nelsAuth!!
-                .sendPasswordResetEmail(email!!)
-                .addOnCompleteListener{task ->
-                    if (task.isSuccessful){
-                        Log.d(TAG, "Reset Password Email sent.")
-                        Toast.makeText(this, "Se ha enviado el correo de reseteo de contraseña.", Toast.LENGTH_SHORT).show()
-                        updateUI()
-                    } else {
-                        Log.w(TAG, task.exception?.message.toString())
-                        Toast.makeText(this, "No hay ningún usuario asociado a ese correo electrónico, por favor revisa las credenciales y vuelve a intentarlo", Toast.LENGTH_LONG).show()
-                    }
-                }
+            forgotPasswordPresenter.sendPasswordResetEmail(email)
         }
 
     }
 
-    fun updateUI() {
+    override fun navigateToLogin() {
 
-        val forgotPasswordIntent = Intent(this, MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        startActivity(forgotPasswordIntent)
+        val intentLoginPage = Intent(this, LoginActivity::class.java)
+        intentLoginPage.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intentLoginPage)
 
+    }
+
+    override fun onDetachedFromWindow(){
+        super.onDetachedFromWindow()
+        forgotPasswordPresenter.dettachView()
+        forgotPasswordPresenter.detachJob()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        forgotPasswordPresenter.dettachView()
+        forgotPasswordPresenter.detachJob()
     }
 }

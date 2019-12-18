@@ -15,11 +15,11 @@ import kotlinx.android.synthetic.main.activity_login.*
 class LoginActivity : BaseActivity(), LoginContract.LoginView {
 
     //BASEACTIVITY METHODS
-    lateinit var presenter: LoginPresenter
+    lateinit var loginPresenter: LoginPresenter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter = LoginPresenter(LoginInteractorImpl())
-        presenter.attachView(this)
+        loginPresenter = LoginPresenter(LoginInteractorImpl())
+        loginPresenter.attachView(this)
 
         login_pass_forgotten.setOnClickListener() { forgotPass() }
         login_btn.setOnClickListener(){ login() }
@@ -77,13 +77,13 @@ class LoginActivity : BaseActivity(), LoginContract.LoginView {
         val email = login_user.text.toString().trim()
         val password = login_pass.text.toString().trim()
 
-        if (presenter.checkEmptyLoginFields(email, password)){
+        if (loginPresenter.checkEmptyLoginFields(email, password)){
 
-            if(presenter.checkEmptyLoginEmail(email)){
+            if(loginPresenter.checkEmptyLoginEmail(email)){
                 login_user.error = "¡Cuidado! El campo 'Correo Electrónico' es obligatorio."
             }
 
-            if(presenter.checkEmptyLoginPassword(password)){
+            if(loginPresenter.checkEmptyLoginPassword(password)){
                 login_pass.error = "¡Cuidado! El campo 'Contraseña' es obligatorio."
             }
 
@@ -91,7 +91,7 @@ class LoginActivity : BaseActivity(), LoginContract.LoginView {
             return
 
         } else {
-            presenter.logInWithEmailAndPassword(email, password)
+            loginPresenter.logInWithEmailAndPassword(email, password)
         }
 
     }
@@ -102,14 +102,14 @@ class LoginActivity : BaseActivity(), LoginContract.LoginView {
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        presenter.dettachView()
-        presenter.dettachJob()
+        loginPresenter.dettachView()
+        loginPresenter.dettachJob()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        presenter.dettachView()
-        presenter.dettachJob()
+        loginPresenter.dettachView()
+        loginPresenter.dettachJob()
     }
 
 }
