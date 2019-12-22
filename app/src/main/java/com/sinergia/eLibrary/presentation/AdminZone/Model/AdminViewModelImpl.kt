@@ -11,13 +11,13 @@ class AdminViewModelImpl: ViewModel(), AdminViewModel {
     val libraryUseCases = LibraryUseCases()
 
     //CREATE NEW RESOURCE FUNCTION
-    override fun addNewResource(titulo: String, autor: String, isbn: String, edicion: String, editorial: String, sinopsis: String, listener: AdminViewModel.createResourceCallBack) {
-        resourceUseCase.addResource(titulo, autor, isbn, edicion, editorial, sinopsis, listener)
+    override suspend fun addNewResource(titulo: String, autor: String, isbn: String, edicion: String, editorial: String, sinopsis: String) {
+        resourceUseCase.addResource(titulo, autor, isbn, edicion, editorial, sinopsis)
     }
 
     //CREATE NEW LIBRARY FUNCTION
-    override fun addNewLibrary(nombre: String, direccion: String, geopoint: GeoPoint, listener: AdminViewModel.createLibrarylCallBack) {
-        libraryUseCases.addLibrary(nombre, direccion, geopoint, listener)
+    override suspend fun addNewLibrary(nombre: String, direccion: String, geopoint: GeoPoint) {
+        libraryUseCases.addLibrary(nombre, direccion, geopoint)
     }
 
 }

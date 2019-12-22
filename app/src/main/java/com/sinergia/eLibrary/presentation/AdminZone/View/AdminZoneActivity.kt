@@ -52,7 +52,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
 
     //ADMIN ZONE CONTRACT METHODS
 
-    override fun showError(error: String) {
+    override fun showError(error: String?) {
         toastL(this, error)
     }
 
@@ -209,11 +209,13 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         adminPresenter.dettachView()
+        adminPresenter.dettachJob()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         adminPresenter.dettachView()
+        adminPresenter.dettachJob()
     }
 
 }

@@ -48,7 +48,7 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
     }
 
     //CATALOG CONTRACT METHODS
-    override fun showError(error: String) {
+    override fun showError(error: String?) {
         toastL(this, error)
     }
 
@@ -56,7 +56,7 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
         toastS(this, message)
     }
 
-    override fun showPCatalogrogressBar() {
+    override fun showCatalogrogressBar() {
         catalog_progressBar.visibility = View.VISIBLE
     }
 
@@ -64,9 +64,9 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
         catalog_progressBar.visibility = View.GONE
     }
 
-    override fun initCatalog(resourcesList: ArrayList<Resource>) {
+    override fun initCatalog(resourcesList: ArrayList<Resource>?) {
 
-        if(resourcesList.isEmpty()){
+        if(resourcesList?.isEmpty()!!){
             toastL(this, "Vaya... Parece que no hay ningún recurso en la Base de Datos...")
         } else {
 

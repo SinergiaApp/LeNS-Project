@@ -3,33 +3,39 @@ package com.sinergia.eLibrary.data.NeLS_DataBase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.GeoPoint
 import com.sinergia.eLibrary.data.Model.Resource
+import com.sinergia.eLibrary.presentation.AdminZone.Exceptions.FirebaseCreateLibraryException
+import com.sinergia.eLibrary.presentation.AdminZone.Exceptions.FirebaseCreateResourceException
 import com.sinergia.eLibrary.presentation.AdminZone.Model.AdminViewModel
+import com.sinergia.eLibrary.presentation.Catalog.Exceptions.FirebaseGetAllResourcesException
 import com.sinergia.eLibrary.presentation.Catalog.Model.CatalogViewModel
+import com.sinergia.eLibrary.presentation.Register.FirebaseAddUserException
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 class NelsDataBase {
 
     val nelsDB= FirebaseFirestore.getInstance()
 
     //USERS METHODS
-    fun addUser(name: String, lastName: String, email: String, password: String, admin: Boolean){
+    suspend fun addUser(name: String, lastName: String, email: String, admin: Boolean, resources: Map<String, String>): Unit = suspendCancellableCoroutine{addUserContinuation ->
 
         val newUser: HashMap<String, Any> = hashMapOf(
             "name" to name,
             "lastName" to lastName,
             "email" to email,
-            "password" to password,
-            "admin" to admin
+            "admin" to admin,
+            "resources" to resources
         )
 
         nelsDB
-            .collection("users")
-            .add(newUser)
+            .document("users/$email")
+            .set(newUser)
             .addOnCompleteListener{ adduser ->
                 if(adduser.isSuccessful){
-                    //TODO: Mensaje de Usuario agregado a la BBDD correctamente.
-                    //TODO: Este método va sujeto aque la creación del usuario en FireBase de Google tenga éxtito.
+                    addUserContinuation.resume(Unit)
                 } else {
-                    //TODO: Mensaje de error al crear el usuario.
+                    addUserContinuation.resumeWithException(FirebaseAddUserException(adduser.exception?.message.toString()))
                 }
             }
 
@@ -41,7 +47,7 @@ class NelsDataBase {
 
 
     //RESOURCES METHODS
-    fun getAllResources(listener: CatalogViewModel.CatalogViewModelCallBack){
+    suspend fun getAllResources(): ArrayList<Resource> = suspendCancellableCoroutine{getAllResourcesContinue ->
 
         var resourcesList: ArrayList<Resource> = arrayListOf()
 
@@ -55,10 +61,10 @@ class NelsDataBase {
                         val inputResource: Resource = resource.toObject(Resource::class.java)
                         resourcesList.add(inputResource)
                     }
-                    listener.onGetResourcesSuccess(resourcesList)
+                    getAllResourcesContinue.resume(resourcesList)
 
                 } else {
-                    listener.onGetResourcesFailure(resources.exception.toString())
+                    getAllResourcesContinue.resumeWithException(FirebaseGetAllResourcesException(resources.exception?.message.toString()))
                 }
             }
 
@@ -82,7 +88,7 @@ class NelsDataBase {
 
     }
 
-    fun addResource(titulo: String, autor: String, isbn: String, edicion: String, editorial: String, sinopsis: String, listener: AdminViewModel.createResourceCallBack){
+    suspend fun addResource(titulo: String, autor: String, isbn: String, edicion: String, editorial: String, sinopsis: String): Unit = suspendCancellableCoroutine{addResourceContinuation ->
 
         val newResource = hashMapOf<String, Any>(
 
@@ -101,9 +107,9 @@ class NelsDataBase {
             .addOnCompleteListener{addresource ->
 
                 if(addresource.isSuccessful){
-                    listener.onCreateResourceSuccess()
+                    addResourceContinuation.resume(Unit)
                 } else {
-                    listener.onCreateResourceFailure(addresource.exception?.message.toString())
+                    addResourceContinuation.resumeWithException(FirebaseCreateResourceException(addresource.exception?.message.toString()))
                 }
 
             }
@@ -116,7 +122,7 @@ class NelsDataBase {
 
 
     //LIBRARY METHODS
-    fun addLibrary(nombre: String, direccion: String, geopoint: GeoPoint, listener: AdminViewModel.createLibrarylCallBack){
+    suspend fun addLibrary(nombre: String, direccion: String, geopoint: GeoPoint): Unit = suspendCancellableCoroutine{addLibraryContinuation ->
 
         val newLibrary: HashMap<String, Any> = hashMapOf(
             "name" to nombre,
@@ -129,9 +135,9 @@ class NelsDataBase {
             .add(newLibrary)
             .addOnCompleteListener {newLibrary ->
                 if(newLibrary.isSuccessful){
-                    listener.onCreateLibrarySuccess()
+                    addLibraryContinuation.resume(Unit)
                 } else {
-                    listener.onCreateLibraryFailure(newLibrary.exception.toString())
+                    addLibraryContinuation.resumeWithException(FirebaseCreateLibraryException(newLibrary.exception?.message.toString()))
                 }
             }
 

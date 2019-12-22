@@ -29,7 +29,7 @@ abstract class BaseActivity: AppCompatActivity() {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
-    fun toastL(context: Context, message: String){
+    fun toastL(context: Context, message: String?){
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 

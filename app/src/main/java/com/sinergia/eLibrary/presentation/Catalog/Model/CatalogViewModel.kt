@@ -4,10 +4,5 @@ import com.sinergia.eLibrary.data.Model.Resource
 
 interface CatalogViewModel {
 
-    interface CatalogViewModelCallBack {
-        fun onGetResourcesSuccess(resourcesList: ArrayList<Resource>)
-        fun onGetResourcesFailure(errorMsg: String)
-    }
-
-    fun getAllResourcesToCatalog(callBack: CatalogViewModel.CatalogViewModelCallBack)
+    suspend fun getAllResourcesToCatalog(): ArrayList<Resource>
 }

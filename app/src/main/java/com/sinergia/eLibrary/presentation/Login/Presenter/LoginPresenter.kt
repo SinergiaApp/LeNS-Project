@@ -73,8 +73,10 @@ class LoginPresenter(loginInteractor: LoginInteractor): LoginContract.LoginPrese
             }catch (error: FirebaseLoginException) {
 
                 val errorMsg = error.message
-                view?.showError(errorMsg)
-                view?.hideProgressBar()
+                if(isViewAttach()) {
+                    view?.showError(errorMsg)
+                    view?.hideProgressBar()
+                }
 
                 Log.d(TAG, "ERROR: Cannot login with email $email --> $errorMsg")
             }

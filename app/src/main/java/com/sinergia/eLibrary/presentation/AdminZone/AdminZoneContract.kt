@@ -7,7 +7,7 @@ interface AdminZoneContract {
 
     interface AdminZoneView {
 
-        fun showError(error: String)
+        fun showError(error: String?)
         fun showMessage(message: String)
 
         fun showHideAddResource()
@@ -33,6 +33,7 @@ interface AdminZoneContract {
         fun attachView(view: AdminZoneView)
         fun dettachView()
         fun isViewAttach(): Boolean
+        fun dettachJob()
 
         fun addNewResource(titulo: String, autor: String, isbn: String, edicion: String, editorial: String, sinopsis: String)
         fun addNewLibrary(nombre: String, direccion: String, geopoint: GeoPoint)

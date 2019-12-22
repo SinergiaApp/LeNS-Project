@@ -3,13 +3,22 @@ package com.sinergia.eLibrary.presentation.Catalog.Presenter
 import android.util.Log
 import com.sinergia.eLibrary.data.Model.Resource
 import com.sinergia.eLibrary.presentation.Catalog.CatalogContract
+import com.sinergia.eLibrary.presentation.Catalog.Exceptions.FirebaseGetAllResourcesException
 import com.sinergia.eLibrary.presentation.Catalog.Model.CatalogViewModel
 import com.sinergia.eLibrary.presentation.Catalog.Model.CatalogViewModelImpl
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
-class CatalogPresenter(catalogViewModel: CatalogViewModelImpl): CatalogContract.CatalogPresenter {
+class CatalogPresenter(catalogViewModel: CatalogViewModelImpl): CatalogContract.CatalogPresenter, CoroutineScope {
+
+    val TAG = "[CATALOG_ACTIVITY]"
 
     var view: CatalogContract.CatalogView ?= null
     var catalogViewModel: CatalogViewModelImpl ?= null
+    val catalogJob = Job()
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + catalogJob
 
     init {
         this.catalogViewModel = catalogViewModel
@@ -27,22 +36,41 @@ class CatalogPresenter(catalogViewModel: CatalogViewModelImpl): CatalogContract.
         return view != null
     }
 
+    override fun dettachJob() {
+        coroutineContext.cancel()
+    }
+
     override fun getAllResourcesToCatalog() {
 
-        view?.showPCatalogrogressBar()
+        launch {
 
-        catalogViewModel?.getAllResourcesToCatalog(object: CatalogViewModel.CatalogViewModelCallBack{
-            override fun onGetResourcesSuccess(resourcesList: ArrayList<Resource>) {
-                view?.hideCatalogProgressBar()
-                view?.initCatalog(resourcesList)
+            view?.showCatalogrogressBar()
+
+            try{
+
+                var resourcesList = catalogViewModel?.getAllResourcesToCatalog()
+
+                if(isViewAttach()){
+                    view?.hideCatalogProgressBar()
+                    view?.initCatalog(resourcesList)
+                }
+
+                Log.d(TAG, "Succesfully get Catalog Resources.")
+
+            } catch(error: FirebaseGetAllResourcesException){
+
+                val errorMsg = error.message
+
+                if(isViewAttach()){
+                    view?.hideCatalogProgressBar()
+                    view?.showError(errorMsg)
+                }
+
+                Log.d(TAG, "ERROR: Cannot load Resourcs from DataBase --> $errorMsg")
+
             }
 
-            override fun onGetResourcesFailure(errorMsg: String) {
-                view?.hideCatalogProgressBar()
-                view?.showError(errorMsg)
-            }
-
-        })
+        }
 
     }
 }

@@ -1,15 +1,26 @@
 package com.sinergia.eLibrary.presentation.AdminZone.Presenter
 
+import android.util.Log
 import com.google.firebase.firestore.GeoPoint
 import com.sinergia.eLibrary.presentation.AdminZone.AdminZoneContract
+import com.sinergia.eLibrary.presentation.AdminZone.Exceptions.FirebaseCreateLibraryException
+import com.sinergia.eLibrary.presentation.AdminZone.Exceptions.FirebaseCreateResourceException
 import com.sinergia.eLibrary.presentation.AdminZone.Model.AdminViewModel
 import com.sinergia.eLibrary.presentation.AdminZone.Model.AdminViewModelImpl
+import kotlinx.coroutines.*
 import java.util.regex.Pattern
+import kotlin.coroutines.CoroutineContext
 
-class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.AdminZonePresenter {
+class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.AdminZonePresenter, CoroutineScope {
+
+    val TAG = "[ADMIN_ACTIVITY]"
 
     var view: AdminZoneContract.AdminZoneView? = null
     var adminViewModel: AdminViewModelImpl? = null
+    private val adminJob = Job()
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + adminJob
 
     init {
         this.adminViewModel = adminViewModel
@@ -25,6 +36,10 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
 
     override fun isViewAttach(): Boolean {
         return view != null
+    }
+
+    override fun dettachJob() {
+        coroutineContext.cancel()
     }
 
     //ADD RESOURCE METHODS
@@ -64,26 +79,35 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
 
     override fun addNewResource(titulo: String, autor: String, isbn: String, edicion: String, editorial: String, sinopsis: String) {
 
-        view?.showAddResourceProgressBar()
-        view?.disableAddResourceButton()
+        launch {
 
-        adminViewModel?.addNewResource(titulo, autor, isbn, edicion, editorial, sinopsis, object: AdminViewModel.createResourceCallBack{
-            override fun onCreateResourceSuccess() {
-                view?.hideAddResourceProgressBar()
-                view?.enableAddResourceButton()
-                view?.showMessage("El recurso se ha creado satisfactoriamente.")
-                view?.navigateToMainPage()
-            }
+            view?.showAddResourceProgressBar()
+            view?.disableAddResourceButton()
 
-            override fun onCreateResourceFailure(errorMsg: String) {
-                view?.hideAddResourceProgressBar()
-                view?.enableAddResourceButton()
+            try {
+                adminViewModel?.addNewResource(titulo, autor, isbn, edicion, editorial, sinopsis)
+
+                if(isViewAttach()){
+                    view?.hideAddResourceProgressBar()
+                    view?.enableAddResourceButton()
+                    view?.showMessage("El Recurso se ha creado satisfactoriamente.")
+                    view?.navigateToMainPage()
+                }
+
+                Log.d(TAG, "Succesfully create new Resource.")
+
+            } catch (error: FirebaseCreateResourceException){
+
+                val errorMsg = error.message
                 view?.showError(errorMsg)
+                view?.hideAddResourceProgressBar()
+                view?.enableAddResourceButton()
+
+                Log.d(TAG, "ERROR: Cannot create new Resource with name $titulo --> $errorMsg.")
             }
 
 
-        })
-
+        }
     }
 
     //ADD LIBRARY METHODS
@@ -109,24 +133,35 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
 
     override fun addNewLibrary(nombre: String, direccion: String, geopoint: GeoPoint) {
 
-        view?.showAddLibraryProgressBar()
-        view?.disableAddLibraryButton()
+        launch {
 
-        adminViewModel?.addNewLibrary(nombre, direccion, geopoint, object: AdminViewModel.createLibrarylCallBack{
-            override fun onCreateLibrarySuccess() {
-                view?.hideAddLibraryProgressBar()
-                view?.enableAddLibraryButton()
-                view?.showMessage("La Biblioteca se ha creado satisfactoriamente.")
-                view?.navigateToMainPage()
-            }
+            Log.d(TAG, "Trying to create new Library with name $nombre.")
+            view?.showAddLibraryProgressBar()
+            view?.disableAddLibraryButton()
 
-            override fun onCreateLibraryFailure(errorMsg: String) {
-                view?.hideAddLibraryProgressBar()
-                view?.enableAddLibraryButton()
+            try {
+
+                adminViewModel?.addNewLibrary(nombre, direccion, geopoint)
+                if(isViewAttach()) {
+                    view?.hideAddLibraryProgressBar()
+                    view?.enableAddLibraryButton()
+                    view?.showMessage("La Biblioteca se ha creado satisfactoriamente.")
+                    view?.navigateToMainPage()
+                }
+                Log.d(TAG, "Succesfully creates new Library.")
+
+            } catch (error: FirebaseCreateLibraryException){
+
+                val errorMsg = error.message
                 view?.showError(errorMsg)
+                view?.hideAddLibraryProgressBar()
+                view?.enableAddLibraryButton()
+
+                Log.d(TAG, "ERROR: Cannot create new Library with name $nombre --> $errorMsg.")
+
             }
 
-        })
+        }
 
     }
 

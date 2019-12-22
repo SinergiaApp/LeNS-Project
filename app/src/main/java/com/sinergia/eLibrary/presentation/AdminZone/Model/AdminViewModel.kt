@@ -4,19 +4,8 @@ import com.google.firebase.firestore.GeoPoint
 
 interface AdminViewModel {
 
-    interface createResourceCallBack{
-        fun onCreateResourceSuccess()
-        fun onCreateResourceFailure(errorMsg: String)
-    }
+    suspend fun addNewResource(titulo: String, autor: String, isbn: String, edicion: String, editorial: String, sinopsis: String)
 
-    fun addNewResource(titulo: String, autor: String, isbn: String, edicion: String, editorial: String, sinopsis: String, listener: AdminViewModel.createResourceCallBack)
-
-    interface createLibrarylCallBack{
-
-        fun onCreateLibrarySuccess()
-        fun onCreateLibraryFailure(errorMsg: String)
-
-    }
-    fun addNewLibrary(nombre: String, direccion: String, geopoint: GeoPoint, listener: AdminViewModel.createLibrarylCallBack)
+    suspend fun addNewLibrary(nombre: String, direccion: String, geopoint: GeoPoint)
 
 }

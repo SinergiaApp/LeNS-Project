@@ -8,12 +8,12 @@ interface CatalogContract {
 
         fun goToMainMenu()
 
-        fun showError(error: String)
+        fun showError(error: String?)
         fun showMessage(message: String)
-        fun showPCatalogrogressBar()
+        fun showCatalogrogressBar()
         fun hideCatalogProgressBar()
 
-        fun initCatalog(resourcesList: ArrayList<Resource>)
+        fun initCatalog(resourcesList: ArrayList<Resource>?)
 
     }
 
@@ -22,6 +22,7 @@ interface CatalogContract {
         fun attachView(view: CatalogView)
         fun dettachView()
         fun isViewAttach(): Boolean
+        fun dettachJob()
         fun getAllResourcesToCatalog()
 
     }

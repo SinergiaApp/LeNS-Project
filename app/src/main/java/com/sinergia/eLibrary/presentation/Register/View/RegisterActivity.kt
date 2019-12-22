@@ -8,6 +8,7 @@ import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.domain.interactors.RegisterInteractor.RegisterInteractorImpl
 import com.sinergia.eLibrary.presentation.Catalog.View.CatalogActivity
+import com.sinergia.eLibrary.presentation.Register.Model.RegisterViewModelImpl
 import com.sinergia.eLibrary.presentation.Register.Presenter.RegisterPresenter
 import com.sinergia.eLibrary.presentation.Register.RegisterContract
 import kotlinx.android.synthetic.main.activity_register.*
@@ -20,7 +21,7 @@ class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
     //BASE ACTIVITY METHODS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        registerPresenter = RegisterPresenter(RegisterInteractorImpl())
+        registerPresenter = RegisterPresenter(RegisterInteractorImpl(), RegisterViewModelImpl())
         registerPresenter.attachView(this)
 
         register_btn.setOnClickListener { register() }
@@ -76,7 +77,7 @@ class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
     override fun register() {
 
         val name:String = register_name.text.toString().trim()
-        val lastName:String = register_lastname.toString().trim()
+        val lastName:String = register_lastname.text.toString().trim()
         val email:String = register_email.text.toString().trim()
         val password:String = register_password.text.toString().trim()
         val repeatPassword:String = register_repeatpassword.text.toString().trim()

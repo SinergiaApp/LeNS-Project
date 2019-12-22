@@ -12,8 +12,8 @@ class LibraryUseCases {
 
     }
 
-    fun addLibrary(nombre: String, direccion: String, geopoint: GeoPoint, listener: AdminViewModel.createLibrarylCallBack) {
-        nelsDB.addLibrary(nombre, direccion, geopoint, listener)
+    suspend fun addLibrary(nombre: String, direccion: String, geopoint: GeoPoint) {
+        nelsDB.addLibrary(nombre, direccion, geopoint)
     }
 
 }

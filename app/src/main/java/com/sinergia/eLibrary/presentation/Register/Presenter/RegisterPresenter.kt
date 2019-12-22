@@ -3,23 +3,27 @@ package com.sinergia.eLibrary.presentation.Register.Presenter
 import android.util.Log
 import com.sinergia.eLibrary.domain.interactors.RegisterInteractor.RegisterInteractor
 import com.sinergia.eLibrary.presentation.Register.Exceptions.FirebaseRegisterException
+import com.sinergia.eLibrary.presentation.Register.FirebaseAddUserException
+import com.sinergia.eLibrary.presentation.Register.Model.RegisterViewModel
 import com.sinergia.eLibrary.presentation.Register.RegisterContract
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
-class RegisterPresenter(registerInteractor: RegisterInteractor): RegisterContract.RegisterPresenter, CoroutineScope{
+class RegisterPresenter(registerInteractor: RegisterInteractor, registerViewModel: RegisterViewModel): RegisterContract.RegisterPresenter, CoroutineScope{
 
     private val TAG = "[REGISTER_ACTIVITY]"
     private val registerJob = Job()
 
     var view: RegisterContract.RegisterView? = null
     var registerInteractor: RegisterInteractor? = null
+    var registerViewModel: RegisterViewModel? = null
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + registerJob
 
     init {
         this.registerInteractor = registerInteractor
+        this.registerViewModel = registerViewModel
     }
 
     override fun attachView(view: RegisterContract.RegisterView) {
@@ -89,6 +93,23 @@ class RegisterPresenter(registerInteractor: RegisterInteractor): RegisterContrac
                     view?.enableRegisterButton()
 
                     Log.d(TAG, "Sucesfully register with email $email.")
+
+                    try {
+
+                        Log.d(TAG, "Trying to add new User to database with email $email.")
+
+                        val resources = mapOf<String, String>()
+                        registerViewModel?.addNewUser(name, lastName, email, false, resources)
+
+                        Log.d(TAG, "Sucesfully added new User tp database with email $email.")
+
+                    } catch (error: FirebaseAddUserException){
+
+                        val errorMsg = error?.message
+                        Log.d(TAG, "ERROR: Cannot add new User to database with email $email --> $errorMsg")
+
+                    }
+
                 }
             }catch(error: FirebaseRegisterException){
 
@@ -100,6 +121,8 @@ class RegisterPresenter(registerInteractor: RegisterInteractor): RegisterContrac
                 Log.d(TAG, "ERROR: Cannot register with email $email --> $errorMsg")
 
             }
+
+
 
         }
     }
