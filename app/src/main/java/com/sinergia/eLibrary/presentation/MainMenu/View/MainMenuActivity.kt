@@ -2,13 +2,17 @@ package com.sinergia.eLibrary.presentation.MainMenu.View
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.presentation.AdminZone.View.AdminZoneActivity
 import com.sinergia.eLibrary.presentation.MainMenu.MainMenuContract
 import com.sinergia.eLibrary.presentation.Catalog.View.CatalogActivity
+import com.sinergia.eLibrary.presentation.Libraries.View.LibraiesActivity
+import com.sinergia.eLibrary.presentation.NeLSProject
 import kotlinx.android.synthetic.main.activity_main_menu.*
 import kotlinx.android.synthetic.main.layout_main_menu.*
+import com.sinergia.eLibrary.presentation.NeLSProject.Companion as NeLSVars
 
 class MainMenuActivity : BaseActivity(), MainMenuContract.MainContractView {
 
@@ -18,6 +22,8 @@ class MainMenuActivity : BaseActivity(), MainMenuContract.MainContractView {
         setContentView(R.layout.activity_main_menu)
 
         main_page_title.text = intent.getStringExtra("activityName")
+
+        showHideAdminZone(NeLSVars.adminUser)
 
         menu_button.setOnClickListener { finish() }
 
@@ -43,12 +49,18 @@ class MainMenuActivity : BaseActivity(), MainMenuContract.MainContractView {
 
 
     //MAIN MENU CONTRACT METHODS
+    override fun showMessage(message: String?) {
+        toastS(this, message)
+    }
+
+    override fun showError(errorMsg: String?) {
+        toastL(this, errorMsg)
+    }
+
     override fun goToLibrary() {
-        //val libraryIntent = Intent(this, ------::class.java)
-        //libraryIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-        //startActivity(libraryIntent)
-        //disableAllButtons()
-        toastL(this, "Este botón aún no te lleva a ningun sitio pringao.")
+        val librariesIntent = Intent(this, LibraiesActivity::class.java)
+        startActivity(librariesIntent)
+        disableAllButtons()
     }
 
     override fun goToCatalog() {
@@ -99,6 +111,14 @@ class MainMenuActivity : BaseActivity(), MainMenuContract.MainContractView {
         account_button.isClickable = true
         admin_button.isClickable = true
 
+    }
+
+    override fun showHideAdminZone(admin: Boolean) {
+        if(admin){
+            admin_button.visibility = View.VISIBLE
+        } else {
+            admin_button.visibility = View.GONE
+        }
     }
 
     override fun onDetachedFromWindow() {

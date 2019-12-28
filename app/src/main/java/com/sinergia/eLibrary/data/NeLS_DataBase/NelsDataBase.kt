@@ -2,12 +2,14 @@ package com.sinergia.eLibrary.data.NeLS_DataBase
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.GeoPoint
+import com.sinergia.eLibrary.data.Model.Library
 import com.sinergia.eLibrary.data.Model.Resource
-import com.sinergia.eLibrary.presentation.AdminZone.Exceptions.FirebaseCreateLibraryException
-import com.sinergia.eLibrary.presentation.AdminZone.Exceptions.FirebaseCreateResourceException
-import com.sinergia.eLibrary.presentation.AdminZone.Model.AdminViewModel
-import com.sinergia.eLibrary.presentation.Catalog.Exceptions.FirebaseGetAllResourcesException
-import com.sinergia.eLibrary.presentation.Catalog.Model.CatalogViewModel
+import com.sinergia.eLibrary.data.Model.User
+import com.sinergia.eLibrary.base.Exceptions.FirebaseCreateLibraryException
+import com.sinergia.eLibrary.base.Exceptions.FirebaseCreateResourceException
+import com.sinergia.eLibrary.base.Exceptions.FirebaseGetAllResourcesException
+import com.sinergia.eLibrary.base.Exceptions.FirebaseGetAllLibrariesException
+import com.sinergia.eLibrary.base.Exceptions.FirebaseGetUserException
 import com.sinergia.eLibrary.presentation.Register.FirebaseAddUserException
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
@@ -41,6 +43,31 @@ class NelsDataBase {
 
     }
 
+    suspend fun getCurrentUser(){
+
+    }
+
+    suspend fun getUser(email: String): User = suspendCancellableCoroutine{getUserContinue ->
+
+        nelsDB
+            .collection("users")
+            .document(email)
+            .get()
+            .addOnCompleteListener {user ->
+                if(user.isSuccessful){
+                    val currentUser = user.getResult()!!.toObject(User::class.java)
+                    getUserContinue.resume(currentUser!!)
+                } else {
+                    getUserContinue.resumeWithException(
+                        FirebaseGetUserException(
+                            user.exception?.message.toString()
+                        )
+                    )
+                }
+            }
+
+    }
+
     fun setUser(field: String, newValue: String){
 
     }
@@ -64,7 +91,11 @@ class NelsDataBase {
                     getAllResourcesContinue.resume(resourcesList)
 
                 } else {
-                    getAllResourcesContinue.resumeWithException(FirebaseGetAllResourcesException(resources.exception?.message.toString()))
+                    getAllResourcesContinue.resumeWithException(
+                        FirebaseGetAllResourcesException(
+                            resources.exception?.message.toString()
+                        )
+                    )
                 }
             }
 
@@ -109,7 +140,11 @@ class NelsDataBase {
                 if(addresource.isSuccessful){
                     addResourceContinuation.resume(Unit)
                 } else {
-                    addResourceContinuation.resumeWithException(FirebaseCreateResourceException(addresource.exception?.message.toString()))
+                    addResourceContinuation.resumeWithException(
+                        FirebaseCreateResourceException(
+                            addresource.exception?.message.toString()
+                        )
+                    )
                 }
 
             }
@@ -137,8 +172,46 @@ class NelsDataBase {
                 if(newLibrary.isSuccessful){
                     addLibraryContinuation.resume(Unit)
                 } else {
-                    addLibraryContinuation.resumeWithException(FirebaseCreateLibraryException(newLibrary.exception?.message.toString()))
+                    addLibraryContinuation.resumeWithException(
+                        FirebaseCreateLibraryException(
+                            newLibrary.exception?.message.toString()
+                        )
+                    )
                 }
+            }
+
+    }
+
+    suspend fun getAllLibraries(): ArrayList<Library> = suspendCancellableCoroutine {getAllLibrariesContinue ->
+
+        var librariesList = arrayListOf<Library>()
+
+        nelsDB
+            .collection("libraries")
+            .get()
+            .addOnCompleteListener {libraries ->
+
+                if(libraries.isSuccessful){
+
+                    for (library in libraries.getResult()!!){
+
+                        val inputLibrary = library.toObject(Library::class.java)
+                        librariesList.add(inputLibrary)
+
+                    }
+
+                    getAllLibrariesContinue.resume(librariesList)
+
+                } else {
+
+                    getAllLibrariesContinue.resumeWithException(
+                        FirebaseGetAllLibrariesException(
+                            libraries.exception?.message.toString()
+                        )
+                    )
+
+                }
+
             }
 
     }

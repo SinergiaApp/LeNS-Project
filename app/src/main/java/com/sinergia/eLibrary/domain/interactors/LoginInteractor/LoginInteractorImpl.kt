@@ -1,7 +1,7 @@
 package com.sinergia.eLibrary.domain.interactors.LoginInteractor
 
 import com.google.firebase.auth.FirebaseAuth
-import com.sinergia.eLibrary.presentation.Login.Exceptions.FirebaseLoginException
+import com.sinergia.eLibrary.base.Exceptions.FirebaseLoginException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
@@ -19,7 +19,11 @@ class LoginInteractorImpl: LoginInteractor {
                 if(loginTask.isSuccessful){
                     loginContinuation.resume(Unit)
                 } else {
-                    loginContinuation.resumeWithException(FirebaseLoginException(loginTask.exception?.message.toString()))
+                    loginContinuation.resumeWithException(
+                        FirebaseLoginException(
+                            loginTask.exception?.message.toString()
+                        )
+                    )
                 }
             }
 

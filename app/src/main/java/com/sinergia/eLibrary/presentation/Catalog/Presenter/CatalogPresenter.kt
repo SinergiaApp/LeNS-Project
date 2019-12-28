@@ -1,10 +1,8 @@
 package com.sinergia.eLibrary.presentation.Catalog.Presenter
 
 import android.util.Log
-import com.sinergia.eLibrary.data.Model.Resource
 import com.sinergia.eLibrary.presentation.Catalog.CatalogContract
-import com.sinergia.eLibrary.presentation.Catalog.Exceptions.FirebaseGetAllResourcesException
-import com.sinergia.eLibrary.presentation.Catalog.Model.CatalogViewModel
+import com.sinergia.eLibrary.base.Exceptions.FirebaseGetAllResourcesException
 import com.sinergia.eLibrary.presentation.Catalog.Model.CatalogViewModelImpl
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext

@@ -1,4 +1,4 @@
-package com.sinergia.eLibrary.presentation.Login.Exceptions
+package com.sinergia.eLibrary.base.Exceptions
 
 import java.lang.Exception
 

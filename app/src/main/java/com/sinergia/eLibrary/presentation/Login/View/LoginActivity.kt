@@ -3,6 +3,7 @@ package com.sinergia.eLibrary.presentation.Login.View
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.ViewModelProviders
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.domain.interactors.LoginInteractor.LoginInteractorImpl
@@ -10,16 +11,22 @@ import com.sinergia.eLibrary.presentation.ForgotPassword.View.ForgotPasswordActi
 import com.sinergia.eLibrary.presentation.Login.LoginContract
 import com.sinergia.eLibrary.presentation.Login.Presenter.LoginPresenter
 import com.sinergia.eLibrary.presentation.Catalog.View.CatalogActivity
+import com.sinergia.eLibrary.presentation.Login.Model.LoginViewModel
+import com.sinergia.eLibrary.presentation.Login.Model.LoginViewModelImpl
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity(), LoginContract.LoginView {
 
-    //BASEACTIVITY METHODS
+
     lateinit var loginPresenter: LoginPresenter
+    lateinit var loginViewModel: LoginViewModel
+
+    //BASEACTIVITY METHODS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        loginPresenter = LoginPresenter(LoginInteractorImpl())
+        loginPresenter = LoginPresenter(LoginInteractorImpl(), LoginViewModelImpl())
         loginPresenter.attachView(this)
+        loginViewModel = ViewModelProviders.of(this).get(LoginViewModelImpl::class.java)
 
         login_pass_forgotten.setOnClickListener() { forgotPass() }
         login_btn.setOnClickListener(){ login() }

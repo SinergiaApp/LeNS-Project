@@ -2,7 +2,7 @@ package com.sinergia.eLibrary.presentation.Register.Presenter
 
 import android.util.Log
 import com.sinergia.eLibrary.domain.interactors.RegisterInteractor.RegisterInteractor
-import com.sinergia.eLibrary.presentation.Register.Exceptions.FirebaseRegisterException
+import com.sinergia.eLibrary.base.Exceptions.FirebaseRegisterException
 import com.sinergia.eLibrary.presentation.Register.FirebaseAddUserException
 import com.sinergia.eLibrary.presentation.Register.Model.RegisterViewModel
 import com.sinergia.eLibrary.presentation.Register.RegisterContract

@@ -1,4 +1,4 @@
-package com.sinergia.eLibrary.presentation.AdminZone.Exceptions
+package com.sinergia.eLibrary.base.Exceptions
 
 import java.lang.Exception
 

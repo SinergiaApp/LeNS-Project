@@ -11,15 +11,15 @@ interface LibrariesContract {
         fun showLibrariesProgressBar()
         fun hideLibrariesProgressBar()
 
-        fun initLibrariesContent(librariesList: List<Library>)
+        fun initLibrariesContent(librariesList: ArrayList<Library>?)
 
     }
 
     interface LibrariesPresenter{
 
-        fun attachView()
+        fun attachView(view: LibrariesContract.LibrariesView)
         fun dettachView()
-        fun isViewAttached(view: LibrariesContract.LibrariesView): Boolean
+        fun isViewAttached(): Boolean
         fun dettachJob()
 
         fun getAllLibraries()

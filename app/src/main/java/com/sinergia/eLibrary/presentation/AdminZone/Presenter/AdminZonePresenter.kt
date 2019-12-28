@@ -3,9 +3,8 @@ package com.sinergia.eLibrary.presentation.AdminZone.Presenter
 import android.util.Log
 import com.google.firebase.firestore.GeoPoint
 import com.sinergia.eLibrary.presentation.AdminZone.AdminZoneContract
-import com.sinergia.eLibrary.presentation.AdminZone.Exceptions.FirebaseCreateLibraryException
-import com.sinergia.eLibrary.presentation.AdminZone.Exceptions.FirebaseCreateResourceException
-import com.sinergia.eLibrary.presentation.AdminZone.Model.AdminViewModel
+import com.sinergia.eLibrary.base.Exceptions.FirebaseCreateLibraryException
+import com.sinergia.eLibrary.base.Exceptions.FirebaseCreateResourceException
 import com.sinergia.eLibrary.presentation.AdminZone.Model.AdminViewModelImpl
 import kotlinx.coroutines.*
 import java.util.regex.Pattern

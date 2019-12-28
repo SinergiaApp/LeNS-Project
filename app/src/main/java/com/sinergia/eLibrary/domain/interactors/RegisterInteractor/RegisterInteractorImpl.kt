@@ -3,10 +3,8 @@ package com.sinergia.eLibrary.domain.interactors.RegisterInteractor
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
-import com.sinergia.eLibrary.domain.UseCases.UserUseCase
-import com.sinergia.eLibrary.presentation.Register.Exceptions.FirebaseRegisterException
+import com.sinergia.eLibrary.base.Exceptions.FirebaseRegisterException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.resumeCancellableWith
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -37,12 +35,20 @@ class RegisterInteractorImpl: RegisterInteractor {
                             } else {
                                 val errorMsg = registerTask.exception?.message.toString()
                                 Log.d(TAG, "ERROR: Cannot update user profile after register with email $email --> $errorMsg")
-                                registerContinuation.resumeWithException(FirebaseRegisterException(errorMsg))
+                                registerContinuation.resumeWithException(
+                                    FirebaseRegisterException(
+                                        errorMsg
+                                    )
+                                )
                             }
                         }
 
                 } else {
-                    registerContinuation.resumeWithException(FirebaseRegisterException(registerTask.exception?.message.toString()))
+                    registerContinuation.resumeWithException(
+                        FirebaseRegisterException(
+                            registerTask.exception?.message.toString()
+                        )
+                    )
                 }
             }
 

@@ -2,7 +2,7 @@ package com.sinergia.eLibrary.presentation.ForgotPassword.Presenter
 
 import android.util.Log
 import com.sinergia.eLibrary.domain.interactors.ForgotPasswordInteractor.ForgotPasswordInteractor
-import com.sinergia.eLibrary.presentation.ForgotPassword.Exceptions.FirebaseResetPasswordException
+import com.sinergia.eLibrary.base.Exceptions.FirebaseResetPasswordException
 import com.sinergia.eLibrary.presentation.ForgotPassword.ForgotPasswordContract
 import com.sinergia.eLibrary.presentation.ForgotPassword.ForgotPasswordContract.ForgotPasswordView
 import kotlinx.coroutines.*
