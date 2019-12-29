@@ -15,22 +15,32 @@
         android:theme="@style/Theme.AppCompat.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".presentation.Libraries.View.LibraiesActivity"></activity>
-        <activity android:name=".presentation.MainMenu.View.MainMenuActivity" android:label="@string/title_activity_main_menu" />
-        <activity android:name=".presentation.Catalog.View.CatalogActivity" />
-        <activity android:name=".presentation.ForgotPassword.View.ForgotPasswordActivity" />
-        <activity android:name=".presentation.Register.View.RegisterActivity" />
-        <activity android:name=".presentation.Login.View.AuthLoginActivity" />
-        <activity android:name=".presentation.Login.View.LoginActivity" />
-        <activity android:name=".presentation.AdminZone.View.AdminZoneActivity" />
+        <!-- ACTIVITIES -->
+            <!-- MAIN ACTIVITY -->
+            <activity android:name=".presentation.Main.View.MainActivity">
+                <intent-filter>
+                    <action android:name="android.intent.action.MAIN" />
 
-        <activity android:name=".presentation.Main.View.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+                    <category android:name="android.intent.category.LAUNCHER" />
+                </intent-filter>
+            </activity>
+            <!-- LOGIN -->
+            <activity android:name=".presentation.Login.View.LoginActivity" />
+            <!-- LOGIN AUTH -->
+            <activity android:name=".presentation.Login.View.AuthLoginActivity" />
+            <!-- REGISTER -->
+            <activity android:name=".presentation.Register.View.RegisterActivity" />
+            <!-- FORGOT PASSWORD -->
+            <activity android:name=".presentation.ForgotPassword.View.ForgotPasswordActivity" />
+            <!-- MAIN MENU -->
+            <activity android:name=".presentation.MainMenu.View.MainMenuActivity" android:label="@string/title_activity_main_menu" />
+            <!-- RESOURCES CATALOG -->
+            <activity android:name=".presentation.Catalog.View.CatalogActivity" />
+            <!-- LIBRARIES CATALOG -->
+            <activity android:name=".presentation.Libraries.View.LibraiesActivity" />
+            <activity android:name=".presentation.Libraries.View.LibraryActivity"></activity>
+            <!-- ADMIN ZONE -->
+            <activity android:name=".presentation.AdminZone.View.AdminZoneActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

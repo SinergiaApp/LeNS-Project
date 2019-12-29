@@ -134,7 +134,7 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
 
         launch {
 
-            Log.d(TAG, "Trying to create new Library with name $nombre.")
+            Log.d(TAG, "Trying to create new LibraryActivity with name $nombre.")
             view?.showAddLibraryProgressBar()
             view?.disableAddLibraryButton()
 
@@ -147,7 +147,7 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
                     view?.showMessage("La Biblioteca se ha creado satisfactoriamente.")
                     view?.navigateToMainPage()
                 }
-                Log.d(TAG, "Succesfully creates new Library.")
+                Log.d(TAG, "Succesfully creates new LibraryActivity.")
 
             } catch (error: FirebaseCreateLibraryException){
 
@@ -156,7 +156,7 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
                 view?.hideAddLibraryProgressBar()
                 view?.enableAddLibraryButton()
 
-                Log.d(TAG, "ERROR: Cannot create new Library with name $nombre --> $errorMsg.")
+                Log.d(TAG, "ERROR: Cannot create new LibraryActivity with name $nombre --> $errorMsg.")
 
             }
 

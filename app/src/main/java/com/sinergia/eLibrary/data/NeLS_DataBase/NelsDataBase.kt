@@ -2,14 +2,10 @@ package com.sinergia.eLibrary.data.NeLS_DataBase
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.GeoPoint
+import com.sinergia.eLibrary.base.Exceptions.*
 import com.sinergia.eLibrary.data.Model.Library
 import com.sinergia.eLibrary.data.Model.Resource
 import com.sinergia.eLibrary.data.Model.User
-import com.sinergia.eLibrary.base.Exceptions.FirebaseCreateLibraryException
-import com.sinergia.eLibrary.base.Exceptions.FirebaseCreateResourceException
-import com.sinergia.eLibrary.base.Exceptions.FirebaseGetAllResourcesException
-import com.sinergia.eLibrary.base.Exceptions.FirebaseGetAllLibrariesException
-import com.sinergia.eLibrary.base.Exceptions.FirebaseGetUserException
 import com.sinergia.eLibrary.presentation.Register.FirebaseAddUserException
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
@@ -196,6 +192,7 @@ class NelsDataBase {
                     for (library in libraries.getResult()!!){
 
                         val inputLibrary = library.toObject(Library::class.java)
+                        inputLibrary.id = library.id
                         librariesList.add(inputLibrary)
 
                     }
@@ -213,6 +210,32 @@ class NelsDataBase {
                 }
 
             }
+
+    }
+
+    suspend fun getLibrary(id: String): Library = suspendCancellableCoroutine{getLibraryContinuation ->
+
+        nelsDB
+            .collection("libraries")
+            .document(id)
+            .get()
+            .addOnCompleteListener {library ->
+
+                if(library.isSuccessful){
+
+                    val libraryDB = library.getResult()!!.toObject(Library::class.java)
+                    libraryDB?.id = library.getResult()!!.id
+                    getLibraryContinuation.resume(libraryDB!!)
+
+                } else {
+
+                    getLibraryContinuation.resumeWithException(FirebaseGetLibraryException(library.exception?.message.toString()))
+
+                }
+
+
+            }
+
 
     }
 

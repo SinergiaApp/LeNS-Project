@@ -12,6 +12,10 @@ class LibraryUseCases {
         return nelsDB.getAllLibraries()
     }
 
+    suspend fun getLibrary(id: String): Library{
+        return nelsDB.getLibrary(id)
+    }
+
     suspend fun addLibrary(nombre: String, direccion: String, geopoint: GeoPoint) {
         nelsDB.addLibrary(nombre, direccion, geopoint)
     }

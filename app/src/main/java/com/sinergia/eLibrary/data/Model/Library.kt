@@ -4,8 +4,9 @@ import com.google.firebase.firestore.GeoPoint
 
 data class Library (
 
-    var name: String = "Desconcido",
-    var address: String = "Desconocida",
+    var id: String = "Identificador Desconocido",
+    var name: String = "Nombre Desconcido",
+    var address: String = "Dirección Desconocida",
     var geopoint: GeoPoint = GeoPoint(0.0, 0.0)
 
 )
