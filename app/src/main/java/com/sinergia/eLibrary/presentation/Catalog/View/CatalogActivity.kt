@@ -112,22 +112,27 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
                 val title = TextView(this)
                 val titletxt = book.title
                 title.setText("Título: $titletxt.")
+                title.setTextColor(ContextCompat.getColor(this, R.color.colorBlack))
                 //Autor del Libro
                 val author = TextView(this)
                 val authortxt = book.author
                 author.setText("Autor: $authortxt.")
+                author.setTextColor(ContextCompat.getColor(this, R.color.colorBlack))
                 //Editorial del Libro
                 val publisher = TextView(this)
                 val publishertxt = book.publisher
                 publisher.setText("Editorial: $publishertxt.")
+                publisher.setTextColor(ContextCompat.getColor(this, R.color.colorBlack))
                 //Edición del Libro
                 val edition = TextView(this)
                 val editiontxt = book.edition
                 edition.setText("Edicion: $editiontxt.")
+                edition.setTextColor(ContextCompat.getColor(this, R.color.colorBlack))
                 //ISBN del Libro
                 val isbn = TextView(this)
                 val isbntxt =book.isbn
                 isbn.setText("ISBN: $isbntxt.")
+                isbn.setTextColor(ContextCompat.getColor(this, R.color.colorBlack))
 
 
                 description.addView(title)
