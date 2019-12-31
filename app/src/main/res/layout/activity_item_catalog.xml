@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/garybackground"
+    tools:context=".presentation.Catalog.View.ItemCatalogActivity">
+
+    <RelativeLayout
+        android:id="@+id/main_page_header"
+        android:layout_width="match_parent"
+        android:layout_height="125px"
+        android:background="@color/colorGrayHeader"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/menu_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:srcCompat="@android:drawable/ic_dialog_dialer" />
+
+        <TextView
+            android:id="@+id/page_title"
+            android:layout_width="348dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="22dp"
+            android:layout_toEndOf="@+id/menu_button"
+            android:fontFamily="@font/imprima"
+            android:gravity="center_vertical|right"
+            android:paddingRight="20dp"
+            android:text=""
+            android:textColor="@color/colorWhite"
+            android:textSize="24sp" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="125px"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="10dp"
+            android:orientation="vertical"
+            android:padding="10dp"
+            tools:layout_editor_absoluteX="103dp"
+            tools:layout_editor_absoluteY="0dp">
+
+            <ProgressBar
+                android:id="@+id/item_catalog_progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="100dp"
+                android:visibility="visible"/>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/item_catalog_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:elevation="10dp"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:visibility="gone"
+                tools:layout_editor_absoluteX="103dp"
+                tools:layout_editor_absoluteY="0dp">
+
+                <TextView
+                    android:id="@+id/item_catalog_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="Nombre del Libro"
+                    android:textAlignment="center"
+                    android:textSize="30dp" />
+
+                <ImageView
+                    android:id="@+id/item_catalog_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:src="@drawable/biblioteca" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/list_item_content_style">
+
+                    <TextView
+                        android:id="@+id/item_catalog_isbn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="ISBN del Libro."
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/item_catalog_author"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="Autor del Libro."
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/item_catalog_publisher"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="Editorial del Libro."
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/item_catalog_edition"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="Edición del Libro."
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/item_catalog_sinopsis"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="Sinopsis del Libro."
+                        android:textSize="15dp" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/library_map"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,6 +14,7 @@ interface CatalogContract {
         fun hideCatalogProgressBar()
 
         fun initCatalog(resourcesList: ArrayList<Resource>?)
+        fun navigateToBook(isbn: String)
 
     }
 

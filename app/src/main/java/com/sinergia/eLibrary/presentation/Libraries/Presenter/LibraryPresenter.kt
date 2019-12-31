@@ -4,6 +4,7 @@ import android.util.Log
 import com.sinergia.eLibrary.base.Exceptions.FirebaseGetLibraryException
 import com.sinergia.eLibrary.presentation.Libraries.LibraryContract
 import com.sinergia.eLibrary.presentation.Libraries.Model.LibraryViewModelImpl
+import com.sinergia.eLibrary.presentation.NeLSProject
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
@@ -47,7 +48,7 @@ class LibraryPresenter(libraryViewModel: LibraryViewModelImpl): LibraryContract.
 
             try{
 
-                val library = libraryViewModel?.getLibrary("")
+                val library = libraryViewModel?.getLibrary(NeLSProject.library)
                 view?.hideLibraryProgressBar()
                 view?.showLibraryContent()
                 view?.initLibraryContent(library)

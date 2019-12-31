@@ -3,18 +3,21 @@ package com.sinergia.eLibrary.presentation.Catalog.View
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.presentation.Catalog.CatalogContract
 import kotlinx.android.synthetic.main.activity_catalog.*
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import com.sinergia.eLibrary.data.Model.Resource
 import com.sinergia.eLibrary.presentation.Catalog.Model.CatalogViewModel
 import com.sinergia.eLibrary.presentation.Catalog.Model.CatalogViewModelImpl
 import com.sinergia.eLibrary.presentation.Catalog.Presenter.CatalogPresenter
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
+import com.sinergia.eLibrary.presentation.NeLSProject
 
 
 class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
@@ -72,9 +75,30 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
 
             for (book in resourcesList) {
                 val resource = LinearLayout(this)
-                resource.setOrientation(LinearLayout.HORIZONTAL)
+                var params = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT
+                ).apply {
+                    gravity = Gravity.CENTER_HORIZONTAL
+                    weight = LinearLayout.LayoutParams.MATCH_PARENT.toFloat()
+                    height = LinearLayout.LayoutParams.MATCH_PARENT
+                    bottomMargin = 100
+                }
+                resource.orientation = LinearLayout.HORIZONTAL
+                resource.setBackground(ContextCompat.getDrawable(this, R.drawable.list_resource_style))
+                resource.layoutParams = params
+                resource.setPadding(20,10,20,10)
                 val description = LinearLayout(this)
+                params = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT
+                ).apply {
+                    gravity = Gravity.CENTER_VERTICAL
+                    weight = LinearLayout.LayoutParams.MATCH_PARENT.toFloat()
+                    height = LinearLayout.LayoutParams.MATCH_PARENT
+                }
                 description.setOrientation(LinearLayout.VERTICAL)
+                description.layoutParams = params
 
 
                 val imageLayout = RelativeLayout(this)
@@ -114,6 +138,9 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
 
                 resource.addView(imageLayout)
                 resource.addView(description)
+                resource.setOnClickListener {
+                    navigateToBook(book.isbn)
+                }
                 catalog_content.addView(resource)
             }
 
@@ -125,6 +152,11 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
         val activityName : String = getPageTitle()
         mainMenuIntent.putExtra("activityName", activityName)
         startActivity(mainMenuIntent)
+    }
+
+    override fun navigateToBook(isbn: String) {
+        NeLSProject.book = isbn
+        startActivity(Intent(this, ItemCatalogActivity::class.java))
     }
 
     override fun onDetachedFromWindow() {

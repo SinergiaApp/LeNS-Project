@@ -157,7 +157,7 @@ class NelsDataBase {
 
         val newLibrary: HashMap<String, Any> = hashMapOf(
             "name" to nombre,
-            "direccion" to direccion,
+            "address" to direccion,
             "geopoint" to geopoint
         )
 

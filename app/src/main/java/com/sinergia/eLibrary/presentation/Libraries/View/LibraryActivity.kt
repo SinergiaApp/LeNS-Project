@@ -10,6 +10,7 @@ import com.sinergia.eLibrary.presentation.Libraries.LibraryContract
 import com.sinergia.eLibrary.presentation.Libraries.Model.LibraryViewModel
 import com.sinergia.eLibrary.presentation.Libraries.Model.LibraryViewModelImpl
 import com.sinergia.eLibrary.presentation.Libraries.Presenter.LibraryPresenter
+import com.sinergia.eLibrary.presentation.NeLSProject
 import kotlinx.android.synthetic.main.activity_libraies.page_title
 import kotlinx.android.synthetic.main.activity_library.*
 
@@ -39,7 +40,7 @@ class LibraryActivity : BaseActivity(), LibraryContract.LibraryView {
     }
 
     override fun getPageTitle(): String {
-        return "BIBLIOTECA"
+        return NeLSProject.library
     }
 
 

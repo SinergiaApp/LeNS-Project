@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
@@ -19,6 +20,7 @@ import com.sinergia.eLibrary.presentation.Libraries.Model.LibrariesViewModel
 import com.sinergia.eLibrary.presentation.Libraries.Model.LibrariesViewModelImpl
 import com.sinergia.eLibrary.presentation.Libraries.Presenter.LibrariesPresenter
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
+import com.sinergia.eLibrary.presentation.NeLSProject
 import kotlinx.android.synthetic.main.activity_libraies.*
 import kotlinx.android.synthetic.main.activity_libraies.menu_button
 
@@ -87,8 +89,9 @@ class LibraiesActivity : BaseActivity(), LibrariesContract.LibrariesView {
                         bottomMargin = 100
                     }
                 resource.orientation = LinearLayout.VERTICAL
-                resource.setBackgroundColor(Color.GRAY)
+                resource.setBackground(ContextCompat.getDrawable(this, R.drawable.list_resource_style))
                 resource.layoutParams = params
+                resource.setPadding(20,10,20,10)
                 val description = LinearLayout(this)
                 description.setOrientation(LinearLayout.VERTICAL)
 
@@ -105,13 +108,22 @@ class LibraiesActivity : BaseActivity(), LibrariesContract.LibrariesView {
                 val nametxt = library.name
                 name.setText(nametxt)
                 name.setTextSize(TypedValue.COMPLEX_UNIT_SP,30.toFloat())
+                name.setTextColor(ContextCompat.getColor(this, R.color.colorBlack))
 
                 resource.addView(name)
                 resource.addView(imageLayout)
+                resource.setOnClickListener {
+                    navigateToLibrary(library.id)
+                }
                 libraries_content.addView(resource)
             }
 
         }
+    }
+
+    override fun navigateToLibrary(library: String) {
+        NeLSProject.library = library
+        startActivity(Intent(this, LibraryActivity::class.java))
     }
 
     override fun onDetachedFromWindow() {
