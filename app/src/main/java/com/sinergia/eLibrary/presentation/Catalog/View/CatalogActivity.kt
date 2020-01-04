@@ -40,7 +40,6 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
         catalogViewModel = ViewModelProviders.of(this).get(CatalogViewModelImpl::class.java)
 
         main_page_title.text = getPageTitle()
-
         menu_button.setOnClickListener { startActivity(Intent(this, MainMenuActivity::class.java)) }
 
         catalogPresenter.getAllResourcesToCatalog()

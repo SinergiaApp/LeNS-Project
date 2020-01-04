@@ -48,7 +48,7 @@ class LibraryPresenter(libraryViewModel: LibraryViewModelImpl): LibraryContract.
 
             try{
 
-                val library = libraryViewModel?.getLibrary(NeLSProject.library)
+                val library = libraryViewModel?.getLibrary(isbn)
                 view?.hideLibraryProgressBar()
                 view?.showLibraryContent()
                 view?.initLibraryContent(library)

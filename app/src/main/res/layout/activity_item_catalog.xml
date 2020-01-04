@@ -75,12 +75,12 @@
                 android:elevation="10dp"
                 android:orientation="vertical"
                 android:padding="10dp"
-                android:visibility="gone"
+                android:visibility="visible"
                 tools:layout_editor_absoluteX="103dp"
                 tools:layout_editor_absoluteY="0dp">
 
                 <TextView
-                    android:id="@+id/item_catalog_name"
+                    android:id="@+id/item_catalog_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -149,11 +149,6 @@
                         android:textSize="15dp" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <com.google.android.gms.maps.MapView
-                    android:id="@+id/library_map"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

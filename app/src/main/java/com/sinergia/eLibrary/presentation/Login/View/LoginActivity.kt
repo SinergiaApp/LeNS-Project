@@ -13,6 +13,7 @@ import com.sinergia.eLibrary.presentation.Login.Presenter.LoginPresenter
 import com.sinergia.eLibrary.presentation.Catalog.View.CatalogActivity
 import com.sinergia.eLibrary.presentation.Login.Model.LoginViewModel
 import com.sinergia.eLibrary.presentation.Login.Model.LoginViewModelImpl
+import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity(), LoginContract.LoginView {
@@ -74,7 +75,7 @@ class LoginActivity : BaseActivity(), LoginContract.LoginView {
     }
 
     override fun navigateToMainPage() {
-        val intentMainPage = Intent(this, CatalogActivity::class.java)
+        val intentMainPage = Intent(this, MainMenuActivity::class.java)
         intentMainPage.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intentMainPage)
     }

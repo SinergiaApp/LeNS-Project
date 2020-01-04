@@ -21,9 +21,9 @@ class MainMenuActivity : BaseActivity(), MainMenuContract.MainContractView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_menu)
 
-        main_page_title.text = intent.getStringExtra("activityName")
-
         showHideAdminZone(NeLSVars.adminUser)
+
+        page_title.text = getPageTitle()
 
         menu_button.setOnClickListener { finish() }
 

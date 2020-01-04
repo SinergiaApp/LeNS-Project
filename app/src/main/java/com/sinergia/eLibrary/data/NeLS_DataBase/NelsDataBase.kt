@@ -97,18 +97,23 @@ class NelsDataBase {
 
     }
 
-    fun getResource(isbn: String){
+    suspend fun getResource(isbn: String): Resource = suspendCancellableCoroutine{ getResourceContinuation ->
 
         nelsDB
-            .collection("resources/$isbn")
+            .collection("resources")
+            .document(isbn)
             .get()
-            .addOnCompleteListener {resource ->
+            .addOnCompleteListener { resource ->
 
                 if(resource.isSuccessful){
-                    //TODO: CallBack de onGetResourceSuccess. Pendiente de programar.
-                    //TODO: Recuerda, hay que devolver en el CallBack resource.toObject(Resource::class.java)
+
+                    val resourceDB = resource.getResult()!!.toObject(Resource::class.java)
+                    getResourceContinuation.resume(resourceDB!!)
+
                 } else {
-                  //TODO: CallBack de onGetResourcFailure. Pendiente de programar.
+
+                    getResourceContinuation.resumeWithException(FirebaseGetResourceException(resource.exception?.message.toString()))
+
                 }
 
             }

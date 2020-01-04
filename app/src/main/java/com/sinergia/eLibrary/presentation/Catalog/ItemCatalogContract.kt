@@ -1,6 +1,7 @@
 package com.sinergia.eLibrary.presentation.Catalog
 
-import io.opencensus.resource.Resource
+import com.sinergia.eLibrary.data.Model.Resource
+
 
 interface ItemCatalogContract {
 
@@ -13,7 +14,7 @@ interface ItemCatalogContract {
         fun showItemCatalogContent()
         fun hideItemCatalogContent()
 
-        fun initItemCatalogContent()
+        fun initItemCatalogContent(resource: Resource?)
 
     }
 

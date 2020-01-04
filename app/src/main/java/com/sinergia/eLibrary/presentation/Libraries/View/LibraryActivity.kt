@@ -1,5 +1,6 @@
 package com.sinergia.eLibrary.presentation.Libraries.View
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
@@ -10,9 +11,12 @@ import com.sinergia.eLibrary.presentation.Libraries.LibraryContract
 import com.sinergia.eLibrary.presentation.Libraries.Model.LibraryViewModel
 import com.sinergia.eLibrary.presentation.Libraries.Model.LibraryViewModelImpl
 import com.sinergia.eLibrary.presentation.Libraries.Presenter.LibraryPresenter
+import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import com.sinergia.eLibrary.presentation.NeLSProject
+import kotlinx.android.synthetic.main.activity_catalog.*
 import kotlinx.android.synthetic.main.activity_libraies.page_title
 import kotlinx.android.synthetic.main.activity_library.*
+import kotlinx.android.synthetic.main.activity_library.menu_button
 
 class LibraryActivity : BaseActivity(), LibraryContract.LibraryView {
 
@@ -29,8 +33,9 @@ class LibraryActivity : BaseActivity(), LibraryContract.LibraryView {
         libraryViewModel= ViewModelProviders.of(this).get(LibraryViewModelImpl::class.java)
 
         page_title.text = getPageTitle()
+        menu_button.setOnClickListener { startActivity(Intent(this, MainMenuActivity::class.java)) }
 
-        libraryPresenter.getLibrary("")
+        libraryPresenter.getLibrary(NeLSProject.library)
 
 
     }
