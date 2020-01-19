@@ -72,7 +72,6 @@ class LoginPresenter(loginInteractor: LoginInteractor, loginViewModel: LoginView
                 try{
                     val currentUser = loginViewModel?.getCurrentUser(email)
                     NeLSVars.adminUser = currentUser!!.admin
-                    view?.showMessage(NeLSVars.adminUser.toString())
                 }catch (error: FirebaseGetUserException){
                     val errorMsg = error.message
                     if(isViewAttach()) view?.showError("Aviso:No se han recuperado tus privilegios de la base de datos.")

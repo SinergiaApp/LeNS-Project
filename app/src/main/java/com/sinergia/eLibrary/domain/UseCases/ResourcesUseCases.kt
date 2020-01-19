@@ -15,8 +15,20 @@ class ResourcesUseCases {
         return nelsDB.getResource(isbn)
     }
 
-    suspend fun addResource(titulo: String, autor: String, isbn: String, edicion: String, editorial: String, sinopsis: String){
-        nelsDB.addResource(titulo, autor, isbn, edicion, editorial, sinopsis)
+    suspend fun addResource(titulo: String,
+                            autores: List<String>,
+                            isbn: String, edicion:
+                            String, editorial: String,
+                            sinopsis: String,
+                            disponibility: MutableMap<String, Integer>,
+                            likes: MutableList<String>,
+                            dislikes: MutableList<String>)
+    {
+        nelsDB.addResource(titulo, autores, isbn, edicion, editorial, sinopsis, disponibility, likes, dislikes)
+    }
+
+    suspend fun setResource(resource: Resource){
+        nelsDB.setResource(resource)
     }
 
 }

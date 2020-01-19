@@ -14,7 +14,9 @@ interface CatalogContract {
         fun hideCatalogProgressBar()
 
         fun initCatalog(resourcesList: ArrayList<Resource>?)
+        fun initCatalog(resource: Resource?)
         fun navigateToBook(isbn: String)
+        fun eraseCatalog()
 
     }
 
@@ -25,6 +27,10 @@ interface CatalogContract {
         fun isViewAttach(): Boolean
         fun dettachJob()
         fun getAllResourcesToCatalog()
+        fun getResourceToCatalog(isbn: String)
+        fun initScan()
+
+        fun setLikes(resource: Resource, usuario: String, puntuacion: Int)
 
     }
 }

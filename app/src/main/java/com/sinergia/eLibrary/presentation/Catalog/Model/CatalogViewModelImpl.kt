@@ -12,4 +12,12 @@ class CatalogViewModelImpl: ViewModel(), CatalogViewModel {
     override suspend fun getAllResourcesToCatalog(): ArrayList<Resource> {
         return resourceUseCase.getAllResourcesToCatalog()
     }
+
+    override suspend fun getResourceToCatalog(isbn: String): Resource? {
+        return resourceUseCase.getResource(isbn)
+    }
+
+    override suspend fun setLikes(resource: Resource) {
+        resourceUseCase.setResource(resource)
+    }
 }

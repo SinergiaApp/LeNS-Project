@@ -11,7 +11,6 @@ interface LoginContract {
         fun enableLoginButton()
         fun disableLoginButton()
         fun login()
-        fun googleLogin()
         fun forgotPass()
         fun navigateToMainPage()
 

@@ -15,6 +15,7 @@ import com.sinergia.eLibrary.presentation.Login.Model.LoginViewModel
 import com.sinergia.eLibrary.presentation.Login.Model.LoginViewModelImpl
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_main.*
 
 class LoginActivity : BaseActivity(), LoginContract.LoginView {
 
@@ -102,10 +103,6 @@ class LoginActivity : BaseActivity(), LoginContract.LoginView {
             loginPresenter.logInWithEmailAndPassword(email, password)
         }
 
-    }
-
-    override fun googleLogin() {
-        toastL(this, "Esto aun no va!! =(, no le des mas al botón pesadilla !!")
     }
 
     override fun onDetachedFromWindow() {

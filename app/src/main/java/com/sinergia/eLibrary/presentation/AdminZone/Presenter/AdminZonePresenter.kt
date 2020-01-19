@@ -5,6 +5,8 @@ import com.google.firebase.firestore.GeoPoint
 import com.sinergia.eLibrary.presentation.AdminZone.AdminZoneContract
 import com.sinergia.eLibrary.base.Exceptions.FirebaseCreateLibraryException
 import com.sinergia.eLibrary.base.Exceptions.FirebaseCreateResourceException
+import com.sinergia.eLibrary.base.Exceptions.FirebaseGetAllLibrariesException
+import com.sinergia.eLibrary.data.Model.Library
 import com.sinergia.eLibrary.presentation.AdminZone.Model.AdminViewModelImpl
 import kotlinx.coroutines.*
 import java.util.regex.Pattern
@@ -70,13 +72,22 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
         return sinopsis.isNullOrEmpty()
     }
 
-    override fun checkValidIBAN(isbn: String): Boolean {
+    override fun checkValidISBN(isbn: String): Boolean {
         val isbn_regex: String = "^(?:ISBN(?:-1[03])?:? )?(?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]$"
         val isbn_pattern = Pattern.compile(isbn_regex)
         return isbn_pattern.matcher(isbn).matches()
     }
 
-    override fun addNewResource(titulo: String, autor: String, isbn: String, edicion: String, editorial: String, sinopsis: String) {
+    override fun addNewResource(
+        titulo: String,
+        autores: List<String>,
+        isbn: String,
+        edicion: String,
+        editorial: String,
+        sinopsis: String,
+        librariesDisponibility: MutableMap<String, Integer>,
+        likes: MutableList<String>,
+        dislikes: MutableList<String>) {
 
         launch {
 
@@ -84,7 +95,7 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
             view?.disableAddResourceButton()
 
             try {
-                adminViewModel?.addNewResource(titulo, autor, isbn, edicion, editorial, sinopsis)
+                adminViewModel?.addNewResource(titulo, autores, isbn, edicion, editorial, sinopsis, librariesDisponibility, likes, dislikes)
 
                 if(isViewAttach()){
                     view?.hideAddResourceProgressBar()
@@ -105,8 +116,8 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
                 Log.d(TAG, "ERROR: Cannot create new Resource with name $titulo --> $errorMsg.")
             }
 
-
         }
+
     }
 
     //ADD LIBRARY METHODS

@@ -46,7 +46,7 @@
                 android:layout_width="65dp"
                 android:layout_height="19dp"
                 android:textColor="@color/colorBlack"
-                android:text="Título:" />
+                android:text="Título:"/>
 
             <EditText
                 android:id="@+id/admin_zone_bookTitle"
@@ -62,10 +62,10 @@
 
             <TextView
                 android:id="@+id/BookExplainText2"
-                android:layout_width="65dp"
+                android:layout_width="wrap_content"
                 android:layout_height="19dp"
                 android:textColor="@color/colorBlack"
-                android:text="Autor:" />
+                android:text="Autores (Separados por ';'):" />
 
             <EditText
                 android:id="@+id/admin_zone_bookAuthor"
@@ -77,7 +77,7 @@
                 android:textColor="@color/colorBlack"
                 android:inputType="textCapSentences"
                 android:ems="2"
-                android:hint="Autor del Libro" />
+                android:hint="Autor del Libro"/>
 
             <TextView
                 android:id="@+id/BookExplainText3"
@@ -96,7 +96,7 @@
                 android:textColor="@color/colorBlack"
                 android:inputType="textCapSentences"
                 android:ems="2"
-                android:hint="Edición del Libro" />
+                android:hint="Edición del Libro"/>
 
             <TextView
                 android:id="@+id/BookExplainText4"
@@ -115,14 +115,14 @@
                 android:textColor="@color/colorBlack"
                 android:inputType="textCapSentences"
                 android:ems="2"
-                android:hint="Editorial del Libro" />
+                android:hint="Editorial del Libro"/>
 
             <TextView
             android:id="@+id/BookExplainText5"
             android:layout_width="65dp"
             android:layout_height="19dp"
             android:textColor="@color/colorBlack"
-            android:text="IBAN:" />
+            android:text="ISBN:" />
 
             <EditText
                 android:id="@+id/admin_zone_bookISBN"
@@ -134,7 +134,7 @@
                 android:textColor="@color/colorBlack"
                 android:inputType="textCapSentences"
                 android:ems="2"
-                android:hint="IBAN del Libro" />
+                android:hint="ISBN del Libro"/>
 
             <TextView
                 android:id="@+id/BookExplainText6"
@@ -160,63 +160,6 @@
                 android:ems="2"
                 android:textAlignment="inherit"
                 android:hint="Sinopsis del Libro"/>
-
-            <TextView
-                android:id="@+id/libraryExplainText7"
-                android:layout_width="wrap_content"
-                android:layout_height="19dp"
-                android:textColor="@color/colorBlack"
-                android:text="Disponibilidad Actual:" />
-
-            <EditText
-                android:id="@+id/admin_zone_bookDisponibility"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/edit_text_login_register"
-                android:textColor="@color/colorBlack"
-                android:ems="2"
-                android:inputType="number"
-                android:maxLength="3"
-                android:hint="Disponibilidad Actual." />
-
-            <TextView
-                android:id="@+id/BookExplainText7"
-                android:layout_width="wrap_content"
-                android:layout_height="19dp"
-                android:textColor="@color/colorBlack"
-                android:text="Bibliotecas que lo tienen:" />
-
-            <RadioGroup
-                android:id="@+id/admin_zone_bookLibraries"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10dp">
-
-                <RadioButton
-                    android:id="@+id/rb_coldfusion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:text="ColdFusion"
-                    android:paddingRight="15dp"
-                    />
-                <RadioButton
-                    android:id="@+id/rb_flex"
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:text="Flex"
-                    android:paddingRight="15dp"
-                    />
-                <RadioButton
-                    android:id="@+id/rb_flash"
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:text="Flash"
-                    android:paddingRight="15dp"
-                    />
-
-            </RadioGroup>
 
             <ProgressBar
                 android:id="@+id/admin_zone_newResourceProgressBar"

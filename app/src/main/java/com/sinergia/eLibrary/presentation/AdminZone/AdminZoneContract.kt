@@ -1,6 +1,8 @@
 package com.sinergia.eLibrary.presentation.AdminZone
 
 import com.google.firebase.firestore.GeoPoint
+import com.sinergia.eLibrary.data.Model.Library
+import com.sinergia.eLibrary.data.Model.Resource
 
 
 interface AdminZoneContract {
@@ -35,7 +37,17 @@ interface AdminZoneContract {
         fun isViewAttach(): Boolean
         fun dettachJob()
 
-        fun addNewResource(titulo: String, autor: String, isbn: String, edicion: String, editorial: String, sinopsis: String)
+        fun addNewResource(
+            titulo: String,
+            autor: List<String>,
+            isbn: String,
+            edicion: String,
+            editorial: String,
+            sinopsis: String,
+            librariesDisponibility: MutableMap<String, Integer>,
+            likes: MutableList<String>,
+            dislikes: MutableList<String>
+        )
         fun addNewLibrary(nombre: String, direccion: String, geopoint: GeoPoint)
 
         fun checkEmptyAddResourceFields(titulo: String, autor: String, isbn: String, edicion: String, editorial: String, sinopsis: String): Boolean
@@ -52,7 +64,7 @@ interface AdminZoneContract {
         fun checkEmptyAddLibraryLatitude(latitud: String): Boolean
         fun checkEmptyAddLibraryLongitude(longitud: String): Boolean
 
-        fun checkValidIBAN(iban: String): Boolean
+        fun checkValidISBN(iban: String): Boolean
 
     }
 

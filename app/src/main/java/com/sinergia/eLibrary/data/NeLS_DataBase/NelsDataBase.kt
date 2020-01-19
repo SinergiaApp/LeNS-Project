@@ -112,7 +112,11 @@ class NelsDataBase {
 
                 } else {
 
-                    getResourceContinuation.resumeWithException(FirebaseGetResourceException(resource.exception?.message.toString()))
+                    getResourceContinuation.resumeWithException(
+                        FirebaseGetResourceException(
+                            resource.exception?.message.toString()
+                        )
+                    )
 
                 }
 
@@ -120,16 +124,28 @@ class NelsDataBase {
 
     }
 
-    suspend fun addResource(titulo: String, autor: String, isbn: String, edicion: String, editorial: String, sinopsis: String): Unit = suspendCancellableCoroutine{addResourceContinuation ->
+    suspend fun addResource(
+        titulo: String,
+        autores: List<String>,
+        isbn: String,
+        edicion: String,
+        editorial: String,
+        sinopsis: String,
+        disponibility: MutableMap<String, Integer>,
+        likes: MutableList<String>,
+        dislikes: MutableList<String>): Unit = suspendCancellableCoroutine{addResourceContinuation ->
 
         val newResource = hashMapOf<String, Any>(
 
             "title" to titulo,
-            "author" to autor,
+            "author" to autores,
             "isbn" to isbn,
             "edition" to edicion,
             "publisher" to editorial,
-            "sinopsis" to sinopsis
+            "sinopsis" to sinopsis,
+            "disponibility" to disponibility,
+            "likes" to likes,
+            "dislikes" to dislikes
 
         )
 
@@ -152,7 +168,24 @@ class NelsDataBase {
 
     }
 
-    fun setResource(){
+    suspend fun setResource(resource: Resource): Unit = suspendCancellableCoroutine{setResourceContinuation ->
+
+        nelsDB
+            .document("resources/${resource.isbn}")
+            .set(resource)
+            .addOnCompleteListener {setResource ->
+
+                if(setResource.isSuccessful){
+                    setResourceContinuation.resume(Unit)
+                } else {
+                    setResourceContinuation.resumeWithException(
+                        FirebaseSetResourceException(
+                            setResource.exception?.message.toString()
+                        )
+                    )
+                }
+
+            }
 
     }
 

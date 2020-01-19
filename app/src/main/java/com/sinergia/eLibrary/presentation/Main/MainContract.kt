@@ -11,6 +11,7 @@ interface MainContract {
 
         fun navToLoginPage()
         fun navToRegisterPage()
+        fun googleLogin()
 
     }
 

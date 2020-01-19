@@ -2,11 +2,18 @@ package com.sinergia.eLibrary.presentation.AdminZone.View
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.TableRow
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.chip.Chip
 import com.google.firebase.firestore.GeoPoint
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
+import com.sinergia.eLibrary.data.Model.Library
 import com.sinergia.eLibrary.presentation.AdminZone.AdminZoneContract
 import com.sinergia.eLibrary.presentation.AdminZone.AdminZoneContract.AdminZonePresenter
 import com.sinergia.eLibrary.presentation.AdminZone.Model.AdminViewModelImpl
@@ -86,6 +93,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
             val edicion = admin_zone_bookEdition.text.toString()
             val editorial = admin_zone_bookPublisher.text.toString()
             val sinopsis = admin_zone_bookSinosis.text.toString()
+            val librariesDisponibility: MutableMap<String, Integer> = mutableMapOf()
 
             if(adminPresenter.checkEmptyAddResourceFields(titulo, autor, isbn, edicion, editorial, sinopsis)){
 
@@ -117,7 +125,10 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
                 enableAddResourceButton()
 
             } else {
-                adminPresenter.addNewResource(titulo, autor, isbn, edicion, editorial, sinopsis)
+
+                var autores = autor.split(";")
+
+                adminPresenter.addNewResource(titulo, autores, isbn, edicion, editorial, sinopsis, librariesDisponibility, mutableListOf(), mutableListOf())
             }
 
         }

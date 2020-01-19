@@ -17,6 +17,7 @@ class MainActivity : BaseActivity(), MainContract.MainView {
 
         main_login_btn.setOnClickListener { navToLoginPage() }
         main_register_btn.setOnClickListener { navToRegisterPage() }
+        main_login_google_btn.setOnClickListener { googleLogin() }
 
     }
 
@@ -52,6 +53,10 @@ class MainActivity : BaseActivity(), MainContract.MainView {
 
     override fun navToRegisterPage() {
         startActivity(Intent(this, RegisterActivity::class.java))
+    }
+
+    override fun googleLogin() {
+        toastL(this, "Esto aun no va!! =(, no le des mas al botón pesadilla !!")
     }
 
 }
