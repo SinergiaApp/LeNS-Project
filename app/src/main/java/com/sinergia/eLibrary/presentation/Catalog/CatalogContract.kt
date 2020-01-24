@@ -1,5 +1,6 @@
 package com.sinergia.eLibrary.presentation.Catalog
 
+import android.content.Context
 import com.sinergia.eLibrary.data.Model.Resource
 
 interface CatalogContract {
@@ -18,6 +19,9 @@ interface CatalogContract {
         fun navigateToBook(isbn: String)
         fun eraseCatalog()
 
+        fun startScan()
+        fun checkAndSetCamentaPermissions()
+
     }
 
     interface CatalogPresenter{
@@ -28,7 +32,8 @@ interface CatalogContract {
         fun dettachJob()
         fun getAllResourcesToCatalog()
         fun getResourceToCatalog(isbn: String)
-        fun initScan()
+
+        fun chekCameraPermissions(context: Context):Boolean
 
         fun setLikes(resource: Resource, usuario: String, puntuacion: Int)
 

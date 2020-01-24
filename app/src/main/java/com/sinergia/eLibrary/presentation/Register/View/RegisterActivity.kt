@@ -77,21 +77,32 @@ class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
     override fun register() {
 
         val name:String = register_name.text.toString().trim()
-        val lastName:String = register_lastname.text.toString().trim()
+        val lastNames:String = register_lastname.text.toString()
+            val lastName1 = lastNames.substring(0, lastNames.indexOf(" "))
+            val lastName2 = lastNames.substring(lastNames.indexOf(" ")+1)
+
         val email:String = register_email.text.toString().trim()
+        val nif:String = register_nif.text.toString().trim()
         val password:String = register_password.text.toString().trim()
         val repeatPassword:String = register_repeatpassword.text.toString().trim()
+        val admin = false
 
-        if(registerPresenter.checkEmptyFields(name, lastName, email, password, repeatPassword)) {
+        if(registerPresenter.checkEmptyFields(name, lastName1, lastName2, email, nif, password, repeatPassword)) {
 
             if (registerPresenter.checkEmptyRegisterName(name)) {
                 register_name.error = "¡Cuidado! El campo 'Nombre' es obligatorio."
             }
-            if (registerPresenter.checkEmptyRegisteraLastName(lastName)) {
+            if (registerPresenter.checkEmptyRegisterLastName1(lastName1)) {
+                register_lastname.error = "¡Cuidado! El campo 'Apellidos' es obligatorio."
+            }
+            if (registerPresenter.checkEmptyRegisterLastName2(lastName2)) {
                 register_lastname.error = "¡Cuidado! El campo 'Apellidos' es obligatorio."
             }
             if (registerPresenter.checkRegisterEmptyEmail(email)) {
                 register_email.error = "¡Cuidado! El campo 'Correo Electrónico' es obligatorio."
+            }
+            if (registerPresenter.checkEmptyRegisterNIF(nif)) {
+                register_lastname.error = "¡Cuidado! El campo 'NIF' es obligatorio."
             }
             if (registerPresenter.checkEmptyRegisterPassword(password)) {
                 register_password.error = "¡Cuidado! El campo 'Contraseña' es obligatorio"
@@ -118,7 +129,7 @@ class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
                 return
             }
 
-            registerPresenter.registerWithEmailAndPassword(name, lastName, email, password)
+            registerPresenter.registerWithEmailAndPassword(name, lastName1, lastName2, email, nif, mutableListOf(), mutableListOf(), admin, password)
 
         }
 

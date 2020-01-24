@@ -6,9 +6,19 @@ class RegisterViewModelImpl: RegisterViewModel {
 
     val userUseCases = UserUseCase()
 
-    override suspend fun addNewUser(name: String, lastname: String, email: String, admin: Boolean, resources: Map<String, String>) {
+    override suspend fun addNewUser(
+        name: String,
+        lastName1: String,
+        lastName2: String,
+        email: String,
+        nif: String,
+        loans: MutableList<String>,
+        favorites: MutableList<String>,
+        admin: Boolean
 
-        userUseCases.addUserDB(name, lastname, email, admin, resources)
+    ) {
+
+        userUseCases.addUserDB(name, lastName1, lastName2, email, nif, loans, favorites, admin)
 
     }
 }

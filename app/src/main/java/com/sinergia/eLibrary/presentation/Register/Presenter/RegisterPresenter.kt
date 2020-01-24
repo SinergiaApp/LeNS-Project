@@ -3,7 +3,7 @@ package com.sinergia.eLibrary.presentation.Register.Presenter
 import android.util.Log
 import com.sinergia.eLibrary.domain.interactors.RegisterInteractor.RegisterInteractor
 import com.sinergia.eLibrary.base.Exceptions.FirebaseRegisterException
-import com.sinergia.eLibrary.presentation.Register.FirebaseAddUserException
+import com.sinergia.eLibrary.base.Exceptions.FirebaseAddUserException
 import com.sinergia.eLibrary.presentation.Register.Model.RegisterViewModel
 import com.sinergia.eLibrary.presentation.Register.RegisterContract
 import kotlinx.coroutines.*
@@ -42,8 +42,8 @@ class RegisterPresenter(registerInteractor: RegisterInteractor, registerViewMode
         return view != null
     }
 
-    override fun checkEmptyFields(name: String, lastName: String, email: String, password: String, repearPassword: String): Boolean {
-        return name.isNullOrEmpty() || lastName.isNullOrEmpty() || email.isNullOrEmpty() || password.isNullOrEmpty() || repearPassword.isNullOrEmpty()
+    override fun checkEmptyFields(name: String, lastName1: String, lastName2: String, email: String, nif: String, password: String, repearPassword: String): Boolean {
+        return name.isNullOrEmpty() || lastName1.isNullOrEmpty() || lastName2.isNullOrEmpty() || email.isNullOrEmpty() || nif.isNullOrEmpty() || password.isNullOrEmpty() || repearPassword.isNullOrEmpty()
     }
 
 
@@ -51,12 +51,20 @@ class RegisterPresenter(registerInteractor: RegisterInteractor, registerViewMode
         return name.isNullOrEmpty()
     }
 
-    override fun checkEmptyRegisteraLastName(lastName: String): Boolean {
-        return lastName.isNullOrEmpty()
+    override fun checkEmptyRegisterLastName1(lastName1: String): Boolean {
+        return lastName1.isNullOrEmpty()
+    }
+
+    override fun checkEmptyRegisterLastName2(lastName2: String): Boolean {
+        return lastName2.isNullOrEmpty()
     }
 
     override fun checkRegisterEmptyEmail(email: String): Boolean {
         return email.isNullOrEmpty()
+    }
+
+    override fun checkEmptyRegisterNIF(nif: String): Boolean {
+        return nif.isNullOrEmpty()
     }
 
     override fun checkEmptyRegisterPassword(password: String): Boolean {
@@ -75,7 +83,17 @@ class RegisterPresenter(registerInteractor: RegisterInteractor, registerViewMode
         return password == repearPassword
     }
 
-    override fun registerWithEmailAndPassword(name: String, lastName: String, email: String, password: String) {
+    override fun registerWithEmailAndPassword(
+        name: String,
+        lastName1: String,
+        lastName2: String,
+        email: String,
+        nif: String,
+        loans: MutableList<String>,
+        favorites: MutableList<String>,
+        admin: Boolean,
+        password: String
+    ) {
 
         launch {
 
@@ -85,7 +103,7 @@ class RegisterPresenter(registerInteractor: RegisterInteractor, registerViewMode
             view?.disableRegisterButton()
 
             try {
-                registerInteractor?.register(name, lastName, email, password)
+                registerInteractor?.register(name, email, password)
 
                 if(isViewAttach()){
                     view?.navigateToMainPage()
@@ -99,7 +117,7 @@ class RegisterPresenter(registerInteractor: RegisterInteractor, registerViewMode
                         Log.d(TAG, "Trying to add new User to database with email $email.")
 
                         val resources = mapOf<String, String>()
-                        registerViewModel?.addNewUser(name, lastName, email, false, resources)
+                        registerViewModel?.addNewUser(name, lastName1, lastName2, email, nif, loans, favorites, admin)
 
                         Log.d(TAG, "Sucesfully added new User tp database with email $email.")
 

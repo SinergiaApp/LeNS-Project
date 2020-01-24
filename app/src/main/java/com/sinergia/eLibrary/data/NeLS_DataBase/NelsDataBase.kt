@@ -6,7 +6,7 @@ import com.sinergia.eLibrary.base.Exceptions.*
 import com.sinergia.eLibrary.data.Model.Library
 import com.sinergia.eLibrary.data.Model.Resource
 import com.sinergia.eLibrary.data.Model.User
-import com.sinergia.eLibrary.presentation.Register.FirebaseAddUserException
+import com.sinergia.eLibrary.base.Exceptions.FirebaseAddUserException
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -16,14 +16,26 @@ class NelsDataBase {
     val nelsDB= FirebaseFirestore.getInstance()
 
     //USERS METHODS
-    suspend fun addUser(name: String, lastName: String, email: String, admin: Boolean, resources: Map<String, String>): Unit = suspendCancellableCoroutine{addUserContinuation ->
+    suspend fun addUser(
+        name: String,
+        lastName1: String,
+        lastName2: String,
+        email: String,
+        nif: String,
+        loans: MutableList<String>,
+        favorites: MutableList<String>,
+        admin: Boolean
+        ): Unit = suspendCancellableCoroutine{addUserContinuation ->
 
         val newUser: HashMap<String, Any> = hashMapOf(
             "name" to name,
-            "lastName" to lastName,
+            "lastName1" to lastName1,
+            "lastName2" to lastName2,
             "email" to email,
-            "admin" to admin,
-            "resources" to resources
+            "nif" to nif,
+            "loans" to loans,
+            "favorites" to favorites,
+            "admin" to admin
         )
 
         nelsDB
@@ -33,7 +45,11 @@ class NelsDataBase {
                 if(adduser.isSuccessful){
                     addUserContinuation.resume(Unit)
                 } else {
-                    addUserContinuation.resumeWithException(FirebaseAddUserException(adduser.exception?.message.toString()))
+                    addUserContinuation.resumeWithException(
+                        FirebaseAddUserException(
+                            adduser.exception?.message.toString()
+                        )
+                    )
                 }
             }
 

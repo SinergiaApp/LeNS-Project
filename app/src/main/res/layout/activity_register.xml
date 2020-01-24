@@ -30,159 +30,222 @@
                 android:src="@drawable/logonels" />
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_vertical">
 
-                <TextView
-                    android:id="@+id/nameExplainText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Nombre"
-                    app:layout_constraintBottom_toTopOf="@+id/register_name"
-                    app:layout_constraintStart_toStartOf="@+id/register_name" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <EditText
-                    android:id="@+id/register_name"
-                    android:layout_width="329dp"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="56dp"
-                    android:background="@drawable/edit_text_login_register"
-                    android:ems="10"
-                    android:hint="Nombre"
-                    android:inputType="textPersonName|textCapSentences"
-                    android:paddingStart="50dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <TextView
+                        android:id="@+id/nameExplainText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nombre"
+                        app:layout_constraintBottom_toTopOf="@+id/register_name"
+                        app:layout_constraintStart_toStartOf="@+id/register_name"  />
 
-                <ImageView
-                    android:id="@+id/register_usericon"
-                    android:layout_width="36dp"
-                    android:layout_height="44dp"
-                    app:layout_constraintStart_toStartOf="@+id/register_name"
-                    app:layout_constraintTop_toBottomOf="@+id/nameExplainText"
-                    app:srcCompat="@drawable/user_icon" />
-
-                <TextView
-                    android:id="@+id/surnameExplainText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Apellidos"
-                    app:layout_constraintBottom_toTopOf="@+id/register_lastname"
-                    app:layout_constraintStart_toStartOf="@+id/register_lastname" />
-
-                <EditText
-                    android:id="@+id/register_lastname"
-                    android:layout_width="329dp"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="28dp"
-                    android:background="@drawable/edit_text_login_register"
-                    android:ems="10"
-                    android:hint="Apellido1 Apellido2"
-                    android:inputType="textPersonName|textCapSentences"
-                    android:paddingStart="50dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/register_name" />
-
-                <ImageView
-                    android:id="@+id/register_usericon2"
-                    android:layout_width="38dp"
-                    android:layout_height="43dp"
-                    app:layout_constraintStart_toStartOf="@+id/register_lastname"
-                    app:layout_constraintTop_toBottomOf="@+id/surnameExplainText"
-                    app:srcCompat="@drawable/user_icon" />
-
-                <TextView
-                    android:id="@+id/usernameExplainText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Correo Electrónico"
-                    app:layout_constraintBottom_toTopOf="@+id/register_email"
-                    app:layout_constraintStart_toStartOf="@+id/register_email" />
-
-                <EditText
-                    android:id="@+id/register_email"
-                    android:layout_width="329dp"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="52dp"
-                    android:background="@drawable/edit_text_login_register"
-                    android:ems="10"
-                    android:hint="Correo Electrónico"
-                    android:inputType="textEmailAddress"
-                    android:paddingStart="50dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/register_lastname" />
-
-
-                <ImageView
-                    android:id="@+id/register_mailicon"
-                    android:layout_width="30dp"
-                    android:layout_height="41dp"
-                    android:layout_marginStart="8dp"
-                    app:layout_constraintStart_toStartOf="@+id/register_email"
-                    app:layout_constraintTop_toBottomOf="@+id/usernameExplainText"
-                    app:srcCompat="@drawable/mail_icon" />
-
-                <TextView
-                    android:id="@+id/userpassExplainText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Contraseña"
-                    app:layout_constraintBottom_toTopOf="@+id/register_password"
-                    app:layout_constraintStart_toStartOf="@+id/register_password" />
-
-                <EditText
-                    android:id="@+id/register_password"
-                    android:layout_width="326dp"
-                    android:layout_height="44dp"
-                    android:layout_marginTop="44dp"
-                    android:background="@drawable/edit_text_login_register"
-                    android:ems="10"
-                    android:hint="Contraseña"
-                    android:inputType="textPassword"
-                    android:paddingStart="50dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.517"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/register_email" />
-
-                <EditText
-                    android:id="@+id/register_repeatpassword"
-                    android:layout_width="326dp"
-                    android:layout_height="44dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/edit_text_login_register"
-                    android:ems="10"
-                    android:hint="Repetir la contraseña"
-                    android:inputType="textPassword"
-                    android:paddingStart="50dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.517"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/register_password" />
+                    <EditText
+                        android:id="@+id/register_name"
+                        android:layout_width="329dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/edit_text_login_register"
+                        android:ems="10"
+                        android:hint="Nombre"
+                        android:inputType="textPersonName|textCapSentences"
+                        android:paddingStart="50dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                    android:id="@+id/register_passicon3"
-                    android:layout_width="32dp"
-                    android:layout_height="45dp"
-                    android:layout_marginStart="4dp"
-                    app:layout_constraintStart_toStartOf="@+id/register_password"
-                    app:layout_constraintTop_toTopOf="@+id/register_password"
-                    app:srcCompat="@drawable/password_icon" />
+                        android:id="@+id/register_usericon"
+                        android:layout_width="36dp"
+                        android:layout_height="44dp"
+                        app:layout_constraintStart_toStartOf="@+id/register_name"
+                        app:layout_constraintTop_toBottomOf="@+id/nameExplainText"
+                        app:srcCompat="@drawable/user_icon" />
 
-                <ImageView
-                    android:id="@+id/register_passicon2"
-                    android:layout_width="32dp"
-                    android:layout_height="45dp"
-                    android:layout_marginStart="4dp"
-                    app:layout_constraintStart_toStartOf="@+id/register_repeatpassword"
-                    app:layout_constraintTop_toTopOf="@+id/register_repeatpassword"
-                    app:srcCompat="@drawable/password_icon" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/surnameExplainText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Apellidos"
+                        app:layout_constraintBottom_toTopOf="@+id/register_lastname"
+                        app:layout_constraintStart_toStartOf="@+id/register_lastname" />
+
+                    <EditText
+                        android:id="@+id/register_lastname"
+                        android:layout_width="329dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/edit_text_login_register"
+                        android:ems="10"
+                        android:hint="Apellido1 Apellido2"
+                        android:inputType="textPersonName|textCapSentences"
+                        android:paddingStart="50dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/register_usericon2"
+                        android:layout_width="38dp"
+                        android:layout_height="43dp"
+                        app:layout_constraintStart_toStartOf="@+id/register_lastname"
+                        app:layout_constraintTop_toBottomOf="@+id/surnameExplainText"
+                        app:srcCompat="@drawable/user_icon" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/usernameExplainText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Correo Electrónico"
+                        app:layout_constraintBottom_toTopOf="@+id/register_email"
+                        app:layout_constraintStart_toStartOf="@+id/register_email" />
+
+                    <EditText
+                        android:id="@+id/register_email"
+                        android:layout_width="329dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/edit_text_login_register"
+                        android:ems="10"
+                        android:hint="Correo Electrónico"
+                        android:inputType="textEmailAddress"
+                        android:paddingStart="50dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <ImageView
+                        android:id="@+id/register_mailicon"
+                        android:layout_width="30dp"
+                        android:layout_height="41dp"
+                        android:layout_marginStart="8dp"
+                        app:layout_constraintStart_toStartOf="@+id/register_email"
+                        app:layout_constraintTop_toBottomOf="@+id/usernameExplainText"
+                        app:srcCompat="@drawable/mail_icon" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/usernifExplainText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="NIF"
+                        app:layout_constraintBottom_toTopOf="@+id/register_nif"
+                        app:layout_constraintStart_toStartOf="@+id/register_nif" />
+
+                    <EditText
+                        android:id="@+id/register_nif"
+                        android:layout_width="329dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/edit_text_login_register"
+                        android:ems="10"
+                        android:hint="NIF:"
+                        android:inputType="textEmailAddress"
+                        android:paddingStart="50dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <ImageView
+                        android:id="@+id/sssss"
+                        android:layout_width="30dp"
+                        android:layout_height="41dp"
+                        android:layout_marginStart="8dp"
+                        app:layout_constraintStart_toStartOf="@+id/register_nif"
+                        app:layout_constraintTop_toBottomOf="@+id/usernifExplainText"
+                        app:srcCompat="@drawable/mail_icon" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/userpassExplainText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Contraseña"
+                        app:layout_constraintBottom_toTopOf="@+id/register_password"
+                        app:layout_constraintStart_toStartOf="@+id/register_password" />
+
+                    <EditText
+                        android:id="@+id/register_password"
+                        android:layout_width="326dp"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/edit_text_login_register"
+                        android:ems="10"
+                        android:hint="Contraseña"
+                        android:inputType="textPassword"
+                        android:paddingStart="50dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <EditText
+                        android:id="@+id/register_repeatpassword"
+                        android:layout_width="326dp"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/edit_text_login_register"
+                        android:ems="10"
+                        android:hint="Repetir la contraseña"
+                        android:inputType="textPassword"
+                        android:paddingStart="50dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.517"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/register_password" />
+
+                        <ImageView
+                        android:id="@+id/register_passicon3"
+                        android:layout_width="32dp"
+                        android:layout_height="45dp"
+                        android:layout_marginStart="4dp"
+                        app:layout_constraintStart_toStartOf="@+id/register_password"
+                        app:layout_constraintTop_toTopOf="@+id/register_password"
+                        app:srcCompat="@drawable/password_icon" />
+
+                    <ImageView
+                        android:id="@+id/register_passicon2"
+                        android:layout_width="32dp"
+                        android:layout_height="45dp"
+                        android:layout_marginStart="4dp"
+                        app:layout_constraintStart_toStartOf="@+id/register_repeatpassword"
+                        app:layout_constraintTop_toTopOf="@+id/register_repeatpassword"
+                        app:srcCompat="@drawable/password_icon" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
 
 
 

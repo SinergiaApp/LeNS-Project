@@ -1,8 +1,10 @@
 package com.sinergia.eLibrary.presentation.Catalog.View
 
+import android.Manifest
+import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import com.sinergia.eLibrary.R
@@ -10,19 +12,18 @@ import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.presentation.Catalog.CatalogContract
 import kotlinx.android.synthetic.main.activity_catalog.*
 import android.widget.*
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import com.google.common.base.Strings
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthSettings
-import com.google.firebase.auth.FirebaseUser
 import com.sinergia.eLibrary.data.Model.Resource
+import com.sinergia.eLibrary.presentation.CameraScan.View.CameraScanActivity
 import com.sinergia.eLibrary.presentation.Catalog.Model.CatalogViewModel
 import com.sinergia.eLibrary.presentation.Catalog.Model.CatalogViewModelImpl
 import com.sinergia.eLibrary.presentation.Catalog.Presenter.CatalogPresenter
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import com.sinergia.eLibrary.presentation.NeLSProject
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -30,6 +31,14 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
 
     private lateinit var catalogPresenter: CatalogContract.CatalogPresenter
     private lateinit var catalogViewModel: CatalogViewModel
+    private var cameraPermissionGranted = false
+    private var buttonRequestCameraPermission = false
+
+    companion object {
+
+        private val CAMERA_PERMISSIONS_CODE = 1
+        private val CAMETA_INTENT_CODE = 2
+    }
 
     //ACTIVITY TITLE
     override fun getPageTitle(): String {
@@ -55,8 +64,48 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
             }
         }
 
+        checkAndSetCamentaPermissions()
+        catalog_camera_btn.setOnClickListener {
+
+            if(!cameraPermissionGranted){
+                toastL(this@CatalogActivity, "Por favor permite que la app acceda a la cámara")
+                buttonRequestCameraPermission = true
+                checkAndSetCamentaPermissions()
+            } else {
+                startScan()
+            }
+
+        }
+
 
         catalogPresenter.getAllResourcesToCatalog()
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if(requestCode == CAMETA_INTENT_CODE && resultCode == Activity.RESULT_OK){
+
+            if(data != null){
+                var resultBarCode = data.getStringExtra("codigo")
+                catalog_search.setText(resultBarCode)
+            } else {
+                toastL(this, "Imposible leer el código, vuelve a intentarlo.")
+            }
+
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when(requestCode) {
+            CAMERA_PERMISSIONS_CODE ->
+                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (buttonRequestCameraPermission) startScan()
+                    cameraPermissionGranted = true
+                } else {
+                    toastL(this, "El escaneo no se podrá llevar a cabo hasta que no concedas los permisos de usar la cámara."
+                    )
+                }
+        }
     }
 
     override fun getLayout(): Int {
@@ -313,6 +362,23 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
 
     override fun eraseCatalog() {
         catalog_content.removeAllViews()
+    }
+
+    override fun startScan() {
+        val scanIntent = Intent(this, CameraScanActivity::class.java)
+        startActivityForResult(scanIntent, CAMETA_INTENT_CODE)
+    }
+
+    override fun checkAndSetCamentaPermissions() {
+
+        val permissionStatus = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+
+        if(permissionStatus == PackageManager.PERMISSION_GRANTED ) {
+            cameraPermissionGranted = true
+        } else {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), CatalogActivity.CAMERA_PERMISSIONS_CODE)
+        }
+
     }
 
     override fun onDetachedFromWindow() {

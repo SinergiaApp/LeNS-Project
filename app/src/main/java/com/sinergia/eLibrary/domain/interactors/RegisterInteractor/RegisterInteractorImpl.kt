@@ -12,7 +12,7 @@ import kotlin.coroutines.resumeWithException
 class RegisterInteractorImpl: RegisterInteractor {
 
     @UseExperimental(ExperimentalCoroutinesApi::class)
-    override suspend fun register(name: String, lastName: String, email: String, password: String):Unit = suspendCancellableCoroutine  { registerContinuation ->
+    override suspend fun register(name: String, email: String, password: String):Unit = suspendCancellableCoroutine  { registerContinuation ->
 
         val TAG = "[REGISTER_ACTIVITY]"
 

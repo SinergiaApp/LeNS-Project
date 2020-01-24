@@ -4,6 +4,7 @@
     package="com.sinergia.eLibrary">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".presentation.NeLSProject"
@@ -14,8 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".presentation.Catalog.View.ItemCatalogActivity"></activity>
-        <!-- ACTIVITIES -->
+        <activity android:name=".presentation.CameraScan.View.CameraScanActivity"></activity>
+        <activity android:name=".presentation.test_scan_camera" />
+        <activity android:name=".presentation.test_camera" />
+        <activity android:name=".presentation.Catalog.View.ItemCatalogActivity" /> <!-- ACTIVITIES -->
         <!-- MAIN ACTIVITY -->
         <activity android:name=".presentation.Main.View.MainActivity">
             <intent-filter>

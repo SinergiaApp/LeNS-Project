@@ -1,6 +1,10 @@
 package com.sinergia.eLibrary.presentation.Catalog.Presenter
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
 import android.util.Log
+import androidx.core.content.ContextCompat
 import com.sinergia.eLibrary.presentation.Catalog.CatalogContract
 import com.sinergia.eLibrary.base.Exceptions.FirebaseGetAllResourcesException
 import com.sinergia.eLibrary.base.Exceptions.FirebaseSetResourceException
@@ -163,7 +167,13 @@ class CatalogPresenter(catalogViewModel: CatalogViewModelImpl): CatalogContract.
 
     }
 
-    override fun initScan() {
+    override fun chekCameraPermissions(context: Context): Boolean {
 
+        val estadoDePermiso = ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
+        var permissionGranted = false
+
+        if (estadoDePermiso == PackageManager.PERMISSION_GRANTED) permissionGranted = true
+
+        return permissionGranted
     }
 }

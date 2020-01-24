@@ -2,6 +2,15 @@ package com.sinergia.eLibrary.presentation.Register.Model
 
 interface RegisterViewModel {
 
-    suspend fun addNewUser(name: String, lastname: String, email: String, admin: Boolean, resources: Map<String, String>)
+    suspend fun addNewUser(
+        name: String,
+        lastName1: String,
+        lastName2: String,
+        email: String,
+        nif: String,
+        loans: MutableList<String>,
+        favorites: MutableList<String>,
+        admin: Boolean
+    )
 
 }

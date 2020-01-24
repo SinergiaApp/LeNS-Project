@@ -7,8 +7,17 @@ class UserUseCase {
 
     val nelsDB = NelsDataBase()
 
-    suspend fun addUserDB(nombre: String, apellidos: String, email: String, admin: Boolean, resources: Map<String, String>){
-        nelsDB.addUser(nombre, apellidos, email, admin, resources)
+    suspend fun addUserDB(
+        name: String,
+        lastName1: String,
+        lastName2: String,
+        email: String,
+        nif: String,
+        loans: MutableList<String>,
+        favorites: MutableList<String>,
+        admin: Boolean
+    ){
+        nelsDB.addUser(name, lastName1, lastName2, email, nif, loans, favorites, admin)
     }
 
     suspend fun getUser(email: String): User{
