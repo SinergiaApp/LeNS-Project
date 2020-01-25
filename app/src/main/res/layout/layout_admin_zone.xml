@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:padding="20dp"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <TextView
                 android:id="@+id/BookExplainText1"
@@ -58,7 +58,7 @@
                 android:textColor="@color/colorBlack"
                 android:inputType="textCapSentences"
                 android:ems="2"
-                android:hint="Nombre del Libro" />
+                android:hint="Nombre del Libro"/>
 
             <TextView
                 android:id="@+id/BookExplainText2"
@@ -160,6 +160,25 @@
                 android:ems="2"
                 android:textAlignment="inherit"
                 android:hint="Sinopsis del Libro"/>
+
+            <Switch
+                android:id="@+id/admin_zone_isOnline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="El Recurso está Disponible Online"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+            <EditText
+                android:id="@+id/admin_zone_urlOnline"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/edit_text_login_register"
+                android:textColor="@color/colorBlack"
+                android:inputType="text"
+                android:ems="2"
+                android:hint="URL para Visionado Online"/>
 
             <ProgressBar
                 android:id="@+id/admin_zone_newResourceProgressBar"

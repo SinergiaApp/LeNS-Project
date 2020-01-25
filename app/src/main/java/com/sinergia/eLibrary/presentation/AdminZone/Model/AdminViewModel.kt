@@ -14,7 +14,9 @@ interface AdminViewModel {
         sinopsis: String,
         disponibility: MutableMap<String, Integer>,
         likes: MutableList<String>,
-        dislikes: MutableList<String>)
+        dislikes: MutableList<String>,
+        isOnline: Boolean,
+        urlOnline: String)
 
     suspend fun addNewLibrary(nombre: String, direccion: String, geopoint: GeoPoint)
 

@@ -21,9 +21,11 @@ class AdminViewModelImpl: ViewModel(), AdminViewModel {
         sinopsis: String,
         disponibility: MutableMap<String, Integer>,
         likes: MutableList<String>,
-        dislikes: MutableList<String>)
+        dislikes: MutableList<String>,
+        isOnline: Boolean,
+        urlOnline: String)
     {
-        resourceUseCase.addResource(titulo, autores, isbn, edicion, editorial, sinopsis, disponibility, likes, dislikes)
+        resourceUseCase.addResource(titulo, autores, isbn, edicion, editorial, sinopsis, disponibility, likes, dislikes, isOnline, urlOnline)
     }
 
     override suspend fun getAllLibraries(): ArrayList<Library> {

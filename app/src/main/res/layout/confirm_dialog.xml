@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginTop="130dp"
+    app:cardCornerRadius="20dp"
+    android:layout_centerInParent="true"
+    android:elevation="40dp"
+    android:padding="20dp"
+    app:cardBackgroundColor="@color/cardview_shadow_end_color">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal|center_vertical"
+        >
+
+        <TextView
+            android:id="@+id/confirm_dialog_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TTITULO DIALOGO"
+            android:textColor="@color/colorWhite"
+            android:textSize="28dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"/>
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="?android:attr/listDivider" />
+
+        <TextView
+            android:id="@+id/confirm_dialog_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Descripción del dialogo con el jijidejeje aqui me tiro una hora escribiendo para ver hasta donde puede llegar esta baina,"
+            android:textColor="@color/colorWhite"
+            android:textSize="12dp"
+            android:layout_marginBottom="20dp"
+            android:padding="30dp"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="20dp">
+
+            <Button
+                android:id="@+id/confirm_dialog_accept_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/fui_transparent"
+                android:text="ACEPTAR"
+                android:layout_marginRight="30dp"
+                />
+
+            <Button
+                android:id="@+id/confirm_dialog_cancel_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/fui_transparent"
+                android:text="CANCELAR"
+                android:layout_marginLeft="30dp"
+                />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

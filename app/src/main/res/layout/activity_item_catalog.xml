@@ -74,6 +74,7 @@
                 android:layout_height="match_parent"
                 android:elevation="10dp"
                 android:orientation="vertical"
+                android:gravity="center_horizontal"
                 android:padding="10dp"
                 android:visibility="visible"
                 tools:layout_editor_absoluteX="103dp"
@@ -93,11 +94,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:paddingRight="20dp"
+                    android:paddingLeft="20dp"
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="150dp"
+                        android:layout_width="match_parent"
                         android:layout_height="50dp"
+                        android:layout_weight="1"
                         android:layout_marginRight="10dp"
                         android:background="@drawable/list_item_content_style"
                         android:gravity="center_horizontal|center_vertical"
@@ -124,8 +129,10 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="10dp"
                         android:background="@drawable/list_item_content_style"
                         android:gravity="center_horizontal|center_vertical"
                         android:orientation="horizontal">
@@ -154,6 +161,7 @@
                     android:id="@+id/item_catalog_image"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
+                    android:layout_marginBottom="10dp"
                     android:src="@drawable/biblioteca" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -210,6 +218,71 @@
                         android:textSize="15dp" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_horizontal|center_vertical">
+
+                    <Button
+                        android:id="@+id/item_catalog_onLine_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/main_button_style"
+                        android:fontFamily="Verdana"
+                        android:text="VER ONLINE"
+                        android:layout_marginRight="10dp"
+                        android:textColor="@color/colorWhite"
+                        />
+
+                    <Button
+                        android:id="@+id/item_catalog_disponibility_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/main_button_style"
+                        android:fontFamily="Verdana"
+                        android:text="VER DISPONIBILIDAD"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/colorWhite"
+                        />
+
+                </LinearLayout>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/item_catalog_disponibility_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/list_item_content_style"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:visibility="visible">
+
+
+                    <RadioGroup
+                        android:id="@+id/item_catalog_disponibility_radio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <Button
+                        android:id="@+id/item_catalog_reserve_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/main_button_style"
+                        android:fontFamily="Verdana"
+                        android:text="RESERVAR"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/colorWhite"
+                        />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

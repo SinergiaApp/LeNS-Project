@@ -94,6 +94,8 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
             val editorial = admin_zone_bookPublisher.text.toString()
             val sinopsis = admin_zone_bookSinosis.text.toString()
             val librariesDisponibility: MutableMap<String, Integer> = mutableMapOf()
+            val isOnline: Boolean = admin_zone_isOnline.isChecked
+            val urlOnline: String = admin_zone_urlOnline.text.toString()
 
             if(adminPresenter.checkEmptyAddResourceFields(titulo, autor, isbn, edicion, editorial, sinopsis)){
 
@@ -121,14 +123,22 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
                     admin_zone_bookSinosis.error = "¡Cuidado! El campo 'Sinopsis' es obligatorio."
                 }
 
+                if(adminPresenter.checkEmptyAddResourceIsOnline(isOnline, urlOnline)){
+                    admin_zone_bookSinosis.error = "¡Cuidado! Si el recurso está disponible, tienes que indicar la URL de visionado."
+                }
+
                 hideAddResourceProgressBar()
                 enableAddResourceButton()
+
+            } else if(adminPresenter.checkEmptyAddResourceIsOnline(isOnline, urlOnline)){
+
+                admin_zone_bookSinosis.error = "¡Cuidado! Si el recurso está disponible, tienes que indicar la URL de visionado."
 
             } else {
 
                 var autores = autor.split(";")
 
-                adminPresenter.addNewResource(titulo, autores, isbn, edicion, editorial, sinopsis, librariesDisponibility, mutableListOf(), mutableListOf())
+                adminPresenter.addNewResource(titulo, autores, isbn, edicion, editorial, sinopsis, librariesDisponibility, mutableListOf(), mutableListOf(), isOnline, urlOnline)
             }
 
         }

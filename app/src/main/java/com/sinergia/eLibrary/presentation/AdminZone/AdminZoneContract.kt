@@ -46,7 +46,9 @@ interface AdminZoneContract {
             sinopsis: String,
             librariesDisponibility: MutableMap<String, Integer>,
             likes: MutableList<String>,
-            dislikes: MutableList<String>
+            dislikes: MutableList<String>,
+            isOnline: Boolean,
+            urlOnline: String
         )
         fun addNewLibrary(nombre: String, direccion: String, geopoint: GeoPoint)
 
@@ -57,6 +59,7 @@ interface AdminZoneContract {
         fun checkEmptyAddResourceEdition(edicion: String): Boolean
         fun checkEmptyAddResourcePublisher(editorial: String): Boolean
         fun checkEmptyAddResourceSinopsis(sinopsis: String): Boolean
+        fun checkEmptyAddResourceIsOnline(isOnline: Boolean, urlOnline: String): Boolean
 
         fun checkEmptyAddLibraryFields(nombre: String, direccion: String, latitud: String, longitud: String): Boolean
         fun checkEmptyAddLibraryName(nombre: String): Boolean

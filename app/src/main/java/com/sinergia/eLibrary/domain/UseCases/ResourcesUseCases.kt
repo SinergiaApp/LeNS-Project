@@ -22,9 +22,11 @@ class ResourcesUseCases {
                             sinopsis: String,
                             disponibility: MutableMap<String, Integer>,
                             likes: MutableList<String>,
-                            dislikes: MutableList<String>)
+                            dislikes: MutableList<String>,
+                            isOnline: Boolean,
+                            urlOnline: String)
     {
-        nelsDB.addResource(titulo, autores, isbn, edicion, editorial, sinopsis, disponibility, likes, dislikes)
+        nelsDB.addResource(titulo, autores, isbn, edicion, editorial, sinopsis, disponibility, likes, dislikes, isOnline, urlOnline)
     }
 
     suspend fun setResource(resource: Resource){

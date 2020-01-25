@@ -14,6 +14,14 @@ interface ItemCatalogContract {
         fun showItemCatalogContent()
         fun hideItemCatalogContent()
 
+        fun enableDisponibilityButtom()
+        fun disableDisponibilityButtom()
+        fun enableOnLineButton(urlOnline: String)
+        fun disableOnLineButton()
+        fun goToOnline(urlOnline: String)
+        fun showHideDisponibilityContent()
+        fun reserveResource()
+
         fun initItemCatalogContent(resource: Resource?)
 
     }

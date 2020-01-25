@@ -55,6 +55,21 @@ class ItemCatalogPresenter(itemCatalogViewModel: ItemCatalogViewModelImpl): Item
                 view?.showItemCatalogContent()
                 view?.initItemCatalogContent(resource)
 
+                if(resource?.isOnline!!){
+                    view?.enableOnLineButton(resource.urlOnline)
+                } else {
+                    view?.disableOnLineButton()
+                }
+
+                view?.disableDisponibilityButtom()
+                for(disponibility in resource.disponibility.values){
+                    if(disponibility < 0){
+                        view?.enableDisponibilityButtom()
+
+                        break
+                    }
+                }
+
                 Log.d(TAG, "Succesfullt get ItemCatalog Resource.")
 
             }catch (error: FirebaseGetResourceException){

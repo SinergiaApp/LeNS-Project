@@ -10,6 +10,8 @@ data class Resource (
     var isbn: String = "Desconocido",
     var disponibility: MutableMap<String, Integer> = mutableMapOf(),
     var likes: MutableList<String> = mutableListOf(),
-    var dislikes: MutableList<String> = mutableListOf()
+    var dislikes: MutableList<String> = mutableListOf(),
+    var isOnline: Boolean = false,
+    var urlOnline: String = ""
 
 )

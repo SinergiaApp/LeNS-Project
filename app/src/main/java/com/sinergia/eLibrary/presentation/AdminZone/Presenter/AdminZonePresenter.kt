@@ -78,6 +78,14 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
         return isbn_pattern.matcher(isbn).matches()
     }
 
+    override fun checkEmptyAddResourceIsOnline(isOnline: Boolean, urlOnline: String): Boolean {
+        if(isOnline){
+            return urlOnline.isNullOrEmpty()
+        } else {
+            return false
+        }
+    }
+
     override fun addNewResource(
         titulo: String,
         autores: List<String>,
@@ -87,7 +95,9 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
         sinopsis: String,
         librariesDisponibility: MutableMap<String, Integer>,
         likes: MutableList<String>,
-        dislikes: MutableList<String>) {
+        dislikes: MutableList<String>,
+        isOnline: Boolean,
+        urlOnline: String) {
 
         launch {
 
@@ -95,7 +105,7 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
             view?.disableAddResourceButton()
 
             try {
-                adminViewModel?.addNewResource(titulo, autores, isbn, edicion, editorial, sinopsis, librariesDisponibility, likes, dislikes)
+                adminViewModel?.addNewResource(titulo, autores, isbn, edicion, editorial, sinopsis, librariesDisponibility, likes, dislikes, isOnline, urlOnline)
 
                 if(isViewAttach()){
                     view?.hideAddResourceProgressBar()

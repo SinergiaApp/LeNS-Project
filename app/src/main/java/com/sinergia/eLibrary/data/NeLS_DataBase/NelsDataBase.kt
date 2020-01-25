@@ -149,7 +149,9 @@ class NelsDataBase {
         sinopsis: String,
         disponibility: MutableMap<String, Integer>,
         likes: MutableList<String>,
-        dislikes: MutableList<String>): Unit = suspendCancellableCoroutine{addResourceContinuation ->
+        dislikes: MutableList<String>,
+        isOnline: Boolean,
+        urlOnline: String): Unit = suspendCancellableCoroutine{addResourceContinuation ->
 
         val newResource = hashMapOf<String, Any>(
 
@@ -161,7 +163,9 @@ class NelsDataBase {
             "sinopsis" to sinopsis,
             "disponibility" to disponibility,
             "likes" to likes,
-            "dislikes" to dislikes
+            "dislikes" to dislikes,
+            "isOnline" to isOnline,
+            "urlOnline" to urlOnline
 
         )
 
