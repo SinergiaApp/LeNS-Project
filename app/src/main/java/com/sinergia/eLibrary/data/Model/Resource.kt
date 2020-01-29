@@ -1,6 +1,6 @@
 package com.sinergia.eLibrary.data.Model
 
-data class Resource (
+data class Resource(
 
     var title: String = "Desconocido",
     var author: List<String> = listOf("Desconocido"),

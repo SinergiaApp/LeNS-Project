@@ -20,6 +20,8 @@ interface ItemCatalogContract {
         fun disableOnLineButton()
         fun goToOnline(urlOnline: String)
         fun showHideDisponibilityContent()
+        fun setLikes()
+        fun setDislikes()
         fun reserveResource()
 
         fun initItemCatalogContent(resource: Resource?)
@@ -32,8 +34,10 @@ interface ItemCatalogContract {
         fun dettachView()
         fun isViewAttached(): Boolean
         fun dettachJob()
+        fun chekRepeatLikeDislike(list: MutableList<String>): Boolean
 
         fun getItemCatalog(isbn: String)
+        fun setResourceLikes(resource: Resource)
 
     }
 

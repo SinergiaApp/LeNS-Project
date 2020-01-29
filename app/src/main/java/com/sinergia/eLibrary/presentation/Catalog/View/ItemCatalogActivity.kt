@@ -8,6 +8,7 @@ import android.widget.RadioButton
 import androidx.lifecycle.ViewModelProviders
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
+import com.sinergia.eLibrary.data.NeLS_DataBase.NelsDataBase
 import com.sinergia.eLibrary.presentation.Catalog.ItemCatalogContract
 import com.sinergia.eLibrary.presentation.Catalog.Model.ItemCatalogViewModel
 import com.sinergia.eLibrary.presentation.Catalog.Model.ItemCatalogViewModelImpl
@@ -24,7 +25,7 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
     private lateinit var itemCatalogPresenter: ItemCatalogContract.ItemCatalogPresenter
     private lateinit var itemCatalogViewModel: ItemCatalogViewModel
     private var libraryChecked: String ?= null
-
+    private var currentResource: Resource ?= null
 
 
     //BASE ACTIVITY METHODS
@@ -40,6 +41,8 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
 
         itemCatalogPresenter.getItemCatalog(NeLSProject.book)
 
+        item_catalog_like_btn.setOnClickListener { setLikes() }
+        item_catalog_dislike_btn.setOnClickListener { setDislikes() }
         item_catalog_reserve_btn.setOnClickListener { reserveResource() }
 
     }
@@ -87,6 +90,7 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
 
     override fun enableDisponibilityButtom() {
         item_catalog_disponibility_btn.isEnabled = true
+        item_catalog_disponibility_btn.isClickable = true
         item_catalog_disponibility_btn.setOnClickListener { showHideDisponibilityContent() }
     }
 
@@ -98,6 +102,7 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
 
     override fun enableOnLineButton(urlOnline: String) {
         item_catalog_onLine_btn.isEnabled = true
+        item_catalog_onLine_btn.isClickable = true
         item_catalog_onLine_btn.setOnClickListener { goToOnline(urlOnline) }
     }
 
@@ -108,7 +113,12 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
     }
 
     override fun goToOnline(urlOnline: String) {
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(urlOnline)))
+        if (!urlOnline.startsWith("http://") && !urlOnline.startsWith("https://")){
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://$urlOnline")))
+        } else {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(urlOnline)))
+        }
+
     }
 
     override fun reserveResource() {
@@ -139,14 +149,25 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
 
     override fun initItemCatalogContent(resource: Resource?) {
 
+        this.currentResource = resource
         item_catalog_title.text = resource?.title
         item_catalog_isbn.text = "ISBN: \n" + resource?.isbn
         item_catalog_author.text = "Autor: \n" + resource?.author
         item_catalog_publisher.text = "Editorioal: \n" + resource?.publisher
         item_catalog_edition.text = "Edición: \n" + resource?.edition
         item_catalog_sinopsis.text = "Sinopsis: \n" + resource?.sinopsis
+        item_catalog_likes.text = resource?.likes?.size.toString()
+        item_catalog_dislikes.text = resource?.dislikes?.size.toString()
 
-        if(resource?.disponibility != null){
+        if(resource?.isOnline!!){
+            enableOnLineButton(resource.urlOnline)
+        } else {
+            disableOnLineButton()
+        }
+
+        if(!resource?.disponibility.isNullOrEmpty()){
+
+            enableDisponibilityButtom()
 
             for(key in resource?.disponibility.keys){
 
@@ -157,8 +178,59 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
 
             }
 
+        } else {
+            disableDisponibilityButtom()
         }
 
+    }
+    override fun setLikes() {
+        if(itemCatalogPresenter.chekRepeatLikeDislike(currentResource?.likes!!)){
+            toastL(this, "Ya has indicado que te gusta este libro.")
+        } else {
+            val newLikesList = currentResource!!.likes
+            val newDislikesList = currentResource!!.dislikes
+            newLikesList.add(NeLSProject.currentUser.email)
+            newDislikesList.remove(NeLSProject.currentUser.email)
+            val modifiedResource = Resource(
+                currentResource!!.title,
+                currentResource!!.author,
+                currentResource!!.publisher,
+                currentResource!!.edition,
+                currentResource!!.sinopsis,
+                currentResource!!.isbn,
+                currentResource!!.disponibility,
+                newLikesList,
+                newDislikesList,
+                currentResource!!.isOnline,
+                currentResource!!.urlOnline
+            )
+            itemCatalogPresenter.setResourceLikes(modifiedResource)
+        }
+    }
+
+    override fun setDislikes() {
+        if(itemCatalogPresenter.chekRepeatLikeDislike(currentResource?.dislikes!!)){
+            toastL(this, "Ya has indicado que no te gusta este libro.")
+        } else {
+            val newLikesList = currentResource!!.likes
+            val newDislikesList = currentResource!!.dislikes
+            newLikesList.remove(NeLSProject.currentUser.email)
+            newDislikesList.add(NeLSProject.currentUser.email)
+            val modifiedResource = Resource(
+                currentResource!!.title,
+                currentResource!!.author,
+                currentResource!!.publisher,
+                currentResource!!.edition,
+                currentResource!!.sinopsis,
+                currentResource!!.isbn,
+                currentResource!!.disponibility,
+                newLikesList,
+                newDislikesList,
+                currentResource!!.isOnline,
+                currentResource!!.urlOnline
+            )
+            itemCatalogPresenter.setResourceLikes(modifiedResource)
+        }
     }
 
 }

@@ -6,4 +6,6 @@ interface ItemCatalogViewModel {
 
     suspend fun getItemCatalog(isbn: String): Resource?
 
+    suspend fun setResource(resource: Resource)
+
 }

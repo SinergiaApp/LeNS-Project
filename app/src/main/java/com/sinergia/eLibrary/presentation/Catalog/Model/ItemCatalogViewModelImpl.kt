@@ -11,4 +11,9 @@ class ItemCatalogViewModelImpl: ViewModel(), ItemCatalogViewModel {
     override suspend fun getItemCatalog(isbn: String): Resource? {
         return resourceUseCases.getResource(isbn)
     }
+
+    override suspend fun setResource(resource: Resource) {
+        return resourceUseCases.setResource(resource)
+    }
+
 }
