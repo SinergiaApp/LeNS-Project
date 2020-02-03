@@ -2,6 +2,7 @@ package com.sinergia.eLibrary.presentation.AdminZone.Model
 
 import com.google.firebase.firestore.GeoPoint
 import com.sinergia.eLibrary.data.Model.Library
+import com.sinergia.eLibrary.data.Model.Resource
 
 interface AdminViewModel {
 
@@ -17,6 +18,9 @@ interface AdminViewModel {
         dislikes: MutableList<String>,
         isOnline: Boolean,
         urlOnline: String)
+
+    suspend fun getResourceToModify(isbn: String): Resource?
+    suspend fun setResource(resource: Resource)
 
     suspend fun addNewLibrary(nombre: String, direccion: String, geopoint: GeoPoint)
 

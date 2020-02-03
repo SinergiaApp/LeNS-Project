@@ -5,15 +5,14 @@ import android.os.Bundle
 import android.text.InputType
 import android.view.View
 import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.TableRow
-import androidx.core.content.ContextCompat
+import android.widget.TextView
+import androidx.core.view.children
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.material.chip.Chip
 import com.google.firebase.firestore.GeoPoint
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.data.Model.Library
+import com.sinergia.eLibrary.data.Model.Resource
 import com.sinergia.eLibrary.presentation.AdminZone.AdminZoneContract
 import com.sinergia.eLibrary.presentation.AdminZone.AdminZoneContract.AdminZonePresenter
 import com.sinergia.eLibrary.presentation.AdminZone.Model.AdminViewModelImpl
@@ -22,11 +21,13 @@ import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import kotlinx.android.synthetic.main.activity_admin_zone.main_page_title
 import kotlinx.android.synthetic.main.activity_admin_zone.menu_button
 import kotlinx.android.synthetic.main.layout_admin_zone.*
+import kotlinx.android.synthetic.main.layout_admin_zone_set_resource.*
 
 class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
 
     private lateinit var adminPresenter: AdminZonePresenter
     private lateinit var adminViewModel: AdminViewModelImpl
+    private lateinit var getedResource: Resource
 
     //BASEACTIVITY METHODS
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +44,10 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
 
         admin_zone_addResourceButton.setOnClickListener { showHideAddResource() }
         admin_zone_addNewResourceButton.setOnClickListener { createNewResource() }
+
+        admin_zone_setBookSearch_btn.setOnClickListener { getResourceToModify() }
+        admin_zone_setResourceButton.setOnClickListener { showHideSetResource() }
+        admin_zone_setResource_btn.setOnClickListener { setResource() }
 
         admin_zone_addLibraryButton.setOnClickListener { showHideAddLibrary() }
         admin_zone_addNewLibraryButton.setOnClickListener { createNewLibrary() }
@@ -124,15 +129,8 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
                 }
 
                 if(adminPresenter.checkEmptyAddResourceIsOnline(isOnline, urlOnline)){
-                    admin_zone_bookSinosis.error = "¡Cuidado! Si el recurso está disponible, tienes que indicar la URL de visionado."
+                    admin_zone_urlOnline.error = "¡Cuidado! Si el recurso está disponible, tienes que indicar la URL de visionado."
                 }
-
-                hideAddResourceProgressBar()
-                enableAddResourceButton()
-
-            } else if(adminPresenter.checkEmptyAddResourceIsOnline(isOnline, urlOnline)){
-
-                admin_zone_bookSinosis.error = "¡Cuidado! Si el recurso está disponible, tienes que indicar la URL de visionado."
 
             } else {
 
@@ -159,6 +157,146 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         override fun disableAddResourceButton() {
             admin_zone_addNewResourceButton.isEnabled = false
             admin_zone_addNewResourceButton.isClickable = false
+        }
+
+        //SET RESOURCE METHODS
+        override fun showHideSetResource() {
+            if(admin_zone_setResourceWindow.visibility == View.VISIBLE){
+                admin_zone_setResourceWindow.visibility = View.GONE
+            } else {
+                admin_zone_setResourceWindow.visibility = View.VISIBLE
+            }
+        }
+
+        override fun showSetResourceProgressBar() {
+            admin_zone_setResourceProgressBar.visibility = View.VISIBLE
+        }
+
+        override fun hideSetResourceProgressBar() {
+            admin_zone_setResourceProgressBar.visibility = View.GONE
+        }
+
+        override fun enableSetResourceButton() {
+            admin_zone_setResource_btn.isEnabled = true
+            admin_zone_setResource_btn.isClickable = true
+        }
+
+        override fun disableSetResourceButton() {
+            admin_zone_setResource_btn.isEnabled = false
+            admin_zone_setResource_btn.isClickable = false
+        }
+
+        override fun enableSearchResourceToModifyButton() {
+            admin_zone_setBookSearch_btn.isClickable = true
+            admin_zone_setBookSearch_btn.isEnabled = true
+        }
+
+        override fun disableSearchResourceToModifyButton() {
+            admin_zone_setBookSearch_btn.isClickable = false
+            admin_zone_setBookSearch_btn.isEnabled = false
+        }
+
+    override fun getResourceToModify() {
+            if(admin_zone_setBookSearch.text.isNullOrEmpty()){
+                showError("Por favor, indica el ISBN del libro a modificar o escanea un código para continuar.")
+            } else {
+                adminPresenter.getResourceToModify(admin_zone_setBookSearch.text.toString())
+            }
+
+        }
+
+        override fun initSetResourceContent(resource: Resource?, libraries: ArrayList<Library>?) {
+
+            this.getedResource = resource!!
+            var autores: String = ""
+            for(autor in resource.author){
+                autores += "$autor;"
+            }
+            autores.substring(0, autores.length-1)
+
+            admin_zone_setBookTitle.setText(resource?.title)
+            admin_zone_setBookAuthor.setText(autores)
+            admin_zone_setBookPublisher.setText(resource?.publisher)
+            admin_zone_setBookEdition.setText(resource?.edition)
+            admin_zone_setBookISBN.setText(resource?.isbn)
+            admin_zone_setIsOnline.isChecked = resource?.isOnline!!
+            if(resource?.isOnline) admin_zone_setUrlOnline.setText(resource?.urlOnline)
+
+            for(library in libraries!!){
+
+                val libName = TextView(this)
+                libName.text = library.name
+                val libDisp = EditText(this)
+                libDisp.inputType = InputType.TYPE_NUMBER_VARIATION_NORMAL
+                libDisp.tag = library.id
+                if(resource.disponibility.containsKey(library.id)) libDisp.setText(resource.disponibility.get(library.id).toString())
+
+                admin_zone_setBookDisponibility.addView(libName)
+                admin_zone_setBookDisponibility.addView(libDisp)
+
+            }
+
+        }
+
+
+    override fun setResource() {
+
+            val title = admin_zone_setBookTitle.text.toString()
+            val author = admin_zone_setBookAuthor.text.toString()
+            val publisher = admin_zone_setBookPublisher.text.toString()
+            val edition = admin_zone_setBookEdition.text.toString()
+            val sinopsis = admin_zone_setBookSinosis.text.toString()
+            val isbn = admin_zone_setBookISBN.text.toString()
+            val likes = this.getedResource.likes
+            val dislikes = this.getedResource.dislikes
+            val isOnline = admin_zone_isOnline.isChecked
+            val urlOnline = if(isOnline) admin_zone_urlOnline.text.toString() else ""
+
+            if(adminPresenter.checkEmptySetResourceFields(title, author, isbn, edition, publisher, sinopsis)){
+
+                if(adminPresenter.checkEmptySetResourceTitle(title)){
+                    admin_zone_setBookTitle.error = "¡Cuidado! El campo 'Título' es obligatorio."
+                }
+
+                if(adminPresenter.checkEmptySetResourceAuthor(author)){
+                    admin_zone_setBookAuthor.error = "¡Cuidado! El campo 'Autor' es obligatorio."
+                }
+
+                if(adminPresenter.checkEmptySetResourceEdition(edition)){
+                    admin_zone_setBookEdition.error = "¡Cuidado! El campo 'Edición' es obligatorio."
+                }
+
+                if(adminPresenter.checkEmptySetResourcePublisher(publisher)){
+                    admin_zone_setBookPublisher.error = "¡Cuidado! El campo 'Editorial' es obligatorio."
+                }
+
+                if(adminPresenter.checkEmptySetResourceSinopsis(sinopsis)){
+                    admin_zone_setBookSinosis.error = "¡Cuidado! El campo 'Sinopsis' es obligatorio."
+                }
+
+                if(adminPresenter.checkEmptySetResourceIsOnline(isOnline, urlOnline)){
+                    admin_zone_bookSinosis.error = "¡Cuidado! Si el recurso está disponible, tienes que indicar la URL de visionado."
+                }
+
+            } else {
+
+                var authors = author.split(";")
+
+                var disponibility = mutableMapOf<String, Integer>()
+                for(view in admin_zone_setBookDisponibility.children){
+                    if( view is EditText  ) {
+                        val disp = view as EditText
+                        disponibility.put(view.getTag().toString(), Integer(disp.text.toString()))
+                    }
+                }
+
+
+                val setedResource = Resource(title, authors, publisher, edition, sinopsis, isbn, disponibility, likes, dislikes, isOnline, urlOnline)
+
+                adminPresenter.setResource(setedResource)
+
+            }
+
         }
 
 

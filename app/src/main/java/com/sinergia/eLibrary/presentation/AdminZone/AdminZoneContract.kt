@@ -19,6 +19,17 @@ interface AdminZoneContract {
         fun disableAddResourceButton()
         fun createNewResource()
 
+        fun showHideSetResource()
+        fun showSetResourceProgressBar()
+        fun hideSetResourceProgressBar()
+        fun enableSearchResourceToModifyButton()
+        fun disableSearchResourceToModifyButton()
+        fun enableSetResourceButton()
+        fun disableSetResourceButton()
+        fun getResourceToModify()
+        fun initSetResourceContent(resource: Resource?, libraries: ArrayList<Library>?)
+        fun setResource()
+
         fun showHideAddLibrary()
         fun showAddLibraryProgressBar()
         fun hideAddLibraryProgressBar()
@@ -50,6 +61,10 @@ interface AdminZoneContract {
             isOnline: Boolean,
             urlOnline: String
         )
+
+        fun getResourceToModify(isbn: String)
+        fun setResource(resource: Resource)
+
         fun addNewLibrary(nombre: String, direccion: String, geopoint: GeoPoint)
 
         fun checkEmptyAddResourceFields(titulo: String, autor: String, isbn: String, edicion: String, editorial: String, sinopsis: String): Boolean
@@ -61,13 +76,23 @@ interface AdminZoneContract {
         fun checkEmptyAddResourceSinopsis(sinopsis: String): Boolean
         fun checkEmptyAddResourceIsOnline(isOnline: Boolean, urlOnline: String): Boolean
 
+        fun checkEmptySetResourceFields(titulo: String, autor: String, isbn: String, edicion: String, editorial: String, sinopsis: String): Boolean
+        fun checkEmptySetResourceTitle(titulo: String): Boolean
+        fun checkEmptySetResourceAuthor(autor: String): Boolean
+        fun checkEmptySetResourceISBN(iban: String): Boolean
+        fun checkEmptySetResourceEdition(edicion: String): Boolean
+        fun checkEmptySetResourcePublisher(editorial: String): Boolean
+        fun checkEmptySetResourceSinopsis(sinopsis: String): Boolean
+        fun checkEmptySetResourceIsOnline(isOnline: Boolean, urlOnline: String): Boolean
+
+
         fun checkEmptyAddLibraryFields(nombre: String, direccion: String, latitud: String, longitud: String): Boolean
         fun checkEmptyAddLibraryName(nombre: String): Boolean
         fun checkEmptyAddLibraryAddress(direccion: String): Boolean
         fun checkEmptyAddLibraryLatitude(latitud: String): Boolean
         fun checkEmptyAddLibraryLongitude(longitud: String): Boolean
 
-        fun checkValidISBN(iban: String): Boolean
+        fun checkValidISBN(isbn: String): Boolean
 
     }
 

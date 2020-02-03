@@ -6,7 +6,9 @@ import com.sinergia.eLibrary.presentation.AdminZone.AdminZoneContract
 import com.sinergia.eLibrary.base.Exceptions.FirebaseCreateLibraryException
 import com.sinergia.eLibrary.base.Exceptions.FirebaseCreateResourceException
 import com.sinergia.eLibrary.base.Exceptions.FirebaseGetAllLibrariesException
+import com.sinergia.eLibrary.base.Exceptions.FirebaseSetResourceException
 import com.sinergia.eLibrary.data.Model.Library
+import com.sinergia.eLibrary.data.Model.Resource
 import com.sinergia.eLibrary.presentation.AdminZone.Model.AdminViewModelImpl
 import kotlinx.coroutines.*
 import java.util.regex.Pattern
@@ -27,6 +29,7 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
         this.adminViewModel = adminViewModel
     }
 
+    //PRESENTER MAIN METHODS
     override fun attachView(view: AdminZoneContract.AdminZoneView) {
         this.view = view
     }
@@ -44,8 +47,21 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
     }
 
     //ADD RESOURCE METHODS
-    override fun checkEmptyAddResourceFields(titulo: String, autor: String, isbn: String, edicion: String, editorial: String, sinopsis: String): Boolean {
-        return checkEmptyAddResourceTitle(titulo) || checkEmptyAddResourceAuthor(autor) || checkEmptyAddResourceEdition(edicion) || checkEmptyAddResourcePublisher(editorial) || checkEmptyAddResourceISBN(isbn) || checkEmptyAddResourceSinopsis(sinopsis)
+    override fun checkEmptyAddResourceFields(
+        titulo: String,
+        autor: String,
+        isbn: String,
+        edicion: String,
+        editorial: String,
+        sinopsis: String): Boolean {
+        return (
+            checkEmptyAddResourceTitle(titulo) ||
+            checkEmptyAddResourceAuthor(autor) ||
+            checkEmptyAddResourceEdition(edicion) ||
+            checkEmptyAddResourcePublisher(editorial) ||
+            checkEmptyAddResourceISBN(isbn) ||
+            checkEmptyAddResourceSinopsis(sinopsis)
+        )
     }
 
     override fun checkEmptyAddResourceTitle(titulo: String): Boolean {
@@ -130,6 +146,127 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
 
     }
 
+    //SET RESOURCE METHODS
+    override fun checkEmptySetResourceFields(
+        titulo: String,
+        autor: String,
+        isbn: String,
+        edicion: String,
+        editorial: String,
+        sinopsis: String
+    ): Boolean {
+        return (
+            checkEmptySetResourceTitle(titulo) ||
+            checkEmptySetResourceAuthor(autor) ||
+            checkEmptySetResourceEdition(edicion) ||
+            checkEmptySetResourcePublisher(editorial) ||
+            checkEmptySetResourceISBN(isbn) ||
+            checkEmptySetResourceSinopsis(sinopsis)
+        )
+    }
+
+    override fun checkEmptySetResourceTitle(titulo: String): Boolean {
+        return titulo.isNullOrEmpty()
+    }
+
+    override fun checkEmptySetResourceAuthor(autor: String): Boolean {
+        return autor.isNullOrEmpty()
+    }
+
+    override fun checkEmptySetResourceISBN(isbn: String): Boolean {
+        return isbn.isNullOrEmpty()
+    }
+
+    override fun checkEmptySetResourceEdition(edicion: String): Boolean {
+        return edicion.isNullOrEmpty()
+    }
+
+    override fun checkEmptySetResourcePublisher(editorial: String): Boolean {
+        return editorial.isNullOrEmpty()
+    }
+
+    override fun checkEmptySetResourceSinopsis(sinopsis: String): Boolean {
+        return sinopsis.isNullOrEmpty()
+    }
+
+    override fun checkEmptySetResourceIsOnline(isOnline: Boolean, urlOnline: String): Boolean {
+        if(isOnline) {
+          return urlOnline.isNullOrEmpty()
+        } else {
+            return false
+        }
+    }
+
+    override fun getResourceToModify(isbn: String) {
+        launch{
+
+            Log.d(TAG, "Trying to get Resource with isbn $isbn.")
+            view?.showSetResourceProgressBar()
+            view?.disableSearchResourceToModifyButton()
+
+            try{
+                val resource = adminViewModel?.getResourceToModify(isbn)
+                val libraries = adminViewModel?.getAllLibraries()
+                if(isViewAttach()){
+                    view?.hideSetResourceProgressBar()
+                    view?.enableSearchResourceToModifyButton()
+                    view?.enableSetResourceButton()
+                    view?.initSetResourceContent(resource, libraries)
+                    view?.showMessage("El recurso está listo para sermodificado.")
+                }
+            } catch (error: FirebaseSetResourceException){
+                val errorMsg = error.message.toString()
+
+                if(isViewAttach()){
+                    view?.showError(errorMsg)
+                    view?.hideSetResourceProgressBar()
+                    view?.enableSearchResourceToModifyButton()
+                    view?.disableSetResourceButton()
+                }
+
+                Log.d(TAG, "ERROR: Cannot get Resource with isbn $isbn--> $errorMsg.")
+
+            }
+
+        }
+
+    }
+
+    override fun setResource(resource: Resource) {
+
+        launch{
+
+            val titulo = resource.title
+            Log.d(TAG, "Trying to set Resource with name $titulo.")
+            view?.showSetResourceProgressBar()
+            view?.disableSetResourceButton()
+
+            try{
+                adminViewModel?.setResource(resource)
+                if(isViewAttach()){
+                    view?.hideSetResourceProgressBar()
+                    view?.enableSetResourceButton()
+                    view?.showMessage("El recurso se ha modificado satisfactoriamente.")
+                    view?.navigateToMainPage()
+
+                }
+            } catch (error: FirebaseSetResourceException){
+                val errorMsg = error.message.toString()
+
+                if(isViewAttach()){
+                    view?.showError(errorMsg)
+                    view?.hideSetResourceProgressBar()
+                    view?.enableSetResourceButton()
+                }
+
+                Log.d(TAG, "ERROR: Cannot modify Resource with name $titulo --> $errorMsg.")
+
+            }
+
+        }
+
+    }
+
     //ADD LIBRARY METHODS
     override fun checkEmptyAddLibraryFields(nombre: String, direccion: String, latitud: String, longitud: String): Boolean {
         return checkEmptyAddLibraryName(nombre) || checkEmptyAddLibraryAddress(direccion) || checkEmptyAddLibraryLatitude(latitud) || checkEmptyAddLibraryLongitude(longitud)
@@ -173,9 +310,12 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
             } catch (error: FirebaseCreateLibraryException){
 
                 val errorMsg = error.message
-                view?.showError(errorMsg)
-                view?.hideAddLibraryProgressBar()
-                view?.enableAddLibraryButton()
+
+                if(isViewAttach()) {
+                    view?.showError(errorMsg)
+                    view?.hideAddLibraryProgressBar()
+                    view?.enableAddLibraryButton()
+                }
 
                 Log.d(TAG, "ERROR: Cannot create new LibraryActivity with name $nombre --> $errorMsg.")
 

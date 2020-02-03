@@ -3,6 +3,7 @@ package com.sinergia.eLibrary.presentation.AdminZone.Model
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.GeoPoint
 import com.sinergia.eLibrary.data.Model.Library
+import com.sinergia.eLibrary.data.Model.Resource
 import com.sinergia.eLibrary.domain.UseCases.LibraryUseCases
 import com.sinergia.eLibrary.domain.UseCases.ResourcesUseCases
 
@@ -26,6 +27,14 @@ class AdminViewModelImpl: ViewModel(), AdminViewModel {
         urlOnline: String)
     {
         resourceUseCase.addResource(titulo, autores, isbn, edicion, editorial, sinopsis, disponibility, likes, dislikes, isOnline, urlOnline)
+    }
+
+
+    override suspend fun getResourceToModify(isbn: String): Resource? {
+        return resourceUseCase.getResource(isbn)
+    }
+    override suspend fun setResource(resource: Resource) {
+        resourceUseCase.setResource(resource)
     }
 
     override suspend fun getAllLibraries(): ArrayList<Library> {
