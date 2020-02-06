@@ -44,7 +44,7 @@ class MainMenuActivity : BaseActivity(), MainMenuContract.MainContractView {
     }
 
     override fun getPageTitle(): String {
-        return "MENU PRINCIPAL"
+        return "Menu Principal"
     }
 
 

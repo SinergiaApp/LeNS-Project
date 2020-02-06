@@ -171,10 +171,12 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
 
             for(key in resource?.disponibility.keys){
 
-                var library = RadioButton(this)
-                library.text = resource?.disponibility.get(key).toString()
-                library.setOnClickListener { this.libraryChecked = library.text.toString() }
-                item_catalog_disponibility_radio.addView(library)
+                if(Integer(resource?.disponibility.get(key).toString()) < 0 || resource?.disponibility.get(key) != null) {
+                    var library = RadioButton(this)
+                    library.text = resource?.disponibility.get(key).toString()
+                    library.setOnClickListener { this.libraryChecked = library.text.toString() }
+                    item_catalog_disponibility_radio.addView(library)
+                }
 
             }
 

@@ -3,6 +3,7 @@ package com.sinergia.eLibrary.presentation.AdminZone.View
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
@@ -21,6 +22,8 @@ import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import kotlinx.android.synthetic.main.activity_admin_zone.main_page_title
 import kotlinx.android.synthetic.main.activity_admin_zone.menu_button
 import kotlinx.android.synthetic.main.layout_admin_zone.*
+import kotlinx.android.synthetic.main.layout_admin_zone_new_library.*
+import kotlinx.android.synthetic.main.layout_admin_zone_new_resource.*
 import kotlinx.android.synthetic.main.layout_admin_zone_set_resource.*
 
 class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
@@ -173,7 +176,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         }
 
         override fun hideSetResourceProgressBar() {
-            admin_zone_setResourceProgressBar.visibility = View.GONE
+            admin_zone_setResourceProgressBar.visibility = View.INVISIBLE
         }
 
         override fun enableSetResourceButton() {
@@ -219,6 +222,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
             admin_zone_setBookPublisher.setText(resource?.publisher)
             admin_zone_setBookEdition.setText(resource?.edition)
             admin_zone_setBookISBN.setText(resource?.isbn)
+            admin_zone_setBookSinosis.setText(resource?.sinopsis)
             admin_zone_setIsOnline.isChecked = resource?.isOnline!!
             if(resource?.isOnline) admin_zone_setUrlOnline.setText(resource?.urlOnline)
 
@@ -227,7 +231,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
                 val libName = TextView(this)
                 libName.text = library.name
                 val libDisp = EditText(this)
-                libDisp.inputType = InputType.TYPE_NUMBER_VARIATION_NORMAL
+                libDisp.inputType = InputType.TYPE_CLASS_NUMBER
                 libDisp.tag = library.id
                 if(resource.disponibility.containsKey(library.id)) libDisp.setText(resource.disponibility.get(library.id).toString())
 
@@ -286,10 +290,11 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
                 for(view in admin_zone_setBookDisponibility.children){
                     if( view is EditText  ) {
                         val disp = view as EditText
-                        disponibility.put(view.getTag().toString(), Integer(disp.text.toString()))
+                        var dispNumber = Integer(0)
+                        if(disp.text.toString() != "") dispNumber = Integer(disp.text.toString().trim())
+                        disponibility.put(view.getTag().toString(), dispNumber)
                     }
                 }
-
 
                 val setedResource = Resource(title, authors, publisher, edition, sinopsis, isbn, disponibility, likes, dislikes, isOnline, urlOnline)
 

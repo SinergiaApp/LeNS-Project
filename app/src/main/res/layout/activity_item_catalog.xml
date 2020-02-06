@@ -264,7 +264,7 @@
                     android:background="@drawable/list_item_content_style"
                     android:orientation="vertical"
                     android:padding="10dp"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
 
                     <RadioGroup

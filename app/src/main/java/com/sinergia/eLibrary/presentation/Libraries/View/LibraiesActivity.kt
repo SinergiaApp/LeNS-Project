@@ -31,7 +31,7 @@ class LibraiesActivity : BaseActivity(), LibrariesContract.LibrariesView {
 
     //ACTIVITY TITLE
     override fun getPageTitle(): String {
-        return "BIBLIOTECAS"
+        return "Bibliotecas"
     }
 
     //BASE ACTIVITY METHODS

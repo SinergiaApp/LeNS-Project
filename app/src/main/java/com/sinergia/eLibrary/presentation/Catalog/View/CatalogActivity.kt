@@ -42,7 +42,7 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
 
     //ACTIVITY TITLE
     override fun getPageTitle(): String {
-        return "CATÁLOGO"
+        return "Catálogo"
     }
 
 
