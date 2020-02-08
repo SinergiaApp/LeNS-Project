@@ -59,7 +59,7 @@
         android:background="@drawable/edit_text_login_register"
         android:textColor="@color/colorBlack"
         android:ems="2"
-        android:inputType="numberSigned|numberDecimal"
+        android:inputType="numberSigned"
         android:hint="Localización (Latitud)" />
     <EditText
         android:id="@+id/admin_zone_libraryGeoPoint2"
@@ -70,7 +70,7 @@
         android:background="@drawable/edit_text_login_register"
         android:textColor="@color/colorBlack"
         android:ems="2"
-        android:inputType="numberSigned|numberDecimal"
+        android:inputType="numberSigned"
         android:hint="Localización (Longitud)" />
 
     <ProgressBar
@@ -82,7 +82,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
-        android:visibility="gone" />
+        android:visibility="invisible" />
 
     <Button
         android:id="@+id/admin_zone_addNewLibraryButton"

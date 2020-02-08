@@ -119,23 +119,25 @@ class NelsDataBase {
             .collection("resources")
             .document(isbn)
             .get()
-            .addOnCompleteListener { resource ->
-
-                if(resource.isSuccessful){
-
-                    val resourceDB = resource.getResult()!!.toObject(Resource::class.java)
-                    getResourceContinuation.resume(resourceDB!!)
-
-                } else {
-
+            .addOnSuccessListener {resource ->
+                val resourceDB = resource.toObject(Resource::class.java)
+                if(resourceDB == null){
                     getResourceContinuation.resumeWithException(
                         FirebaseGetResourceException(
-                            resource.exception?.message.toString()
+                            "Vaya... no tenemos ningún recurso con isbn $isbn."
                         )
                     )
-
+                } else {
+                    getResourceContinuation.resume(resourceDB!!)
                 }
 
+            }
+            .addOnFailureListener {resourceException ->
+                getResourceContinuation.resumeWithException(
+                    FirebaseGetResourceException(
+                        resourceException.message.toString()
+                    )
+                )
             }
 
     }
@@ -294,6 +296,33 @@ class NelsDataBase {
 
             }
 
+
+    }
+
+    suspend fun setLibrary(library: Library): Unit = suspendCancellableCoroutine{setLibraryContinuation ->
+
+        val settedLibrary: HashMap<String, Any> = hashMapOf(
+            "name" to library.name,
+            "address" to library.address,
+            "geopoint" to library.geopoint
+        )
+
+        nelsDB
+            .document("libraries/${library.id}")
+            .set(settedLibrary)
+            .addOnCompleteListener {setLibrary ->
+
+                if(setLibrary.isSuccessful){
+                    setLibraryContinuation.resume(Unit)
+                } else {
+                    setLibraryContinuation.resumeWithException(
+                        FirebaseSetResourceException(
+                            setLibrary.exception?.message.toString()
+                        )
+                    )
+                }
+
+            }
 
     }
 

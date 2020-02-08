@@ -34,12 +34,6 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
     private var cameraPermissionGranted = false
     private var buttonRequestCameraPermission = false
 
-    companion object {
-
-        private val CAMERA_PERMISSIONS_CODE = 1
-        private val CAMETA_INTENT_CODE = 2
-    }
-
     //ACTIVITY TITLE
     override fun getPageTitle(): String {
         return "Catálogo"
@@ -82,8 +76,13 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
 
     }
 
+    override fun getLayout(): Int {
+        return R.layout.activity_catalog
+    }
+
+    // CAMERA METHODS
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if(requestCode == CAMETA_INTENT_CODE && resultCode == Activity.RESULT_OK){
+        if(requestCode == NeLSProject.CAMERA_INTENT_CODE && resultCode == Activity.RESULT_OK){
 
             if(data != null){
                 var resultBarCode = data.getStringExtra("codigo")
@@ -97,7 +96,7 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when(requestCode) {
-            CAMERA_PERMISSIONS_CODE ->
+            NeLSProject.CAMERA_PERMISSIONS_CODE ->
                 if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (buttonRequestCameraPermission) startScan()
                     cameraPermissionGranted = true
@@ -108,8 +107,21 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
         }
     }
 
-    override fun getLayout(): Int {
-        return R.layout.activity_catalog
+    override fun startScan() {
+        val scanIntent = Intent(this, CameraScanActivity::class.java)
+        startActivityForResult(scanIntent, NeLSProject.CAMERA_INTENT_CODE)
+    }
+
+    override fun checkAndSetCamentaPermissions() {
+
+        val permissionStatus = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+
+        if(permissionStatus == PackageManager.PERMISSION_GRANTED ) {
+            cameraPermissionGranted = true
+        } else {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), NeLSProject.CAMERA_PERMISSIONS_CODE)
+        }
+
     }
 
     //CATALOG CONTRACT METHODS
@@ -362,23 +374,6 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
 
     override fun eraseCatalog() {
         catalog_content.removeAllViews()
-    }
-
-    override fun startScan() {
-        val scanIntent = Intent(this, CameraScanActivity::class.java)
-        startActivityForResult(scanIntent, CAMETA_INTENT_CODE)
-    }
-
-    override fun checkAndSetCamentaPermissions() {
-
-        val permissionStatus = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-
-        if(permissionStatus == PackageManager.PERMISSION_GRANTED ) {
-            cameraPermissionGranted = true
-        } else {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), CatalogActivity.CAMERA_PERMISSIONS_CODE)
-        }
-
     }
 
     override fun onDetachedFromWindow() {

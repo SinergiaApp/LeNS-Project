@@ -26,4 +26,7 @@ interface AdminViewModel {
 
     suspend fun getAllLibraries(): ArrayList<Library>
 
+    suspend fun getLibraryToModify(id: String): Library?
+    suspend fun setLibrary(library: Library)
+
 }

@@ -2,11 +2,8 @@ package com.sinergia.eLibrary.presentation.AdminZone.Presenter
 
 import android.util.Log
 import com.google.firebase.firestore.GeoPoint
+import com.sinergia.eLibrary.base.Exceptions.*
 import com.sinergia.eLibrary.presentation.AdminZone.AdminZoneContract
-import com.sinergia.eLibrary.base.Exceptions.FirebaseCreateLibraryException
-import com.sinergia.eLibrary.base.Exceptions.FirebaseCreateResourceException
-import com.sinergia.eLibrary.base.Exceptions.FirebaseGetAllLibrariesException
-import com.sinergia.eLibrary.base.Exceptions.FirebaseSetResourceException
 import com.sinergia.eLibrary.data.Model.Library
 import com.sinergia.eLibrary.data.Model.Resource
 import com.sinergia.eLibrary.presentation.AdminZone.Model.AdminViewModelImpl
@@ -127,7 +124,7 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
                     view?.hideAddResourceProgressBar()
                     view?.enableAddResourceButton()
                     view?.showMessage("El Recurso se ha creado satisfactoriamente.")
-                    view?.navigateToMainPage()
+                    view?.navigateToCatalog()
                 }
 
                 Log.d(TAG, "Succesfully create new Resource.")
@@ -205,15 +202,21 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
             view?.disableSearchResourceToModifyButton()
 
             try{
+
                 val resource = adminViewModel?.getResourceToModify(isbn)
                 val libraries = adminViewModel?.getAllLibraries()
+
                 if(isViewAttach()){
                     view?.hideSetResourceProgressBar()
                     view?.enableSearchResourceToModifyButton()
                     view?.enableSetResourceButton()
+                    view?.showSetResouceContent()
                     view?.initSetResourceContent(resource, libraries)
                     view?.showMessage("El recurso está listo para sermodificado.")
                 }
+
+                Log.d(TAG, "Succesfully getted resource to modify with isbn $isbn.")
+
             } catch (error: FirebaseSetResourceException){
                 val errorMsg = error.message.toString()
 
@@ -242,15 +245,21 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
             view?.disableSetResourceButton()
 
             try{
+
                 adminViewModel?.setResource(resource)
+
                 if(isViewAttach()){
                     view?.hideSetResourceProgressBar()
                     view?.enableSetResourceButton()
                     view?.showMessage("El recurso se ha modificado satisfactoriamente.")
-                    view?.navigateToMainPage()
+                    view?.navigateToCatalog()
 
                 }
+
+                Log.d(TAG, "Succesfully Modified Resource with isbn ${resource.isbn}.")
+
             } catch (error: FirebaseSetResourceException){
+
                 val errorMsg = error.message.toString()
 
                 if(isViewAttach()){
@@ -288,6 +297,19 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
         return longitud.isNullOrEmpty()
     }
 
+    override fun checkInRangeAddLibraryGeopoints(latitud: String, longitud: String): Boolean {
+        return checkInRangeAddLibraryLatitude(latitud) || checkInRangeAddLibraryLongitude(longitud)
+    }
+
+    override fun checkInRangeAddLibraryLatitude(latitud: String): Boolean {
+        return latitud.toDouble() < -180.0 || latitud.toDouble() > 180.0
+    }
+
+    override fun checkInRangeAddLibraryLongitude(longitud: String): Boolean {
+        return longitud.toDouble() < -180.0 || longitud.toDouble() > 180.0
+    }
+
+
     override fun addNewLibrary(nombre: String, direccion: String, geopoint: GeoPoint) {
 
         launch {
@@ -303,7 +325,7 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
                     view?.hideAddLibraryProgressBar()
                     view?.enableAddLibraryButton()
                     view?.showMessage("La Biblioteca se ha creado satisfactoriamente.")
-                    view?.navigateToMainPage()
+                    view?.navigateToCatalog()
                 }
                 Log.d(TAG, "Succesfully creates new LibraryActivity.")
 
@@ -322,6 +344,132 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
             }
 
         }
+
+    }
+
+    // SET LIBRARY METHODS
+    override fun checkEmptySetLibraryFields(
+        nombre: String,
+        direccion: String,
+        latitud: String,
+        longitud: String
+    ): Boolean {
+        return (
+            checkEmptySetLibraryName(nombre) ||
+            checkEmptySetLibraryAddress(direccion) ||
+            checkEmptySetLibraryLatitude(latitud) ||
+            checkEmptySetLibraryLongitude(longitud)
+        )
+    }
+
+    override fun checkEmptySetLibraryName(nombre: String): Boolean {
+        return nombre.isNullOrEmpty()
+    }
+
+    override fun checkEmptySetLibraryAddress(direccion: String): Boolean {
+        return direccion.isNullOrEmpty()
+    }
+
+    override fun checkEmptySetLibraryLatitude(latitud: String): Boolean {
+        return latitud.isNullOrEmpty()
+    }
+
+    override fun checkEmptySetLibraryLongitude(longitud: String): Boolean {
+        return longitud.isNullOrEmpty()
+    }
+
+    override fun checkInRangeSetLibraryGeopoints(latitud: String, longitud: String): Boolean {
+        return checkInRangeSetLibraryLatitude(latitud) || checkInRangeAddLibraryLongitude(longitud)
+    }
+
+    override fun checkInRangeSetLibraryLatitude(latitud: String): Boolean {
+        return latitud.toDouble() < -180.0 || latitud.toDouble() > 180.0
+    }
+
+    override fun checkInRangeSetLibraryLogitude(longitud: String): Boolean {
+        return longitud.toDouble() < -180.0 || longitud.toDouble() > 180.0
+    }
+
+    override fun getLibraryToModify(id: String) {
+
+        Log.d(TAG, "Trying to get library with id $id.")
+        view?.showSetLibraryProgressBar()
+        view?.disableSearchLibraryToModifyButton()
+        view?.disableSetLibraryButton()
+
+        launch{
+
+            try{
+
+                var library = adminViewModel?.getLibraryToModify(id)
+
+                view?.hideSetLibraryProgressBar()
+                view?.enableSearchLibraryToModifyButton()
+                view?.enableSetLibraryButton()
+                view?.showSetLibraryContent()
+                view?.initLibraryContent(library)
+                view?.showMessage("La biblioteca está lista para ser modificada.")
+
+                Log.d(TAG, "Succesfully getted library to modify with id $id.")
+
+            } catch(error: FirebaseGetLibraryException){
+
+                val errorMsg = error.message.toString()
+
+                if(isViewAttach()){
+                    view?.showError(errorMsg)
+                    view?.hideSetLibraryProgressBar()
+                    view?.enableSearchLibraryToModifyButton()
+                    view?.disableSetLibraryButton()
+                }
+
+                Log.d(TAG, "ERROR: Cannot get Library with id $id--> $errorMsg.")
+            }
+
+        }
+
+
+    }
+
+    override fun setLibrary(library: Library) {
+
+        Log.d(TAG, "Trying to modify Library with id ${library.id}.")
+        view?.showSetLibraryProgressBar()
+        view?.disableSearchLibraryToModifyButton()
+        view?.disableSetLibraryButton()
+
+        launch{
+
+            try {
+
+                adminViewModel?.setLibrary(library)
+
+                if(isViewAttach()){
+                    view?.hideSetLibraryProgressBar()
+                    view?.enableSetLibraryButton()
+                    view?.showMessage("La Biblioteca se ha modificado satisfactoriamente.")
+                    view?.navigateToLibraries()
+                }
+
+                Log.d(TAG, "Succesfully Modified Library with id ${library.id}.")
+
+            } catch (error: FirebaseSetLibraryException){
+
+                val errorMsg = error.message.toString()
+
+                if(isViewAttach()){
+                    view?.showError(errorMsg)
+                    view?.hideSetLibraryProgressBar()
+                    view?.enableSearchLibraryToModifyButton()
+                    view?.enableSetLibraryButton()
+                }
+
+                Log.d(TAG, "ERROR: Cannot set Library with id ${library.id}--> $errorMsg.")
+
+            }
+
+        }
+
 
     }
 

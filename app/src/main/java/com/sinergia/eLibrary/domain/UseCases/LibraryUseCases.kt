@@ -20,4 +20,8 @@ class LibraryUseCases {
         nelsDB.addLibrary(nombre, direccion, geopoint)
     }
 
+    suspend fun setLibrary(library: Library){
+        nelsDB.setLibrary(library)
+    }
+
 }

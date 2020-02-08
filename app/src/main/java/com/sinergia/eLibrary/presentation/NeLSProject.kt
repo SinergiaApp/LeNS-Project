@@ -10,6 +10,9 @@ class NeLSProject: Application() {
         var adminUser = false
         var library = "noItemSelected"
         var book = "noItemSelected"
+
+        val CAMERA_PERMISSIONS_CODE = 1
+        val CAMERA_INTENT_CODE = 2
     }
 
 

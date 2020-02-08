@@ -12,7 +12,7 @@ class AdminViewModelImpl: ViewModel(), AdminViewModel {
     val resourceUseCase = ResourcesUseCases()
     val libraryUseCases = LibraryUseCases()
 
-    //CREATE NEW RESOURCE FUNCTIONS
+    // RESOURCES METHODS
     override suspend fun addNewResource(
         titulo: String,
         autores: List<String>,
@@ -41,9 +41,17 @@ class AdminViewModelImpl: ViewModel(), AdminViewModel {
         return libraryUseCases.getAllLibraries()
     }
 
-    //CREATE NEW LIBRARY FUNCTION
+    // LIBRARIES METHODS
     override suspend fun addNewLibrary(nombre: String, direccion: String, geopoint: GeoPoint) {
         libraryUseCases.addLibrary(nombre, direccion, geopoint)
+    }
+
+    override suspend fun getLibraryToModify(id: String): Library? {
+        return libraryUseCases.getLibrary(id)
+    }
+
+    override suspend fun setLibrary(library: Library) {
+        libraryUseCases.setLibrary(library)
     }
 
 }

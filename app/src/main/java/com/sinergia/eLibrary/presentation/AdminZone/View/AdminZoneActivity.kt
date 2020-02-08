@@ -1,12 +1,16 @@
 package com.sinergia.eLibrary.presentation.AdminZone.View
 
+import android.Manifest
+import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.firestore.GeoPoint
@@ -17,20 +21,29 @@ import com.sinergia.eLibrary.data.Model.Resource
 import com.sinergia.eLibrary.presentation.AdminZone.AdminZoneContract
 import com.sinergia.eLibrary.presentation.AdminZone.AdminZoneContract.AdminZonePresenter
 import com.sinergia.eLibrary.presentation.AdminZone.Model.AdminViewModelImpl
+import com.sinergia.eLibrary.presentation.CameraScan.View.CameraScanActivity
 import com.sinergia.eLibrary.presentation.Catalog.View.CatalogActivity
+import com.sinergia.eLibrary.presentation.Libraries.View.LibraiesActivity
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
+import com.sinergia.eLibrary.presentation.NeLSProject
 import kotlinx.android.synthetic.main.activity_admin_zone.main_page_title
 import kotlinx.android.synthetic.main.activity_admin_zone.menu_button
 import kotlinx.android.synthetic.main.layout_admin_zone.*
 import kotlinx.android.synthetic.main.layout_admin_zone_new_library.*
 import kotlinx.android.synthetic.main.layout_admin_zone_new_resource.*
+import kotlinx.android.synthetic.main.layout_admin_zone_set_library.*
 import kotlinx.android.synthetic.main.layout_admin_zone_set_resource.*
+import kotlinx.android.synthetic.main.layout_admin_zone_set_resource.admin_zone_setBookSearch_btn
 
 class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
 
     private lateinit var adminPresenter: AdminZonePresenter
     private lateinit var adminViewModel: AdminViewModelImpl
     private lateinit var getedResource: Resource
+
+    private lateinit var fillField: String
+    private var cameraPermissionGranted = false
+    private var buttonRequestCameraPermission = false
 
     //BASEACTIVITY METHODS
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,12 +61,18 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         admin_zone_addResourceButton.setOnClickListener { showHideAddResource() }
         admin_zone_addNewResourceButton.setOnClickListener { createNewResource() }
 
+        admin_zone_setBookSearch_icon2.setOnClickListener { clickOnCamera("setResource") }
         admin_zone_setBookSearch_btn.setOnClickListener { getResourceToModify() }
         admin_zone_setResourceButton.setOnClickListener { showHideSetResource() }
         admin_zone_setResource_btn.setOnClickListener { setResource() }
 
         admin_zone_addLibraryButton.setOnClickListener { showHideAddLibrary() }
         admin_zone_addNewLibraryButton.setOnClickListener { createNewLibrary() }
+
+        admin_zone_setLibrarySearch_icon2.setOnClickListener { clickOnCamera("setLibrary") }
+        admin_zone_setLibrarySearch_btn.setOnClickListener { getLibraryToModify() }
+        admin_zone_setLibraryButton.setOnClickListener { showHideSetLibrary() }
+        admin_zone_setLibrary_btn.setOnClickListener { setLibrary() }
 
     }
 
@@ -65,8 +84,64 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         return "Zona de Administración"
     }
 
-    //ADMIN ZONE CONTRACT METHODS
+    // CAMERA METHODS
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if(requestCode == NeLSProject.CAMERA_INTENT_CODE && resultCode == Activity.RESULT_OK){
 
+            if(data != null){
+                var resultBarCode = data.getStringExtra("codigo")
+                if(fillField == "setResource") admin_zone_setBookSearch.setText(resultBarCode)
+                if(fillField == "setLibrary") admin_zone_setLibrarySearch.setText(resultBarCode)
+
+            } else {
+                toastL(this, "Imposible leer el código, vuelve a intentarlo.")
+            }
+
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when(requestCode) {
+            NeLSProject.CAMERA_PERMISSIONS_CODE ->
+                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (buttonRequestCameraPermission) startScan()
+                    cameraPermissionGranted = true
+                } else {
+                    toastL(this, "El escaneo no se podrá llevar a cabo hasta que no concedas los permisos de usar la cámara."
+                    )
+                }
+        }
+    }
+
+    override fun clickOnCamera(field: String) {
+        if(!cameraPermissionGranted){
+            toastL(this@AdminZoneActivity, "Por favor permite que la app acceda a la cámara")
+            buttonRequestCameraPermission = true
+            checkAndSetCamentaPermissions()
+        } else {
+            fillField = field
+            startScan()
+        }
+    }
+
+    override fun startScan() {
+        val scanIntent = Intent(this, CameraScanActivity::class.java)
+        startActivityForResult(scanIntent, NeLSProject.CAMERA_INTENT_CODE)
+    }
+
+    override fun checkAndSetCamentaPermissions() {
+
+        val permissionStatus = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+
+        if(permissionStatus == PackageManager.PERMISSION_GRANTED ) {
+            cameraPermissionGranted = true
+        } else {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), NeLSProject.CAMERA_PERMISSIONS_CODE)
+        }
+
+    }
+
+    //ADMIN ZONE CONTRACT METHODS
     override fun showError(error: String?) {
         toastL(this, error)
     }
@@ -75,13 +150,20 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         toastL(this,message)
     }
 
-    override fun navigateToMainPage() {
-        val intentMainPage = Intent(this, CatalogActivity::class.java)
-        intentMainPage.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-        startActivity(intentMainPage)
+    override fun navigateToCatalog() {
+        val intentcatalogPage = Intent(this, CatalogActivity::class.java)
+        intentcatalogPage.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intentcatalogPage)
     }
 
-        //CREATE RESOURCE METHODS
+    override fun navigateToLibraries() {
+        val intentLibrariesPage = Intent(this, LibraiesActivity::class.java)
+        intentLibrariesPage.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intentLibrariesPage)
+    }
+
+
+    //CREATE RESOURCE METHODS
         override fun showHideAddResource() {
             if(admin_zone_addResourceWindow.visibility == View.GONE){
                 admin_zone_addResourceWindow.visibility = View.VISIBLE
@@ -149,7 +231,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         }
 
         override fun hideAddResourceProgressBar() {
-            admin_zone_newResourceProgressBar.visibility = View.GONE
+            admin_zone_newResourceProgressBar.visibility = View.INVISIBLE
         }
 
         override fun enableAddResourceButton() {
@@ -199,7 +281,11 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
             admin_zone_setBookSearch_btn.isEnabled = false
         }
 
-    override fun getResourceToModify() {
+        override fun showSetResouceContent() {
+            admin_zone_setResourceContent.visibility = View.VISIBLE
+        }
+
+        override fun getResourceToModify() {
             if(admin_zone_setBookSearch.text.isNullOrEmpty()){
                 showError("Por favor, indica el ISBN del libro a modificar o escanea un código para continuar.")
             } else {
@@ -242,8 +328,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
 
         }
 
-
-    override fun setResource() {
+        override fun setResource() {
 
             val title = admin_zone_setBookTitle.text.toString()
             val author = admin_zone_setBookAuthor.text.toString()
@@ -319,7 +404,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         }
 
         override fun hideAddLibraryProgressBar() {
-            admin_zone_addNewLibraryButton.visibility = View.GONE
+            admin_zone_addNewLibraryButton.visibility = View.INVISIBLE
         }
 
         override fun enableAddLibraryButton() {
@@ -358,6 +443,16 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
                     admin_zone_libraryGeoPoint2.error = "¡Cuidado! El campo 'Logitud' introducido es erróneo, tiene que ser un número con decimales."
                 }
 
+            } else if(adminPresenter.checkInRangeAddLibraryGeopoints(latitud, longitud)) {
+
+                if (adminPresenter.checkInRangeAddLibraryLatitude(latitud)) {
+                    admin_zone_libraryGeoPoint1.error ="¡Cuidado! El campo 'Latitud' introducido es erróneo, tiene que estar comprendido entre -180.0 y 180.0."
+                }
+
+                if (adminPresenter.checkInRangeAddLibraryLongitude(longitud)) {
+                    admin_zone_libraryGeoPoint2.error ="¡Cuidado! El campo 'Longitud' introducido es erróneo, tiene que estar comprendido entre -180.0 y 180.0."
+                }
+
             } else {
 
                 showAddLibraryProgressBar()
@@ -369,6 +464,115 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
             }
 
         }
+
+        // SET LIBRARY METHODS
+        override fun showHideSetLibrary() {
+            if(admin_zone_setLibraryWindow.visibility == View.VISIBLE){
+                admin_zone_setLibraryWindow.visibility = View.GONE
+            } else {
+                admin_zone_setLibraryWindow.visibility = View.VISIBLE
+            }
+        }
+
+        override fun showSetLibraryProgressBar() {
+            admin_zone_setLibraryProgressBar.visibility = View.VISIBLE
+        }
+
+        override fun hideSetLibraryProgressBar() {
+            admin_zone_setLibraryProgressBar.visibility = View.INVISIBLE
+        }
+
+        override fun enableSearchLibraryToModifyButton() {
+            admin_zone_setLibrarySearch_btn.isEnabled = true
+            admin_zone_setLibrarySearch_btn.isClickable = true
+        }
+
+        override fun disableSearchLibraryToModifyButton() {
+            admin_zone_setLibrarySearch_btn.isEnabled = false
+            admin_zone_setLibrarySearch_btn.isClickable = false
+        }
+
+        override fun enableSetLibraryButton() {
+            admin_zone_setLibrary_btn.isEnabled = true
+            admin_zone_setLibrary_btn.isClickable = true
+        }
+
+        override fun disableSetLibraryButton() {
+            admin_zone_setLibrary_btn.isEnabled = false
+            admin_zone_setLibrary_btn.isClickable = false
+        }
+
+        override fun showSetLibraryContent() {
+            admin_zone_setLibraryContent.visibility = View.VISIBLE
+        }
+
+        override fun getLibraryToModify() {
+            if(admin_zone_setLibrarySearch.text.isNullOrEmpty()){
+                showError("Por favor, indica el ID de la Biblioteca a modificar o escanea un código para continuar.")
+            } else {
+                adminPresenter.getLibraryToModify(admin_zone_setLibrarySearch.text.toString())
+            }
+        }
+
+        override fun initLibraryContent(library: Library?) {
+
+            admin_zone_setLibraryName_title.setText(library?.name.toString())
+            admin_zone_setLibraryId.setText(library?.id.toString())
+            admin_zone_setLibraryName.setText(library?.name.toString())
+            admin_zone_setLibraryAddress.setText(library?.address.toString())
+            admin_zone_setLibraryGeoPoint1.setText(library?.geopoint?.latitude.toString())
+            admin_zone_setLibraryGeoPoint2.setText(library?.geopoint?.longitude.toString())
+
+        }
+
+        override fun setLibrary() {
+
+            val id = admin_zone_setLibraryId.text.toString()
+            val name = admin_zone_setLibraryName.text.toString()
+            val address = admin_zone_setLibraryAddress.text.toString()
+            val latitude = admin_zone_setLibraryGeoPoint1.text.toString()
+            val longitude = admin_zone_setLibraryGeoPoint2.text.toString()
+
+            if(adminPresenter.checkEmptyAddLibraryFields(name, address, latitude, longitude)){
+
+                if(adminPresenter.checkEmptySetLibraryName(name)){
+                    admin_zone_setLibraryName.error = "¡Cuidado! El campo 'Nombre' es obligatorio."
+                }
+
+                if(adminPresenter.checkEmptySetLibraryAddress(address)){
+                    admin_zone_setLibraryAddress.error = "¡Cuidado! El campo 'Dirección' es obligatorio."
+                }
+
+                if(adminPresenter.checkEmptySetLibraryLatitude(latitude)){
+                    admin_zone_setLibraryGeoPoint1.error = "¡Cuidado! El campo 'Latitud' es obligatorio."
+                }
+
+                if(adminPresenter.checkEmptySetLibraryLongitude(longitude)){
+                    admin_zone_setLibraryGeoPoint2.error = "¡Cuidado! El campo 'Logitud' es obligatorio."
+                }
+
+            } else if(adminPresenter.checkInRangeSetLibraryGeopoints(latitude, longitude)) {
+
+                if (adminPresenter.checkInRangeSetLibraryLatitude(latitude)) {
+                    admin_zone_setLibraryGeoPoint1.error ="¡Cuidado! El campo 'Latitud' introducido es erróneo, tiene que estar comprendido entre -180.0 y 180.0."
+                }
+
+                if (adminPresenter.checkInRangeSetLibraryLogitude(longitude)) {
+                    admin_zone_setLibraryGeoPoint2.error ="¡Cuidado! El campo 'Longitud' introducido es erróneo, tiene que estar comprendido entre -180.0 y 180.0."
+                }
+
+            } else {
+
+                val settedGeopoint = GeoPoint(latitude.toDouble(), longitude.toDouble())
+
+                val settedLibrary = Library(id, name, address, settedGeopoint)
+
+                adminPresenter.setLibrary(settedLibrary)
+
+            }
+
+        }
+
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()

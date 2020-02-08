@@ -65,7 +65,7 @@
             android:gravity="center_horizontal">
 
             <Button
-                android:id="@+id/admin_zone_setBookSearch_btn"
+                android:id="@+id/admin_zone_setLibrarySearch_btn"
                 android:layout_width="220dp"
                 android:layout_height="52dp"
                 android:layout_marginTop="19dp"
@@ -77,93 +77,120 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/admin_zone_setLibraryName_title"
+    <LinearLayout
+        android:id="@+id/admin_zone_setLibraryContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nombre de la Biblioteca"
-        android:textAlignment="center"
-        android:textColor="@color/colorWhite"
-        android:textSize="24sp" />
-    <TextView
-        android:id="@+id/admin_zone_setLibraryId"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:text="(Identificador de la Biblioteca)"
-        android:textAlignment="center"
-        android:textColor="@color/colorWhite"
-        android:textSize="18sp" />
+        android:orientation="vertical"
+        android:visibility="gone">
 
-    <TextView
-        android:id="@+id/setLibraryExplainText1"
-        android:layout_width="65dp"
-        android:layout_height="19dp"
-        android:textColor="@color/colorBlack"
-        android:text="Nombre de la Biblioteca:"/>
-    <EditText
-        android:id="@+id/admin_zone_setLibraryName"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/edit_text_login_register"
-        android:textColor="@color/colorBlack"
-        android:inputType="textCapSentences"
-        android:ems="2"
-        android:hint="Nombre de la Biblioteca"/>
 
-    <TextView
-        android:id="@+id/setLibraryExplainText3"
-        android:layout_width="65dp"
-        android:layout_height="19dp"
-        android:textColor="@color/colorBlack"
-        android:text="Geolocalización de la Biblioteca:"/>
-    <EditText
-        android:id="@+id/admin_zone_setLibraryGeoPoint1"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/edit_text_login_register"
-        android:textColor="@color/colorBlack"
-        android:ems="2"
-        android:inputType="numberSigned|numberDecimal"
-        android:hint="Localización (Latitud)" />
-    <EditText
-        android:id="@+id/admin_zone_setLibraryGeoPoint2"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/edit_text_login_register"
-        android:textColor="@color/colorBlack"
-        android:ems="2"
-        android:inputType="numberSigned|numberDecimal"
-        android:hint="Localización (Longitud)" />
+        <TextView
+            android:id="@+id/admin_zone_setLibraryName_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nombre de la Biblioteca"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:textSize="24sp" />
+        <TextView
+            android:id="@+id/admin_zone_setLibraryId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="(Identificador de la Biblioteca)"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp" />
 
-    <ProgressBar
-        android:id="@+id/admin_zone_setLibraryProgressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:visibility="invisible" />
+        <TextView
+            android:id="@+id/setLibraryExplainText1"
+            android:layout_width="65dp"
+            android:layout_height="19dp"
+            android:textColor="@color/colorBlack"
+            android:text="Nombre de la Biblioteca:"/>
+        <EditText
+            android:id="@+id/admin_zone_setLibraryName"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/edit_text_login_register"
+            android:textColor="@color/colorBlack"
+            android:inputType="textCapSentences"
+            android:ems="2"
+            android:hint="Nombre de la Biblioteca"/>
 
-    <Button
-        android:id="@+id/admin_zone_setLibrary_btn"
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/main_button_style"
-        android:fontFamily="Verdana"
-        android:text="MODIFICAR BIBLIOTECA"
-        android:textColor="@color/colorWhite"
-        android:enabled="false"
-        android:clickable="false"/>
+        <TextView
+            android:id="@+id/setLibraryExplainText2"
+            android:layout_width="65dp"
+            android:layout_height="19dp"
+            android:textColor="@color/colorBlack"
+            android:text="Dirección de la Biblioteca:"/>
+        <EditText
+            android:id="@+id/admin_zone_setLibraryAddress"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/edit_text_login_register"
+            android:textColor="@color/colorBlack"
+            android:inputType="textCapSentences"
+            android:ems="2"
+            android:hint="Dirección de la Biblioteca"/>
+
+        <TextView
+            android:id="@+id/setLibraryExplainText3"
+            android:layout_width="65dp"
+            android:layout_height="19dp"
+            android:textColor="@color/colorBlack"
+            android:text="Geolocalización de la Biblioteca:"/>
+        <EditText
+            android:id="@+id/admin_zone_setLibraryGeoPoint1"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/edit_text_login_register"
+            android:textColor="@color/colorBlack"
+            android:ems="2"
+            android:inputType="numberSigned|numberDecimal"
+            android:hint="Localización (Latitud)" />
+        <EditText
+            android:id="@+id/admin_zone_setLibraryGeoPoint2"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/edit_text_login_register"
+            android:textColor="@color/colorBlack"
+            android:ems="2"
+            android:inputType="numberSigned|numberDecimal"
+            android:hint="Localización (Longitud)" />
+
+        <ProgressBar
+            android:id="@+id/admin_zone_setLibraryProgressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/admin_zone_setLibrary_btn"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/main_button_style"
+            android:fontFamily="Verdana"
+            android:text="MODIFICAR BIBLIOTECA"
+            android:textColor="@color/colorWhite"
+            android:enabled="false"
+            android:clickable="false"/>
+
+    </LinearLayout>
 
 </LinearLayout>
