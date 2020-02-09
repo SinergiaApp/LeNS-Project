@@ -124,13 +124,12 @@ class NelsDataBase {
                 if(resourceDB == null){
                     getResourceContinuation.resumeWithException(
                         FirebaseGetResourceException(
-                            "Vaya... no tenemos ningún recurso con isbn $isbn."
+                            "Vaya... no tenemos el Recurso con ISBN $isbn."
                         )
                     )
                 } else {
                     getResourceContinuation.resume(resourceDB!!)
                 }
-
             }
             .addOnFailureListener {resourceException ->
                 getResourceContinuation.resumeWithException(
@@ -279,23 +278,30 @@ class NelsDataBase {
             .collection("libraries")
             .document(id)
             .get()
-            .addOnCompleteListener {library ->
+            .addOnSuccessListener { library ->
 
-                if(library.isSuccessful){
+                val libraryDB = library.toObject(Library::class.java)
 
-                    val libraryDB = library.getResult()!!.toObject(Library::class.java)
-                    libraryDB?.id = library.getResult()!!.id
-                    getLibraryContinuation.resume(libraryDB!!)
-
+                if(libraryDB == null){
+                    getLibraryContinuation.resumeWithException(
+                        FirebaseGetLibraryException(
+                            "Vaya... no tenemos la Biblioteca con Identificador $id."
+                        )
+                    )
                 } else {
-
-                    getLibraryContinuation.resumeWithException(FirebaseGetLibraryException(library.exception?.message.toString()))
-
+                    libraryDB?.id = library.id
+                    getLibraryContinuation.resume(libraryDB!!)
                 }
 
+            }
+            .addOnFailureListener{getLibraryException ->
+                getLibraryContinuation.resumeWithException(
+                    FirebaseGetLibraryException(
+                        "Vaya... no tenemos la Biblioteca con Identificador $id."
+                    )
+                )
 
             }
-
 
     }
 

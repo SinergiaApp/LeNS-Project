@@ -8,6 +8,7 @@ import com.sinergia.eLibrary.data.Model.Library
 import com.sinergia.eLibrary.data.Model.Resource
 import com.sinergia.eLibrary.presentation.AdminZone.Model.AdminViewModelImpl
 import kotlinx.coroutines.*
+import java.lang.NullPointerException
 import java.util.regex.Pattern
 import kotlin.coroutines.CoroutineContext
 
@@ -207,17 +208,22 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
                 val libraries = adminViewModel?.getAllLibraries()
 
                 if(isViewAttach()){
-                    view?.hideSetResourceProgressBar()
-                    view?.enableSearchResourceToModifyButton()
-                    view?.enableSetResourceButton()
-                    view?.showSetResouceContent()
-                    view?.initSetResourceContent(resource, libraries)
-                    view?.showMessage("El recurso está listo para sermodificado.")
+                    if(resource == null){
+
+                    } else {
+                        view?.hideSetResourceProgressBar()
+                        view?.enableSearchResourceToModifyButton()
+                        view?.enableSetResourceButton()
+                        view?.showSetResouceContent()
+                        view?.initSetResourceContent(resource, libraries)
+                        view?.showMessage("El recurso está listo para sermodificado.")
+                    }
+
                 }
 
                 Log.d(TAG, "Succesfully getted resource to modify with isbn $isbn.")
 
-            } catch (error: FirebaseSetResourceException){
+            } catch (error: FirebaseGetResourceException){
                 val errorMsg = error.message.toString()
 
                 if(isViewAttach()){

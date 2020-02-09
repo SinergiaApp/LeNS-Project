@@ -58,17 +58,24 @@ class ItemCatalogPresenter(itemCatalogViewModel: ItemCatalogViewModelImpl): Item
             try{
 
                 val resource = itemCatalogViewModel?.getItemCatalog(isbn)
-                view?.hideItemCatalogProgressBar()
-                view?.showItemCatalogContent()
-                view?.initItemCatalogContent(resource)
+                val libraries = itemCatalogViewModel?.getAllLibraries()
+
+                if(isViewAttached()){
+                    view?.hideItemCatalogProgressBar()
+                    view?.showItemCatalogContent()
+                    view?.initItemCatalogContent(resource, libraries)
+                }
 
                 Log.d(TAG, "Succesfullt get ItemCatalog Resource.")
 
             }catch (error: FirebaseGetResourceException){
 
                 var errorMsg = error.message
-                view?.showError(errorMsg)
-                view?.hideItemCatalogProgressBar()
+
+                if(isViewAttached()) {
+                    view?.showError(errorMsg)
+                    view?.hideItemCatalogProgressBar()
+                }
 
                 Log.d(TAG, "ERROR: Cannot load IemCatalog Resource from DataBase --> $errorMsg")
 
@@ -87,9 +94,12 @@ class ItemCatalogPresenter(itemCatalogViewModel: ItemCatalogViewModelImpl): Item
 
             try{
                 itemCatalogViewModel?.setResource(resource)
-                view?.hideItemCatalogProgressBar()
-                view?.showItemCatalogContent()
-                view?.initItemCatalogContent(resource)
+                val libraries = itemCatalogViewModel?.getAllLibraries()
+                if(isViewAttached()){
+                    view?.hideItemCatalogProgressBar()
+                    view?.showItemCatalogContent()
+                    view?.initItemCatalogContent(resource, libraries)
+                }
                 view?.showMessage("¡Perfecto! Hemos guardado tu voto.")
 
             } catch (error: FirebaseSetResourceException){

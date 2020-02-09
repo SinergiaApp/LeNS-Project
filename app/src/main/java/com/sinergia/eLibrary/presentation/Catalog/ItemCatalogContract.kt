@@ -1,5 +1,6 @@
 package com.sinergia.eLibrary.presentation.Catalog
 
+import com.sinergia.eLibrary.data.Model.Library
 import com.sinergia.eLibrary.data.Model.Resource
 
 
@@ -24,7 +25,7 @@ interface ItemCatalogContract {
         fun setDislikes()
         fun reserveResource()
 
-        fun initItemCatalogContent(resource: Resource?)
+        fun initItemCatalogContent(resource: Resource?, libraries: ArrayList<Library>?)
 
     }
 

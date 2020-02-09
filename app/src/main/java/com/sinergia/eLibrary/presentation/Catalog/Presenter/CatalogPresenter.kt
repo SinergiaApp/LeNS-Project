@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.core.content.ContextCompat
 import com.sinergia.eLibrary.presentation.Catalog.CatalogContract
 import com.sinergia.eLibrary.base.Exceptions.FirebaseGetAllResourcesException
+import com.sinergia.eLibrary.base.Exceptions.FirebaseGetResourceException
 import com.sinergia.eLibrary.base.Exceptions.FirebaseSetResourceException
 import com.sinergia.eLibrary.data.Model.Resource
 import com.sinergia.eLibrary.presentation.Catalog.Model.CatalogViewModelImpl
@@ -99,7 +100,7 @@ class CatalogPresenter(catalogViewModel: CatalogViewModelImpl): CatalogContract.
 
                 Log.d(TAG, "Succesfully get Catalog Resources.")
 
-            }catch(error: FirebaseGetAllResourcesException){
+            }catch(error: FirebaseGetResourceException){
 
                 val errorMsg = error.message
 
@@ -149,7 +150,7 @@ class CatalogPresenter(catalogViewModel: CatalogViewModelImpl): CatalogContract.
                     view?.showMessage("¡Muchas gracias! Hemos guardado tu Valoración.")
                 }
 
-                Log.d(TAG, "Succesfully Set Reslurce from Database.")
+                Log.d(TAG, "Succesfully Set Resource from Database.")
 
             } catch (error: FirebaseSetResourceException){
 

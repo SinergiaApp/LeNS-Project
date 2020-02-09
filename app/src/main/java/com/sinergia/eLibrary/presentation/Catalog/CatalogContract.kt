@@ -16,7 +16,7 @@ interface CatalogContract {
 
         fun initCatalog(resourcesList: ArrayList<Resource>?)
         fun initCatalog(resource: Resource?)
-        fun navigateToBook(isbn: String)
+        fun navigateToBook(isbn: String, title:String)
         fun eraseCatalog()
 
         fun startScan()

@@ -8,6 +8,7 @@ import android.widget.RadioButton
 import androidx.lifecycle.ViewModelProviders
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
+import com.sinergia.eLibrary.data.Model.Library
 import com.sinergia.eLibrary.data.NeLS_DataBase.NelsDataBase
 import com.sinergia.eLibrary.presentation.Catalog.ItemCatalogContract
 import com.sinergia.eLibrary.presentation.Catalog.Model.ItemCatalogViewModel
@@ -52,7 +53,7 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
     }
 
     override fun getPageTitle(): String {
-        return NeLSProject.book
+        return NeLSProject.bookTitle
     }
 
     //ITEM CATALOG CONTRACT METHODS
@@ -147,7 +148,7 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
     }
 
 
-    override fun initItemCatalogContent(resource: Resource?) {
+    override fun initItemCatalogContent(resource: Resource?, libraries: ArrayList<Library>?) {
 
         this.currentResource = resource
         item_catalog_title.text = resource?.title
@@ -167,13 +168,24 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
 
         if(!resource?.disponibility.isNullOrEmpty()){
 
+            item_catalog_disponibility_radio.removeAllViews()
             enableDisponibilityButtom()
 
             for(key in resource?.disponibility.keys){
 
-                if(Integer(resource?.disponibility.get(key).toString()) < 0 || resource?.disponibility.get(key) != null) {
+                if(Integer(resource?.disponibility.get(key).toString()) > 0 && resource?.disponibility.get(key) != null) {
+
+                    var textDisponibility = "[${resource?.disponibility.get(key).toString()}] - "
+
+                    for(library in libraries!!.iterator()){
+                        if(library.id == key){
+                            textDisponibility += "${library.name}."
+                            break
+                        }
+                    }
+
                     var library = RadioButton(this)
-                    library.text = resource?.disponibility.get(key).toString()
+                    library.text = textDisponibility
                     library.setOnClickListener { this.libraryChecked = library.text.toString() }
                     item_catalog_disponibility_radio.addView(library)
                 }

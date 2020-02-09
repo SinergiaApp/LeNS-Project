@@ -45,7 +45,7 @@ class LibraryActivity : BaseActivity(), LibraryContract.LibraryView {
     }
 
     override fun getPageTitle(): String {
-        return NeLSProject.library
+        return NeLSProject.libraryName
     }
 
 

@@ -60,14 +60,6 @@
             tools:layout_editor_absoluteX="103dp"
             tools:layout_editor_absoluteY="0dp">
 
-            <ProgressBar
-                android:id="@+id/item_catalog_progressBar"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginTop="100dp"
-                android:visibility="gone" />
-
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/item_catalog_content"
                 android:layout_width="match_parent"
@@ -160,6 +152,14 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/item_catalog_progressBar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/item_catalog_image"
