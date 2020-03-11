@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".presentation.Dialogs.ConfirmDialog.ConfirmDialogActivity"></activity>
+        <activity android:name=".presentation.Account.View.Account"></activity>
+        <activity android:name=".presentation.Dialogs.ConfirmDialog.ConfirmDialogActivity" />
         <activity android:name=".presentation.CameraScan.View.CameraScanActivity" />
         <activity android:name=".presentation.test_scan_camera" />
         <activity android:name=".presentation.test_camera" />
