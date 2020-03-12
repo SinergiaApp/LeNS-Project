@@ -37,6 +37,8 @@ interface ItemCatalogContract {
         fun dettachJob()
         fun chekRepeatLikeDislike(list: MutableList<String>): Boolean
 
+        fun addReserveToUser(userMail: String, resourceId: String, libraryId: String)
+
         fun getItemCatalog(isbn: String)
         fun setResourceLikes(resource: Resource)
 

@@ -29,7 +29,7 @@
                 android:background="@drawable/edit_text_login_register"
                 android:ems="10"
                 android:fontFamily="verdana"
-                android:hint="ISBN del Libro"
+                android:hint="Identificador de la Biblioteca"
                 android:inputType="text"
                 android:paddingStart="50dp" />
 

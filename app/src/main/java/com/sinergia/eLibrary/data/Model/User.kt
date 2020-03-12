@@ -7,9 +7,9 @@ data class User(
     var lastName2: String = "Desconocido",
     var email: String = "Desconocido",
     var nif: String = "Desconocido",
-    var reserves: MutableList<String> = mutableListOf(),
-    var loans: MutableList<String> = mutableListOf(),
-    var favorites: MutableList<String> = mutableListOf(),
+    var reserves: List<String> = emptyList(),
+    var loans: List<String> = emptyList(),
+    var favorites: List<String> = emptyList(),
     var admin: Boolean = false
 
 )
