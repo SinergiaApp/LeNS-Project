@@ -8,7 +8,7 @@ data class Resource(
     var edition: String = "Desconocido",
     var sinopsis: String = "Desconocido",
     var isbn: String = "Desconocido",
-    var disponibility: MutableMap<String, Integer> = mutableMapOf(),
+    var disponibility: MutableMap<String, Int> = mutableMapOf(),
     var likes: MutableList<String> = mutableListOf(),
     var dislikes: MutableList<String> = mutableListOf(),
     var isOnline: Boolean = false,

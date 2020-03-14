@@ -1,10 +1,10 @@
 package com.sinergia.eLibrary.presentation.Register.Model
 
-import com.sinergia.eLibrary.domain.UseCases.UserUseCase
+import com.sinergia.eLibrary.domain.UseCases.UserUseCases
 
 class RegisterViewModelImpl: RegisterViewModel {
 
-    val userUseCases = UserUseCase()
+    val userUseCases = UserUseCases()
 
     override suspend fun addNewUser(
         name: String,

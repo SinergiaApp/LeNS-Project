@@ -3,7 +3,7 @@ package com.sinergia.eLibrary.domain.UseCases
 import com.sinergia.eLibrary.data.Model.User
 import com.sinergia.eLibrary.data.NeLS_DataBase.NelsDataBase
 
-class UserUseCase {
+class UserUseCases {
 
     val nelsDB = NelsDataBase()
 
@@ -22,6 +22,10 @@ class UserUseCase {
 
     suspend fun getUser(email: String): User{
         return nelsDB.getUser(email)
+    }
+
+    suspend fun setUser(settedUser: User){
+        return nelsDB.setUser(settedUser)
     }
 
 }

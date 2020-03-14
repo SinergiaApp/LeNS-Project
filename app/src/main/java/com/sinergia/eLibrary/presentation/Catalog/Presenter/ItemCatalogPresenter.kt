@@ -3,13 +3,16 @@ package com.sinergia.eLibrary.presentation.Catalog.Presenter
 import android.util.Log
 import com.sinergia.eLibrary.base.Exceptions.FirebaseGetResourceException
 import com.sinergia.eLibrary.base.Exceptions.FirebaseSetResourceException
+import com.sinergia.eLibrary.data.Model.Reserve
 import com.sinergia.eLibrary.data.Model.Resource
+import com.sinergia.eLibrary.data.Model.User
 import com.sinergia.eLibrary.presentation.Catalog.ItemCatalogContract
 import com.sinergia.eLibrary.presentation.Catalog.ItemCatalogContract.ItemCatalogView
 import com.sinergia.eLibrary.presentation.Catalog.Model.ItemCatalogViewModel
 import com.sinergia.eLibrary.presentation.Catalog.Model.ItemCatalogViewModelImpl
 import com.sinergia.eLibrary.presentation.NeLSProject
 import kotlinx.coroutines.*
+import java.time.LocalDateTime
 import kotlin.coroutines.CoroutineContext
 
 class ItemCatalogPresenter(itemCatalogViewModel: ItemCatalogViewModelImpl): ItemCatalogContract.ItemCatalogPresenter, CoroutineScope {
@@ -57,13 +60,13 @@ class ItemCatalogPresenter(itemCatalogViewModel: ItemCatalogViewModelImpl): Item
 
             try{
 
-                val resource = itemCatalogViewModel?.getItemCatalog(isbn)
+                NeLSProject.currentResource = itemCatalogViewModel?.getItemCatalog(isbn)
                 val libraries = itemCatalogViewModel?.getAllLibraries()
 
                 if(isViewAttached()){
                     view?.hideItemCatalogProgressBar()
                     view?.showItemCatalogContent()
-                    view?.initItemCatalogContent(resource, libraries)
+                    view?.initItemCatalogContent(NeLSProject.currentResource, libraries)
                 }
 
                 Log.d(TAG, "Succesfullt get ItemCatalog Resource.")
@@ -117,5 +120,80 @@ class ItemCatalogPresenter(itemCatalogViewModel: ItemCatalogViewModelImpl): Item
 
     }
 
+
+
+    override fun addUserReserve(userMail: String, resourceId: String, libraryId: String) {
+
+        var newResourceDisponibility = NeLSProject.currentResource!!.disponibility
+        newResourceDisponibility.set(libraryId, newResourceDisponibility[libraryId]!!-1)
+        var settedResource = Resource(
+            NeLSProject.currentResource!!.title,
+            NeLSProject.currentResource!!.author,
+            NeLSProject.currentResource!!.publisher,
+            NeLSProject.currentResource!!.edition,
+            NeLSProject.currentResource!!.sinopsis,
+            NeLSProject.currentResource!!.isbn,
+            newResourceDisponibility,
+            NeLSProject.currentResource!!.likes,
+            NeLSProject.currentResource!!.dislikes,
+            NeLSProject.currentResource!!.isOnline,
+            NeLSProject.currentResource!!.urlOnline
+
+        )
+
+        val newReserve = Reserve(userMail, resourceId, libraryId, LocalDateTime.now(), LocalDateTime.MAX)
+
+        val currentUser = NeLSProject.currentUser
+        var newUserReserves = currentUser.reserves
+        newUserReserves.add(resourceId)
+        val settedUser = User(
+            currentUser.name,
+            currentUser.lastName1,
+            currentUser.lastName2,
+            currentUser.email,
+            currentUser.nif,
+            newUserReserves,
+            currentUser.loans,
+            currentUser.favorites,
+            currentUser.admin
+        )
+
+
+
+        launch{
+
+            view?.showItemCatalogProgressBar()
+
+            try{
+                itemCatalogViewModel?.setResource(settedResource)
+                itemCatalogViewModel?.newReserve(newReserve)
+                itemCatalogViewModel?.setUser(settedUser)
+                if(isViewAttached()){
+                    view?.hideItemCatalogProgressBar()
+                    view?.showMessage("Tu Reserva se ha llevado a cabo con éxito, ¡Ya puedes ir a recogerlo!.")
+
+                }
+
+                Log.d(TAG, "Succesfullt add Reserve to user ${NeLSProject.currentUser.email}.")
+
+            } catch (error: FirebaseSetResourceException){
+
+                var errorMsg = error.message
+                view?.showError(errorMsg)
+                view?.hideItemCatalogProgressBar()
+
+
+                Log.d(TAG, "ERROR: Cannot add Reserve to user ${NeLSProject.currentUser.email} --> $errorMsg")
+
+            }
+
+        }
+
+
+    }
+
+    override fun cancelUserReserve(userMail: String, resourceId: String) {
+        TODO("Not yet implemented")
+    }
 
 }

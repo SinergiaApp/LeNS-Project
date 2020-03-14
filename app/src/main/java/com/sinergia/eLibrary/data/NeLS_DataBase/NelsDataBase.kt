@@ -3,11 +3,8 @@ package com.sinergia.eLibrary.data.NeLS_DataBase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.GeoPoint
 import com.sinergia.eLibrary.base.Exceptions.*
-import com.sinergia.eLibrary.data.Model.Library
-import com.sinergia.eLibrary.data.Model.Resource
-import com.sinergia.eLibrary.data.Model.User
 import com.sinergia.eLibrary.base.Exceptions.FirebaseAddUserException
-import com.sinergia.eLibrary.data.Model.Reserve
+import com.sinergia.eLibrary.data.Model.*
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -81,8 +78,24 @@ class NelsDataBase {
 
     }
 
-    fun setUser(field: String, newValue: String){
+    suspend fun setUser(settedUser: User): Unit = suspendCancellableCoroutine{ setUserContinuation ->
 
+        nelsDB
+            .document("users/${settedUser.email}")
+                .set(settedUser)
+                .addOnCompleteListener {setUser ->
+
+                    if(setUser.isSuccessful){
+                        setUserContinuation.resume(Unit)
+                    } else {
+                        setUserContinuation.resumeWithException(
+                            FirebaseSetLoanException(
+                                setUser.exception?.message.toString()
+                            )
+                        )
+                    }
+
+                }
     }
 
 
@@ -338,22 +351,21 @@ class NelsDataBase {
 
         val newReserve: HashMap<String, Any> = hashMapOf(
             "userMail" to reserve.userMail,
-            "userMail" to reserve.resourceId,
+            "resourceId" to reserve.resourceId,
             "libraryId" to reserve.libraryId,
             "reserveDate" to reserve.reserveDate,
             "loanDate" to reserve.loanDate
         )
 
         nelsDB
-            .document("reserve/${reserve.userMail+reserve.resourceId}")
+            .document("reserves/${reserve.userMail+reserve.resourceId}")
             .set(newReserve)
             .addOnCompleteListener {newReserve ->
                 if(newReserve.isSuccessful){
                     addReserveContinuation.resume(Unit)
                 } else {
                     addReserveContinuation.resumeWithException(
-                        //TODO: Create exception for new reserves
-                        FirebaseCreateLibraryException(
+                        FirebaseAddReserveException(
                             newReserve.exception?.message.toString()
                         )
                     )
@@ -362,28 +374,27 @@ class NelsDataBase {
 
     }
 
-    suspend fun setReserveLoanDate(reserve: Reserve): Unit = suspendCancellableCoroutine { setReserveLoanDateContinuation ->
+    suspend fun setReserve(reserve: Reserve): Unit = suspendCancellableCoroutine { setReserveLoanDateContinuation ->
 
         val settedReserve: HashMap<String, Any> = hashMapOf(
             "userMail" to reserve.userMail,
-            "userMail" to reserve.resourceId,
+            "resourceId" to reserve.resourceId,
             "libraryId" to reserve.libraryId,
             "reserveDate" to reserve.reserveDate,
             "loanDate" to reserve.loanDate
         )
 
         nelsDB
-            .document("reserve/${reserve.userMail+reserve.resourceId}")
+            .document("reserves/${reserve.userMail+reserve.resourceId}")
             .set(settedReserve)
-            .addOnCompleteListener {setReserveLoanDate ->
+            .addOnCompleteListener {setReserve ->
 
-                if(setReserveLoanDate.isSuccessful){
+                if(setReserve.isSuccessful){
                     setReserveLoanDateContinuation.resume(Unit)
                 } else {
                     setReserveLoanDateContinuation.resumeWithException(
-                        //TODO: Create exception for set reserves
-                        FirebaseSetResourceException(
-                            setReserveLoanDate.exception?.message.toString()
+                        FirebaseSetReserveException(
+                            setReserve.exception?.message.toString()
                         )
                     )
                 }
@@ -392,9 +403,7 @@ class NelsDataBase {
 
     }
 
-    suspend fun cancelReserve(reserve: Reserve): Unit = suspendCancellableCoroutine{ cancelReserveContinue ->
-
-        val cancelledReserve: String = reserve.userMail+reserve.resourceId
+    suspend fun cancelReserve(cancelledReserve: String): Unit = suspendCancellableCoroutine{ cancelReserveContinue ->
 
         nelsDB
             .collection("reserves")
@@ -406,9 +415,87 @@ class NelsDataBase {
                     cancelReserveContinue.resume(Unit)
                 } else {
                     cancelReserveContinue.resumeWithException(
-                        //TODO: Create an exception for cancel reserve
-                        FirebaseSetResourceException(
+                        FirebaseCancelReserveException(
                             cancelResource.exception?.message.toString()
+                        )
+                    )
+                }
+
+            }
+
+    }
+
+    // LOAN METHODS
+    suspend fun newLoan(loan: Loan): Unit = suspendCancellableCoroutine{ addLoanContination ->
+
+        val newLoan: HashMap<String, Any> = hashMapOf(
+            "userMail" to loan.userMail,
+            "resourceId" to loan.resourceId,
+            "libraryId" to loan.libraryId,
+            "loanDate" to loan.loanDate,
+            "returnDate" to loan.returnDate
+        )
+
+        nelsDB
+            .document("loans/${loan.userMail+loan.resourceId}")
+            .set(newLoan)
+            .addOnCompleteListener {newLoan ->
+                if(newLoan.isSuccessful){
+                    addLoanContination.resume(Unit)
+                } else {
+                    addLoanContination.resumeWithException(
+                        FirebaseAddLoanException(
+                            newLoan.exception?.message.toString()
+                        )
+                    )
+                }
+            }
+
+    }
+
+    suspend fun setLoan(loan: Loan): Unit = suspendCancellableCoroutine { setLoanContinuation ->
+
+        val settedLoan: HashMap<String, Any> = hashMapOf(
+            "userMail" to loan.userMail,
+            "resourceId" to loan.resourceId,
+            "libraryId" to loan.libraryId,
+            "loanDate" to loan.loanDate,
+            "returnDate" to loan.returnDate
+        )
+
+        nelsDB
+            .document("loans/${loan.userMail+loan.resourceId}")
+            .set(settedLoan)
+            .addOnCompleteListener {setLoan ->
+
+                if(setLoan.isSuccessful){
+                    setLoanContinuation.resume(Unit)
+                } else {
+                    setLoanContinuation.resumeWithException(
+                        FirebaseSetLoanException(
+                            setLoan.exception?.message.toString()
+                        )
+                    )
+                }
+
+            }
+
+    }
+
+    suspend fun cancelLoan(cancelledLoan: String): Unit = suspendCancellableCoroutine { cancelLoanContinuation ->
+
+        nelsDB
+            .collection("loans")
+            .document(cancelledLoan)
+            .delete()
+            .addOnCompleteListener { cancelLoan ->
+
+                if(cancelLoan.isSuccessful){
+                    cancelLoanContinuation.resume(Unit)
+                } else {
+                    cancelLoanContinuation.resumeWithException(
+                        FirebaseCancelLoanException(
+                            cancelLoan.exception?.message.toString()
                         )
                     )
                 }

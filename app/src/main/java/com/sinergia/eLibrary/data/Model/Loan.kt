@@ -5,9 +5,9 @@ import java.time.LocalDateTime
 data class Loan(
 
     var userMail: String = "Desconocido",
-    var idResource: String = "Desconocido",
-    var lbrary: String = "Desconocido",
-    var loanDate: LocalDateTime ?= null,
-    var returnDate: LocalDateTime ?= null
+    var resourceId: String = "Desconocido",
+    var libraryId: String = "Desconocido",
+    var loanDate: LocalDateTime,
+    var returnDate: LocalDateTime
 
     )

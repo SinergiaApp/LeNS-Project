@@ -1,6 +1,7 @@
 package com.sinergia.eLibrary.presentation
 
 import android.app.Application
+import com.sinergia.eLibrary.data.Model.Resource
 import com.sinergia.eLibrary.data.Model.User
 
 class NeLSProject: Application() {
@@ -10,7 +11,7 @@ class NeLSProject: Application() {
         var adminUser = false
         var library = "noItemSelected"
         var libraryName = "noItemSelectec"
-        var book = "noItemSelected"
+        var currentResource: Resource ?= null
         var bookTitle = "noItemSelected"
 
         val CAMERA_PERMISSIONS_CODE = 1

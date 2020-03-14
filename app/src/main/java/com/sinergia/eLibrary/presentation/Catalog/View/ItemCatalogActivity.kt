@@ -40,7 +40,7 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
         page_title.text = getPageTitle()
         menu_button.setOnClickListener { startActivity(Intent(this, MainMenuActivity::class.java)) }
 
-        itemCatalogPresenter.getItemCatalog(NeLSProject.book)
+        itemCatalogPresenter.getItemCatalog(NeLSProject.bookTitle)
 
         item_catalog_like_btn.setOnClickListener { setLikes() }
         item_catalog_dislike_btn.setOnClickListener { setDislikes() }
