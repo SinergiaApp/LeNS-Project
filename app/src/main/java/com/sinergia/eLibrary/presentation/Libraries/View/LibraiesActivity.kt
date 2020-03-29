@@ -113,7 +113,7 @@ class LibraiesActivity : BaseActivity(), LibrariesContract.LibrariesView {
                 resource.addView(name)
                 resource.addView(imageLayout)
                 resource.setOnClickListener {
-                    navigateToLibrary(library.id, library.name)
+                    navigateToLibrary(library)
                 }
                 libraries_content.addView(resource)
             }
@@ -121,9 +121,8 @@ class LibraiesActivity : BaseActivity(), LibrariesContract.LibrariesView {
         }
     }
 
-    override fun navigateToLibrary(library: String, libraryName: String) {
-        NeLSProject.library = library
-        NeLSProject.libraryName = libraryName
+    override fun navigateToLibrary(library: Library) {
+        NeLSProject.currentLibrary = library
         startActivity(Intent(this, LibraryActivity::class.java))
     }
 

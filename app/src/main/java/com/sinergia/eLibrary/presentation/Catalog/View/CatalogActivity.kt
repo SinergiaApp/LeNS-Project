@@ -218,7 +218,7 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
                 resource.addView(imageLayout)
                 resource.addView(description)
                 resource.setOnClickListener {
-                    navigateToBook(book.isbn, book.title)
+                    navigateToBook(book)
                 }
                 catalog_content.addView(resource)
             }
@@ -354,7 +354,7 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
             resource.addView(imageIconsLayout)
             resource.addView(description)
             resource.setOnClickListener {
-                navigateToBook(book.isbn, book.title)
+                navigateToBook(book)
             }
             catalog_content.addView(resource)
         }
@@ -367,9 +367,8 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
         startActivity(mainMenuIntent)
     }
 
-    override fun navigateToBook(isbn: String, title: String) {
-        NeLSProject.book = isbn
-        NeLSProject.bookTitle = title
+    override fun navigateToBook(resource: Resource) {
+        NeLSProject.currentResource = resource
         startActivity(Intent(this, ItemCatalogActivity::class.java))
     }
 

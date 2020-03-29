@@ -29,6 +29,7 @@ import com.sinergia.eLibrary.presentation.NeLSProject
 import kotlinx.android.synthetic.main.activity_admin_zone.main_page_title
 import kotlinx.android.synthetic.main.activity_admin_zone.menu_button
 import kotlinx.android.synthetic.main.layout_admin_zone.*
+import kotlinx.android.synthetic.main.layout_admin_zone_loans.*
 import kotlinx.android.synthetic.main.layout_admin_zone_new_library.*
 import kotlinx.android.synthetic.main.layout_admin_zone_new_resource.*
 import kotlinx.android.synthetic.main.layout_admin_zone_set_library.*
@@ -74,6 +75,9 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         admin_zone_setLibraryButton.setOnClickListener { showHideSetLibrary() }
         admin_zone_setLibrary_btn.setOnClickListener { setLibrary() }
 
+        admin_zone_loanManagementButton.setOnClickListener { showHideLoans() }
+        admin_zone_LoansSearch_icon2.setOnClickListener { clickOnCamera("loansManagement") }
+
     }
 
     override fun getLayout(): Int {
@@ -92,13 +96,14 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
                 var resultBarCode = data.getStringExtra("codigo")
                 if(fillField == "setResource") admin_zone_setBookSearch.setText(resultBarCode)
                 if(fillField == "setLibrary") admin_zone_setLibrarySearch.setText(resultBarCode)
+                if(fillField == "loansManagement") admin_zone_loansSearch.setText(resultBarCode)
 
             } else {
                 toastL(this, "Imposible leer el código, vuelve a intentarlo.")
             }
 
         }
-    }
+     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when(requestCode) {
@@ -371,13 +376,13 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
 
                 var authors = author.split(";")
 
-                var disponibility = mutableMapOf<String, Integer>()
+                var disponibility = mutableMapOf<String, Int>()
                 for(view in admin_zone_setBookDisponibility.children){
                     if( view is EditText  ) {
                         val disp = view as EditText
-                        var dispNumber = Integer(0)
-                        if(disp.text.toString() != "") dispNumber = Integer(disp.text.toString().trim())
-                        disponibility.put(view.getTag().toString(), dispNumber)
+                        var dispNumber = 0
+                        if(disp.text.toString() != "") dispNumber = disp.text.toString().trim().toInt()
+                        disponibility[view.getTag().toString()] = dispNumber
                     }
                 }
 
@@ -572,6 +577,15 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
             }
 
         }
+
+    //LOANS METHODS
+    override fun showHideLoans() {
+        if(admin_zone_loanManagement.visibility == View.GONE){
+            admin_zone_loanManagement.visibility = View.VISIBLE
+        } else {
+            admin_zone_loanManagement.visibility = View.GONE
+        }
+    }
 
 
     override fun onDetachedFromWindow() {

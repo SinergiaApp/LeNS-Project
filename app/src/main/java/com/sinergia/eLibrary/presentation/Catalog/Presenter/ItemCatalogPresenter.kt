@@ -52,6 +52,22 @@ class ItemCatalogPresenter(itemCatalogViewModel: ItemCatalogViewModelImpl): Item
         return NeLSProject.currentUser.email in list
     }
 
+    override fun checkUserCanDoReserve(): Boolean {
+
+        var res = true
+
+        if(NeLSProject.currentUser.reserves.contains(NeLSProject.currentResource!!.isbn)){
+            res = false
+            view?.showError("Ya tienes reservado este recurso, no puedes reservarlo dos veces.")
+        } else if(NeLSProject.currentUser.reserves.size == 3){
+            res = false
+            view?.showError("Tienes 3 reservas actualmente, no puedes hacer mas hasta que finalices alguna.")
+        }
+
+        return res
+
+    }
+
     override fun getItemCatalog(isbn: String) {
 
         launch {
@@ -171,7 +187,7 @@ class ItemCatalogPresenter(itemCatalogViewModel: ItemCatalogViewModelImpl): Item
                 if(isViewAttached()){
                     view?.hideItemCatalogProgressBar()
                     view?.showMessage("Tu Reserva se ha llevado a cabo con éxito, ¡Ya puedes ir a recogerlo!.")
-
+                    view?.navigateToCatalog()
                 }
 
                 Log.d(TAG, "Succesfullt add Reserve to user ${NeLSProject.currentUser.email}.")

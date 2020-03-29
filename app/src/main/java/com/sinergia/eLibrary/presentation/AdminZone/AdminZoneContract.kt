@@ -50,6 +50,8 @@ interface AdminZoneContract {
         fun initLibraryContent(library: Library?)
         fun setLibrary()
 
+        fun showHideLoans()
+
         fun clickOnCamera(field: String)
         fun startScan()
         fun checkAndSetCamentaPermissions()

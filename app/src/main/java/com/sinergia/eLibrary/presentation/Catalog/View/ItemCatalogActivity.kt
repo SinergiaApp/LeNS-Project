@@ -40,7 +40,7 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
         page_title.text = getPageTitle()
         menu_button.setOnClickListener { startActivity(Intent(this, MainMenuActivity::class.java)) }
 
-        itemCatalogPresenter.getItemCatalog(NeLSProject.bookTitle)
+        itemCatalogPresenter.getItemCatalog(NeLSProject.currentResource!!.isbn)
 
         item_catalog_like_btn.setOnClickListener { setLikes() }
         item_catalog_dislike_btn.setOnClickListener { setDislikes() }
@@ -53,7 +53,7 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
     }
 
     override fun getPageTitle(): String {
-        return NeLSProject.bookTitle
+        return NeLSProject.currentResource!!.title
     }
 
     //ITEM CATALOG CONTRACT METHODS
@@ -123,28 +123,45 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
     }
 
     override fun reserveResource() {
-        if(!this.libraryChecked.isNullOrEmpty()){
-            toastS(this, "Primero selecctiona una Biblioteca por vafor.")
-        } else {
 
-            val reserveDialog = ConfirmDialog
-                .Buider()
-                .setTitleText("Confirmar Reserva")
-                .setDescriptionText(
-                    "Está a punto de confirmar la reserva y comenzar el proceso de préstamo del " +
-                    "recurso. Una vez confirme la reserva dispondrá de un total de 2 (dos) días " +
-                    "hábiles para ir a la biblioteca seleccionada y recoger el recurso. En caso " +
-                    "de que este tiempo expire, la reserva se cancelará automáticamente y el " +
-                    "libro pasará a estar disponible para reservar al resto de usuarios de nuevo." +
-                    " ¿Desea confirmar la Reserva?."
-                )
-                .setAcceptButtonText("ACEPTAR")
-                .setCancelButtonText("CANCELAR")
-                .buid()
+        if(itemCatalogPresenter.checkUserCanDoReserve()){
 
-            reserveDialog.show(supportFragmentManager!!, "ReserveDialog")
+            if(this.libraryChecked.isNullOrEmpty()){
+                toastS(this, "Primero selecctiona una Biblioteca por vafor.")
+            } else {
 
+                val reserveDialog = ConfirmDialog
+                    .Buider()
+                    .setTitleText("Confirmar Reserva")
+                    .setDescriptionText(
+                        "Está a punto de confirmar la reserva y comenzar el proceso de préstamo del " +
+                                "recurso. Una vez confirme la reserva dispondrá de un total de 2 (dos) días " +
+                                "hábiles para ir a la biblioteca seleccionada y recoger el recurso. En caso " +
+                                "de que este tiempo expire, la reserva se cancelará automáticamente y el " +
+                                "libro pasará a estar disponible para reservar al resto de usuarios de nuevo." +
+                                " ¿Desea confirmar la Reserva?."
+                    )
+                    .setAcceptButtonText("ACEPTAR")
+                    .setCancelButtonText("CANCELAR")
+                    .buid()
+
+                reserveDialog.show(supportFragmentManager!!, "ReserveDialog")
+                reserveDialog.isCancelable = false
+                reserveDialog.setDialogOnClickButtonListener(object: ConfirmDialog.DialogOnClickButtonListener{
+                    override fun clickAcceptButton() {
+                        itemCatalogPresenter.addUserReserve(NeLSProject.currentUser.email, NeLSProject.currentResource!!.isbn, libraryChecked!!)
+                    }
+
+                    override fun clickCancelButton() {
+                        reserveDialog.dismiss()
+                    }
+
+                })
+
+            }
+            
         }
+
     }
 
 
@@ -186,7 +203,7 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
 
                     var library = RadioButton(this)
                     library.text = textDisponibility
-                    library.setOnClickListener { this.libraryChecked = library.text.toString() }
+                    library.setOnClickListener { this.libraryChecked = key }
                     item_catalog_disponibility_radio.addView(library)
                 }
 
@@ -197,6 +214,7 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
         }
 
     }
+
     override fun setLikes() {
         if(itemCatalogPresenter.chekRepeatLikeDislike(currentResource?.likes!!)){
             toastL(this, "Ya has indicado que te gusta este libro.")
@@ -245,6 +263,12 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
             )
             itemCatalogPresenter.setResourceLikes(modifiedResource)
         }
+    }
+
+    override fun navigateToCatalog() {
+        val intentCatalog = Intent(this, CatalogActivity::class.java)
+        intentCatalog.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intentCatalog)
     }
 
 }

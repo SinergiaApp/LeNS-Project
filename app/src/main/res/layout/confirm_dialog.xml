@@ -17,23 +17,26 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_horizontal|center_vertical"
+        android:background="@drawable/dialog_window_style"
         >
 
         <TextView
             android:id="@+id/confirm_dialog_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TTITULO DIALOGO"
+            android:text="TITULO DIALOGO"
             android:textColor="@color/colorWhite"
             android:textSize="28dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"/>
 
-        <View
-            android:id="@+id/divider2"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:background="?android:attr/listDivider" />
+            android:layout_height="4dp"
+            android:orientation="vertical"
+            android:gravity="center_horizontal|center_vertical"
+            android:background="@color/colorWhite"
+        />
 
         <TextView
             android:id="@+id/confirm_dialog_description"
@@ -58,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/fui_transparent"
+                android:background="@drawable/main_button_style"
                 android:text="ACEPTAR"
                 android:layout_marginRight="30dp"
                 />
@@ -68,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/fui_transparent"
+                android:background="@drawable/main_button_style"
                 android:text="CANCELAR"
                 android:layout_marginLeft="30dp"
                 />

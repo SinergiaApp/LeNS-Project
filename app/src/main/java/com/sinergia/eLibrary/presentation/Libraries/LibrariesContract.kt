@@ -12,7 +12,7 @@ interface LibrariesContract {
         fun hideLibrariesProgressBar()
 
         fun initLibrariesContent(librariesList: ArrayList<Library>?)
-        fun navigateToLibrary(library: String, libraryName: String)
+        fun navigateToLibrary(library: Library)
 
     }
 

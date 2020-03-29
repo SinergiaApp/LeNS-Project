@@ -37,8 +37,8 @@
                 android:id="@+id/admin_zone_setLibrarySearch_icon1"
                 android:layout_width="30dp"
                 android:layout_height="41dp"
-                android:layout_alignStart="@+id/admin_zone_setBookSearch"
-                android:layout_alignTop="@+id/admin_zone_setBookSearch"
+                android:layout_alignStart="@+id/admin_zone_setLibrarySearch"
+                android:layout_alignTop="@+id/admin_zone_setLibrarySearch"
                 android:layout_marginStart="7dp"
                 android:layout_marginTop="-2dp"
                 android:elevation="5dp"
@@ -48,7 +48,7 @@
                 android:id="@+id/admin_zone_setLibrarySearch_icon2"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_alignTop="@+id/admin_zone_setBookSearch"
+                android:layout_alignTop="@+id/admin_zone_setLibrarySearch"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="-69dp"
                 android:layout_marginTop="-1dp"
@@ -77,6 +77,7 @@
         </LinearLayout>
 
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/admin_zone_setLibraryContent"
         android:layout_width="match_parent"

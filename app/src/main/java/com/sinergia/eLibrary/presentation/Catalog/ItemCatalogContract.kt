@@ -27,6 +27,8 @@ interface ItemCatalogContract {
 
         fun initItemCatalogContent(resource: Resource?, libraries: ArrayList<Library>?)
 
+        fun navigateToCatalog()
+
     }
 
     interface ItemCatalogPresenter {
@@ -37,6 +39,7 @@ interface ItemCatalogContract {
         fun dettachJob()
         fun chekRepeatLikeDislike(list: MutableList<String>): Boolean
 
+        fun checkUserCanDoReserve(): Boolean
         fun addUserReserve(userMail: String, resourceId: String, libraryId: String)
         fun cancelUserReserve(userMail: String, resourceId: String)
 

@@ -13,9 +13,15 @@ class ConfirmDialog private constructor(
     private val acceptButtonText: String?,
     private val cancelButtonText: String?,
     private val titleText: String?,
-    private val descriptionText: String?
+    private val descriptionText: String?,
+    private var dialogOnClickButtonListener: DialogOnClickButtonListener ?= null
 
 ): DialogFragment() {
+
+    interface DialogOnClickButtonListener{
+        fun clickAcceptButton()
+        fun clickCancelButton()
+    }
 
     data class Buider(
         private var acceptButtonText: String? = null,
@@ -31,6 +37,8 @@ class ConfirmDialog private constructor(
         fun buid() = ConfirmDialog(acceptButtonText, cancelButtonText, titleText, descriptionText)
     }
 
+    fun setDialogOnClickButtonListener(listener : DialogOnClickButtonListener) = apply { dialogOnClickButtonListener = listener }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,7 +51,9 @@ class ConfirmDialog private constructor(
         super.onViewCreated(view, savedInstanceState)
 
         confirm_dialog_accept_btn.text = acceptButtonText
+        confirm_dialog_accept_btn.setOnClickListener { dialogOnClickButtonListener!!.clickAcceptButton() }
         confirm_dialog_cancel_btn.text = cancelButtonText
+        confirm_dialog_cancel_btn.setOnClickListener { dialogOnClickButtonListener!!.clickCancelButton() }
         confirm_dialog_title.text = titleText
         confirm_dialog_description.text = descriptionText
     }

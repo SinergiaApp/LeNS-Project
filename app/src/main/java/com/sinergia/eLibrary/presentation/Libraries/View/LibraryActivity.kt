@@ -35,7 +35,7 @@ class LibraryActivity : BaseActivity(), LibraryContract.LibraryView {
         page_title.text = getPageTitle()
         menu_button.setOnClickListener { startActivity(Intent(this, MainMenuActivity::class.java)) }
 
-        libraryPresenter.getLibrary(NeLSProject.library)
+        libraryPresenter.getLibrary(NeLSProject.currentLibrary!!.id)
 
 
     }
@@ -45,7 +45,7 @@ class LibraryActivity : BaseActivity(), LibraryContract.LibraryView {
     }
 
     override fun getPageTitle(): String {
-        return NeLSProject.libraryName
+        return NeLSProject.currentLibrary!!.name
     }
 
 

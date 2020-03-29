@@ -6,6 +6,9 @@
     <color name="colorGray">#B4ACB8</color>
     <color name="colorLightGray">#E1E0E0</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorRedDanger">#DF0303</color>
+    <color name="colorRedDangerBackgroundEnaable">#FF3636</color>
+    <color name="colorRedDangerBackgroundDisable">#FF8B8B</color>
     <color name="colorGrayHeader">#322E2E</color>
     <color name="colorBlack">#000000</color>
 </resources>
