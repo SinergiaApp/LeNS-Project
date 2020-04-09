@@ -1,8 +1,7 @@
 package com.sinergia.eLibrary.presentation.AdminZone.Model
 
 import com.google.firebase.firestore.GeoPoint
-import com.sinergia.eLibrary.data.Model.Library
-import com.sinergia.eLibrary.data.Model.Resource
+import com.sinergia.eLibrary.data.Model.*
 
 interface AdminViewModel {
 
@@ -28,5 +27,11 @@ interface AdminViewModel {
 
     suspend fun getLibraryToModify(id: String): Library?
     suspend fun setLibrary(library: Library)
+
+    suspend fun getUserPendingLoans(email: String): ArrayList<Loan>
+    suspend fun getUserPendingReserves(email: String): ArrayList<Reserve>
+    suspend fun setReserve(settedReserve: Reserve)
+    suspend fun addLoan(newLoan: Loan)
+    suspend fun setUser(settedUser: User)
 
 }

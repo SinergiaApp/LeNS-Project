@@ -40,7 +40,7 @@ interface ItemCatalogContract {
         fun chekRepeatLikeDislike(list: MutableList<String>): Boolean
 
         fun checkUserCanDoReserve(): Boolean
-        fun addUserReserve(userMail: String, resourceId: String, libraryId: String)
+        fun addUserReserve(userMail: String, resourceId: String, resourceName: String, libraryId: String)
         fun cancelUserReserve(userMail: String, resourceId: String)
 
         fun getItemCatalog(isbn: String)

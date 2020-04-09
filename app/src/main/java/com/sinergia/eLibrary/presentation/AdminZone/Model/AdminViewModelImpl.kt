@@ -2,15 +2,16 @@ package com.sinergia.eLibrary.presentation.AdminZone.Model
 
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.GeoPoint
-import com.sinergia.eLibrary.data.Model.Library
-import com.sinergia.eLibrary.data.Model.Resource
-import com.sinergia.eLibrary.domain.UseCases.LibraryUseCases
-import com.sinergia.eLibrary.domain.UseCases.ResourcesUseCases
+import com.sinergia.eLibrary.data.Model.*
+import com.sinergia.eLibrary.domain.UseCases.*
 
 class AdminViewModelImpl: ViewModel(), AdminViewModel {
 
     val resourceUseCase = ResourcesUseCases()
     val libraryUseCases = LibraryUseCases()
+    val reserveUseCases = ReserveUseCases()
+    val loanUseCases = LoanUseCases()
+    val userUseCases = UserUseCases()
 
     // RESOURCES METHODS
     override suspend fun addNewResource(
@@ -52,6 +53,27 @@ class AdminViewModelImpl: ViewModel(), AdminViewModel {
 
     override suspend fun setLibrary(library: Library) {
         libraryUseCases.setLibrary(library)
+    }
+
+    // RESERVE AND LOAN METHODS
+    override suspend fun getUserPendingLoans(email: String): ArrayList<Loan> {
+        return loanUseCases.getUserPendingLoans(email)
+    }
+
+    override suspend fun getUserPendingReserves(email: String): ArrayList<Reserve> {
+        return reserveUseCases.getUserPendingReserves(email)
+    }
+
+    override suspend fun setReserve(settedReserve: Reserve) {
+        return reserveUseCases.setReserve(settedReserve)
+    }
+
+    override suspend fun addLoan(newLoan: Loan) {
+        return loanUseCases.newLoan(newLoan)
+    }
+
+    override suspend fun setUser(settedUser: User) {
+        return userUseCases.setUser(settedUser)
     }
 
 }

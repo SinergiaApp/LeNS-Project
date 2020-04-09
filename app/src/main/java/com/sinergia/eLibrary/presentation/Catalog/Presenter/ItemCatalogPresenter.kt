@@ -138,7 +138,7 @@ class ItemCatalogPresenter(itemCatalogViewModel: ItemCatalogViewModelImpl): Item
 
 
 
-    override fun addUserReserve(userMail: String, resourceId: String, libraryId: String) {
+    override fun addUserReserve(userMail: String, resourceId: String, resourceName: String, libraryId: String) {
 
         var newResourceDisponibility = NeLSProject.currentResource!!.disponibility
         newResourceDisponibility.set(libraryId, newResourceDisponibility[libraryId]!!-1)
@@ -157,7 +157,13 @@ class ItemCatalogPresenter(itemCatalogViewModel: ItemCatalogViewModelImpl): Item
 
         )
 
-        val newReserve = Reserve(userMail, resourceId, libraryId, LocalDateTime.now(), LocalDateTime.MAX)
+        val newReserve = Reserve()//(userMail, resourceId, resourceName, libraryId, LocalDateTime.now(), LocalDateTime.MAX)
+        newReserve.userMail = userMail
+        newReserve.resourceId = resourceId
+        newReserve.resourceName = resourceName
+        newReserve.libraryId = libraryId
+        newReserve.reserveDate = LocalDateTime.now()
+
 
         val currentUser = NeLSProject.currentUser
         var newUserReserves = currentUser.reserves

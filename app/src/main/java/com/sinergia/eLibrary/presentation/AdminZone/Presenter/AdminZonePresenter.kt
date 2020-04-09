@@ -3,9 +3,8 @@ package com.sinergia.eLibrary.presentation.AdminZone.Presenter
 import android.util.Log
 import com.google.firebase.firestore.GeoPoint
 import com.sinergia.eLibrary.base.Exceptions.*
+import com.sinergia.eLibrary.data.Model.*
 import com.sinergia.eLibrary.presentation.AdminZone.AdminZoneContract
-import com.sinergia.eLibrary.data.Model.Library
-import com.sinergia.eLibrary.data.Model.Resource
 import com.sinergia.eLibrary.presentation.AdminZone.Model.AdminViewModelImpl
 import kotlinx.coroutines.*
 import java.lang.NullPointerException
@@ -409,12 +408,14 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
 
                 var library = adminViewModel?.getLibraryToModify(id)
 
-                view?.hideSetLibraryProgressBar()
-                view?.enableSearchLibraryToModifyButton()
-                view?.enableSetLibraryButton()
-                view?.showSetLibraryContent()
-                view?.initLibraryContent(library)
-                view?.showMessage("La biblioteca está lista para ser modificada.")
+                if(isViewAttach()) {
+                    view?.hideSetLibraryProgressBar()
+                    view?.enableSearchLibraryToModifyButton()
+                    view?.enableSetLibraryButton()
+                    view?.showSetLibraryContent()
+                    view?.initLibraryContent(library)
+                    view?.showMessage("La biblioteca está lista para ser modificada.")
+                }
 
                 Log.d(TAG, "Succesfully getted library to modify with id $id.")
 
@@ -478,5 +479,95 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
 
 
     }
+
+    // LOAN AND RESERVE METHODS
+    override fun checkEmptyLoanManagementMail(email: String): Boolean {
+        return email.isNullOrEmpty()
+    }
+
+    override fun checkValidLoanManagementMail(email: String): Boolean {
+        return !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
+
+    override fun getUserLoansAndReserves(email: String){
+
+        Log.d(TAG, "Trying to get user loans and reserves...")
+        view?.disableSearchLoanButton()
+        view?.showLoanManagementProgressBar()
+        view?.disableAllLoanReserveButtons()
+
+        launch{
+
+            try{
+
+                val pendingReserves = adminViewModel?.getUserPendingReserves(email)
+                var pendingLoans = adminViewModel?.getUserPendingLoans(email)
+
+                if(isViewAttach()){
+
+                    view?.hideLoanManagementProgressBar()
+                    view?.showLoansManagementContent()
+                    if(pendingReserves!!.size > 0){
+                        view?.enableInitLoanButton()
+                        view?.enableCancelReserveButton()
+                    }
+                    if(pendingLoans!!.size > 0){
+                        view?.enableEnlargeLoanButton()
+                        view?.enableFinalizeLoanButton()
+                    }
+                    view?.initLoansManagementContent(pendingReserves, pendingLoans)
+
+                }
+
+                Log.d(TAG, "Succesfully getted user loans and reserves.")
+
+            } catch (error: FirebaseGetUserReservesException){
+
+                val errorMsg = error.message.toString()
+
+                if(isViewAttach()){
+                    view?.showError(errorMsg)
+                    view?.hideLoanManagementProgressBar()
+                    view?.enableSearchLoanButton()
+                }
+
+                Log.d(TAG, "ERROR: Cannot get user reserves with email $email.")
+
+            } catch (error: FirebaseGetUserLoansException){
+
+                val errorMsg = error.message.toString()
+
+                if(isViewAttach()){
+                    view?.showError(errorMsg)
+                    view?.hideLoanManagementProgressBar()
+                    view?.enableSearchLoanButton()
+                }
+
+                Log.d(TAG, "ERROR: Cannot get user loans with email $email.")
+
+            }
+
+
+        }
+
+    }
+
+    override fun initLoan(reserve: Reserve) {
+        TODO("Not yet implemented")
+    }
+
+    override fun cancelReserve(reserve: Reserve) {
+        TODO("Not yet implemented")
+    }
+
+    override fun enlargeLoan() {
+        TODO("Not yet implemented")
+    }
+
+
+    override fun finalizeLoan(loan: Loan) {
+        TODO("Not yet implemented")
+    }
+
 
 }

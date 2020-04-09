@@ -7,6 +7,10 @@ class ReserveUseCases {
 
     val nelsDB = NelsDataBase()
 
+    suspend fun getUserPendingReserves(email: String): ArrayList<Reserve>{
+        return nelsDB.getUserPendingReserves(email)
+    }
+
     suspend fun newReserve(reserve: Reserve){
         return nelsDB.newReserve(reserve)
     }

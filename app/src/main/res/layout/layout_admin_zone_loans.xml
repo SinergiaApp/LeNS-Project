@@ -30,7 +30,7 @@
                 android:ems="10"
                 android:fontFamily="verdana"
                 android:hint="Correo del Usuario"
-                android:inputType="text"
+                android:inputType="textEmailAddress"
                 android:paddingStart="50dp" />
 
             <ImageView
@@ -72,7 +72,7 @@
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/main_button_style"
                 android:fontFamily="Verdana"
-                android:text="BUSCAR USUARIO"
+                android:text="BUSCAR EN USUARIO"
                 android:textColor="@color/colorWhite" />
         </LinearLayout>
 
@@ -94,7 +94,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
-            android:visibility="invisible" />
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/admin_zone_loansContent_reserves"
@@ -121,6 +121,16 @@
                 android:background="@color/colorGray"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:id="@+id/admin_zone_loansContent_reserves_noList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="Sin Reservas actualmente."
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp" />
 
             <RadioGroup
                 android:id="@+id/admin_zone_loansContent_reserves_list"
@@ -186,6 +196,16 @@
                 android:background="@color/colorGray"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:id="@+id/admin_zone_loansContent_loans_noList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="Sin Préstamos actualmente."
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp" />
 
             <RadioGroup
                 android:id="@+id/admin_zone_loansContent_loans_list"

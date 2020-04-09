@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.text.InputType
 import android.view.View
 import android.widget.EditText
+import android.widget.RadioButton
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -17,6 +18,8 @@ import com.google.firebase.firestore.GeoPoint
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.data.Model.Library
+import com.sinergia.eLibrary.data.Model.Loan
+import com.sinergia.eLibrary.data.Model.Reserve
 import com.sinergia.eLibrary.data.Model.Resource
 import com.sinergia.eLibrary.presentation.AdminZone.AdminZoneContract
 import com.sinergia.eLibrary.presentation.AdminZone.AdminZoneContract.AdminZonePresenter
@@ -45,6 +48,9 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
     private lateinit var fillField: String
     private var cameraPermissionGranted = false
     private var buttonRequestCameraPermission = false
+
+    private var reserveChecked: Reserve ?= null
+    private var loanChecked: Loan ?= null
 
     //BASEACTIVITY METHODS
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,6 +82,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         admin_zone_setLibrary_btn.setOnClickListener { setLibrary() }
 
         admin_zone_loanManagementButton.setOnClickListener { showHideLoans() }
+        admin_zone_loansSearch_btn.setOnClickListener { getUserLoansAndReserves() }
         admin_zone_LoansSearch_icon2.setOnClickListener { clickOnCamera("loansManagement") }
 
     }
@@ -587,7 +594,142 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         }
     }
 
+    override fun showLoansManagementContent() {
+        admin_zone_loansContent.visibility = View.VISIBLE
+    }
 
+    override fun showLoanManagementProgressBar() {
+        admin_zone_loansProgressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideLoanManagementProgressBar() {
+        admin_zone_loansProgressBar.visibility = View.GONE
+    }
+
+    override fun enableSearchLoanButton() {
+        admin_zone_loansSearch_btn.isClickable = true
+        admin_zone_loansSearch_btn.isEnabled = true
+    }
+
+    override fun disableSearchLoanButton() {
+        admin_zone_loansSearch_btn.isClickable = false
+        admin_zone_loansSearch_btn.isEnabled = false
+    }
+
+    override fun disableAllLoanReserveButtons() {
+        admin_zone_loansContent_initLoan_btn.isClickable = false
+        admin_zone_loansContent_initLoan_btn.isEnabled = false
+        admin_zone_loansConten_cancelReserve_btn.isClickable = false
+        admin_zone_loansConten_cancelReserve_btn.isEnabled = false
+        admin_zone_loansContent_enlargeLoan_btn.isClickable = false
+        admin_zone_loansContent_enlargeLoan_btn.isEnabled = false
+        admin_zone_loansConten_finalizeLoan_btn.isClickable = false
+        admin_zone_loansConten_finalizeLoan_btn.isEnabled = false
+    }
+
+
+    override fun enableInitLoanButton() {
+        admin_zone_loansContent_initLoan_btn.isClickable = true
+        admin_zone_loansContent_initLoan_btn.isEnabled = true
+    }
+
+    override fun disableInitLoanButton() {
+        admin_zone_loansContent_initLoan_btn.isClickable = false
+        admin_zone_loansContent_initLoan_btn.isEnabled = false
+    }
+
+    override fun enableCancelReserveButton() {
+        admin_zone_loansConten_cancelReserve_btn.isClickable = true
+        admin_zone_loansConten_cancelReserve_btn.isEnabled = true
+    }
+
+    override fun disableCancelReserveButton() {
+        admin_zone_loansConten_cancelReserve_btn.isClickable = false
+        admin_zone_loansConten_cancelReserve_btn.isEnabled = false
+    }
+
+    override fun enableEnlargeLoanButton() {
+        admin_zone_loansContent_enlargeLoan_btn.isClickable = true
+        admin_zone_loansContent_enlargeLoan_btn.isEnabled = true
+    }
+
+    override fun disableEnlargeLoanButton() {
+        admin_zone_loansContent_enlargeLoan_btn.isClickable = false
+        admin_zone_loansContent_enlargeLoan_btn.isEnabled = false
+    }
+
+    override fun enableFinalizeLoanButton() {
+        admin_zone_loansConten_finalizeLoan_btn.isClickable = true
+        admin_zone_loansConten_finalizeLoan_btn.isEnabled = true
+    }
+
+    override fun disableFinalizeLoanButton() {
+        admin_zone_loansConten_finalizeLoan_btn.isClickable = false
+        admin_zone_loansConten_finalizeLoan_btn.isEnabled = false
+    }
+
+    override fun getUserLoansAndReserves() {
+
+        val userMail = admin_zone_loansSearch.text.toString()
+
+        if(adminPresenter.checkEmptyLoanManagementMail(userMail)){
+            admin_zone_loansSearch.error = "¡Cuidado! El campo 'Usuario' es obligatorio."
+            toastS(this, "Vaya... Hay errores en los campos introducidos.")
+            return
+        }
+
+        if(adminPresenter.checkValidLoanManagementMail(userMail)) {
+            admin_zone_loansSearch.error = "¡Cuidado! El Correo Electrónico introducido no es válido."
+            toastS(this, "Vaya... Hay errores en los campos introducidos.")
+            return
+        }
+
+        adminPresenter.getUserLoansAndReserves(userMail)
+
+    }
+
+    override fun initLoansManagementContent(reserves: List<Reserve>, loans: List<Loan>) {
+
+        admin_zone_loansContent_reserves_list.removeAllViews()
+        if(reserves.isNotEmpty()) admin_zone_loansContent_reserves_noList.visibility = View.GONE
+        for(reserve in reserves){
+
+            val reserveText = "ISBN: ${reserve.resourceId}.\nTítulo: ${reserve.resourceName}.\nBiblioteca: ${reserve.libraryId}."
+            var reserveRadio = RadioButton(this)
+            reserveRadio.text = reserveText
+            reserveRadio.setOnClickListener { this.reserveChecked = reserve }
+            admin_zone_loansContent_reserves_list.addView(reserveRadio)
+
+        }
+
+        admin_zone_loansContent_loans_list.removeAllViews()
+        if(loans.isNotEmpty())admin_zone_loansContent_loans_noList.visibility = View.GONE
+        for(loan in loans){
+
+            val loanText = "ISBN: ${loan.resourceId}.\nTítulo: ${loan.resourceName}.\nBiblioteca: ${loan.libraryId}."
+            var loanRadio = RadioButton(this)
+            loanRadio.text = loanText
+            loanRadio.setOnClickListener { this.loanChecked = loan }
+            admin_zone_loansContent_loans_list.addView(loanRadio)
+
+        }
+
+    }
+
+    override fun initLoan() {
+        TODO("Not yet implemented")
+    }
+
+    override fun cancelReserve() {
+        TODO("Not yet implemented")
+    }
+
+    override fun finalizeLoan() {
+        TODO("Not yet implemented")
+    }
+
+
+    // WINDOW METHODS
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         adminPresenter.dettachView()

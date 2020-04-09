@@ -78,8 +78,8 @@ class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
 
         val name:String = register_name.text.toString().trim()
         val lastNames:String = register_lastname.text.toString()
-            val lastName1 = lastNames.substring(0, lastNames.indexOf(" "))
-            val lastName2 = lastNames.substring(lastNames.indexOf(" ")+1)
+        val lastName1 = lastNames.substring(0, lastNames.indexOf(" "))
+        val lastName2 = lastNames.substring(lastNames.indexOf(" ")+1)
 
         val email:String = register_email.text.toString().trim()
         val nif:String = register_nif.text.toString().trim()

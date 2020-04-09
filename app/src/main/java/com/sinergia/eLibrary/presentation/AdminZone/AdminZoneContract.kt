@@ -1,8 +1,7 @@
 package com.sinergia.eLibrary.presentation.AdminZone
 
 import com.google.firebase.firestore.GeoPoint
-import com.sinergia.eLibrary.data.Model.Library
-import com.sinergia.eLibrary.data.Model.Resource
+import com.sinergia.eLibrary.data.Model.*
 
 
 interface AdminZoneContract {
@@ -51,6 +50,25 @@ interface AdminZoneContract {
         fun setLibrary()
 
         fun showHideLoans()
+        fun showLoansManagementContent()
+        fun showLoanManagementProgressBar()
+        fun hideLoanManagementProgressBar()
+        fun enableSearchLoanButton()
+        fun disableSearchLoanButton()
+        fun disableAllLoanReserveButtons()
+        fun enableInitLoanButton()
+        fun disableInitLoanButton()
+        fun enableCancelReserveButton()
+        fun disableCancelReserveButton()
+        fun enableEnlargeLoanButton()
+        fun disableEnlargeLoanButton()
+        fun enableFinalizeLoanButton()
+        fun disableFinalizeLoanButton()
+        fun getUserLoansAndReserves()
+        fun initLoansManagementContent(reserves: List<Reserve>, loans: List<Loan>)
+        fun initLoan()
+        fun cancelReserve()
+        fun finalizeLoan()
 
         fun clickOnCamera(field: String)
         fun startScan()
@@ -128,6 +146,14 @@ interface AdminZoneContract {
         fun checkInRangeSetLibraryLogitude(longitud: String): Boolean
 
         fun checkValidISBN(isbn: String): Boolean
+
+        fun checkEmptyLoanManagementMail(email: String): Boolean
+        fun checkValidLoanManagementMail(email: String): Boolean
+        fun getUserLoansAndReserves(email: String)
+        fun initLoan(reserve: Reserve)
+        fun cancelReserve(reserve: Reserve)
+        fun enlargeLoan()
+        fun finalizeLoan(loan: Loan)
 
     }
 

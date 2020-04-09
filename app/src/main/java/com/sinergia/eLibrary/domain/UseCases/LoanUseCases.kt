@@ -7,6 +7,10 @@ class LoanUseCases {
 
     val nelsDB = NelsDataBase()
 
+    suspend fun getUserPendingLoans(email: String): ArrayList<Loan>{
+        return nelsDB.getUserPendingLoans(email)
+    }
+
     suspend fun newLoan(loan: Loan){
         return nelsDB.newLoan(loan)
     }

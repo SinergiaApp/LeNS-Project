@@ -347,15 +347,53 @@ class NelsDataBase {
     }
 
     // RESERVE METHODS
+    suspend fun getUserPendingReserves(email: String): ArrayList<Reserve> = suspendCancellableCoroutine { getUserPendingReservesContinue ->
+
+        var userPendingReservesList = arrayListOf<Reserve>()
+        nelsDB
+            .collection("reserves")
+            .whereEqualTo("userMail", email)
+            .whereEqualTo("status", "Pending")
+            .get()
+            .addOnCompleteListener { getUserPendingReserves ->
+
+                if(getUserPendingReserves.isSuccessful){
+
+                    for (userPendingReserve in getUserPendingReserves.getResult()!!){
+
+                        val inputUserPendingReserve = userPendingReserve.toObject(Reserve::class.java)
+                        inputUserPendingReserve.id = userPendingReserve.id
+                        userPendingReservesList.add(inputUserPendingReserve)
+
+                    }
+
+                    getUserPendingReservesContinue.resume(userPendingReservesList)
+
+                } else {
+
+                    getUserPendingReservesContinue.resumeWithException(
+                        FirebaseGetUserReservesException(
+                            getUserPendingReserves.exception?.message.toString()
+                        )
+                    )
+
+                }
+
+            }
+
+    }
+
     suspend fun newReserve(reserve: Reserve): Unit = suspendCancellableCoroutine{ addReserveContinuation ->
 
         val newReserve: HashMap<String, Any> = hashMapOf(
             "userMail" to reserve.userMail,
             "resourceId" to reserve.resourceId,
+            "resourceName" to reserve.resourceName,
             "libraryId" to reserve.libraryId,
-            "reserveDate" to reserve.reserveDate,
-            "loanDate" to reserve.loanDate
+            "reserveDate" to reserve.reserveDate!!,
+            "status" to reserve.status
         )
+        if(reserve.loanDate !== null) newReserve["loanDate"] = reserve.loanDate!!
 
         nelsDB
             .document("reserves/${reserve.userMail+reserve.resourceId}")
@@ -379,9 +417,10 @@ class NelsDataBase {
         val settedReserve: HashMap<String, Any> = hashMapOf(
             "userMail" to reserve.userMail,
             "resourceId" to reserve.resourceId,
+            "resourceName" to reserve.resourceName,
             "libraryId" to reserve.libraryId,
-            "reserveDate" to reserve.reserveDate,
-            "loanDate" to reserve.loanDate
+            "reserveDate" to reserve.reserveDate!!,
+            "loanDate" to reserve.loanDate!!
         )
 
         nelsDB
@@ -426,6 +465,41 @@ class NelsDataBase {
     }
 
     // LOAN METHODS
+    suspend fun getUserPendingLoans(email: String): ArrayList<Loan> = suspendCancellableCoroutine{ getUserPendingLoansContinuation ->
+
+        var userPendingLoansList = arrayListOf<Loan>()
+
+        nelsDB
+            .collection("loans")
+            .whereEqualTo("userMail", email)
+            .whereEqualTo("status", "Pending")
+            .get()
+            .addOnCompleteListener {userPendingLoans ->
+                if(userPendingLoans.isSuccessful){
+
+                    for (userPendingLoan in userPendingLoans.getResult()!!){
+
+                        val inputUserPendingLoan = userPendingLoan.toObject(Loan::class.java)
+                        inputUserPendingLoan.id = userPendingLoan.id
+                        userPendingLoansList.add(inputUserPendingLoan)
+
+                    }
+
+                    getUserPendingLoansContinuation.resume(userPendingLoansList)
+
+                } else {
+
+                    getUserPendingLoansContinuation.resumeWithException(
+                        FirebaseGetUserLoansException(
+                            userPendingLoans.exception?.message.toString()
+                        )
+                    )
+
+                }
+            }
+
+
+    }
     suspend fun newLoan(loan: Loan): Unit = suspendCancellableCoroutine{ addLoanContination ->
 
         val newLoan: HashMap<String, Any> = hashMapOf(
