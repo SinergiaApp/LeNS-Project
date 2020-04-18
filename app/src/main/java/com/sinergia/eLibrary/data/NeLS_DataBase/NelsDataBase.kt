@@ -95,6 +95,27 @@ class NelsDataBase {
                 }
     }
 
+    suspend fun deleteUser(user: User): Unit = suspendCancellableCoroutine { deleteUserContinuation ->
+
+        nelsDB
+            .collection("users")
+            .document(user.email)
+            .delete()
+            .addOnCompleteListener { deleteUser ->
+
+                if (deleteUser.isSuccessful) {
+                    deleteUserContinuation.resume(Unit)
+                } else {
+
+                    deleteUserContinuation.resumeWithException(
+                        FirebaseDeleteUserException(deleteUser.exception?.message.toString())
+                    )
+
+                }
+
+            }
+    }
+
 
     //RESOURCES METHODS
     suspend fun getAllResources(): ArrayList<Resource> = suspendCancellableCoroutine{getAllResourcesContinue ->

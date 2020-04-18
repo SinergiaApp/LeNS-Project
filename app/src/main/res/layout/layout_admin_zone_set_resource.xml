@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -227,16 +228,21 @@
                 android:layout_marginBottom="20dp"
                 android:padding="10dp"/>
 
-        <ProgressBar
-            android:id="@+id/admin_zone_setResourceProgressBar"
-            style="?android:attr/progressBarStyle"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:visibility="invisible" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+            <com.wang.avi.AVLoadingIndicatorView
+                android:id="@+id/admin_zone_setResourceProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/AVLoadingIndicatorView.Large"
+                android:visibility="invisible"
+                android:layout_margin="20dp"
+                app:indicatorName="BallPulseIndicator"
+                app:indicatorColor="@color/colorBlack" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/admin_zone_setResource_btn"

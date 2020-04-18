@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -61,7 +62,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:gravity="center_horizontal">
 
             <Button
@@ -69,25 +70,26 @@
                 android:layout_width="220dp"
                 android:layout_height="52dp"
                 android:layout_marginTop="19dp"
-                android:layout_marginBottom="20dp"
                 android:background="@drawable/main_button_style"
                 android:fontFamily="Verdana"
                 android:text="BUSCAR EN USUARIO"
                 android:textColor="@color/colorWhite" />
+
+            <com.wang.avi.AVLoadingIndicatorView
+                android:id="@+id/admin_zone_loansProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/AVLoadingIndicatorView.Large"
+                android:visibility="gone"
+                android:layout_margin="20dp"
+                app:indicatorName="BallPulseIndicator"
+                app:indicatorColor="@color/colorBlack" />
+
         </LinearLayout>
 
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/admin_zone_loansProgressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:visibility="gone" />
+
 
     <LinearLayout
         android:id="@+id/admin_zone_loansContent"
@@ -231,8 +233,7 @@
                     android:fontFamily="Verdana"
                     android:text="AMPLIAR"
                     android:layout_marginRight="10dp"
-                    android:textColor="@color/colorWhite"
-                    />
+                    android:textColor="@color/colorWhite" />
 
                 <Button
                     android:id="@+id/admin_zone_loansConten_finalizeLoan_btn"
@@ -243,8 +244,7 @@
                     android:fontFamily="Verdana"
                     android:text="FINALIZAR"
                     android:layout_marginLeft="10dp"
-                    android:textColor="@color/colorRedDanger"
-                    />
+                    android:textColor="@color/colorRedDanger" />
 
             </LinearLayout>
 

@@ -28,4 +28,8 @@ class UserUseCases {
         return nelsDB.setUser(settedUser)
     }
 
+    suspend fun deleteUser(user: User){
+        return nelsDB.deleteUser(user)
+    }
+
 }

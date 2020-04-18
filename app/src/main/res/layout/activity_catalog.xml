@@ -62,6 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_gravity="center_horizontal"
                 android:padding="20dp">
 
                 <LinearLayout
@@ -124,7 +125,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:gravity="center_horizontal">
 
                         <Button
@@ -139,18 +140,20 @@
                             android:text="BUSCAR LIRBOS"
                             android:textColor="@color/colorWhite" />
 
+                        <com.wang.avi.AVLoadingIndicatorView
+                            android:id="@+id/catalog_progressBar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/AVLoadingIndicatorView.Large"
+                            android:visibility="gone"
+                            android:layout_margin="20dp"
+                            app:indicatorName="BallPulseIndicator"
+                            app:indicatorColor="@color/colorBlack" />
+
                     </LinearLayout>
 
                 </LinearLayout>
 
-
-                <ProgressBar
-                    android:id="@+id/catalog_progressBar"
-                    style="?android:attr/progressBarStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_marginTop="100dp"
-                    android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/catalog_content"

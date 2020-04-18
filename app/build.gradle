@@ -37,6 +37,7 @@ androidExtensions {
 
 repositories {
     jcenter()
+    mavenCentral()
 }
 
 dependencies {
@@ -101,5 +102,9 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.0.0'
 
     // QR Generator
-    implementation 'com.github.kenglxn.QRGen:android:2.5.0'
+    implementation 'com.github.kenglxn.QRGen:android:2.6.0'
+
+    //Material Design
+    implementation 'com.sackcentury:shinebutton:1.0.0'
+    implementation 'com.wang.avi:library:2.1.3'
 }

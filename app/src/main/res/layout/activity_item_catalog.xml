@@ -153,13 +153,15 @@
 
                 </LinearLayout>
 
-                <ProgressBar
+                <com.wang.avi.AVLoadingIndicatorView
                     android:id="@+id/item_catalog_progressBar"
-                    style="?android:attr/progressBarStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
-                    android:visibility="gone" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/AVLoadingIndicatorView.Large"
+                    android:visibility="gone"
+                    android:layout_margin="20dp"
+                    app:indicatorName="BallPulseIndicator"
+                    app:indicatorColor="@color/colorBlack" />
 
                 <ImageView
                     android:id="@+id/item_catalog_image"

@@ -165,20 +165,19 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:layout_marginBottom="20dp">
+                android:gravity="center_horizontal">
 
                 <TextView
-                    android:id="@+id/userLastNameExplainText"
+                    android:id="@+id/userLastName1ExplainText"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
-                    android:layout_alignStart="@+id/account_userLastName"
+                    android:layout_alignStart="@+id/account_userLastName1"
                     android:layout_marginStart="0dp"
                     android:layout_marginBottom="0dp"
                     android:text="Apellidos:"
                     android:textColor="@color/colorBlack" />
                 <EditText
-                    android:id="@+id/account_userLastName"
+                    android:id="@+id/account_userLastName1"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_alignParentStart="true"
@@ -188,15 +187,47 @@
                     android:background="@drawable/edit_text_login_register"
                     android:ems="10"
                     android:fontFamily="verdana"
-                    android:hint="Apellidos de Usuario"
+                    android:hint="Primer Apellido del Usuario"
                     android:inputType="text"
                     android:paddingStart="50dp" />
                 <ImageView
-                    android:id="@+id/account_userLastName_icon"
+                    android:id="@+id/account_userLastName1_icon"
                     android:layout_width="30dp"
                     android:layout_height="41dp"
-                    android:layout_alignStart="@+id/account_userLastName"
-                    android:layout_alignTop="@+id/account_userLastName"
+                    android:layout_alignStart="@+id/account_userLastName1"
+                    android:layout_alignTop="@+id/account_userLastName1"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginTop="-2dp"
+                    android:elevation="5dp"
+                    android:src="@drawable/user_icon" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="20dp">
+                <EditText
+                    android:id="@+id/account_userLastName2"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edit_text_login_register"
+                    android:ems="10"
+                    android:fontFamily="verdana"
+                    android:hint="Segundo Apellido del Usuario"
+                    android:inputType="text"
+                    android:paddingStart="50dp" />
+                <ImageView
+                    android:id="@+id/account_userLastName_icon2"
+                    android:layout_width="30dp"
+                    android:layout_height="41dp"
+                    android:layout_alignStart="@+id/account_userLastName2"
+                    android:layout_alignTop="@+id/account_userLastName2"
                     android:layout_marginStart="7dp"
                     android:layout_marginTop="-2dp"
                     android:elevation="5dp"
@@ -259,7 +290,7 @@
                     android:layout_alignStart="@+id/account_userNIF"
                     android:layout_marginStart="0dp"
                     android:layout_marginBottom="0dp"
-                    android:text="Numero de Identificación Fiscal:"
+                    android:text="Número de Identificación Fiscal:"
                     android:textColor="@color/colorBlack" />
                 <EditText
                     android:id="@+id/account_userNIF"
@@ -288,8 +319,66 @@
 
             </RelativeLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <ImageView
+                    android:id="@+id/account_userQR"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:elevation="5dp"
+                    android:src="@drawable/qr_icon" />
+
+                <com.wang.avi.AVLoadingIndicatorView
+                    android:id="@+id/accountProgressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/AVLoadingIndicatorView.Large"
+                    android:visibility="invisible"
+                    android:layout_margin="20dp"
+                    app:indicatorName="BallPulseIndicator"
+                    app:indicatorColor="@color/colorBlack" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal"
+                    android:padding="10dp">
+
+                    <Button
+                        android:id="@+id/account_update_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/main_button_style"
+                        android:fontFamily="Verdana"
+                        android:text="ACTUALIZAR"
+                        android:layout_marginRight="10dp"
+                        android:textColor="@color/colorWhite" />
+
+                    <Button
+                        android:id="@+id/account_delete_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/main_button_danger_style"
+                        android:fontFamily="Verdana"
+                        android:text="BORRAR"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/colorRedDanger" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
 
         </LinearLayout>
+
+
 
 
     </ScrollView>

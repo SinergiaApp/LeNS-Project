@@ -4,6 +4,7 @@ package com.sinergia.eLibrary.presentation.Login
 interface LoginContract {
 
     interface LoginView{
+
         fun showError(error: String?)
         fun showMessage(message: String)
         fun showProgressBar()
