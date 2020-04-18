@@ -32,6 +32,7 @@ interface AdminViewModel {
     suspend fun getUserPendingReserves(email: String): ArrayList<Reserve>
     suspend fun setReserve(settedReserve: Reserve)
     suspend fun addLoan(newLoan: Loan)
+    suspend fun setLoan(loan: Loan)
     suspend fun setUser(settedUser: User)
 
 }

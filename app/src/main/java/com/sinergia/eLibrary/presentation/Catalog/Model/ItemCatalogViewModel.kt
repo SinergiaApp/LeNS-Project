@@ -17,5 +17,4 @@ interface ItemCatalogViewModel {
     suspend fun newReserve(reserve: Reserve)
     suspend fun cancelReserve(cancelledReserve: String)
 
-
 }

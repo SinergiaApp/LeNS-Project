@@ -174,6 +174,12 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         startActivity(intentLibrariesPage)
     }
 
+    override fun navigateToAdminZone() {
+        val intentAdminZonePage = Intent(this, AdminZoneActivity::class.java)
+        intentAdminZonePage.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intentAdminZonePage)
+    }
+
 
     //CREATE RESOURCE METHODS
         override fun showHideAddResource() {
@@ -723,6 +729,11 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
     override fun cancelReserve() {
         TODO("Not yet implemented")
     }
+
+    override fun enlargeLoan() {
+        TODO("Not yet implemented")
+    }
+
 
     override fun finalizeLoan() {
         TODO("Not yet implemented")

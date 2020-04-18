@@ -72,6 +72,10 @@ class AdminViewModelImpl: ViewModel(), AdminViewModel {
         return loanUseCases.newLoan(newLoan)
     }
 
+    override suspend fun setLoan(loan: Loan) {
+        return loanUseCases.setLoan(loan)
+    }
+
     override suspend fun setUser(settedUser: User) {
         return userUseCases.setUser(settedUser)
     }

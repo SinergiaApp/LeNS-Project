@@ -78,23 +78,23 @@
 
     </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/admin_zone_loansProgressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:visibility="gone" />
+
     <LinearLayout
         android:id="@+id/admin_zone_loansContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="visible">
-
-        <ProgressBar
-            android:id="@+id/admin_zone_loansProgressBar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:visibility="gone" />
+        android:visibility="gone">
 
         <LinearLayout
             android:id="@+id/admin_zone_loansContent_reserves"
@@ -135,7 +135,9 @@
             <RadioGroup
                 android:id="@+id/admin_zone_loansContent_reserves_list"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -150,7 +152,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/main_button_style"
                     android:fontFamily="Verdana"
-                    android:text="INICIAR PRESTAMO"
+                    android:text="INICIAR"
                     android:layout_marginRight="10dp"
                     android:textColor="@color/colorWhite"
                     />
@@ -162,7 +164,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/main_button_danger_style"
                     android:fontFamily="Verdana"
-                    android:text="CANCELAR RESERVA"
+                    android:text="CANCELAR"
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/colorRedDanger"
                     />
@@ -210,7 +212,9 @@
             <RadioGroup
                 android:id="@+id/admin_zone_loansContent_loans_list"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -225,7 +229,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/main_button_style"
                     android:fontFamily="Verdana"
-                    android:text="AMPLIAR PRESTAMO"
+                    android:text="AMPLIAR"
                     android:layout_marginRight="10dp"
                     android:textColor="@color/colorWhite"
                     />
@@ -237,7 +241,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/main_button_danger_style"
                     android:fontFamily="Verdana"
-                    android:text="FINALIZAR PRESTAMO"
+                    android:text="FINALIZAR"
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/colorRedDanger"
                     />

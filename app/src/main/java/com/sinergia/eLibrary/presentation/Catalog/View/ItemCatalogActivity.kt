@@ -150,6 +150,7 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
                 reserveDialog.setDialogOnClickButtonListener(object: ConfirmDialog.DialogOnClickButtonListener{
                     override fun clickAcceptButton() {
                         itemCatalogPresenter.addUserReserve(NeLSProject.currentUser.email, NeLSProject.currentResource!!.isbn, NeLSProject.currentResource!!.title, libraryChecked!!)
+                        reserveDialog.dismiss()
                     }
 
                     override fun clickCancelButton() {

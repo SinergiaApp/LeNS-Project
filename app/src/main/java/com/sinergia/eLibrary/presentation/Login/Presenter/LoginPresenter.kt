@@ -74,10 +74,11 @@ class LoginPresenter(loginInteractor: LoginInteractor, loginViewModel: LoginView
                     NeLSVars.adminUser = currentUser!!.admin
                     NeLSVars.currentUser = currentUser
                 }catch (error: FirebaseGetUserException){
-                    val errorMsg = error.message
-                    if(isViewAttach()) view?.showError("Aviso:No se han recuperado tus privilegios de la base de datos.")
 
-                    Log.d(TAG, "ERROR: Cannot get users privilegies with email $email --> $errorMsg")
+                    val errorMsg = error.message
+                    if(isViewAttach()) view?.showError("No se ha podido recuperar tu usuario de la base de datos.")
+
+                    Log.d(TAG, "ERROR: Cannot get user with email $email --> $errorMsg")
                 }
 
 
@@ -86,7 +87,7 @@ class LoginPresenter(loginInteractor: LoginInteractor, loginViewModel: LoginView
                     view?.enableLoginButton()
                     view?.navigateToMainPage()
 
-                    Log.d(TAG, "Succesfully logged with email $email.")
+                    Log.d(TAG, "Succesfully logged User -> ${NeLSVars.currentUser.toString()}.")
                 }
             }catch (error: FirebaseLoginException) {
 

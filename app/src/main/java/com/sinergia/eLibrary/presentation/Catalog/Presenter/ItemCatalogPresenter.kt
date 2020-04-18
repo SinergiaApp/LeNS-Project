@@ -157,12 +157,13 @@ class ItemCatalogPresenter(itemCatalogViewModel: ItemCatalogViewModelImpl): Item
 
         )
 
-        val newReserve = Reserve()//(userMail, resourceId, resourceName, libraryId, LocalDateTime.now(), LocalDateTime.MAX)
-        newReserve.userMail = userMail
-        newReserve.resourceId = resourceId
-        newReserve.resourceName = resourceName
-        newReserve.libraryId = libraryId
-        newReserve.reserveDate = LocalDateTime.now()
+        val newReserve = Reserve(
+            userMail,
+            resourceId,
+            resourceName,
+            libraryId,
+            LocalDateTime.now().toString()
+        )
 
 
         val currentUser = NeLSProject.currentUser
@@ -210,7 +211,6 @@ class ItemCatalogPresenter(itemCatalogViewModel: ItemCatalogViewModelImpl): Item
             }
 
         }
-
 
     }
 

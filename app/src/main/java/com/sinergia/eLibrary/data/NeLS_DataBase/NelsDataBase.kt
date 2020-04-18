@@ -6,6 +6,7 @@ import com.sinergia.eLibrary.base.Exceptions.*
 import com.sinergia.eLibrary.base.Exceptions.FirebaseAddUserException
 import com.sinergia.eLibrary.data.Model.*
 import kotlinx.coroutines.suspendCancellableCoroutine
+import java.time.LocalDateTime
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -53,10 +54,6 @@ class NelsDataBase {
 
     }
 
-    suspend fun getCurrentUser(){
-
-    }
-
     suspend fun getUser(email: String): User = suspendCancellableCoroutine{getUserContinue ->
 
         nelsDB
@@ -89,7 +86,7 @@ class NelsDataBase {
                         setUserContinuation.resume(Unit)
                     } else {
                         setUserContinuation.resumeWithException(
-                            FirebaseSetLoanException(
+                            FirebaseSetUserException(
                                 setUser.exception?.message.toString()
                             )
                         )
@@ -359,10 +356,9 @@ class NelsDataBase {
 
                 if(getUserPendingReserves.isSuccessful){
 
-                    for (userPendingReserve in getUserPendingReserves.getResult()!!){
+                    for (userPendingReserve in getUserPendingReserves.getResult()!!) {
 
                         val inputUserPendingReserve = userPendingReserve.toObject(Reserve::class.java)
-                        inputUserPendingReserve.id = userPendingReserve.id
                         userPendingReservesList.add(inputUserPendingReserve)
 
                     }
@@ -390,13 +386,13 @@ class NelsDataBase {
             "resourceId" to reserve.resourceId,
             "resourceName" to reserve.resourceName,
             "libraryId" to reserve.libraryId,
-            "reserveDate" to reserve.reserveDate!!,
+            "reserveDate" to reserve.reserveDate,
+            "loanDate" to reserve.loanDate,
             "status" to reserve.status
         )
-        if(reserve.loanDate !== null) newReserve["loanDate"] = reserve.loanDate!!
 
         nelsDB
-            .document("reserves/${reserve.userMail+reserve.resourceId}")
+            .document("reserves/${reserve.userMail+reserve.resourceId+reserve.reserveDate}")
             .set(newReserve)
             .addOnCompleteListener {newReserve ->
                 if(newReserve.isSuccessful){
@@ -419,12 +415,13 @@ class NelsDataBase {
             "resourceId" to reserve.resourceId,
             "resourceName" to reserve.resourceName,
             "libraryId" to reserve.libraryId,
-            "reserveDate" to reserve.reserveDate!!,
-            "loanDate" to reserve.loanDate!!
+            "reserveDate" to reserve.reserveDate,
+            "loanDate" to reserve.loanDate,
+            "status" to reserve.status
         )
 
         nelsDB
-            .document("reserves/${reserve.userMail+reserve.resourceId}")
+            .document("reserves/${reserve.userMail+reserve.resourceId+reserve.reserveDate}")
             .set(settedReserve)
             .addOnCompleteListener {setReserve ->
 
@@ -505,13 +502,15 @@ class NelsDataBase {
         val newLoan: HashMap<String, Any> = hashMapOf(
             "userMail" to loan.userMail,
             "resourceId" to loan.resourceId,
+            "resourceName" to loan.resourceName,
             "libraryId" to loan.libraryId,
             "loanDate" to loan.loanDate,
-            "returnDate" to loan.returnDate
+            "returnDate" to loan.returnDate,
+            "status" to loan.status
         )
 
         nelsDB
-            .document("loans/${loan.userMail+loan.resourceId}")
+            .document("loans/${loan.userMail+loan.resourceId+loan.loanDate}")
             .set(newLoan)
             .addOnCompleteListener {newLoan ->
                 if(newLoan.isSuccessful){
@@ -532,13 +531,15 @@ class NelsDataBase {
         val settedLoan: HashMap<String, Any> = hashMapOf(
             "userMail" to loan.userMail,
             "resourceId" to loan.resourceId,
+            "resourceName" to loan.resourceName,
             "libraryId" to loan.libraryId,
             "loanDate" to loan.loanDate,
-            "returnDate" to loan.returnDate
+            "returnDate" to loan.returnDate,
+            "status" to loan.status
         )
 
         nelsDB
-            .document("loans/${loan.userMail+loan.resourceId}")
+            .document("loans/${loan.userMail+loan.resourceId+loan.loanDate}")
             .set(settedLoan)
             .addOnCompleteListener {setLoan ->
 

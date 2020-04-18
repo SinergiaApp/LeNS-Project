@@ -68,6 +68,7 @@ interface AdminZoneContract {
         fun initLoansManagementContent(reserves: List<Reserve>, loans: List<Loan>)
         fun initLoan()
         fun cancelReserve()
+        fun enlargeLoan()
         fun finalizeLoan()
 
         fun clickOnCamera(field: String)
@@ -76,6 +77,7 @@ interface AdminZoneContract {
 
         fun navigateToCatalog()
         fun navigateToLibraries()
+        fun navigateToAdminZone()
 
     }
 
@@ -152,7 +154,7 @@ interface AdminZoneContract {
         fun getUserLoansAndReserves(email: String)
         fun initLoan(reserve: Reserve)
         fun cancelReserve(reserve: Reserve)
-        fun enlargeLoan()
+        fun enlargeLoan(loan: Loan)
         fun finalizeLoan(loan: Loan)
 
     }

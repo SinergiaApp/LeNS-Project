@@ -108,8 +108,7 @@ class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
                 register_password.error = "¡Cuidado! El campo 'Contraseña' es obligatorio"
             }
             if (registerPresenter.checkEmptyRegisterRepeatPassword(repeatPassword)) {
-                register_repeatpassword.error =
-                    "¡Cuidado! El campo 'Repetir Contraseña' es obligatorio."
+                register_repeatpassword.error = "¡Cuidado! El campo 'Repetir Contraseña' es obligatorio."
             }
 
             toastL(this, "Vaya... Hay errores en los campos introducidos.")

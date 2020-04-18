@@ -6,8 +6,9 @@ import com.sinergia.eLibrary.base.Exceptions.*
 import com.sinergia.eLibrary.data.Model.*
 import com.sinergia.eLibrary.presentation.AdminZone.AdminZoneContract
 import com.sinergia.eLibrary.presentation.AdminZone.Model.AdminViewModelImpl
+import com.sinergia.eLibrary.presentation.NeLSProject
 import kotlinx.coroutines.*
-import java.lang.NullPointerException
+import java.time.LocalDateTime
 import java.util.regex.Pattern
 import kotlin.coroutines.CoroutineContext
 
@@ -531,7 +532,7 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
                     view?.enableSearchLoanButton()
                 }
 
-                Log.d(TAG, "ERROR: Cannot get user reserves with email $email.")
+                Log.d(TAG, "ERROR: Cannot get user reserves with email $email. Error -> $errorMsg.")
 
             } catch (error: FirebaseGetUserLoansException){
 
@@ -543,31 +544,410 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
                     view?.enableSearchLoanButton()
                 }
 
-                Log.d(TAG, "ERROR: Cannot get user loans with email $email.")
+                Log.d(TAG, "ERROR: Cannot get user loans with email $email. Error -> $errorMsg.")
+
+            } catch (error: FirebaseGetUserReservesException) {
+
+                val errorMsg = error.message.toString()
+
+                if (isViewAttach()) {
+                    view?.showError(errorMsg)
+                    view?.hideLoanManagementProgressBar()
+                    view?.enableSearchLoanButton()
+                }
+
+                Log.d(TAG, "ERROR: Cannot get user reserves with email $email. Error -> $errorMsg.")
 
             }
-
 
         }
 
     }
 
     override fun initLoan(reserve: Reserve) {
-        TODO("Not yet implemented")
+
+        val settedReserve = Reserve(
+            reserve.userMail,
+            reserve.resourceId,
+            reserve.resourceName,
+            reserve.libraryId,
+            reserve.reserveDate,
+            LocalDateTime.now().toString(),
+            "Finalized"
+        )
+
+        val newLoan = Loan(
+            reserve.userMail,
+            reserve.resourceId,
+            reserve.resourceName,
+            reserve.libraryId
+        )
+
+        val currentUser = NeLSProject.currentUser
+        var newUserReserves = currentUser.loans
+        newUserReserves.remove(reserve.resourceId)
+        var newUserLoans = currentUser.loans
+        newUserLoans.add(reserve.resourceId)
+        val settedUser = User(
+            currentUser.name,
+            currentUser.lastName1,
+            currentUser.lastName2,
+            currentUser.email,
+            currentUser.nif,
+            newUserReserves,
+            newUserLoans,
+            currentUser.favorites,
+            currentUser.admin
+        )
+
+        launch{
+
+            view?.showLoanManagementProgressBar()
+            view?.disableAllLoanReserveButtons()
+
+            try{
+                adminViewModel?.setReserve(settedReserve)
+                adminViewModel?.addLoan(newLoan)
+                adminViewModel?.setUser(settedUser)
+                if(isViewAttach()){
+                    view?.hideLoanManagementProgressBar()
+                    view?.showMessage("El Préstamo se ha llevado a cabo con éxito, ¡Dile que lo disfrute!.")
+                    view?.navigateToAdminZone()
+                }
+
+                Log.d(TAG, "Succesfully add Loan to user ${NeLSProject.currentUser.email}.")
+
+            } catch (error: FirebaseSetReserveException){
+
+                var errorMsg = error.message
+
+                if(isViewAttach()) {
+                    view?.showError(errorMsg)
+                    view?.hideLoanManagementProgressBar()
+                    view?.enableInitLoanButton()
+                    view?.enableCancelReserveButton()
+                    view?.enableEnlargeLoanButton()
+                    view?.enableFinalizeLoanButton()
+                }
+
+                Log.d(TAG, "ERROR: Cannot add Loan to user (Reserve Error) ${NeLSProject.currentUser.email} --> $errorMsg")
+
+            } catch (error: FirebaseAddLoanException){
+
+                var errorMsg = error.message
+
+                if(isViewAttach()) {
+                    view?.showError(errorMsg)
+                    view?.hideLoanManagementProgressBar()
+                    view?.enableInitLoanButton()
+                    view?.enableCancelReserveButton()
+                    view?.enableEnlargeLoanButton()
+                    view?.enableFinalizeLoanButton()
+                }
+
+                Log.d(TAG, "ERROR: Cannot add Loan to user (Loan Error) ${NeLSProject.currentUser.email} --> $errorMsg")
+
+            } catch (error: FirebaseSetUserException){
+
+                var errorMsg = error.message
+
+                if(isViewAttach()) {
+                    view?.showError(errorMsg)
+                    view?.hideLoanManagementProgressBar()
+                    view?.enableInitLoanButton()
+                    view?.enableCancelReserveButton()
+                    view?.enableEnlargeLoanButton()
+                    view?.enableFinalizeLoanButton()
+                }
+
+                Log.d(TAG, "ERROR: Cannot add Loan to user (User Error) ${NeLSProject.currentUser.email} --> $errorMsg")
+
+            }
+
+        }
+
     }
 
     override fun cancelReserve(reserve: Reserve) {
-        TODO("Not yet implemented")
+
+        val settedReserve = Reserve(
+            reserve.userMail,
+            reserve.resourceId,
+            reserve.resourceName,
+            reserve.libraryId,
+            reserve.reserveDate,
+            LocalDateTime.now().toString(),
+            "Cancelled"
+        )
+
+        var newResourceDisponibility = NeLSProject.currentResource!!.disponibility
+        newResourceDisponibility.set(reserve.libraryId, newResourceDisponibility[reserve.libraryId]!!+1)
+        var settedResource = Resource(
+            NeLSProject.currentResource!!.title,
+            NeLSProject.currentResource!!.author,
+            NeLSProject.currentResource!!.publisher,
+            NeLSProject.currentResource!!.edition,
+            NeLSProject.currentResource!!.sinopsis,
+            NeLSProject.currentResource!!.isbn,
+            newResourceDisponibility,
+            NeLSProject.currentResource!!.likes,
+            NeLSProject.currentResource!!.dislikes,
+            NeLSProject.currentResource!!.isOnline,
+            NeLSProject.currentResource!!.urlOnline
+
+        )
+
+        val currentUser = NeLSProject.currentUser
+        var newUserReserves = currentUser.loans
+        newUserReserves.remove(reserve.resourceId)
+        val settedUser = User(
+            currentUser.name,
+            currentUser.lastName1,
+            currentUser.lastName2,
+            currentUser.email,
+            currentUser.nif,
+            newUserReserves,
+            currentUser.loans,
+            currentUser.favorites,
+            currentUser.admin
+        )
+
+        launch{
+
+            view?.showLoanManagementProgressBar()
+            view?.disableAllLoanReserveButtons()
+
+            try{
+                adminViewModel?.setReserve(settedReserve)
+                adminViewModel?.setResource(settedResource)
+                adminViewModel?.setUser(settedUser)
+                if(isViewAttach()){
+                    view?.hideLoanManagementProgressBar()
+                    view?.showMessage("El Préstamo se ha llevado a cabo con éxito, ¡Dile que lo disfrute!.")
+                    view?.navigateToAdminZone()
+                }
+
+                Log.d(TAG, "Succesfully add Loan to user ${NeLSProject.currentUser.email}.")
+
+            } catch (error: FirebaseSetReserveException){
+
+                var errorMsg = error.message
+
+                if(isViewAttach()) {
+                    view?.showError(errorMsg)
+                    view?.hideLoanManagementProgressBar()
+                    view?.enableInitLoanButton()
+                    view?.enableCancelReserveButton()
+                    view?.enableEnlargeLoanButton()
+                    view?.enableFinalizeLoanButton()
+                }
+
+                Log.d(TAG, "ERROR: Cannot cancel Reserve to user (Reserve Error) ${NeLSProject.currentUser.email} --> $errorMsg")
+
+            } catch (error: FirebaseSetResourceException){
+
+                var errorMsg = error.message
+
+                if(isViewAttach()) {
+                    view?.showError(errorMsg)
+                    view?.hideLoanManagementProgressBar()
+                    view?.enableInitLoanButton()
+                    view?.enableCancelReserveButton()
+                    view?.enableEnlargeLoanButton()
+                    view?.enableFinalizeLoanButton()
+                }
+
+                Log.d(TAG, "ERROR: Cannot cancel Reserve to user (Resource Error) ${NeLSProject.currentUser.email} --> $errorMsg")
+
+            } catch (error: FirebaseSetUserException){
+
+                var errorMsg = error.message
+
+                if(isViewAttach()) {
+                    view?.showError(errorMsg)
+                    view?.hideLoanManagementProgressBar()
+                    view?.enableInitLoanButton()
+                    view?.enableCancelReserveButton()
+                    view?.enableEnlargeLoanButton()
+                    view?.enableFinalizeLoanButton()
+                }
+
+                Log.d(TAG, "ERROR: Cannot cancel Reserve to user (User Error) ${NeLSProject.currentUser.email} --> $errorMsg")
+
+            }
+
+        }
     }
 
-    override fun enlargeLoan() {
-        TODO("Not yet implemented")
+    override fun enlargeLoan(loan: Loan) {
+
+        if(loan.status == "Enlarge"){
+            if(isViewAttach()) view?.showMessage("Este préstamo ya ha sigo ampliado, no se puede volver a ampliar.")
+        } else {
+            val enlargedLoan = Loan(
+                loan.userMail,
+                loan.resourceId,
+                loan.resourceName,
+                loan.libraryId,
+                loan.loanDate,
+                loan.returnDate,
+                "Enlarge",
+                loan.id
+            )
+
+            launch {
+
+                view?.showLoanManagementProgressBar()
+                view?.disableAllLoanReserveButtons()
+
+                try {
+
+                    adminViewModel?.setLoan(loan)
+
+                    if (isViewAttach()) {
+                        view?.hideLoanManagementProgressBar()
+                        view?.showMessage("El Préstamo se ha alargado con éxito, ¡Dile que lo disfrute!.")
+                        view?.navigateToAdminZone()
+                    }
+
+                    Log.d(TAG, "Succesfully enlarge Loan to user ${NeLSProject.currentUser.email}.")
+
+                } catch (error: FirebaseSetLoanException) {
+
+                    var errorMsg = error.message
+
+                    if (isViewAttach()) {
+                        view?.showError(errorMsg)
+                        view?.hideLoanManagementProgressBar()
+                        view?.enableInitLoanButton()
+                        view?.enableCancelReserveButton()
+                        view?.enableEnlargeLoanButton()
+                        view?.enableFinalizeLoanButton()
+                    }
+
+                    Log.d(
+                        TAG,
+                        "ERROR: Cannot enlarge Loan to user ${NeLSProject.currentUser.email} --> $errorMsg"
+                    )
+
+                }
+
+            }
+        }
+
     }
 
 
     override fun finalizeLoan(loan: Loan) {
-        TODO("Not yet implemented")
-    }
 
+        var newResourceDisponibility = NeLSProject.currentResource!!.disponibility
+        newResourceDisponibility.set(loan.libraryId, newResourceDisponibility[loan.libraryId]!!+1)
+        var settedResource = Resource(
+            NeLSProject.currentResource!!.title,
+            NeLSProject.currentResource!!.author,
+            NeLSProject.currentResource!!.publisher,
+            NeLSProject.currentResource!!.edition,
+            NeLSProject.currentResource!!.sinopsis,
+            NeLSProject.currentResource!!.isbn,
+            newResourceDisponibility,
+            NeLSProject.currentResource!!.likes,
+            NeLSProject.currentResource!!.dislikes,
+            NeLSProject.currentResource!!.isOnline,
+            NeLSProject.currentResource!!.urlOnline
+
+        )
+
+        val finalizedLoan = Loan(
+            loan.userMail,
+            loan.resourceId,
+            loan.resourceName,
+            loan.libraryId,
+            loan.loanDate,
+            LocalDateTime.now().toString(),
+            "Finalized",
+            loan.id
+        )
+
+        val currentUser = NeLSProject.currentUser
+        var newUserLoans = currentUser.loans
+        newUserLoans.remove(loan.resourceId)
+        val settedUser = User(
+            currentUser.name,
+            currentUser.lastName1,
+            currentUser.lastName2,
+            currentUser.email,
+            currentUser.nif,
+            currentUser.reserves,
+            newUserLoans,
+            currentUser.favorites,
+            currentUser.admin
+        )
+
+        launch{
+
+            view?.showLoanManagementProgressBar()
+            view?.disableAllLoanReserveButtons()
+
+            try{
+                adminViewModel?.setResource(settedResource)
+                adminViewModel?.setLoan(finalizedLoan)
+                adminViewModel?.setUser(settedUser)
+                if(isViewAttach()){
+                    view?.hideLoanManagementProgressBar()
+                    view?.showMessage("El Préstamo se ha finalizado con éxito, ¡Dile que lo disfrute!.")
+                    view?.navigateToAdminZone()
+                }
+
+                Log.d(TAG, "Succesfully finalized Loan to user ${NeLSProject.currentUser.email}.")
+
+            }  catch (error: FirebaseSetResourceException){
+
+                var errorMsg = error.message
+
+                if(isViewAttach()) {
+                    view?.showError(errorMsg)
+                    view?.hideLoanManagementProgressBar()
+                    view?.enableInitLoanButton()
+                    view?.enableCancelReserveButton()
+                    view?.enableEnlargeLoanButton()
+                    view?.enableFinalizeLoanButton()
+                }
+
+                Log.d(TAG, "ERROR: Cannot finalize Loan to user (Resource Error) ${NeLSProject.currentUser.email} --> $errorMsg")
+
+            }  catch (error: FirebaseSetLoanException){
+
+                var errorMsg = error.message
+
+                if(isViewAttach()) {
+                    view?.showError(errorMsg)
+                    view?.hideLoanManagementProgressBar()
+                    view?.enableInitLoanButton()
+                    view?.enableCancelReserveButton()
+                    view?.enableEnlargeLoanButton()
+                    view?.enableFinalizeLoanButton()
+                }
+
+                Log.d(TAG, "ERROR: Cannot finalize Loan to user (Loan Error) ${NeLSProject.currentUser.email} --> $errorMsg")
+
+            } catch (error: FirebaseSetUserException){
+
+                var errorMsg = error.message
+
+                if(isViewAttach()) {
+                    view?.showError(errorMsg)
+                    view?.hideLoanManagementProgressBar()
+                    view?.enableInitLoanButton()
+                    view?.enableCancelReserveButton()
+                    view?.enableEnlargeLoanButton()
+                    view?.enableFinalizeLoanButton()
+                }
+
+                Log.d(TAG, "ERROR: Cannot finalize Loan to user (User Error) ${NeLSProject.currentUser.email} --> $errorMsg")
+
+            }
+
+        }
+    }
 
 }

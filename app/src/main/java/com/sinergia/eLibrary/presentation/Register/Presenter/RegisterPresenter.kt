@@ -119,7 +119,7 @@ class RegisterPresenter(registerInteractor: RegisterInteractor, registerViewMode
                         val resources = mapOf<String, String>()
                         registerViewModel?.addNewUser(name, lastName1, lastName2, email, nif, loans, favorites, admin)
 
-                        Log.d(TAG, "Sucesfully added new User tp database with email $email.")
+                        Log.d(TAG, "Sucesfully added new User to database with email $email.")
 
                     } catch (error: FirebaseAddUserException){
 
