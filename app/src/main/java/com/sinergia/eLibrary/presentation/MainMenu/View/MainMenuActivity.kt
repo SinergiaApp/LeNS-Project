@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
+import com.sinergia.eLibrary.presentation.Account.View.AccountActivity
 import com.sinergia.eLibrary.presentation.AdminZone.View.AdminZoneActivity
 import com.sinergia.eLibrary.presentation.MainMenu.MainMenuContract
 import com.sinergia.eLibrary.presentation.Catalog.View.CatalogActivity
@@ -79,11 +80,10 @@ class MainMenuActivity : BaseActivity(), MainMenuContract.MainContractView {
     }
 
     override fun goToAccount() {
-        //val accountIntent = Intent(this, ------::class.java)
-        //accountIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-        //startActivity(accountIntent)
-        //disableAllButtons()
-        toastL(this, "Este botón aún no te lleva a ningun sitio pringao.")
+        val accountIntent = Intent(this, AccountActivity::class.java)
+        accountIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(accountIntent)
+        disableAllButtons()
     }
 
     override fun goToAdminZone() {

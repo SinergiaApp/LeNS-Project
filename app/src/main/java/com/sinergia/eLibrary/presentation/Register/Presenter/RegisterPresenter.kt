@@ -4,6 +4,7 @@ import android.util.Log
 import com.sinergia.eLibrary.domain.interactors.RegisterInteractor.RegisterInteractor
 import com.sinergia.eLibrary.base.Exceptions.FirebaseRegisterException
 import com.sinergia.eLibrary.base.Exceptions.FirebaseAddUserException
+import com.sinergia.eLibrary.data.Model.User
 import com.sinergia.eLibrary.presentation.Register.Model.RegisterViewModel
 import com.sinergia.eLibrary.presentation.Register.RegisterContract
 import kotlinx.coroutines.*
@@ -83,60 +84,49 @@ class RegisterPresenter(registerInteractor: RegisterInteractor, registerViewMode
         return password == repearPassword
     }
 
-    override fun registerWithEmailAndPassword(
-        name: String,
-        lastName1: String,
-        lastName2: String,
-        email: String,
-        nif: String,
-        loans: MutableList<String>,
-        favorites: MutableList<String>,
-        admin: Boolean,
-        password: String
-    ) {
+    override fun registerWithEmailAndPassword(newUser: User, password: String) {
 
         launch {
 
-            Log.d(TAG, "Trying to register with email $email...")
+            Log.d(TAG, "Trying to register with email ${newUser.email}...")
 
             view?.showProgressBar()
             view?.disableRegisterButton()
 
             try {
-                registerInteractor?.register(name, email, password)
+                registerInteractor?.register(newUser.name, newUser.email, password)
 
                 if(isViewAttach()){
                     view?.navigateToMainPage()
                     view?.hideProgressBar()
                     view?.enableRegisterButton()
 
-                    Log.d(TAG, "Sucesfully register with email $email.")
+                    Log.d(TAG, "Sucesfully register with email ${newUser.email}.")
 
                     try {
 
-                        Log.d(TAG, "Trying to add new User to database with email $email.")
+                        Log.d(TAG, "Trying to add new User to database with email ${newUser.email}.")
 
-                        val resources = mapOf<String, String>()
-                        registerViewModel?.addNewUser(name, lastName1, lastName2, email, nif, loans, favorites, admin)
+                        registerViewModel?.addNewUser(newUser)
 
-                        Log.d(TAG, "Sucesfully added new User to database with email $email.")
+                        Log.d(TAG, "Sucesfully added new User to database with email ${newUser.email}.")
 
                     } catch (error: FirebaseAddUserException){
 
-                        val errorMsg = error?.message
-                        Log.d(TAG, "ERROR: Cannot add new User to database with email $email --> $errorMsg")
+                        val errorMsg = error.message
+                        Log.d(TAG, "ERROR: Cannot add new User to database with email ${newUser.email} --> $errorMsg")
 
                     }
 
                 }
             }catch(error: FirebaseRegisterException){
 
-                val errorMsg = error?.message
+                val errorMsg = error.message
                 view?.showError(errorMsg)
                 view?.hideProgressBar()
                 view?.enableRegisterButton()
 
-                Log.d(TAG, "ERROR: Cannot register with email $email --> $errorMsg")
+                Log.d(TAG, "ERROR: Cannot register with email ${newUser.email} --> $errorMsg")
 
             }
 

@@ -68,7 +68,7 @@ class ForgotPasswordPresenter(forgotPasswordInteractor: ForgotPasswordInteractor
 
             } catch (error: FirebaseResetPasswordException){
 
-                val errorMsg = error?.message
+                val errorMsg = error.message
                 view?.hideProgressBar()
                 view?.showError(errorMsg)
                 view?.enableResetPasswordButton()

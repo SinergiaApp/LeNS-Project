@@ -15,7 +15,7 @@ interface CatalogContract {
         fun hideCatalogProgressBar()
 
         fun initCatalog(resourcesList: ArrayList<Resource>?)
-        fun initCatalog(resource: Resource?)
+        fun initCatalog(book: Resource?)
         fun navigateToBook(resource: Resource)
         fun eraseCatalog()
 

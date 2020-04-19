@@ -802,7 +802,7 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
 
                 try {
 
-                    adminViewModel?.setLoan(loan)
+                    adminViewModel?.setLoan(enlargedLoan)
 
                     if (isViewAttach()) {
                         view?.hideLoanManagementProgressBar()

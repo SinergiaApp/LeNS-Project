@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
+import com.sinergia.eLibrary.data.Model.User
 import com.sinergia.eLibrary.domain.interactors.RegisterInteractor.RegisterInteractorImpl
 import com.sinergia.eLibrary.presentation.Catalog.View.CatalogActivity
 import com.sinergia.eLibrary.presentation.Register.Model.RegisterViewModelImpl
@@ -85,7 +86,6 @@ class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
         val nif:String = register_nif.text.toString().trim()
         val password:String = register_password.text.toString().trim()
         val repeatPassword:String = register_repeatpassword.text.toString().trim()
-        val admin = false
 
         if(registerPresenter.checkEmptyFields(name, lastName1, lastName2, email, nif, password, repeatPassword)) {
 
@@ -128,7 +128,14 @@ class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
                 return
             }
 
-            registerPresenter.registerWithEmailAndPassword(name, lastName1, lastName2, email, nif, mutableListOf(), mutableListOf(), admin, password)
+            var newUser = User(
+                name,
+                lastName1,
+                lastName2,
+                email,
+                nif
+            )
+            registerPresenter.registerWithEmailAndPassword(newUser, password)
 
         }
 

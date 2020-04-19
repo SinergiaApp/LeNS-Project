@@ -5,7 +5,8 @@ import com.sinergia.eLibrary.domain.UseCases.UserUseCases
 
 interface AccountViewModel {
 
-    suspend fun updateAccount(user: User)
+    suspend fun deleteUserForUpdate(user: User)
+    suspend fun addUserForUpdate(user: User)
 
     suspend fun deleteAccount(user: User)
 

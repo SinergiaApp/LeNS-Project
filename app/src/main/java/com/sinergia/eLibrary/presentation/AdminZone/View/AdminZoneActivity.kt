@@ -58,7 +58,6 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         setContentView(R.layout.activity_admin_zone)
 
         main_page_title.text = getPageTitle()
-
         menu_button.setOnClickListener { startActivity(Intent(this, MainMenuActivity::class.java)) }
 
         adminPresenter = com.sinergia.eLibrary.presentation.AdminZone.Presenter.AdminZonePresenter(AdminViewModelImpl())
@@ -321,14 +320,14 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
             }
             autores.substring(0, autores.length-1)
 
-            admin_zone_setBookTitle.setText(resource?.title)
+            admin_zone_setBookTitle.setText(resource.title)
             admin_zone_setBookAuthor.setText(autores)
-            admin_zone_setBookPublisher.setText(resource?.publisher)
-            admin_zone_setBookEdition.setText(resource?.edition)
-            admin_zone_setBookISBN.setText(resource?.isbn)
-            admin_zone_setBookSinosis.setText(resource?.sinopsis)
-            admin_zone_setIsOnline.isChecked = resource?.isOnline!!
-            if(resource?.isOnline) admin_zone_setUrlOnline.setText(resource?.urlOnline)
+            admin_zone_setBookPublisher.setText(resource.publisher)
+            admin_zone_setBookEdition.setText(resource.edition)
+            admin_zone_setBookISBN.setText(resource.isbn)
+            admin_zone_setBookSinosis.setText(resource.sinopsis)
+            admin_zone_setIsOnline.isChecked = resource.isOnline
+            if(resource.isOnline) admin_zone_setUrlOnline.setText(resource.urlOnline)
 
             for(library in libraries!!){
 

@@ -275,7 +275,7 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
             likeIcon.setLayoutParams(layoutParams)
             likeIcon.setOnClickListener { catalogPresenter.setLikes(book, FirebaseAuth.getInstance().currentUser?.email!!, 1) }
             val likes = TextView(this)
-            val likesNumber = book?.likes.size
+            val likesNumber = book.likes.size
             likes.setText(likesNumber)
             likes.setTextColor(ContextCompat.getColor(this, R.color.colorBlack))
             val dislikeIcon = ImageView(this)
@@ -284,7 +284,7 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
             dislikeIcon.setLayoutParams(layoutParams)
             likeIcon.setOnClickListener { catalogPresenter.setLikes(book, FirebaseAuth.getInstance().currentUser?.email!!, 1) }
             val disLikes = TextView(this)
-            val disLikesNumber = book?.dislikes.size
+            val disLikesNumber = book.dislikes.size
             disLikes.setText(disLikesNumber)
             disLikes.setTextColor(ContextCompat.getColor(this, R.color.colorBlack))
 
@@ -320,27 +320,27 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
 
             //Título del Libro
             val title = TextView(this)
-            val titletxt = book?.title
+            val titletxt = book.title
             title.setText("Título: $titletxt.")
             title.setTextColor(ContextCompat.getColor(this, R.color.colorBlack))
             //Autor del Libro
             val author = TextView(this)
-            val authortxt = book?.author
+            val authortxt = book.author
             author.setText("Autor: $authortxt.")
             author.setTextColor(ContextCompat.getColor(this, R.color.colorBlack))
             //Editorial del Libro
             val publisher = TextView(this)
-            val publishertxt = book?.publisher
+            val publishertxt = book.publisher
             publisher.setText("Editorial: $publishertxt.")
             publisher.setTextColor(ContextCompat.getColor(this, R.color.colorBlack))
             //Edición del Libro
             val edition = TextView(this)
-            val editiontxt = book?.edition
+            val editiontxt = book.edition
             edition.setText("Edicion: $editiontxt.")
             edition.setTextColor(ContextCompat.getColor(this, R.color.colorBlack))
             //ISBN del Libro
             val isbn = TextView(this)
-            val isbntxt = book?.isbn
+            val isbntxt = book.isbn
             isbn.setText("ISBN: $isbntxt.")
             isbn.setTextColor(ContextCompat.getColor(this, R.color.colorBlack))
 

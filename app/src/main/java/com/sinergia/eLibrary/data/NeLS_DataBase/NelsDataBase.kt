@@ -15,31 +15,23 @@ class NelsDataBase {
     val nelsDB= FirebaseFirestore.getInstance()
 
     //USERS METHODS
-    suspend fun addUser(
-        name: String,
-        lastName1: String,
-        lastName2: String,
-        email: String,
-        nif: String,
-        loans: MutableList<String>,
-        favorites: MutableList<String>,
-        admin: Boolean
-        ): Unit = suspendCancellableCoroutine{addUserContinuation ->
+    suspend fun addUser(newUser: User): Unit = suspendCancellableCoroutine{addUserContinuation ->
 
-        val newUser: HashMap<String, Any> = hashMapOf(
-            "name" to name,
-            "lastName1" to lastName1,
-            "lastName2" to lastName2,
-            "email" to email,
-            "nif" to nif,
-            "loans" to loans,
-            "favorites" to favorites,
-            "admin" to admin
+        val newUserDB: HashMap<String, Any> = hashMapOf(
+            "name" to newUser.name,
+            "lastName1" to newUser.lastName1,
+            "lastName2" to newUser.lastName2,
+            "email" to newUser.email,
+            "nif" to  newUser.nif,
+            "reserves" to newUser.reserves,
+            "loans" to newUser.loans,
+            "favorites" to newUser.favorites,
+            "admin" to newUser.admin
         )
 
         nelsDB
-            .document("users/$email")
-            .set(newUser)
+            .document("users/${newUser.email}")
+            .set(newUserDB)
             .addOnCompleteListener{ adduser ->
                 if(adduser.isSuccessful){
                     addUserContinuation.resume(Unit)
@@ -160,7 +152,7 @@ class NelsDataBase {
                         )
                     )
                 } else {
-                    getResourceContinuation.resume(resourceDB!!)
+                    getResourceContinuation.resume(resourceDB)
                 }
             }
             .addOnFailureListener {resourceException ->
@@ -255,13 +247,13 @@ class NelsDataBase {
         nelsDB
             .collection("libraries")
             .add(newLibrary)
-            .addOnCompleteListener {newLibrary ->
-                if(newLibrary.isSuccessful){
+            .addOnCompleteListener {addLibrary ->
+                if(addLibrary.isSuccessful){
                     addLibraryContinuation.resume(Unit)
                 } else {
                     addLibraryContinuation.resumeWithException(
                         FirebaseCreateLibraryException(
-                            newLibrary.exception?.message.toString()
+                            addLibrary.exception?.message.toString()
                         )
                     )
                 }
@@ -321,8 +313,8 @@ class NelsDataBase {
                         )
                     )
                 } else {
-                    libraryDB?.id = library.id
-                    getLibraryContinuation.resume(libraryDB!!)
+                    libraryDB.id = library.id
+                    getLibraryContinuation.resume(libraryDB)
                 }
 
             }
@@ -415,13 +407,13 @@ class NelsDataBase {
         nelsDB
             .document("reserves/${reserve.userMail+reserve.resourceId+reserve.reserveDate}")
             .set(newReserve)
-            .addOnCompleteListener {newReserve ->
-                if(newReserve.isSuccessful){
+            .addOnCompleteListener {addReserve ->
+                if(addReserve.isSuccessful){
                     addReserveContinuation.resume(Unit)
                 } else {
                     addReserveContinuation.resumeWithException(
                         FirebaseAddReserveException(
-                            newReserve.exception?.message.toString()
+                            addReserve.exception?.message.toString()
                         )
                     )
                 }
@@ -533,13 +525,13 @@ class NelsDataBase {
         nelsDB
             .document("loans/${loan.userMail+loan.resourceId+loan.loanDate}")
             .set(newLoan)
-            .addOnCompleteListener {newLoan ->
-                if(newLoan.isSuccessful){
+            .addOnCompleteListener {addLoan ->
+                if(addLoan.isSuccessful){
                     addLoanContination.resume(Unit)
                 } else {
                     addLoanContination.resumeWithException(
                         FirebaseAddLoanException(
-                            newLoan.exception?.message.toString()
+                            addLoan.exception?.message.toString()
                         )
                     )
                 }

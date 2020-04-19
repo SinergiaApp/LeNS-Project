@@ -1,5 +1,7 @@
 package com.sinergia.eLibrary.presentation.Account
 
+import com.sinergia.eLibrary.data.Model.Loan
+import com.sinergia.eLibrary.data.Model.Reserve
 import com.sinergia.eLibrary.data.Model.User
 
 interface AccountContract {
@@ -12,12 +14,12 @@ interface AccountContract {
         fun hideProgressBar()
         fun enableAllButtons()
         fun disableAllButtons()
+        fun initAccountContent()
 
         fun logOut()
         fun updateAccount()
         fun deleteAccount()
 
-        fun refresh()
         fun navigateToMainPage()
 
     }
@@ -29,8 +31,12 @@ interface AccountContract {
         fun dettachJob()
         fun isViewAttach(): Boolean
 
+        fun userCanBeDeleted(reserves: MutableList<String>, loans: MutableList<String>): Boolean
+        fun checkEmptyAcountReserves(reserves: MutableList<String>): Boolean
+        fun checkEmptyAcountLoans(loans: MutableList<String>): Boolean
+
         fun logOut()
-        fun updateAccount(user: User)
+        fun updateAccount(newUserAccount: User)
         fun deleteAccount(user: User)
 
     }

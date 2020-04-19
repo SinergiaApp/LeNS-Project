@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/garybackground"
-    tools:context=".presentation.Account.View.Account">
+    tools:context=".presentation.Account.View.AccountActivity">
 
     <RelativeLayout
         android:id="@+id/main_page_header"
@@ -100,7 +100,7 @@
                             android:text="NOMBRE DE USUARIO"
                             android:textAlignment="viewEnd"
                             android:textColor="@color/colorBlack"
-                            android:textSize="20sp"
+                            android:textSize="14sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -110,7 +110,7 @@
                             android:text="CORREO DE USUARIO"
                             android:textAlignment="viewEnd"
                             android:textColor="@color/colorBlack"
-                            android:textSize="20sp"
+                            android:textSize="10sp"
                             android:textStyle="italic" />
 
                     </LinearLayout>

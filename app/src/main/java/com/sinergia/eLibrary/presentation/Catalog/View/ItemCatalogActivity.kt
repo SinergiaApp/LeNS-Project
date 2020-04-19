@@ -184,16 +184,16 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
             disableOnLineButton()
         }
 
-        if(!resource?.disponibility.isNullOrEmpty()){
+        if(!resource.disponibility.isNullOrEmpty()){
 
             item_catalog_disponibility_radio.removeAllViews()
             enableDisponibilityButtom()
 
-            for(key in resource?.disponibility.keys){
+            for(key in resource.disponibility.keys){
 
-                if(Integer(resource?.disponibility.get(key).toString()) > 0 && resource?.disponibility.get(key) != null) {
+                if(Integer(resource.disponibility[key].toString()) > 0 && resource.disponibility.get(key) != null) {
 
-                    var textDisponibility = "[${resource?.disponibility.get(key).toString()}] - "
+                    var textDisponibility = "[${resource.disponibility.get(key).toString()}] - "
 
                     for(library in libraries!!.iterator()){
                         if(library.id == key){

@@ -90,7 +90,7 @@ interface AdminZoneContract {
 
         fun addNewResource(
             titulo: String,
-            autor: List<String>,
+            autores: List<String>,
             isbn: String,
             edicion: String,
             editorial: String,
@@ -113,7 +113,7 @@ interface AdminZoneContract {
         fun checkEmptyAddResourceFields(titulo: String, autor: String, isbn: String, edicion: String, editorial: String, sinopsis: String): Boolean
         fun checkEmptyAddResourceTitle(titulo: String): Boolean
         fun checkEmptyAddResourceAuthor(autor: String): Boolean
-        fun checkEmptyAddResourceISBN(iban: String): Boolean
+        fun checkEmptyAddResourceISBN(isbn: String): Boolean
         fun checkEmptyAddResourceEdition(edicion: String): Boolean
         fun checkEmptyAddResourcePublisher(editorial: String): Boolean
         fun checkEmptyAddResourceSinopsis(sinopsis: String): Boolean
@@ -122,7 +122,7 @@ interface AdminZoneContract {
         fun checkEmptySetResourceFields(titulo: String, autor: String, isbn: String, edicion: String, editorial: String, sinopsis: String): Boolean
         fun checkEmptySetResourceTitle(titulo: String): Boolean
         fun checkEmptySetResourceAuthor(autor: String): Boolean
-        fun checkEmptySetResourceISBN(iban: String): Boolean
+        fun checkEmptySetResourceISBN(isbn: String): Boolean
         fun checkEmptySetResourceEdition(edicion: String): Boolean
         fun checkEmptySetResourcePublisher(editorial: String): Boolean
         fun checkEmptySetResourceSinopsis(sinopsis: String): Boolean

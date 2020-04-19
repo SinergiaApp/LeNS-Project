@@ -1,13 +1,58 @@
 package com.sinergia.eLibrary.domain.interactors.AccountInteractor
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.sinergia.eLibrary.base.Exceptions.FirebaseDeleteUserException
+import com.sinergia.eLibrary.base.Exceptions.FirebaseSetUserException
 import com.sinergia.eLibrary.data.Model.User
+import com.sinergia.eLibrary.presentation.NeLSProject
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
 class AccountInteractorImpl: AccountInteractor {
+
+    override suspend fun updateAccount(user: User): Unit = suspendCancellableCoroutine {updateAccountContinuation ->
+
+        FirebaseAuth
+            .getInstance()
+            .currentUser
+            ?.updateEmail(user.email)
+            ?.addOnCompleteListener { updateEmail ->
+
+                if(updateEmail.isSuccessful){
+
+                    var profileUpdates = UserProfileChangeRequest
+                        .Builder()
+                        .setDisplayName(user.name)
+                        .build()
+
+                    FirebaseAuth
+                        .getInstance()
+                        .currentUser
+                        ?.updateProfile(profileUpdates)
+                        ?.addOnCompleteListener{updateName ->
+
+                            if(updateName.isSuccessful){
+
+                                updateAccountContinuation.resume(Unit)
+
+                            } else {
+                                updateAccountContinuation.resumeWithException(
+                                    FirebaseSetUserException(updateName.exception?.message.toString())
+                                )
+                            }
+
+                        }
+                } else {
+                    updateAccountContinuation.resumeWithException(
+                        FirebaseSetUserException(updateEmail.exception?.message.toString())
+                    )
+                }
+
+            }
+
+    }
 
     override suspend fun deleteUser(user: User): Unit = suspendCancellableCoroutine {deleteUserContinuation ->
 
