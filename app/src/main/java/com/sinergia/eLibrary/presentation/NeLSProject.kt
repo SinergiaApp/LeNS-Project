@@ -15,6 +15,7 @@ class NeLSProject: Application() {
 
         val CAMERA_PERMISSIONS_CODE = 1
         val CAMERA_INTENT_CODE = 2
+        val GALLERY_INTETN_CODE = 3
     }
 
 

@@ -8,7 +8,7 @@ import androidx.fragment.app.DialogFragment
 import com.sinergia.eLibrary.R
 import kotlinx.android.synthetic.main.confirm_dialog.*
 
-class ConfirmDialog private constructor(
+class ConfirmDialogActivity private constructor(
 
     private val acceptButtonText: String?,
     private val cancelButtonText: String?,
@@ -34,7 +34,7 @@ class ConfirmDialog private constructor(
         fun setTitleText(titleText: String) = apply { this.titleText = titleText }
         fun setDescriptionText(descriptionText: String) = apply { this.descriptionText = descriptionText }
 
-        fun buid() = ConfirmDialog(acceptButtonText, cancelButtonText, titleText, descriptionText)
+        fun buid() = ConfirmDialogActivity(acceptButtonText, cancelButtonText, titleText, descriptionText)
     }
 
     fun setDialogOnClickButtonListener(listener : DialogOnClickButtonListener) = apply { dialogOnClickButtonListener = listener }

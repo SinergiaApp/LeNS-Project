@@ -1,9 +1,11 @@
 package com.sinergia.eLibrary.presentation.Account.Presenter
 
+import android.net.Uri
 import android.util.Log
 import com.sinergia.eLibrary.base.Exceptions.FirebaseAddUserException
 import com.sinergia.eLibrary.base.Exceptions.FirebaseDeleteUserException
 import com.sinergia.eLibrary.base.Exceptions.FirebaseSetUserException
+import com.sinergia.eLibrary.base.Exceptions.FirebaseStorageUploadImageException
 import com.sinergia.eLibrary.data.Model.Loan
 import com.sinergia.eLibrary.data.Model.Reserve
 import com.sinergia.eLibrary.data.Model.User
@@ -162,6 +164,56 @@ class AccountPresenter(accountViewModel: AccountViewModel, accountInteractor: Ac
                 Log.d(TAG, "ERROR: Cannot delete account with email ${user.email} --> $errorMsg.")
 
             }
+
+        }
+    }
+
+    override fun uploadImage(imageURI: Uri) {
+
+        view?.disableAllButtons()
+        view?.showProgressBar()
+
+        launch{
+
+            Log.d(TAG, "Trying to update avatar image to account with email ${NeLSProject.currentUser.email}.")
+
+            try{
+
+                val newUserAvatar = accountViewModel?.uploadImage(NeLSProject.currentUser.email, imageURI)!!
+                NeLSProject.currentUser.avatar = newUserAvatar.toString()
+                accountViewModel?.setUserForUpdate(NeLSProject.currentUser)
+
+                if(isViewAttach()){
+                    view?.showMessage("Tu avatar ha sido actualizado correctamente.")
+                    view?.hideProgressBar()
+                    view?.enableAllButtons()
+                    view?.initAccountContent()
+                }
+
+            } catch (error: FirebaseStorageUploadImageException){
+
+                val errorMsg = error.message
+                if(isViewAttach()){
+                    view?.showError(errorMsg)
+                    view?.hideProgressBar()
+                    view?.enableAllButtons()
+                }
+
+                Log.d(TAG, "Cannot update avatar image to account with email ${NeLSProject.currentUser.email} --> $errorMsg.")
+
+            } catch (error: FirebaseSetUserException){
+
+                val errorMsg = error.message
+                if(isViewAttach()){
+                    view?.showError(errorMsg)
+                    view?.hideProgressBar()
+                    view?.enableAllButtons()
+                }
+
+                Log.d(TAG, "Cannot update avatar image to account with email ${NeLSProject.currentUser.email} --> $errorMsg.")
+
+            }
+
 
         }
     }

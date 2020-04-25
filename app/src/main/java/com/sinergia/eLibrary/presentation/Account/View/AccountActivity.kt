@@ -1,28 +1,27 @@
 package com.sinergia.eLibrary.presentation.Account.View
 
+import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.get
+import com.bumptech.glide.Glide
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.data.Model.User
-import com.sinergia.eLibrary.domain.interactors.AccountInteractor.AccountInteractor
 import com.sinergia.eLibrary.domain.interactors.AccountInteractor.AccountInteractorImpl
 import com.sinergia.eLibrary.presentation.Account.AccountContract
 import com.sinergia.eLibrary.presentation.Account.Model.AccountViewModel
 import com.sinergia.eLibrary.presentation.Account.Model.AccountViewModelImpl
 import com.sinergia.eLibrary.presentation.Account.Presenter.AccountPresenter
-import com.sinergia.eLibrary.presentation.Dialogs.ConfirmDialog.ConfirmDialog
+import com.sinergia.eLibrary.presentation.Dialogs.ConfirmDialog.ConfirmDialogActivity
 import com.sinergia.eLibrary.presentation.Main.View.MainActivity
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import com.sinergia.eLibrary.presentation.NeLSProject
 import kotlinx.android.synthetic.main.activity_account.*
 import kotlinx.android.synthetic.main.activity_account.main_page_title
 import kotlinx.android.synthetic.main.activity_account.menu_button
-import kotlinx.android.synthetic.main.activity_admin_zone.*
 import net.glxn.qrgen.android.QRCode
 
 class AccountActivity : BaseActivity(), AccountContract.AccountView {
@@ -45,6 +44,7 @@ class AccountActivity : BaseActivity(), AccountContract.AccountView {
 
         initAccountContent()
 
+        account_userAvatar.setOnClickListener { uploadGalleryImage() }
         account_logout.setOnClickListener { logOut() }
         account_update_btn.setOnClickListener { updateAccount() }
         account_delete_btn.setOnClickListener { deleteAccount() }
@@ -59,7 +59,7 @@ class AccountActivity : BaseActivity(), AccountContract.AccountView {
         return "Mi Cuenta"
     }
 
-    // ACOUNT VIEW METHODS
+    // ACCOUNT VIEW METHODS
     override fun showError(error: String?) {
         toastL(this, error)
     }
@@ -91,16 +91,28 @@ class AccountActivity : BaseActivity(), AccountContract.AccountView {
     }
 
     override fun initAccountContent() {
-        account_nameHead.text = "${NeLSProject.currentUser.name} ${NeLSProject.currentUser.lastName1}"
-        account_mailHead.text = NeLSProject.currentUser.email
 
-        account_userName.setText(NeLSProject.currentUser.name)
-        account_userLastName1.setText(NeLSProject.currentUser.lastName1)
-        account_userLastName2.setText(NeLSProject.currentUser.lastName2)
-        account_userMail.setText(NeLSProject.currentUser.email)
-        account_userNIF.setText(NeLSProject.currentUser.nif)
+        val currentUser = NeLSProject.currentUser
 
-        account_userQR.setImageBitmap(QRCode.from(NeLSProject.currentUser.email).bitmap())
+        if(currentUser.avatar != "SinAvatar"){
+            Glide
+                .with(this)
+                .load(Uri.parse(currentUser.avatar))
+                .fitCenter()
+                .centerCrop()
+                .into(account_userAvatar)
+        }
+
+        account_nameHead.text = "${currentUser.name} ${NeLSProject.currentUser.lastName1}"
+        account_mailHead.text = currentUser.email
+
+        account_userName.setText(currentUser.name)
+        account_userLastName1.setText(currentUser.lastName1)
+        account_userLastName2.setText(currentUser.lastName2)
+        account_userMail.setText(currentUser.email)
+        account_userNIF.setText(currentUser.nif)
+
+        account_userQR.setImageBitmap(QRCode.from(currentUser.email).bitmap())
     }
 
     override fun logOut() {
@@ -133,7 +145,7 @@ class AccountActivity : BaseActivity(), AccountContract.AccountView {
 
     override fun deleteAccount() {
 
-        val reserveDialog = ConfirmDialog
+        val reserveDialog = ConfirmDialogActivity
             .Buider()
             .setTitleText("Confirmar Eliminación Permanente de Cuenta")
             .setDescriptionText(
@@ -146,7 +158,7 @@ class AccountActivity : BaseActivity(), AccountContract.AccountView {
 
         reserveDialog.show(supportFragmentManager!!, "ReserveDialog")
         reserveDialog.isCancelable = false
-        reserveDialog.setDialogOnClickButtonListener(object: ConfirmDialog.DialogOnClickButtonListener{
+        reserveDialog.setDialogOnClickButtonListener(object: ConfirmDialogActivity.DialogOnClickButtonListener{
             override fun clickAcceptButton() {
                 if(!accountPresenter.userCanBeDeleted(NeLSProject.currentUser.reserves, NeLSProject.currentUser.loans)){
 
@@ -173,4 +185,24 @@ class AccountActivity : BaseActivity(), AccountContract.AccountView {
         startActivity(intentMainPage)
     }
 
+    // GALLERY METHODS
+    override fun uploadGalleryImage() {
+
+        val galleryIntent = Intent(Intent.ACTION_PICK)
+        galleryIntent.type = "image/*"
+        startActivityForResult(galleryIntent, NeLSProject.GALLERY_INTETN_CODE)
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, imageData: Intent?) {
+
+        super.onActivityResult(requestCode, resultCode, imageData)
+
+        if(requestCode == NeLSProject.GALLERY_INTETN_CODE && resultCode == Activity.RESULT_OK){
+
+            var imageURI: Uri = imageData?.data!!
+            accountPresenter?.uploadImage(imageURI)
+
+        }
+    }
 }

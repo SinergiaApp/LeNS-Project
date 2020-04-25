@@ -1,12 +1,15 @@
 package com.sinergia.eLibrary.presentation.Account.Model
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import com.sinergia.eLibrary.data.Model.User
+import com.sinergia.eLibrary.domain.UseCases.FileUseCases
 import com.sinergia.eLibrary.domain.UseCases.UserUseCases
 
 class AccountViewModelImpl: AccountViewModel, ViewModel() {
 
     val userUseCases = UserUseCases()
+    val fileUseCases = FileUseCases()
 
     override suspend fun deleteUserForUpdate(user: User) {
         return userUseCases.deleteUser(user)
@@ -16,8 +19,16 @@ class AccountViewModelImpl: AccountViewModel, ViewModel() {
         return userUseCases.addUser(user)
     }
 
+    override suspend fun setUserForUpdate(settedUser: User) {
+        return userUseCases.setUser(settedUser)
+    }
+
 
     override suspend fun deleteAccount(user: User) {
         return userUseCases.deleteUser(user)
+    }
+
+    override suspend fun uploadImage(owner: String, imageURI: Uri): Uri {
+        return fileUseCases.uploadImage(owner, imageURI)
     }
 }

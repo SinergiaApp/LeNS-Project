@@ -9,12 +9,11 @@ import androidx.lifecycle.ViewModelProviders
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.data.Model.Library
-import com.sinergia.eLibrary.data.NeLS_DataBase.NelsDataBase
 import com.sinergia.eLibrary.presentation.Catalog.ItemCatalogContract
 import com.sinergia.eLibrary.presentation.Catalog.Model.ItemCatalogViewModel
 import com.sinergia.eLibrary.presentation.Catalog.Model.ItemCatalogViewModelImpl
 import com.sinergia.eLibrary.presentation.Catalog.Presenter.ItemCatalogPresenter
-import com.sinergia.eLibrary.presentation.Dialogs.ConfirmDialog.ConfirmDialog
+import com.sinergia.eLibrary.presentation.Dialogs.ConfirmDialog.ConfirmDialogActivity
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import com.sinergia.eLibrary.presentation.NeLSProject
 import kotlinx.android.synthetic.main.activity_item_catalog.*
@@ -130,7 +129,7 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
                 toastS(this, "Primero selecctiona una Biblioteca por vafor.")
             } else {
 
-                val reserveDialog = ConfirmDialog
+                val reserveDialog = ConfirmDialogActivity
                     .Buider()
                     .setTitleText("Confirmar Reserva")
                     .setDescriptionText(
@@ -147,7 +146,7 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
 
                 reserveDialog.show(supportFragmentManager!!, "ReserveDialog")
                 reserveDialog.isCancelable = false
-                reserveDialog.setDialogOnClickButtonListener(object: ConfirmDialog.DialogOnClickButtonListener{
+                reserveDialog.setDialogOnClickButtonListener(object: ConfirmDialogActivity.DialogOnClickButtonListener{
                     override fun clickAcceptButton() {
                         itemCatalogPresenter.addUserReserve(NeLSProject.currentUser.email, NeLSProject.currentResource!!.isbn, NeLSProject.currentResource!!.title, libraryChecked!!)
                         reserveDialog.dismiss()

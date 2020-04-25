@@ -1,5 +1,6 @@
 package com.sinergia.eLibrary.presentation.Account
 
+import android.net.Uri
 import com.sinergia.eLibrary.data.Model.Loan
 import com.sinergia.eLibrary.data.Model.Reserve
 import com.sinergia.eLibrary.data.Model.User
@@ -22,6 +23,8 @@ interface AccountContract {
 
         fun navigateToMainPage()
 
+        fun uploadGalleryImage()
+
     }
 
     interface AccountPresenter{
@@ -38,6 +41,8 @@ interface AccountContract {
         fun logOut()
         fun updateAccount(newUserAccount: User)
         fun deleteAccount(user: User)
+
+        fun uploadImage(imageURI: Uri)
 
     }
 

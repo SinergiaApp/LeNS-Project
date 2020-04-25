@@ -1,5 +1,7 @@
 package com.sinergia.eLibrary.data.Model
 
+import android.net.Uri
+
 data class User(
 
     var name: String = "Desconocido",
@@ -10,6 +12,7 @@ data class User(
     var reserves: MutableList<String> = mutableListOf<String>(),
     var loans: MutableList<String> = mutableListOf<String>(),
     var favorites: MutableList<String> = mutableListOf<String>(),
-    var admin: Boolean = false
+    var admin: Boolean = false,
+    var avatar: String = "SinAvatar"
 
 )
