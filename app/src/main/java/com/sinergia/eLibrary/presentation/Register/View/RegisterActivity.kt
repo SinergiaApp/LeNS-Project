@@ -33,7 +33,7 @@ class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
     }
 
     override fun getPageTitle(): String {
-        return "REGISTRO"
+        return getString(R.string.PG_REGISTER)
     }
 
     //REGISTER CONTRACT METHODS

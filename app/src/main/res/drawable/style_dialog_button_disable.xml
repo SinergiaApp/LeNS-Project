@@ -13,12 +13,12 @@
             <!-- Button Borders -->
             <stroke
                 android:width="2dp"
-                android:color="@color/colorWhite"
+                android:color="@color/fui_transparent"
                 />
 
             <!-- Button Corners -->
             <corners
-                android:radius="50dp"
+                android:radius="40dp"
                 />
         </shape>
     </item>

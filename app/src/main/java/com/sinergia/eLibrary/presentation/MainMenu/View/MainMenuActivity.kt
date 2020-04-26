@@ -9,9 +9,11 @@ import com.sinergia.eLibrary.presentation.Account.View.AccountActivity
 import com.sinergia.eLibrary.presentation.AdminZone.View.AdminZoneActivity
 import com.sinergia.eLibrary.presentation.MainMenu.MainMenuContract
 import com.sinergia.eLibrary.presentation.Catalog.View.CatalogActivity
+import com.sinergia.eLibrary.presentation.Favourites.view.FavouritesActivity
 import com.sinergia.eLibrary.presentation.Libraries.View.LibraiesActivity
 import com.sinergia.eLibrary.presentation.NeLSProject
 import kotlinx.android.synthetic.main.activity_main_menu.*
+import kotlinx.android.synthetic.main.layout_headder_bar.*
 import kotlinx.android.synthetic.main.layout_main_menu.*
 import com.sinergia.eLibrary.presentation.NeLSProject.Companion as NeLSVars
 
@@ -32,6 +34,8 @@ class MainMenuActivity : BaseActivity(), MainMenuContract.MainContractView {
 
         catalog_button.setOnClickListener { goToCatalog() }
 
+        favourites_button.setOnClickListener { goToFavourites() }
+
         neurolinguistic_button.setOnClickListener { goToNeurolinguisticZone() }
 
         account_button.setOnClickListener { goToAccount() }
@@ -45,7 +49,7 @@ class MainMenuActivity : BaseActivity(), MainMenuContract.MainContractView {
     }
 
     override fun getPageTitle(): String {
-        return "Menu Principal"
+        return getString(R.string.PG_MAIN)
     }
 
 
@@ -68,6 +72,13 @@ class MainMenuActivity : BaseActivity(), MainMenuContract.MainContractView {
         val catalogIntent = Intent(this, CatalogActivity::class.java)
         catalogIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(catalogIntent)
+        disableAllButtons()
+    }
+
+    override fun goToFavourites() {
+        val favouritesIntent = Intent(this, FavouritesActivity::class.java)
+        favouritesIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(favouritesIntent)
         disableAllButtons()
     }
 

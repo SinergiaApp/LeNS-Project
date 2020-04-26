@@ -14,9 +14,8 @@ import com.sinergia.eLibrary.presentation.Libraries.Presenter.LibraryPresenter
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import com.sinergia.eLibrary.presentation.NeLSProject
 import kotlinx.android.synthetic.main.activity_catalog.*
-import kotlinx.android.synthetic.main.activity_libraies.page_title
 import kotlinx.android.synthetic.main.activity_library.*
-import kotlinx.android.synthetic.main.activity_library.menu_button
+import kotlinx.android.synthetic.main.layout_headder_bar.*
 
 class LibraryActivity : BaseActivity(), LibraryContract.LibraryView {
 

@@ -24,6 +24,7 @@ import com.sinergia.eLibrary.presentation.Catalog.Model.CatalogViewModelImpl
 import com.sinergia.eLibrary.presentation.Catalog.Presenter.CatalogPresenter
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import com.sinergia.eLibrary.presentation.NeLSProject
+import kotlinx.android.synthetic.main.layout_headder_bar.*
 import kotlin.collections.ArrayList
 
 
@@ -34,12 +35,6 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
     private var cameraPermissionGranted = false
     private var buttonRequestCameraPermission = false
 
-    //ACTIVITY TITLE
-    override fun getPageTitle(): String {
-        return "Catálogo"
-    }
-
-
     //BASE ACTIVITY METHODS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +43,7 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
         catalogPresenter.attachView(this)
         catalogViewModel = ViewModelProviders.of(this).get(CatalogViewModelImpl::class.java)
 
-        main_page_title.text = getPageTitle()
+        page_title.text = getPageTitle()
         menu_button.setOnClickListener { startActivity(Intent(this, MainMenuActivity::class.java)) }
         catalog_search_btn.setOnClickListener {
             if(Strings.isNullOrEmpty(catalog_search.text.toString())){
@@ -80,8 +75,13 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
         return R.layout.activity_catalog
     }
 
+    override fun getPageTitle(): String {
+        return getString(R.string.PG_CATALOG)
+    }
+
     // CAMERA METHODS
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == NeLSProject.CAMERA_INTENT_CODE && resultCode == Activity.RESULT_OK){
 
             if(data != null){
@@ -159,7 +159,7 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
                     bottomMargin = 100
                 }
                 resource.orientation = LinearLayout.HORIZONTAL
-                resource.setBackground(ContextCompat.getDrawable(this, R.drawable.list_resource_style))
+                resource.setBackground(ContextCompat.getDrawable(this, R.drawable.style_list_resource))
                 resource.layoutParams = params
                 resource.setPadding(20,10,20,10)
                 val description = LinearLayout(this)
@@ -177,7 +177,7 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
 
                 val imageLayout = RelativeLayout(this)
                 val image = ImageView(this)
-                image.setImageResource(R.drawable.logonels)
+                image.setImageResource(R.drawable.icon_logonels)
                 imageLayout.addView(image)
                 val layoutParams = LinearLayout.LayoutParams(250, 250)
                 imageLayout.setLayoutParams(layoutParams)
@@ -242,7 +242,7 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
                 bottomMargin = 100
             }
             resource.orientation = LinearLayout.HORIZONTAL
-            resource.setBackground(ContextCompat.getDrawable(this, R.drawable.list_resource_style))
+            resource.setBackground(ContextCompat.getDrawable(this, R.drawable.style_list_resource))
             resource.layoutParams = params
             resource.setPadding(20, 10, 20, 10)
             val description = LinearLayout(this)
@@ -260,7 +260,7 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
 
             val imageLayout = RelativeLayout(this)
             val image = ImageView(this)
-            image.setImageResource(R.drawable.logonels)
+            image.setImageResource(R.drawable.icon_logonels)
             params = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -270,7 +270,7 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
             imageLayout.setLayoutParams(params)
 
             val likeIcon = ImageView(this)
-            likeIcon.setImageResource(R.drawable.logonels)
+            likeIcon.setImageResource(R.drawable.icon_logonels)
             var layoutParams = LinearLayout.LayoutParams(25, 25)
             likeIcon.setLayoutParams(layoutParams)
             likeIcon.setOnClickListener { catalogPresenter.setLikes(book, FirebaseAuth.getInstance().currentUser?.email!!, 1) }
@@ -279,7 +279,7 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
             likes.setText(likesNumber)
             likes.setTextColor(ContextCompat.getColor(this, R.color.colorBlack))
             val dislikeIcon = ImageView(this)
-            dislikeIcon.setImageResource(R.drawable.logonels)
+            dislikeIcon.setImageResource(R.drawable.icon_logonels)
             layoutParams = LinearLayout.LayoutParams(25, 25)
             dislikeIcon.setLayoutParams(layoutParams)
             likeIcon.setOnClickListener { catalogPresenter.setLikes(book, FirebaseAuth.getInstance().currentUser?.email!!, 1) }

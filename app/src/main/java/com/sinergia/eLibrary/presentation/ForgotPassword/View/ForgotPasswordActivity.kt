@@ -31,7 +31,7 @@ class ForgotPasswordActivity : BaseActivity(), ForgotPasswordContract.ForgotPass
     }
 
     override fun getPageTitle(): String {
-        return "Reseteo de Contraseña"
+        return getString(R.string.PG_RESET_PASSWORD)
     }
 
     //FORGOT PASSWORD CONTRACT METHODS

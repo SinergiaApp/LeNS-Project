@@ -17,7 +17,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_horizontal|center_vertical"
-        android:background="@drawable/dialog_window_style"
+        android:background="@drawable/style_dialog_window"
+        android:padding="20dp"
         >
 
         <TextView
@@ -26,9 +27,7 @@
             android:layout_height="wrap_content"
             android:text="TITULO DIALOGO"
             android:textColor="@color/colorWhite"
-            android:textSize="28dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"/>
+            android:textSize="28dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,13 +35,14 @@
             android:orientation="vertical"
             android:gravity="center_horizontal|center_vertical"
             android:background="@color/colorWhite"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
         />
 
         <TextView
             android:id="@+id/confirm_dialog_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Descripción del dialogo con el jijidejeje aqui me tiro una hora escribiendo para ver hasta donde puede llegar esta baina,"
             android:textColor="@color/colorWhite"
             android:textSize="12dp"
             android:layout_marginBottom="20dp"
@@ -54,16 +54,16 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:padding="20dp">
+            android:paddingTop="20dp">
 
             <Button
                 android:id="@+id/confirm_dialog_accept_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/main_button_style"
-                android:text="ACEPTAR"
-                android:layout_marginRight="30dp"
+                android:background="@drawable/style_dialog_button"
+                android:text="@string/BTN_ACCEPT"
+                android:layout_marginRight="20dp"
                 />
 
             <Button
@@ -71,9 +71,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/main_button_style"
-                android:text="CANCELAR"
-                android:layout_marginLeft="30dp"
+                android:background="@drawable/style_dialog_button"
+                android:text="@string/BTN_CANCEL"
                 />
 
         </LinearLayout>

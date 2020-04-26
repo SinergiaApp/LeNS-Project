@@ -5,42 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/garybackground"
+    android:background="@drawable/background_page_gray"
     tools:context=".presentation.Catalog.View.CatalogActivity"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/main_page_header"
-        android:layout_width="match_parent"
-        android:layout_height="125px"
-        android:background="@color/colorGrayHeader"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:paddingLeft="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/menu_button"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:srcCompat="@android:drawable/ic_dialog_dialer" />
-
-        <TextView
-            android:id="@+id/main_page_title"
-            android:layout_width="348dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="22dp"
-            android:layout_toEndOf="@+id/menu_button"
-            android:fontFamily="@font/imprima"
-            android:gravity="center_vertical|right"
-            android:paddingRight="20dp"
-            android:text=""
-            android:textColor="@color/colorWhite"
-            android:textSize="24sp" />
-    </RelativeLayout>
+    <include layout="@layout/layout_headder_bar" />
 
     <LinearLayout
         android:id="@+id/main_page_scroll"
@@ -86,7 +55,7 @@
                             android:layout_marginStart="0dp"
                             android:layout_marginTop="1dp"
                             android:layout_marginEnd="62dp"
-                            android:background="@drawable/edit_text_login_register"
+                            android:background="@drawable/style_edit_text_login_register"
                             android:ems="10"
                             android:fontFamily="verdana"
                             android:hint="ISBN del Libro"
@@ -105,7 +74,7 @@
                             android:layout_marginStart="7dp"
                             android:layout_marginTop="-2dp"
                             app:layout_constraintStart_toStartOf="@+id/catalog_search"
-                            app:srcCompat="@drawable/book_icon" />
+                            app:srcCompat="@drawable/icon_book" />
 
                         <ImageView
                             android:id="@+id/catalog_camera_btn"
@@ -118,7 +87,7 @@
                             android:layout_marginEnd="1dp"
                             android:elevation="20dp"
                             android:layout_toEndOf="@+id/catalog_search"
-                            app:srcCompat="@drawable/camera_icon" />
+                            app:srcCompat="@drawable/icon_camera" />
 
                     </RelativeLayout>
 
@@ -135,9 +104,9 @@
                             android:layout_below="@+id/login_user"
                             android:layout_marginTop="19dp"
                             android:layout_marginBottom="20dp"
-                            android:background="@drawable/main_button_style"
+                            android:background="@drawable/style_main_button"
                             android:fontFamily="Verdana"
-                            android:text="BUSCAR LIRBOS"
+                            android:text="@string/BTN_SEARCH_BOOK"
                             android:textColor="@color/colorWhite" />
 
                         <com.wang.avi.AVLoadingIndicatorView

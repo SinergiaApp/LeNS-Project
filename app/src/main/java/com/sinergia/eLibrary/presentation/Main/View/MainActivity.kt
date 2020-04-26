@@ -26,7 +26,7 @@ class MainActivity : BaseActivity(), MainContract.MainView {
     }
 
     override fun getPageTitle(): String {
-        return "PÁGINA PRINCIPAL"
+        return getString(R.string.PG_MAIN)
     }
 
 

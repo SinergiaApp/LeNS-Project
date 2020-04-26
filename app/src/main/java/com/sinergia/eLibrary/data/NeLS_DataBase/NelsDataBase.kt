@@ -137,6 +137,32 @@ class NelsDataBase {
 
     }
 
+    suspend fun getFavouriteResources(email: String): List<Resource> = suspendCancellableCoroutine { getFavouriteResourcesContinuation ->
+
+        var resourcesList: ArrayList<Resource> = arrayListOf()
+
+        nelsDB
+            .collection("resources")
+            .whereEqualTo("likes", email)
+            .get().addOnCompleteListener{getFavouriteResources ->
+
+                if(getFavouriteResources.isSuccessful){
+
+                    for (resource in getFavouriteResources.getResult()!!){
+                        val inputResource: Resource = resource.toObject(Resource::class.java)
+                        resourcesList.add(inputResource)
+                    }
+                    getFavouriteResourcesContinuation.resume(resourcesList)
+                } else {
+                    getFavouriteResourcesContinuation.resumeWithException(
+                        FirebaseGetAllResourcesException(getFavouriteResources.exception?.message.toString())
+                    )
+                }
+
+            }
+
+    }
+
     suspend fun getResource(isbn: String): Resource = suspendCancellableCoroutine{ getResourceContinuation ->
 
         nelsDB

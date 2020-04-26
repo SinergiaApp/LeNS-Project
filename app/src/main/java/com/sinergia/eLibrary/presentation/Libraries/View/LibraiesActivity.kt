@@ -1,7 +1,6 @@
 package com.sinergia.eLibrary.presentation.Libraries.View
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.Gravity
@@ -22,17 +21,12 @@ import com.sinergia.eLibrary.presentation.Libraries.Presenter.LibrariesPresenter
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import com.sinergia.eLibrary.presentation.NeLSProject
 import kotlinx.android.synthetic.main.activity_libraies.*
-import kotlinx.android.synthetic.main.activity_libraies.menu_button
+import kotlinx.android.synthetic.main.layout_headder_bar.*
 
 class LibraiesActivity : BaseActivity(), LibrariesContract.LibrariesView {
 
     private lateinit var librariesPresenter: LibrariesContract.LibrariesPresenter
     private lateinit var librariesViewModel: LibrariesViewModel
-
-    //ACTIVITY TITLE
-    override fun getPageTitle(): String {
-        return "Bibliotecas"
-    }
 
     //BASE ACTIVITY METHODS
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +46,10 @@ class LibraiesActivity : BaseActivity(), LibrariesContract.LibrariesView {
 
     override fun getLayout(): Int {
         return R.layout.activity_libraies
+    }
+
+    override fun getPageTitle(): String {
+        return getString(R.string.PG_LIBRARIES)
     }
 
     //LIBRARIES CONTRACT METHODS
@@ -89,7 +87,7 @@ class LibraiesActivity : BaseActivity(), LibrariesContract.LibrariesView {
                         bottomMargin = 100
                     }
                 resource.orientation = LinearLayout.VERTICAL
-                resource.setBackground(ContextCompat.getDrawable(this, R.drawable.list_resource_style))
+                resource.setBackground(ContextCompat.getDrawable(this, R.drawable.style_list_resource))
                 resource.layoutParams = params
                 resource.setPadding(20,10,20,10)
                 val description = LinearLayout(this)
@@ -98,7 +96,7 @@ class LibraiesActivity : BaseActivity(), LibrariesContract.LibrariesView {
 
                 val imageLayout = RelativeLayout(this)
                 val image = ImageView(this)
-                image.setImageResource(R.drawable.logonels)
+                image.setImageResource(R.drawable.icon_logonels)
                 imageLayout.addView(image)
                 val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 250)
                 imageLayout.setLayoutParams(layoutParams)

@@ -40,7 +40,7 @@ class LoginActivity : BaseActivity(), LoginContract.LoginView {
     }
 
     override fun getPageTitle(): String {
-        return "LOGIN"
+        return getString(R.string.PG_LOGIN)
     }
 
     //LOGIN CONTRACT METHODS

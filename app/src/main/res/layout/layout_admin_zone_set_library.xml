@@ -27,7 +27,7 @@
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="1dp"
                 android:layout_marginEnd="62dp"
-                android:background="@drawable/edit_text_login_register"
+                android:background="@drawable/style_edit_text_login_register"
                 android:ems="10"
                 android:fontFamily="verdana"
                 android:hint="Identificador de la Biblioteca"
@@ -43,7 +43,7 @@
                 android:layout_marginStart="7dp"
                 android:layout_marginTop="-2dp"
                 android:elevation="5dp"
-                android:src="@drawable/library_icon" />
+                android:src="@drawable/icon_library" />
 
             <ImageView
                 android:id="@+id/admin_zone_setLibrarySearch_icon2"
@@ -55,7 +55,7 @@
                 android:layout_marginTop="-1dp"
                 android:layout_marginEnd="1dp"
                 android:elevation="20dp"
-                android:src="@drawable/camera_icon" />
+                android:src="@drawable/icon_camera" />
 
         </RelativeLayout>
 
@@ -71,7 +71,7 @@
                 android:layout_height="52dp"
                 android:layout_marginTop="19dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/main_button_style"
+                android:background="@drawable/style_main_button"
                 android:fontFamily="Verdana"
                 android:text="BUSCAR BIBLIOTECA"
                 android:textColor="@color/colorWhite" />
@@ -117,7 +117,7 @@
             android:layout_height="40dp"
             android:layout_alignParentTop="true"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/edit_text_login_register"
+            android:background="@drawable/style_edit_text_login_register"
             android:textColor="@color/colorBlack"
             android:inputType="textCapSentences"
             android:ems="2"
@@ -135,7 +135,7 @@
             android:layout_height="40dp"
             android:layout_alignParentTop="true"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/edit_text_login_register"
+            android:background="@drawable/style_edit_text_login_register"
             android:textColor="@color/colorBlack"
             android:inputType="textCapSentences"
             android:ems="2"
@@ -153,7 +153,7 @@
             android:layout_height="40dp"
             android:layout_alignParentTop="true"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/edit_text_login_register"
+            android:background="@drawable/style_edit_text_login_register"
             android:textColor="@color/colorBlack"
             android:ems="2"
             android:inputType="numberSigned|numberDecimal"
@@ -164,7 +164,7 @@
             android:layout_height="40dp"
             android:layout_alignParentTop="true"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/edit_text_login_register"
+            android:background="@drawable/style_edit_text_login_register"
             android:textColor="@color/colorBlack"
             android:ems="2"
             android:inputType="numberSigned|numberDecimal"
@@ -191,7 +191,7 @@
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/main_button_style"
+            android:background="@drawable/style_main_button"
             android:fontFamily="Verdana"
             android:text="MODIFICAR BIBLIOTECA"
             android:textColor="@color/colorWhite"

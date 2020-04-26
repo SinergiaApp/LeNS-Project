@@ -20,8 +20,7 @@ import com.sinergia.eLibrary.presentation.Main.View.MainActivity
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import com.sinergia.eLibrary.presentation.NeLSProject
 import kotlinx.android.synthetic.main.activity_account.*
-import kotlinx.android.synthetic.main.activity_account.main_page_title
-import kotlinx.android.synthetic.main.activity_account.menu_button
+import kotlinx.android.synthetic.main.layout_headder_bar.*
 import net.glxn.qrgen.android.QRCode
 
 class AccountActivity : BaseActivity(), AccountContract.AccountView {
@@ -35,7 +34,7 @@ class AccountActivity : BaseActivity(), AccountContract.AccountView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        main_page_title.text = getPageTitle()
+        page_title.text = getPageTitle()
         menu_button.setOnClickListener { startActivity(Intent(this, MainMenuActivity::class.java)) }
 
         accountPresenter = AccountPresenter(AccountViewModelImpl(), AccountInteractorImpl())
@@ -56,7 +55,7 @@ class AccountActivity : BaseActivity(), AccountContract.AccountView {
     }
 
     override fun getPageTitle(): String {
-        return "Mi Cuenta"
+        return getString(R.string.PG_ACCOUNT)
     }
 
     // ACCOUNT VIEW METHODS

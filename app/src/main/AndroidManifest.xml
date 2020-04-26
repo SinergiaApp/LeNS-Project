@@ -2,26 +2,24 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.sinergia.eLibrary">
-
+    <!-- PERMISSIONS -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".presentation.NeLSProject"
         android:allowBackup="true"
-        android:icon="@drawable/logonels"
+        android:icon="@drawable/icon_logonels"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.NoActionBar"
+        android:theme="@style/NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".presentation.Account.View.AccountActivity"></activity>
+        <activity android:name=".presentation.Favourites.view.FavouritesActivity"></activity>
         <activity android:name=".presentation.Dialogs.ConfirmDialog.ConfirmDialogActivity" />
-        <activity android:name=".presentation.CameraScan.View.CameraScanActivity" />
-        <activity android:name=".presentation.Catalog.View.ItemCatalogActivity" /> <!-- ACTIVITIES -->
-        <!-- MAIN ACTIVITY -->
+        <activity android:name=".presentation.CameraScan.View.CameraScanActivity" /> <!-- MAIN ACTIVITY -->
         <activity android:name=".presentation.Main.View.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,14 +31,13 @@
         <activity android:name=".presentation.Login.View.AuthLoginActivity" /> <!-- REGISTER -->
         <activity android:name=".presentation.Register.View.RegisterActivity" /> <!-- FORGOT PASSWORD -->
         <activity android:name=".presentation.ForgotPassword.View.ForgotPasswordActivity" /> <!-- MAIN MENU -->
-        <activity
-            android:name=".presentation.MainMenu.View.MainMenuActivity"
-            android:label="@string/title_activity_main_menu" /> <!-- RESOURCES CATALOG -->
-        <activity android:name=".presentation.Catalog.View.CatalogActivity" /> <!-- LIBRARIES CATALOG -->
-        <activity android:name=".presentation.Libraries.View.LibraiesActivity" />
+        <activity android:name=".presentation.MainMenu.View.MainMenuActivity" /> <!-- RESOURCES CATALOG -->
+        <activity android:name=".presentation.Catalog.View.CatalogActivity" /> <!-- RESOURCE -->
+        <activity android:name=".presentation.Catalog.View.ItemCatalogActivity" /> <!-- LIBRARIES CATALOG -->
+        <activity android:name=".presentation.Libraries.View.LibraiesActivity" /> <!-- LIBRARY -->
         <activity android:name=".presentation.Libraries.View.LibraryActivity" /> <!-- ADMIN ZONE -->
-        <activity android:name=".presentation.AdminZone.View.AdminZoneActivity" />
-
+        <activity android:name=".presentation.AdminZone.View.AdminZoneActivity" /> <!-- ACCOUNT -->
+        <activity android:name=".presentation.Account.View.AccountActivity" /> <!-- APP METADATA -->
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

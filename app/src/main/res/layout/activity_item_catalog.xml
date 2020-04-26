@@ -1,64 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/garybackground"
+    android:orientation="vertical"
+    android:background="@drawable/background_page_gray"
     tools:context=".presentation.Catalog.View.ItemCatalogActivity">
 
-    <RelativeLayout
-        android:id="@+id/main_page_header"
-        android:layout_width="match_parent"
-        android:layout_height="125px"
-        android:background="@color/colorGrayHeader"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:paddingLeft="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/menu_button"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:srcCompat="@android:drawable/ic_dialog_dialer" />
-
-        <TextView
-            android:id="@+id/page_title"
-            android:layout_width="348dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="22dp"
-            android:layout_toEndOf="@+id/menu_button"
-            android:fontFamily="@font/imprima"
-            android:gravity="center_vertical|right"
-            android:paddingRight="20dp"
-            android:text=""
-            android:textColor="@color/colorWhite"
-            android:textSize="24sp" />
-    </RelativeLayout>
+    <include layout="@layout/layout_headder_bar" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="125px"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        android:layout_height="match_parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:elevation="10dp"
-            android:orientation="vertical"
-            android:padding="10dp"
-            tools:layout_editor_absoluteX="103dp"
-            tools:layout_editor_absoluteY="0dp">
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/item_catalog_image"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/biblioteca" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/item_catalog_content"
@@ -97,7 +65,7 @@
                         android:layout_height="50dp"
                         android:layout_weight="1"
                         android:layout_marginRight="10dp"
-                        android:background="@drawable/list_item_content_style"
+                        android:background="@drawable/style_list_item_content"
                         android:gravity="center_horizontal|center_vertical"
                         android:orientation="horizontal"
                         android:elevation="10dp">
@@ -119,7 +87,7 @@
                             android:id="@+id/item_catalog_like_icon"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            app:srcCompat="@drawable/like_icon" />
+                            app:srcCompat="@drawable/icon_like" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -128,7 +96,7 @@
                         android:layout_height="50dp"
                         android:layout_weight="1"
                         android:layout_marginLeft="10dp"
-                        android:background="@drawable/list_item_content_style"
+                        android:background="@drawable/style_list_item_content"
                         android:gravity="center_horizontal|center_vertical"
                         android:orientation="horizontal"
                         android:elevation="10dp">
@@ -148,7 +116,7 @@
                             android:id="@+id/item_catalog_dislike_icon"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
-                            app:srcCompat="@drawable/dislike_icon" />
+                            app:srcCompat="@drawable/icon_dislike" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -163,18 +131,11 @@
                     app:indicatorName="BallPulseIndicator"
                     app:indicatorColor="@color/colorBlack" />
 
-                <ImageView
-                    android:id="@+id/item_catalog_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:layout_marginBottom="10dp"
-                    android:src="@drawable/biblioteca" />
-
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
-                    android:background="@drawable/list_item_content_style"
+                    android:background="@drawable/style_list_item_content"
                     android:orientation="vertical"
                     android:padding="10dp">
 
@@ -237,9 +198,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
                         android:layout_weight="1"
-                        android:background="@drawable/main_button_style"
+                        android:background="@drawable/style_main_button"
                         android:fontFamily="Verdana"
-                        android:text="VER ONLINE"
+                        android:text="@string/BTN_WATCH_ONLINE"
                         android:layout_marginRight="10dp"
                         android:textColor="@color/colorWhite"
                         />
@@ -249,9 +210,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
                         android:layout_weight="1"
-                        android:background="@drawable/main_button_style"
+                        android:background="@drawable/style_main_button"
                         android:fontFamily="Verdana"
-                        android:text="VER DISPONIBILIDAD"
+                        android:text="@string/BTN_SEE_DISPONIBILITY"
                         android:layout_marginLeft="10dp"
                         android:textColor="@color/colorWhite"
                         />
@@ -263,7 +224,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
-                    android:background="@drawable/list_item_content_style"
+                    android:background="@drawable/style_list_item_content"
                     android:orientation="vertical"
                     android:padding="10dp"
                     android:visibility="gone">
@@ -279,9 +240,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
                         android:layout_weight="1"
-                        android:background="@drawable/main_button_style"
+                        android:background="@drawable/style_main_button"
                         android:fontFamily="Verdana"
-                        android:text="RESERVAR"
+                        android:text="@string/BTN_INIT_RESERVE"
                         android:layout_marginLeft="10dp"
                         android:textColor="@color/colorWhite"
                         />
@@ -297,4 +258,4 @@
 
     </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

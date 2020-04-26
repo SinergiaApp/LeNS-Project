@@ -17,7 +17,7 @@ import com.sinergia.eLibrary.presentation.Dialogs.ConfirmDialog.ConfirmDialogAct
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import com.sinergia.eLibrary.presentation.NeLSProject
 import kotlinx.android.synthetic.main.activity_item_catalog.*
-import kotlinx.android.synthetic.main.activity_item_catalog.menu_button
+import kotlinx.android.synthetic.main.layout_headder_bar.*
 import com.sinergia.eLibrary.data.Model.Resource as Resource
 
 class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView {

@@ -27,7 +27,7 @@
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="1dp"
                 android:layout_marginEnd="62dp"
-                android:background="@drawable/edit_text_login_register"
+                android:background="@drawable/style_edit_text_login_register"
                 android:ems="10"
                 android:fontFamily="verdana"
                 android:hint="ISBN del Libro"
@@ -43,7 +43,7 @@
                 android:layout_marginStart="7dp"
                 android:layout_marginTop="-2dp"
                 android:elevation="5dp"
-                android:src="@drawable/book_icon" />
+                android:src="@drawable/icon_book" />
 
             <ImageView
                 android:id="@+id/admin_zone_setBookSearch_icon2"
@@ -55,7 +55,7 @@
                 android:layout_marginTop="-1dp"
                 android:layout_marginEnd="1dp"
                 android:elevation="20dp"
-                android:src="@drawable/camera_icon" />
+                android:src="@drawable/icon_camera" />
 
         </RelativeLayout>
 
@@ -71,7 +71,7 @@
                 android:layout_height="52dp"
                 android:layout_marginTop="19dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/main_button_style"
+                android:background="@drawable/style_main_button"
                 android:fontFamily="Verdana"
                 android:text="BUSCAR LIRBO"
                 android:textColor="@color/colorWhite" />
@@ -109,7 +109,7 @@
             android:layout_height="40dp"
             android:layout_alignParentTop="true"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/edit_text_login_register"
+            android:background="@drawable/style_edit_text_login_register"
             android:textColor="@color/colorBlack"
             android:inputType="textCapSentences"
             android:ems="2"
@@ -127,7 +127,7 @@
             android:layout_height="40dp"
             android:layout_alignParentTop="true"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/edit_text_login_register"
+            android:background="@drawable/style_edit_text_login_register"
             android:textColor="@color/colorBlack"
             android:inputType="textCapSentences"
             android:ems="2"
@@ -145,7 +145,7 @@
             android:layout_height="40dp"
             android:layout_alignParentTop="true"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/edit_text_login_register"
+            android:background="@drawable/style_edit_text_login_register"
             android:textColor="@color/colorBlack"
             android:inputType="textCapSentences"
             android:ems="2"
@@ -163,7 +163,7 @@
             android:layout_height="40dp"
             android:layout_alignParentTop="true"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/edit_text_login_register"
+            android:background="@drawable/style_edit_text_login_register"
             android:textColor="@color/colorBlack"
             android:inputType="textCapSentences"
             android:ems="2"
@@ -181,7 +181,7 @@
             android:layout_height="200dp"
             android:layout_alignParentTop="true"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/edit_text_login_register"
+            android:background="@drawable/style_edit_text_login_register"
             android:textColor="@color/colorBlack"
             android:gravity="left|start"
             android:singleLine="false"
@@ -207,7 +207,7 @@
             android:layout_height="40dp"
             android:layout_alignParentTop="true"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/edit_text_login_register"
+            android:background="@drawable/style_edit_text_login_register"
             android:textColor="@color/colorBlack"
             android:inputType="text"
             android:ems="2"
@@ -224,7 +224,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@drawable/list_item_content_style"
+                android:background="@drawable/style_list_item_content"
                 android:layout_marginBottom="20dp"
                 android:padding="10dp"/>
 
@@ -249,7 +249,7 @@
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/main_button_style"
+            android:background="@drawable/style_main_button"
             android:fontFamily="Verdana"
             android:text="MODIFICAR RECURSO"
             android:textColor="@color/colorWhite"

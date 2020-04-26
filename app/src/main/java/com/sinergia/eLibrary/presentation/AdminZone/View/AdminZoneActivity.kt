@@ -29,8 +29,6 @@ import com.sinergia.eLibrary.presentation.Catalog.View.CatalogActivity
 import com.sinergia.eLibrary.presentation.Libraries.View.LibraiesActivity
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import com.sinergia.eLibrary.presentation.NeLSProject
-import kotlinx.android.synthetic.main.activity_admin_zone.main_page_title
-import kotlinx.android.synthetic.main.activity_admin_zone.menu_button
 import kotlinx.android.synthetic.main.layout_admin_zone.*
 import kotlinx.android.synthetic.main.layout_admin_zone_loans.*
 import kotlinx.android.synthetic.main.layout_admin_zone_new_library.*
@@ -38,6 +36,7 @@ import kotlinx.android.synthetic.main.layout_admin_zone_new_resource.*
 import kotlinx.android.synthetic.main.layout_admin_zone_set_library.*
 import kotlinx.android.synthetic.main.layout_admin_zone_set_resource.*
 import kotlinx.android.synthetic.main.layout_admin_zone_set_resource.admin_zone_setBookSearch_btn
+import kotlinx.android.synthetic.main.layout_headder_bar.*
 
 class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
 
@@ -57,7 +56,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_zone)
 
-        main_page_title.text = getPageTitle()
+        page_title.text = getPageTitle()
         menu_button.setOnClickListener { startActivity(Intent(this, MainMenuActivity::class.java)) }
 
         adminPresenter = com.sinergia.eLibrary.presentation.AdminZone.Presenter.AdminZonePresenter(AdminViewModelImpl())
@@ -91,7 +90,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
     }
 
     override fun getPageTitle(): String {
-        return "Zona de Administración"
+        return getString(R.string.PG_ADMIN_ZONE)
     }
 
     // CAMERA METHODS

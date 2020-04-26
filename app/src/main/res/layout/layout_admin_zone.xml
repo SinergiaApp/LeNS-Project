@@ -21,7 +21,7 @@
             android:layout_marginBottom="20dp"
             android:padding="15dp"
             android:elevation="21dp"
-            android:background="@drawable/menu_buttons_style">
+            android:background="@drawable/style_menu_buttons">
 
             <TextView
                 android:layout_width="match_parent"
@@ -58,7 +58,7 @@
             android:layout_marginBottom="20dp"
             android:padding="15dp"
             android:elevation="21dp"
-            android:background="@drawable/menu_buttons_style">
+            android:background="@drawable/style_menu_buttons">
 
             <TextView
                 android:layout_width="match_parent"
@@ -96,7 +96,7 @@
             android:layout_marginBottom="20dp"
             android:padding="15dp"
             android:elevation="21dp"
-            android:background="@drawable/menu_buttons_style">
+            android:background="@drawable/style_menu_buttons">
 
             <TextView
                 android:layout_width="match_parent"
@@ -132,7 +132,7 @@
             android:layout_marginBottom="20dp"
             android:padding="15dp"
             android:elevation="21dp"
-            android:background="@drawable/menu_buttons_style">
+            android:background="@drawable/style_menu_buttons">
 
             <TextView
                 android:layout_width="match_parent"
@@ -168,7 +168,7 @@
             android:layout_marginBottom="20dp"
             android:padding="15dp"
             android:elevation="21dp"
-            android:background="@drawable/menu_buttons_style">
+            android:background="@drawable/style_menu_buttons">
 
             <TextView
                 android:layout_width="match_parent"

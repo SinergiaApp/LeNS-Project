@@ -8,6 +8,7 @@ interface MainMenuContract {
         fun showError(errorMsg: String?)
         fun goToLibrary()
         fun goToCatalog()
+        fun goToFavourites()
         fun goToNeurolinguisticZone()
         fun goToAccount()
         fun goToAdminZone()
@@ -16,17 +17,6 @@ interface MainMenuContract {
         fun enableAllButtons()
 
         fun showHideAdminZone(admin: Boolean)
-
-    }
-
-    interface MainContractPresenter {
-
-        fun attachiew(view: MainContractView)
-        fun dettachView()
-        fun isViewAttached(): Boolean
-        fun dettachJob()
-
-        fun getCurrentUserDB(email: String)
 
     }
 

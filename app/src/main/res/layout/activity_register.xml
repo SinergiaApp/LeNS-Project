@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/garybackground"
+    android:background="@drawable/background_page_gray"
     tools:context=".presentation.Register.View.RegisterActivity"
     tools:layout_editor_absoluteY="81dp">
 
@@ -27,7 +27,7 @@
                 android:layout_width="306dp"
                 android:layout_height="241dp"
                 android:layout_marginTop="48dp"
-                android:src="@drawable/logonels" />
+                android:src="@drawable/icon_logonels" />
 
 
             <LinearLayout
@@ -53,7 +53,7 @@
                         android:layout_width="329dp"
                         android:layout_height="40dp"
                         android:layout_marginTop="20dp"
-                        android:background="@drawable/edit_text_login_register"
+                        android:background="@drawable/style_edit_text_login_register"
                         android:ems="10"
                         android:hint="Nombre"
                         android:inputType="textPersonName|textCapSentences"
@@ -68,7 +68,7 @@
                         android:layout_height="44dp"
                         app:layout_constraintStart_toStartOf="@+id/register_name"
                         app:layout_constraintTop_toBottomOf="@+id/nameExplainText"
-                        app:srcCompat="@drawable/user_icon" />
+                        app:srcCompat="@drawable/icon_user" />
 
 
 
@@ -90,7 +90,7 @@
                         android:layout_width="329dp"
                         android:layout_height="40dp"
                         android:layout_marginTop="20dp"
-                        android:background="@drawable/edit_text_login_register"
+                        android:background="@drawable/style_edit_text_login_register"
                         android:ems="10"
                         android:hint="Apellido1 Apellido2"
                         android:inputType="textPersonName|textCapSentences"
@@ -105,7 +105,7 @@
                         android:layout_height="43dp"
                         app:layout_constraintStart_toStartOf="@+id/register_lastname"
                         app:layout_constraintTop_toBottomOf="@+id/surnameExplainText"
-                        app:srcCompat="@drawable/user_icon" />
+                        app:srcCompat="@drawable/icon_user" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -126,7 +126,7 @@
                         android:layout_width="329dp"
                         android:layout_height="40dp"
                         android:layout_marginTop="20dp"
-                        android:background="@drawable/edit_text_login_register"
+                        android:background="@drawable/style_edit_text_login_register"
                         android:ems="10"
                         android:hint="Correo Electrónico"
                         android:inputType="textEmailAddress"
@@ -143,7 +143,7 @@
                         android:layout_marginStart="8dp"
                         app:layout_constraintStart_toStartOf="@+id/register_email"
                         app:layout_constraintTop_toBottomOf="@+id/usernameExplainText"
-                        app:srcCompat="@drawable/mail_icon" />
+                        app:srcCompat="@drawable/icon_mail" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -163,7 +163,7 @@
                         android:layout_width="329dp"
                         android:layout_height="40dp"
                         android:layout_marginTop="20dp"
-                        android:background="@drawable/edit_text_login_register"
+                        android:background="@drawable/style_edit_text_login_register"
                         android:ems="10"
                         android:hint="NIF:"
                         android:inputType="textEmailAddress"
@@ -180,7 +180,7 @@
                         android:layout_marginStart="8dp"
                         app:layout_constraintStart_toStartOf="@+id/register_nif"
                         app:layout_constraintTop_toBottomOf="@+id/usernifExplainText"
-                        app:srcCompat="@drawable/mail_icon" />
+                        app:srcCompat="@drawable/icon_mail" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -201,7 +201,7 @@
                         android:layout_width="326dp"
                         android:layout_height="44dp"
                         android:layout_marginTop="20dp"
-                        android:background="@drawable/edit_text_login_register"
+                        android:background="@drawable/style_edit_text_login_register"
                         android:ems="10"
                         android:hint="Contraseña"
                         android:inputType="textPassword"
@@ -215,7 +215,7 @@
                         android:layout_width="326dp"
                         android:layout_height="44dp"
                         android:layout_marginTop="8dp"
-                        android:background="@drawable/edit_text_login_register"
+                        android:background="@drawable/style_edit_text_login_register"
                         android:ems="10"
                         android:hint="Repetir la contraseña"
                         android:inputType="textPassword"
@@ -232,7 +232,7 @@
                         android:layout_marginStart="4dp"
                         app:layout_constraintStart_toStartOf="@+id/register_password"
                         app:layout_constraintTop_toTopOf="@+id/register_password"
-                        app:srcCompat="@drawable/password_icon" />
+                        app:srcCompat="@drawable/icon_password" />
 
                     <ImageView
                         android:id="@+id/register_passicon2"
@@ -241,7 +241,7 @@
                         android:layout_marginStart="4dp"
                         app:layout_constraintStart_toStartOf="@+id/register_repeatpassword"
                         app:layout_constraintTop_toTopOf="@+id/register_repeatpassword"
-                        app:srcCompat="@drawable/password_icon" />
+                        app:srcCompat="@drawable/icon_password" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -263,10 +263,10 @@
                 android:layout_height="52dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="44dp"
-                android:background="@drawable/main_button_style"
+                android:background="@drawable/style_main_button"
                 android:focusedByDefault="false"
                 android:fontFamily="Verdana"
-                android:text="REGISTRARSE"
+                android:text="@string/BTN_REGISTER"
                 android:textColor="@color/colorWhite"/>
 
         </LinearLayout>

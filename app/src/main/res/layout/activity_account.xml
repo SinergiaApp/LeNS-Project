@@ -1,55 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/garybackground"
+    android:background="@drawable/background_page_gray"
+    android:orientation="vertical"
     tools:context=".presentation.Account.View.AccountActivity">
 
-    <RelativeLayout
-        android:id="@+id/main_page_header"
-        android:layout_width="match_parent"
-        android:layout_height="125px"
-        android:background="@color/colorGrayHeader"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:paddingLeft="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/main_page_scroll"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/menu_button"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:srcCompat="@android:drawable/ic_dialog_dialer" />
-
-        <TextView
-            android:id="@+id/main_page_title"
-            android:layout_width="348dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="22dp"
-            android:layout_toEndOf="@+id/menu_button"
-            android:fontFamily="@font/imprima"
-            android:gravity="center_vertical|right"
-            android:paddingRight="20dp"
-            android:text=""
-            android:textColor="@color/colorWhite"
-            android:textSize="24sp" />
-    </RelativeLayout>
+    <include layout="@layout/layout_headder_bar" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="125px"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
 
         <LinearLayout
@@ -65,12 +29,19 @@
                 android:layout_marginBottom="20dp"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/account_userAvatar"
+                <androidx.cardview.widget.CardView
                     android:layout_width="125dp"
                     android:layout_height="125dp"
-                    android:elevation="5dp"
-                    android:src="@drawable/user_icon" />
+                    app:cardCornerRadius="20dp"
+                    android:background="@color/fui_transparent">
+                    <ImageView
+                        android:id="@+id/account_userAvatar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:elevation="5dp"
+                        android:src="@drawable/icon_user" />
+                </androidx.cardview.widget.CardView>
+
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -85,7 +56,7 @@
                         android:layout_height="40dp"
                         android:layout_alignParentRight="true"
                         android:elevation="5dp"
-                        android:src="@drawable/logout_black_icon" />
+                        android:src="@drawable/icon_btn_logout_black" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -143,7 +114,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="0dp"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/edit_text_login_register"
+                    android:background="@drawable/style_edit_text_login_register"
                     android:ems="10"
                     android:fontFamily="verdana"
                     android:hint="Nombre de Usuario"
@@ -158,7 +129,7 @@
                     android:layout_marginStart="7dp"
                     android:layout_marginTop="-2dp"
                     android:elevation="5dp"
-                    android:src="@drawable/user_icon" />
+                    android:src="@drawable/icon_user" />
 
             </RelativeLayout>
 
@@ -184,7 +155,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="0dp"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/edit_text_login_register"
+                    android:background="@drawable/style_edit_text_login_register"
                     android:ems="10"
                     android:fontFamily="verdana"
                     android:hint="Primer Apellido del Usuario"
@@ -199,7 +170,7 @@
                     android:layout_marginStart="7dp"
                     android:layout_marginTop="-2dp"
                     android:elevation="5dp"
-                    android:src="@drawable/user_icon" />
+                    android:src="@drawable/icon_user" />
 
             </RelativeLayout>
 
@@ -216,7 +187,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="0dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/edit_text_login_register"
+                    android:background="@drawable/style_edit_text_login_register"
                     android:ems="10"
                     android:fontFamily="verdana"
                     android:hint="Segundo Apellido del Usuario"
@@ -231,7 +202,7 @@
                     android:layout_marginStart="7dp"
                     android:layout_marginTop="-2dp"
                     android:elevation="5dp"
-                    android:src="@drawable/user_icon" />
+                    android:src="@drawable/icon_user" />
 
             </RelativeLayout>
 
@@ -258,7 +229,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="0dp"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/edit_text_login_register"
+                    android:background="@drawable/style_edit_text_login_register"
                     android:ems="10"
                     android:fontFamily="verdana"
                     android:hint="Correo de Usuario"
@@ -273,7 +244,7 @@
                     android:layout_marginStart="7dp"
                     android:layout_marginTop="-2dp"
                     android:elevation="5dp"
-                    android:src="@drawable/mail_icon" />
+                    android:src="@drawable/icon_mail" />
 
             </RelativeLayout>
 
@@ -300,7 +271,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="0dp"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/edit_text_login_register"
+                    android:background="@drawable/style_edit_text_login_register"
                     android:ems="10"
                     android:fontFamily="verdana"
                     android:hint="NIF de Usuario"
@@ -315,7 +286,7 @@
                     android:layout_marginStart="7dp"
                     android:layout_marginTop="-2dp"
                     android:elevation="5dp"
-                    android:src="@drawable/nif_icon" />
+                    android:src="@drawable/icon_nif" />
 
             </RelativeLayout>
 
@@ -330,7 +301,7 @@
                     android:layout_width="200dp"
                     android:layout_height="200dp"
                     android:elevation="5dp"
-                    android:src="@drawable/qr_icon" />
+                    android:src="@drawable/icon_qr" />
 
                 <com.wang.avi.AVLoadingIndicatorView
                     android:id="@+id/accountProgressBar"
@@ -354,9 +325,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
                         android:layout_weight="1"
-                        android:background="@drawable/main_button_style"
+                        android:background="@drawable/style_main_button"
                         android:fontFamily="Verdana"
-                        android:text="ACTUALIZAR"
+                        android:text="@string/BTN_UPDATE"
                         android:layout_marginRight="10dp"
                         android:textColor="@color/colorWhite" />
 
@@ -365,9 +336,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
                         android:layout_weight="1"
-                        android:background="@drawable/main_button_danger_style"
+                        android:background="@drawable/style_main_button_danger"
                         android:fontFamily="Verdana"
-                        android:text="BORRAR"
+                        android:text="@string/BTN_DETETE"
                         android:layout_marginLeft="10dp"
                         android:textColor="@color/colorRedDanger" />
 
@@ -383,4 +354,4 @@
 
     </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

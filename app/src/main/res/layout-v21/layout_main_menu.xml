@@ -16,13 +16,13 @@
         android:layout_marginBottom="20dp"
         android:padding="15dp"
         android:elevation="21dp"
-        android:background="@drawable/menu_buttons_style">
+        android:background="@drawable/style_menu_buttons">
 
         <ImageView
             android:id="@+id/library_icon"
             android:layout_width="120dp"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/library_icon"
+            app:srcCompat="@drawable/icon_library"
             />
 
         <TextView
@@ -44,12 +44,12 @@
         android:layout_marginBottom="20dp"
         android:padding="15dp"
         android:elevation="21dp"
-        android:background="@drawable/menu_buttons_style">
+        android:background="@drawable/style_menu_buttons">
         <ImageView
             android:id="@+id/catalog_icon"
             android:layout_width="120dp"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/book_icon"
+            app:srcCompat="@drawable/icon_book"
             />
 
         <TextView
@@ -64,6 +64,33 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/favourites_button"
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp"
+        android:padding="15dp"
+        android:elevation="21dp"
+        android:background="@drawable/style_menu_buttons">
+        <ImageView
+            android:id="@+id/favourites_icon"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/icon_favourite"
+            />
+
+        <TextView
+            android:id="@+id/favourites_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="35sp"
+            android:textColor="@color/colorBlack"
+            android:text="FAVORITOS" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/neurolinguistic_button"
         android:layout_width="match_parent"
         android:layout_height="125dp"
@@ -71,12 +98,12 @@
         android:layout_marginBottom="20dp"
         android:padding="15dp"
         android:elevation="21dp"
-        android:background="@drawable/menu_buttons_style">
+        android:background="@drawable/style_menu_buttons">
         <ImageView
             android:id="@+id/neurolinguistic_icon"
             android:layout_width="120dp"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/student_icon"
+            app:srcCompat="@drawable/icon_student"
             />
 
         <TextView
@@ -98,12 +125,12 @@
         android:layout_marginBottom="20dp"
         android:padding="15dp"
         android:elevation="21dp"
-        android:background="@drawable/menu_buttons_style">
+        android:background="@drawable/style_menu_buttons">
         <ImageView
             android:id="@+id/account_icon"
             android:layout_width="120dp"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/user_icon"
+            app:srcCompat="@drawable/icon_user"
             />
 
         <TextView
@@ -125,13 +152,13 @@
         android:layout_marginBottom="20dp"
         android:padding="15dp"
         android:elevation="21dp"
-        android:background="@drawable/menu_buttons_style"
+        android:background="@drawable/style_menu_buttons"
         android:visibility="gone">
         <ImageView
             android:id="@+id/admin_icon"
             android:layout_width="120dp"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/configuration_icon"
+            app:srcCompat="@drawable/icon_configuration"
             />
 
         <TextView
