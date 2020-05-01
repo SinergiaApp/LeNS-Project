@@ -12,7 +12,7 @@
 
             <!-- Button Borders -->
             <stroke
-                android:width="8dp"
+                android:width="2dp"
                 android:color="@color/colorGray"
                 />
 

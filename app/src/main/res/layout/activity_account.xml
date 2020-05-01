@@ -340,7 +340,7 @@
                         android:fontFamily="Verdana"
                         android:text="@string/BTN_DETETE"
                         android:layout_marginLeft="10dp"
-                        android:textColor="@color/colorRedDanger" />
+                        android:textColor="@color/colorWhite" />
 
                 </LinearLayout>
 

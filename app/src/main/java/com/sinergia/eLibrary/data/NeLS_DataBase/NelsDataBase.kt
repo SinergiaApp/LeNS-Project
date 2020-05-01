@@ -5,6 +5,7 @@ import com.google.firebase.firestore.GeoPoint
 import com.sinergia.eLibrary.base.Exceptions.*
 import com.sinergia.eLibrary.base.Exceptions.FirebaseAddUserException
 import com.sinergia.eLibrary.data.Model.*
+import com.sinergia.eLibrary.presentation.NeLSProject
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.time.LocalDateTime
 import kotlin.coroutines.resume
@@ -143,8 +144,9 @@ class NelsDataBase {
 
         nelsDB
             .collection("resources")
-            .whereEqualTo("likes", email)
-            .get().addOnCompleteListener{getFavouriteResources ->
+            .whereArrayContains("likes", email)
+            .get()
+            .addOnCompleteListener{getFavouriteResources ->
 
                 if(getFavouriteResources.isSuccessful){
 
@@ -187,6 +189,42 @@ class NelsDataBase {
                         resourceException.message.toString()
                     )
                 )
+            }
+
+    }
+
+    suspend fun getFavouriteResource(isbn: String): Resource = suspendCancellableCoroutine { getFavouriteResourceContinuation ->
+
+        nelsDB
+            .collection("resources")
+            .document(isbn)
+            .get()
+            .addOnCompleteListener { getFavouriteResource ->
+
+                if(getFavouriteResource.isSuccessful){
+
+                    val resourceDB = getFavouriteResource.getResult()?.toObject(Resource::class.java)
+
+                    if(resourceDB == null || !resourceDB.likes.contains(NeLSProject.currentUser.email)) {
+                        getFavouriteResourceContinuation.resumeWithException(
+                            FirebaseGetResourceException(
+                                "Vaya... el Recurso con ISBN $isbn no está en tu lista de favoritos."
+                            )
+                        )
+                    } else {
+                        getFavouriteResourceContinuation.resume(resourceDB)
+                    }
+
+                } else {
+
+                    getFavouriteResourceContinuation.resumeWithException(
+                        FirebaseGetResourceException(
+                            getFavouriteResource.exception?.message.toString()
+                        )
+                    )
+
+                }
+
             }
 
     }

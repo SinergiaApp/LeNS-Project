@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="20dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -145,7 +146,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_gravity="center_horizontal|center_vertical">
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_margin="10dp">
 
                 <Button
                     android:id="@+id/admin_zone_loansContent_initLoan_btn"
@@ -154,7 +156,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/style_main_button"
                     android:fontFamily="Verdana"
-                    android:text="INICIAR"
+                    android:text="@string/BTN_INIT_LOAN"
                     android:layout_marginRight="10dp"
                     android:textColor="@color/colorWhite"
                     />
@@ -166,7 +168,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/style_main_button_danger"
                     android:fontFamily="Verdana"
-                    android:text="CANCELAR"
+                    android:text="@string/BTN_CANCEL"
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/colorRedDanger"
                     />
@@ -222,7 +224,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_gravity="center_horizontal|center_vertical">
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_margin="10dp">
 
                 <Button
                     android:id="@+id/admin_zone_loansContent_enlargeLoan_btn"
@@ -231,7 +234,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/style_main_button"
                     android:fontFamily="Verdana"
-                    android:text="AMPLIAR"
+                    android:text="@string/BTN_ENLARGE_LOAN"
                     android:layout_marginRight="10dp"
                     android:textColor="@color/colorWhite" />
 
@@ -242,9 +245,9 @@
                     android:layout_weight="1"
                     android:background="@drawable/style_main_button_danger"
                     android:fontFamily="Verdana"
-                    android:text="FINALIZAR"
+                    android:text="@string/BTN_FINALIZE_LOAN"
                     android:layout_marginLeft="10dp"
-                    android:textColor="@color/colorRedDanger" />
+                    android:textColor="@color/colorWhite" />
 
             </LinearLayout>
 

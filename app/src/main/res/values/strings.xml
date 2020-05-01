@@ -21,6 +21,7 @@
     <string name="BTN_LOGIN">ACCEDER</string>
     <string name="BTN_REGISTER">REGISTRARSE</string>
     <string name="BTN_ACCEPT">ACEPTAR</string>
+    <string name="BTN_CONFIRM">CONFIRMAR</string>
     <string name="BTN_CANCEL">CANCELAR</string>
     <string name="BTN_ALLOW">PERMITIR</string>
     <string name="BTN_DENY">DENEGAR</string>
@@ -29,10 +30,10 @@
     <string name="BTN_UPDATE">ACTUALIZAR</string>
     <string name="BTN_DETETE">ELIMINAR</string>
     <string name="BTN_INIT_RESERVE">RESERVAR</string>
-    <string name="BTN_CANCEL_RESERVE">CANCELAR RESERVA</string>
-    <string name="BTN_INIT_LOAN">INICIAR PRESTAMO</string>
-    <string name="BTN_ENLARGE_LOAN">PROLONGAR PRESTAMO</string>
-    <string name="BTN_FINALIZE_LOAN">FINALIZAR PRESTTASMO</string>
+    <string name="BTN_CANCEL_RESERVE">CANCELAR</string>
+    <string name="BTN_INIT_LOAN">INICIAR</string>
+    <string name="BTN_ENLARGE_LOAN">PROLONGAR</string>
+    <string name="BTN_FINALIZE_LOAN">FINALIZAR</string>
     <string name="BTN_SEARCH">BUSCAR</string>
     <string name="BTN_SEARCH_BOOK">BUSCAR LIBRO</string>
     <string name="BTN_SEARCH_LIBRARY">BUSCAR BIBLIOTECA</string>

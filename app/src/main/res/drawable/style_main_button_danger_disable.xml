@@ -8,7 +8,7 @@
             >
 
             <!-- Button Color -->
-            <solid android:color="@color/colorRedDangerBackgroundDisable"/>
+            <solid android:color="@color/fui_transparent"/>
 
             <!-- Button Borders -->
             <stroke

@@ -26,6 +26,7 @@ import com.sinergia.eLibrary.presentation.AdminZone.AdminZoneContract.AdminZoneP
 import com.sinergia.eLibrary.presentation.AdminZone.Model.AdminViewModelImpl
 import com.sinergia.eLibrary.presentation.CameraScan.View.CameraScanActivity
 import com.sinergia.eLibrary.presentation.Catalog.View.CatalogActivity
+import com.sinergia.eLibrary.presentation.Dialogs.ConfirmDialog.ConfirmDialogActivity
 import com.sinergia.eLibrary.presentation.Libraries.View.LibraiesActivity
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import com.sinergia.eLibrary.presentation.NeLSProject
@@ -66,7 +67,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         admin_zone_addResourceButton.setOnClickListener { showHideAddResource() }
         admin_zone_addNewResourceButton.setOnClickListener { createNewResource() }
 
-        admin_zone_setBookSearch_icon2.setOnClickListener { clickOnCamera("setResource") }
+        admin_zone_setBookSearch_icon2.setOnClickListener { startScan("setResource") }
         admin_zone_setBookSearch_btn.setOnClickListener { getResourceToModify() }
         admin_zone_setResourceButton.setOnClickListener { showHideSetResource() }
         admin_zone_setResource_btn.setOnClickListener { setResource() }
@@ -74,14 +75,18 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         admin_zone_addLibraryButton.setOnClickListener { showHideAddLibrary() }
         admin_zone_addNewLibraryButton.setOnClickListener { createNewLibrary() }
 
-        admin_zone_setLibrarySearch_icon2.setOnClickListener { clickOnCamera("setLibrary") }
+        admin_zone_setLibrarySearch_icon2.setOnClickListener { startScan("setLibrary") }
         admin_zone_setLibrarySearch_btn.setOnClickListener { getLibraryToModify() }
         admin_zone_setLibraryButton.setOnClickListener { showHideSetLibrary() }
         admin_zone_setLibrary_btn.setOnClickListener { setLibrary() }
 
         admin_zone_loanManagementButton.setOnClickListener { showHideLoans() }
         admin_zone_loansSearch_btn.setOnClickListener { getUserLoansAndReserves() }
-        admin_zone_LoansSearch_icon2.setOnClickListener { clickOnCamera("loansManagement") }
+        admin_zone_LoansSearch_icon2.setOnClickListener { startScan("loansManagement") }
+        admin_zone_loansContent_initLoan_btn.setOnClickListener { initLoan() }
+        admin_zone_loansConten_cancelReserve_btn.setOnClickListener { cancelReserve() }
+        admin_zone_loansContent_enlargeLoan_btn.setOnClickListener { enlargeLoan() }
+        admin_zone_loansConten_finalizeLoan_btn.setOnClickListener { finalizeLoan() }
 
     }
 
@@ -94,53 +99,21 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
     }
 
     // CAMERA METHODS
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if(requestCode == NeLSProject.CAMERA_INTENT_CODE && resultCode == Activity.RESULT_OK){
+    override fun startScan(field: String) {
 
-            if(data != null){
-                var resultBarCode = data.getStringExtra("codigo")
-                if(fillField == "setResource") admin_zone_setBookSearch.setText(resultBarCode)
-                if(fillField == "setLibrary") admin_zone_setLibrarySearch.setText(resultBarCode)
-                if(fillField == "loansManagement") admin_zone_loansSearch.setText(resultBarCode)
+        fillField = field
 
-            } else {
-                toastL(this, "Imposible leer el código, vuelve a intentarlo.")
-            }
-
-        }
-     }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        when(requestCode) {
-            NeLSProject.CAMERA_PERMISSIONS_CODE ->
-                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (buttonRequestCameraPermission) startScan()
-                    cameraPermissionGranted = true
-                } else {
-                    toastL(this, "El escaneo no se podrá llevar a cabo hasta que no concedas los permisos de usar la cámara."
-                    )
-                }
-        }
-    }
-
-    override fun clickOnCamera(field: String) {
-        if(!cameraPermissionGranted){
-            toastL(this@AdminZoneActivity, "Por favor permite que la app acceda a la cámara")
-            buttonRequestCameraPermission = true
-            checkAndSetCamentaPermissions()
+        if(cameraPermissionGranted){
+            val scanIntent = Intent(this, CameraScanActivity::class.java)
+            startActivityForResult(scanIntent, NeLSProject.CAMERA_INTENT_CODE)
         } else {
-            fillField = field
-            startScan()
+            toastL(this, "Por favor permite que la app acceda a la cámara.")
+            checkAndSetCamentaPermissions()
         }
-    }
 
-    override fun startScan() {
-        val scanIntent = Intent(this, CameraScanActivity::class.java)
-        startActivityForResult(scanIntent, NeLSProject.CAMERA_INTENT_CODE)
     }
 
     override fun checkAndSetCamentaPermissions() {
-
         val permissionStatus = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
 
         if(permissionStatus == PackageManager.PERMISSION_GRANTED ) {
@@ -148,7 +121,34 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         } else {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), NeLSProject.CAMERA_PERMISSIONS_CODE)
         }
+    }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == NeLSProject.CAMERA_INTENT_CODE && resultCode == Activity.RESULT_OK){
+
+            if(data != null){
+                var resultBarCode = data.getStringExtra("codigo")
+                if(fillField == "setResource") admin_zone_setBookSearch.setText(resultBarCode)
+                if(fillField == "setLibrary") admin_zone_setLibrarySearch.setText(resultBarCode)
+                if(fillField == "loansManagement") admin_zone_loansSearch.setText(resultBarCode)
+            } else {
+                toastL(this, "Imposible leer el código, vuelve a intentarlo.")
+            }
+
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when(requestCode) {
+            NeLSProject.CAMERA_PERMISSIONS_CODE ->
+                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (buttonRequestCameraPermission) startScan(fillField)
+                    cameraPermissionGranted = true
+                } else {
+                    toastL(this, "El escaneo no se podrá llevar a cabo hasta que no concedas los permisos de usar la cámara.")
+                }
+        }
     }
 
     //ADMIN ZONE CONTRACT METHODS
@@ -721,22 +721,155 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
     }
 
     override fun initLoan() {
-        TODO("Not yet implemented")
+
+        if(reserveChecked == null){
+            toastL(this, "Primero selecctiona una Reserva por favor.")
+        } else {
+
+            val reserveDialog = ConfirmDialogActivity
+                .Buider()
+                .setTitleText("Confirmar Reserva")
+                .setDescriptionText(
+                    "Está a punto de iniciar el préstamo del recurso ${reserveChecked?.resourceName} con ISBN ${reserveChecked?.resourceId}. " +
+                            "Informa al usuario de que el dispone de 5(Cinco) días hábiles para devolver el recurso, periodo tras el cual se le aplicará una sanción. " +
+                            "\nSi el usuario precisa del recurso más tiempo deberá realizar una ampliación de préstamo." +
+                            "\n ¿Desea confirmar el Préstamo?."
+                )
+                .setAcceptButtonText(getString(R.string.BTN_CONFIRM))
+                .setCancelButtonText(getString(R.string.BTN_CANCEL))
+                .buid()
+
+            reserveDialog.show(supportFragmentManager!!, "InitLoanDialog")
+            reserveDialog.isCancelable = false
+            reserveDialog.setDialogOnClickButtonListener(object: ConfirmDialogActivity.DialogOnClickButtonListener{
+                override fun clickAcceptButton() {
+                    reserveDialog.dismiss()
+                    adminPresenter.initLoan(reserveChecked!!)
+                }
+
+                override fun clickCancelButton() {
+                    reserveDialog.dismiss()
+                }
+
+            })
+
+        }
+
     }
 
     override fun cancelReserve() {
-        TODO("Not yet implemented")
+
+        if(reserveChecked == null){
+            toastL(this, "Primero selecctiona una Reserva por favor.")
+        } else {
+
+            val reserveDialog = ConfirmDialogActivity
+                .Buider()
+                .setTitleText("Confirmar Reserva")
+                .setDescriptionText(
+                    "Está a punto de cancelar la reserva del recurso ${reserveChecked?.resourceName} con ISBN ${reserveChecked?.resourceId}. " +
+                            "Informa al usuario de que el recurso volverá a estar dispobnible para otros usuarios y que deberá realizar una nueva reserva " +
+                            "en caso de querer adquirir en préstamo el recurso." +
+                            "\n ¿Desea continuar?."
+                )
+                .setAcceptButtonText(getString(R.string.BTN_YES))
+                .setCancelButtonText(getString(R.string.BTN_NO))
+                .buid()
+
+            reserveDialog.show(supportFragmentManager!!, "CancelReserveDialog")
+            reserveDialog.isCancelable = false
+            reserveDialog.setDialogOnClickButtonListener(object: ConfirmDialogActivity.DialogOnClickButtonListener{
+                override fun clickAcceptButton() {
+                    reserveDialog.dismiss()
+                    adminPresenter.cancelReserve(reserveChecked!!)
+                }
+
+                override fun clickCancelButton() {
+                    reserveDialog.dismiss()
+                }
+
+            })
+
+        }
+
     }
 
     override fun enlargeLoan() {
-        TODO("Not yet implemented")
+
+        if(loanChecked == null){
+            toastL(this, "Primero selecctiona un Préstamo por favor.")
+        } else {
+
+            val reserveDialog = ConfirmDialogActivity
+                .Buider()
+                .setTitleText("Confirmar Reserva")
+                .setDescriptionText(
+                    "Está a punto de ampliar el préstamo del recurso ${loanChecked?.resourceName} con ISBN ${loanChecked?.resourceId}. " +
+                            "Informa al usuario de que dispondrá de 5(Cinco) días hábiles adicionales a partir de hoy para devolver el recurso, periodo tras el cual " +
+                            "se le aplicará una sanción. " +
+                            "\nSi el usuario precisa del recurso más tiempo deberá realizar una ampliación de préstamo." +
+                            "\n ¿Desea confirmar la ampliación?."
+                )
+                .setAcceptButtonText(getString(R.string.BTN_CONFIRM))
+                .setCancelButtonText(getString(R.string.BTN_CANCEL))
+                .buid()
+
+            reserveDialog.show(supportFragmentManager!!, "EnlargeLoanDialog")
+            reserveDialog.isCancelable = false
+            reserveDialog.setDialogOnClickButtonListener(object: ConfirmDialogActivity.DialogOnClickButtonListener{
+                override fun clickAcceptButton() {
+                    reserveDialog.dismiss()
+                    adminPresenter.enlargeLoan(loanChecked!!)
+                }
+
+                override fun clickCancelButton() {
+                    reserveDialog.dismiss()
+                }
+
+            })
+
+        }
+
     }
 
 
     override fun finalizeLoan() {
-        TODO("Not yet implemented")
-    }
 
+        if(loanChecked == null){
+            toastL(this, "Primero selecctiona un Préstamo por favor.")
+        } else {
+
+            val reserveDialog = ConfirmDialogActivity
+                .Buider()
+                .setTitleText("Confirmar Reserva")
+                .setDescriptionText(
+                    "Está a punto de finalizar el préstamo del recurso ${reserveChecked?.resourceName} con ISBN ${reserveChecked?.resourceId}. " +
+                            "Informa al usuario de que el recurso volverá a estar dispobnible para otros usuarios y que deberá realizar una nueva reserva " +
+                            "en caso de querer adquirir en préstamo el recurso." +
+                            "\nSi el usuario precisa del recurso más tiempo aún puede realizar una ampliación de préstamo." +
+                            "\n ¿Desea continuar?."
+                )
+                .setAcceptButtonText(getString(R.string.BTN_YES))
+                .setCancelButtonText(getString(R.string.BTN_NO))
+                .buid()
+
+            reserveDialog.show(supportFragmentManager!!, "FinalizeLoanDialog")
+            reserveDialog.isCancelable = false
+            reserveDialog.setDialogOnClickButtonListener(object: ConfirmDialogActivity.DialogOnClickButtonListener{
+                override fun clickAcceptButton() {
+                    reserveDialog.dismiss()
+                    adminPresenter.finalizeLoan(loanChecked!!)
+                }
+
+                override fun clickCancelButton() {
+                    reserveDialog.dismiss()
+                }
+
+            })
+
+        }
+
+    }
 
     // WINDOW METHODS
     override fun onDetachedFromWindow() {

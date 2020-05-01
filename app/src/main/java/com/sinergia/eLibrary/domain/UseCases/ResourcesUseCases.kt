@@ -19,6 +19,10 @@ class ResourcesUseCases {
         return nelsDB.getResource(isbn)
     }
 
+    suspend fun getFavouriteResource(isbn: String): Resource{
+        return nelsDB.getFavouriteResource(isbn)
+    }
+
     suspend fun addResource(titulo: String,
                             autores: List<String>,
                             isbn: String, edicion:

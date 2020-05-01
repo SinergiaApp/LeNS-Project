@@ -33,8 +33,6 @@ interface CatalogContract {
         fun getAllResourcesToCatalog()
         fun getResourceToCatalog(isbn: String)
 
-        fun chekCameraPermissions(context: Context):Boolean
-
         fun setLikes(resource: Resource, usuario: String, puntuacion: Int)
 
     }

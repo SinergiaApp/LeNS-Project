@@ -49,6 +49,8 @@ class CatalogPresenter(catalogViewModel: CatalogViewModelImpl): CatalogContract.
 
     override fun getAllResourcesToCatalog() {
 
+        Log.d(TAG, "Trying to get Catalog Resources.")
+
         launch {
 
             view?.eraseCatalog()
@@ -74,7 +76,7 @@ class CatalogPresenter(catalogViewModel: CatalogViewModelImpl): CatalogContract.
                     view?.showError(errorMsg)
                 }
 
-                Log.d(TAG, "ERROR: Cannot load Resourcs from DataBase --> $errorMsg")
+                Log.d(TAG, "ERROR: Cannot load Resources from DataBase --> $errorMsg")
 
             }
 
@@ -168,13 +170,4 @@ class CatalogPresenter(catalogViewModel: CatalogViewModelImpl): CatalogContract.
 
     }
 
-    override fun chekCameraPermissions(context: Context): Boolean {
-
-        val estadoDePermiso = ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
-        var permissionGranted = false
-
-        if (estadoDePermiso == PackageManager.PERMISSION_GRANTED) permissionGranted = true
-
-        return permissionGranted
-    }
 }

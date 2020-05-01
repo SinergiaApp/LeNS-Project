@@ -126,7 +126,7 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
         if(itemCatalogPresenter.checkUserCanDoReserve()){
 
             if(this.libraryChecked.isNullOrEmpty()){
-                toastS(this, "Primero selecctiona una Biblioteca por vafor.")
+                toastS(this, "Primero selecctiona una Biblioteca por favor.")
             } else {
 
                 val reserveDialog = ConfirmDialogActivity
@@ -269,6 +269,19 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
         val intentCatalog = Intent(this, CatalogActivity::class.java)
         intentCatalog.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intentCatalog)
+    }
+
+    // WINDOW METHODS
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        itemCatalogPresenter.dettachView()
+        itemCatalogPresenter.dettachJob()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        itemCatalogPresenter.dettachView()
+        itemCatalogPresenter.dettachJob()
     }
 
 }

@@ -10,9 +10,9 @@
             <!-- Button Color -->
             <gradient
                 android:angle="90"
-                android:startColor="@color/colorGray"
-                android:centerColor="@color/colorLightGray"
-                android:endColor="@color/colorGray"
+                android:startColor="@color/colorLightGray"
+                android:centerColor="@color/colorGray"
+                android:endColor="@color/colorLightGray"
                 />
 
             <!-- Button Borders -->

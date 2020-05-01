@@ -1,16 +1,39 @@
 package com.sinergia.eLibrary.presentation.Favourites.view
 
+import android.Manifest
+import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.View
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProviders
+import com.google.common.base.Strings
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.data.Model.Resource
+import com.sinergia.eLibrary.presentation.CameraScan.View.CameraScanActivity
+import com.sinergia.eLibrary.presentation.Catalog.View.ItemCatalogActivity
 import com.sinergia.eLibrary.presentation.Favourites.FavouritesContract
+import com.sinergia.eLibrary.presentation.Favourites.model.FavouritesViewModel
+import com.sinergia.eLibrary.presentation.Favourites.model.FavouritesViewModelImpl
+import com.sinergia.eLibrary.presentation.Favourites.presenter.FavouritesPresenter
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
+import com.sinergia.eLibrary.presentation.NeLSProject
+import com.sinergia.eLibrary.utils.CreateCards
+import kotlinx.android.synthetic.main.activity_favourites.*
 import kotlinx.android.synthetic.main.layout_headder_bar.*
 
-class FavouritesActivity : BaseActivity(), FavouritesContract.favouritesView {
+class FavouritesActivity : BaseActivity(), FavouritesContract.FavouritesView {
+
+    private lateinit var favouritesPresenter: FavouritesContract.FavouritesPresenter
+    private lateinit var favouritesViewModel: FavouritesViewModel
+
+    private var cameraPermissionGranted = false
+    private var buttonRequestCameraPermission = false
+
+    private val cardUtils = CreateCards()
 
     // BASE ACTIVITY METHODS
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,8 +41,23 @@ class FavouritesActivity : BaseActivity(), FavouritesContract.favouritesView {
         super.onCreate(savedInstanceState)
         setContentView(getLayout())
 
+        favouritesPresenter = FavouritesPresenter(FavouritesViewModelImpl())
+        favouritesPresenter.attachView(this)
+        favouritesViewModel = ViewModelProviders.of(this).get(FavouritesViewModelImpl::class.java)
+
         page_title.text = getPageTitle()
-        menu_button.setOnClickListener { Intent(this, MainMenuActivity::class.java) }
+        menu_button.setOnClickListener { startActivity(Intent(this, MainMenuActivity::class.java)) }
+        favourites_search_btn.setOnClickListener {
+            if(Strings.isNullOrEmpty(favourites_search.text.toString())){
+                favouritesPresenter.getAllFavouriteResourcesToCatalog()
+            } else {
+                favouritesPresenter.getFavouriteResourceToCatalog(favourites_search.text.toString())
+            }
+        }
+
+        favourites_camera_btn.setOnClickListener { startScan() }
+
+        favouritesPresenter.getAllFavouriteResourcesToCatalog()
 
     }
 
@@ -31,6 +69,55 @@ class FavouritesActivity : BaseActivity(), FavouritesContract.favouritesView {
         return getString(R.string.PG_FAVOURITES)
     }
 
+
+    // CAMERA METHODS
+    override fun startScan() {
+        if(cameraPermissionGranted){
+            val scanIntent = Intent(this, CameraScanActivity::class.java)
+            startActivityForResult(scanIntent, NeLSProject.CAMERA_INTENT_CODE)
+        } else {
+            toastL(this, "Por favor permite que la app acceda a la cámara.")
+            checkAndSetCamentaPermissions()
+        }
+
+    }
+
+    override fun checkAndSetCamentaPermissions() {
+        val permissionStatus = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+
+        if(permissionStatus == PackageManager.PERMISSION_GRANTED ) {
+            cameraPermissionGranted = true
+        } else {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), NeLSProject.CAMERA_PERMISSIONS_CODE)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == NeLSProject.CAMERA_INTENT_CODE && resultCode == Activity.RESULT_OK){
+
+            if(data != null){
+                var resultBarCode = data.getStringExtra("codigo")
+                favourites_search.setText(resultBarCode)
+            } else {
+                toastL(this, "Imposible leer el código, vuelve a intentarlo.")
+            }
+
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when(requestCode) {
+            NeLSProject.CAMERA_PERMISSIONS_CODE ->
+                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (buttonRequestCameraPermission) startScan()
+                    cameraPermissionGranted = true
+                } else {
+                    toastL(this, "El escaneo no se podrá llevar a cabo hasta que no concedas los permisos de usar la cámara.")
+                }
+        }
+    }
+
     // CONTRACT VIEW METHODS
     override fun showError(error: String?) {
         toastL(this, error)
@@ -40,47 +127,60 @@ class FavouritesActivity : BaseActivity(), FavouritesContract.favouritesView {
         toastS(this, message)
     }
 
-    override fun showFavouritesgressBar() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun showFavouritesProgressBar() {
+        favourites_progressBar.visibility = View.VISIBLE
     }
 
     override fun hideFavouritesgressBar() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        favourites_progressBar.visibility = View.GONE
     }
 
-    override fun initFavourites(resourcesList: ArrayList<Resource>?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun initFavourites(resourcesList: List<Resource>) {
+
+        if(resourcesList.isEmpty()){
+            toastL(this, "Vaya... Parece que aún no tienes favoritos.")
+        } else {
+            for(resource in resourcesList){
+                var resourceCard = cardUtils.createResourceCard(this, resource)
+                resourceCard.setOnClickListener { navigateToBook(resource) }
+                favourites_content.addView(resourceCard)
+            }
+        }
+
     }
 
-    override fun initFavourites(book: Resource?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun initFavourites(book: Resource) {
+
+        if(book == null){
+            toastL(this, "Vaya... Parece que no tienes este libro como favorito")
+        } else {
+            var resourceCard = cardUtils.createResourceCard(this, book)
+            resourceCard.setOnClickListener { navigateToBook(book) }
+            favourites_content.addView(resourceCard)
+        }
+
     }
 
     override fun navigateToBook(resource: Resource) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        NeLSProject.currentResource = resource
+        startActivity(Intent(this, ItemCatalogActivity::class.java))
     }
 
-    override fun eraseCatalog() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun startScan() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun checkAndSetCamentaPermissions() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun eraseFavourites() {
+        favourites_content.removeAllViews()
     }
 
     // OVERRIDE METHODS
-    /*override fun onDetachedFromWindow() {
+    override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        catalogPresenter.dettachView()
+        favouritesPresenter.dettachView()
+        favouritesPresenter.dettachJob()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        catalogPresenter.dettachView()
-    }*/
+        favouritesPresenter.dettachView()
+        favouritesPresenter.dettachJob()
+    }
 
 }

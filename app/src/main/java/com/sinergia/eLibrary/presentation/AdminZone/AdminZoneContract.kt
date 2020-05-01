@@ -71,8 +71,7 @@ interface AdminZoneContract {
         fun enlargeLoan()
         fun finalizeLoan()
 
-        fun clickOnCamera(field: String)
-        fun startScan()
+        fun startScan(field: String)
         fun checkAndSetCamentaPermissions()
 
         fun navigateToCatalog()
