@@ -23,6 +23,7 @@ interface AccountContract {
 
         fun navigateToMainPage()
 
+        fun checkAndSetGalleryPermissions()
         fun uploadGalleryImage()
 
     }

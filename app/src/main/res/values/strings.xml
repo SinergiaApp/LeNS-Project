@@ -28,6 +28,7 @@
     <string name="BTN_YES">SI</string>
     <string name="BTN_NO">NO</string>
     <string name="BTN_UPDATE">ACTUALIZAR</string>
+    <string name="BTN_UPDATEIMAGE">CAMBIAR IMAGEN</string>
     <string name="BTN_DETETE">ELIMINAR</string>
     <string name="BTN_INIT_RESERVE">RESERVAR</string>
     <string name="BTN_CANCEL_RESERVE">CANCELAR</string>

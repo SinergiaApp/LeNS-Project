@@ -254,7 +254,8 @@ class NelsDataBase {
             "likes" to likes,
             "dislikes" to dislikes,
             "isOnline" to isOnline,
-            "urlOnline" to urlOnline
+            "urlOnline" to urlOnline,
+            "imageUri" to "noImage"
 
         )
 
@@ -305,7 +306,8 @@ class NelsDataBase {
         val newLibrary: HashMap<String, Any> = hashMapOf(
             "name" to nombre,
             "address" to direccion,
-            "geopoint" to geopoint
+            "geopoint" to geopoint,
+            "imageUri" to "noImage"
         )
 
         nelsDB
@@ -398,7 +400,8 @@ class NelsDataBase {
         val settedLibrary: HashMap<String, Any> = hashMapOf(
             "name" to library.name,
             "address" to library.address,
-            "geopoint" to library.geopoint
+            "geopoint" to library.geopoint,
+            "imageUri" to library.imageUri
         )
 
         nelsDB

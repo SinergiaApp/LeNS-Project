@@ -1,5 +1,6 @@
 package com.sinergia.eLibrary.presentation.AdminZone.Presenter
 
+import android.net.Uri
 import android.util.Log
 import com.google.firebase.firestore.GeoPoint
 import com.sinergia.eLibrary.base.Exceptions.*
@@ -19,6 +20,9 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
     var view: AdminZoneContract.AdminZoneView? = null
     var adminViewModel: AdminViewModelImpl? = null
     private val adminJob = Job()
+
+    private lateinit var currentLibrary: Library
+    private lateinit var currentResource: Resource
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + adminJob
@@ -125,6 +129,9 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
                     view?.hideAddResourceProgressBar()
                     view?.enableAddResourceButton()
                     view?.showMessage("El Recurso se ha creado satisfactoriamente.")
+                    view?.informWithDialog("¡El recurso ha sido creado!. \nRecuerda, es necesario que modifiques " +
+                            "la imagen que se muestra en la ficha del recurso, para debes dirigirte a la edición " +
+                            "de recursos en la zona de gerencia, buscar el recurso que acabas de crear y modificar su imagen.")
                     view?.navigateToCatalog()
                 }
 
@@ -204,20 +211,16 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
 
             try{
 
-                val resource = adminViewModel?.getResourceToModify(isbn)
+                currentResource = adminViewModel?.getResourceToModify(isbn)!!
                 val libraries = adminViewModel?.getAllLibraries()
 
                 if(isViewAttach()){
-                    if(resource == null){
-
-                    } else {
-                        view?.hideSetResourceProgressBar()
-                        view?.enableSearchResourceToModifyButton()
-                        view?.enableSetResourceButton()
-                        view?.showSetResouceContent()
-                        view?.initSetResourceContent(resource, libraries)
-                        view?.showMessage("El recurso está listo para sermodificado.")
-                    }
+                    view?.hideSetResourceProgressBar()
+                    view?.enableSearchResourceToModifyButton()
+                    view?.enableSetResourceButtons()
+                    view?.showSetResouceContent()
+                    view?.initSetResourceContent(currentResource, libraries)
+                    view?.showMessage("El recurso está listo para sermodificado.")
 
                 }
 
@@ -230,7 +233,7 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
                     view?.showError(errorMsg)
                     view?.hideSetResourceProgressBar()
                     view?.enableSearchResourceToModifyButton()
-                    view?.disableSetResourceButton()
+                    view?.disableSetResourceButtons()
                 }
 
                 Log.d(TAG, "ERROR: Cannot get Resource with isbn $isbn--> $errorMsg.")
@@ -245,10 +248,11 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
 
         launch{
 
-            val titulo = resource.title
-            Log.d(TAG, "Trying to set Resource with name $titulo.")
-            view?.showSetResourceProgressBar()
-            view?.disableSetResourceButton()
+            Log.d(TAG, "Trying to set Resource with isbn ${resource.isbn}.")
+            if(isViewAttach()){
+                view?.showSetResourceProgressBar()
+                view?.disableSetResourceButtons()
+            }
 
             try{
 
@@ -256,7 +260,7 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
 
                 if(isViewAttach()){
                     view?.hideSetResourceProgressBar()
-                    view?.enableSetResourceButton()
+                    view?.enableSetResourceButtons()
                     view?.showMessage("El recurso se ha modificado satisfactoriamente.")
                     view?.navigateToCatalog()
 
@@ -271,10 +275,66 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
                 if(isViewAttach()){
                     view?.showError(errorMsg)
                     view?.hideSetResourceProgressBar()
-                    view?.enableSetResourceButton()
+                    view?.enableSetResourceButtons()
                 }
 
-                Log.d(TAG, "ERROR: Cannot modify Resource with name $titulo --> $errorMsg.")
+                Log.d(TAG, "ERROR: Cannot modify Resource with isbn ${resource.isbn} --> $errorMsg.")
+
+            }
+
+        }
+
+    }
+
+    override fun setResourceImage(resourceImageUri: Uri) {
+
+        launch{
+
+            Log.d(TAG, "Trying to set Resource with isbn ${currentResource.isbn}.")
+            if(isViewAttach()){
+                view?.showSetResourceProgressBar()
+                view?.disableSetResourceButtons()
+            }
+
+            try{
+
+                val newResourceImageURL = adminViewModel?.setResourceImage(currentResource.isbn, resourceImageUri)
+                currentResource.imageUri = newResourceImageURL.toString()
+                adminViewModel?.setResource(currentResource)
+
+                if(isViewAttach()){
+                    view?.hideSetResourceProgressBar()
+                    view?.enableSetResourceButtons()
+                    view?.showMessage("La imagen del Recurso se ha modificado satisfactoriamente.")
+                    view?.navigateToCatalog()
+                }
+
+                Log.d(TAG, "Successfully modified resource image with isbn ${currentResource.isbn}")
+
+            } catch (error: FirebaseSetResourceException){
+
+                val errorMsg = error.message.toString()
+
+                if(isViewAttach()){
+                    view?.showError(errorMsg)
+                    view?.hideSetResourceProgressBar()
+                    view?.enableSetResourceButtons()
+                }
+
+                Log.d(TAG, "ERROR: Cannot modify Resource  with isbn ${currentResource.isbn} --> $errorMsg.")
+
+            } catch (error: FirebaseStorageUploadImageException){
+
+                val errorMsg = error.message.toString()
+
+                if(isViewAttach()){
+                    view?.showError(errorMsg)
+                    view?.hideSetLibraryProgressBar()
+                    view?.enableSearchLibraryToModifyButton()
+                    view?.enableSetLibraryButtons()
+                }
+
+                Log.d(TAG, "ERROR: Cannot set Resource Image with isbn ${currentResource.isbn} --> $errorMsg.")
 
             }
 
@@ -331,6 +391,9 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
                     view?.hideAddLibraryProgressBar()
                     view?.enableAddLibraryButton()
                     view?.showMessage("La Biblioteca se ha creado satisfactoriamente.")
+                    view?.informWithDialog("¡La biblioteca ha sido creada!. \nRecuerda, es necesario que modifiques " +
+                            "la imagen que se muestra en la ficha de la biblioteca, para debes dirigirte a la edición " +
+                            "de bibliotecas en la zona de gerencia, buscar la biblioteca que acabas de crear y modificar su imagen.")
                     view?.navigateToCatalog()
                 }
                 Log.d(TAG, "Succesfully creates new LibraryActivity.")
@@ -401,20 +464,20 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
         Log.d(TAG, "Trying to get library with id $id.")
         view?.showSetLibraryProgressBar()
         view?.disableSearchLibraryToModifyButton()
-        view?.disableSetLibraryButton()
+        view?.disableSetLibraryButtons()
 
         launch{
 
             try{
 
-                var library = adminViewModel?.getLibraryToModify(id)
+                currentLibrary = adminViewModel?.getLibraryToModify(id)!!
 
                 if(isViewAttach()) {
                     view?.hideSetLibraryProgressBar()
                     view?.enableSearchLibraryToModifyButton()
-                    view?.enableSetLibraryButton()
+                    view?.enableSetLibraryButtons()
                     view?.showSetLibraryContent()
-                    view?.initLibraryContent(library)
+                    view?.initLibraryContent(currentLibrary)
                     view?.showMessage("La biblioteca está lista para ser modificada.")
                 }
 
@@ -428,7 +491,7 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
                     view?.showError(errorMsg)
                     view?.hideSetLibraryProgressBar()
                     view?.enableSearchLibraryToModifyButton()
-                    view?.disableSetLibraryButton()
+                    view?.disableSetLibraryButtons()
                 }
 
                 Log.d(TAG, "ERROR: Cannot get Library with id $id--> $errorMsg.")
@@ -444,7 +507,7 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
         Log.d(TAG, "Trying to modify Library with id ${library.id}.")
         view?.showSetLibraryProgressBar()
         view?.disableSearchLibraryToModifyButton()
-        view?.disableSetLibraryButton()
+        view?.disableSetLibraryButtons()
 
         launch{
 
@@ -454,7 +517,7 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
 
                 if(isViewAttach()){
                     view?.hideSetLibraryProgressBar()
-                    view?.enableSetLibraryButton()
+                    view?.enableSetLibraryButtons()
                     view?.showMessage("La Biblioteca se ha modificado satisfactoriamente.")
                     view?.navigateToLibraries()
                 }
@@ -469,7 +532,7 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
                     view?.showError(errorMsg)
                     view?.hideSetLibraryProgressBar()
                     view?.enableSearchLibraryToModifyButton()
-                    view?.enableSetLibraryButton()
+                    view?.enableSetLibraryButtons()
                 }
 
                 Log.d(TAG, "ERROR: Cannot set Library with id ${library.id}--> $errorMsg.")
@@ -478,6 +541,67 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
 
         }
 
+    }
+
+    override fun setLibraryImage(libraryImageURI: Uri) {
+
+        Log.d(TAG, "Trying to modify Library Image with id ${currentLibrary.id}.")
+        view?.showSetLibraryProgressBar()
+        view?.disableSearchLibraryToModifyButton()
+        view?.disableSetLibraryButtons()
+
+        launch{
+
+            try {
+
+                if(isViewAttach()){
+                    view?.showSetLibraryProgressBar()
+                    view?.disableSearchLibraryToModifyButton()
+                    view?.disableSetLibraryButtons()
+                }
+
+                val newLibraryImageUri = adminViewModel?.setLibraryImage(currentLibrary.id, libraryImageURI)
+                currentLibrary.imageUri = newLibraryImageUri.toString()
+                adminViewModel?.setLibrary(currentLibrary)
+
+                if(isViewAttach()){
+                    view?.hideSetLibraryProgressBar()
+                    view?.enableSetLibraryButtons()
+                    view?.showMessage("La imagen de la Biblioteca se ha modificado satisfactoriamente.")
+                    view?.navigateToLibraries()
+                }
+
+                Log.d(TAG, "Successfully modified library image with isbn ${currentLibrary.id}")
+
+            } catch (error: FirebaseSetLibraryException){
+
+                val errorMsg = error.message.toString()
+
+                if(isViewAttach()){
+                    view?.showError(errorMsg)
+                    view?.hideSetLibraryProgressBar()
+                    view?.enableSearchLibraryToModifyButton()
+                    view?.enableSetLibraryButtons()
+                }
+
+                Log.d(TAG, "ERROR: Cannot set Library with id ${currentLibrary.id}--> $errorMsg.")
+
+            } catch (error: FirebaseStorageUploadImageException){
+
+                val errorMsg = error.message.toString()
+
+                if(isViewAttach()){
+                    view?.showError(errorMsg)
+                    view?.hideSetLibraryProgressBar()
+                    view?.enableSearchLibraryToModifyButton()
+                    view?.enableSetLibraryButtons()
+                }
+
+                Log.d(TAG, "ERROR: Cannot set Library Image with id ${currentLibrary.id}--> $errorMsg.")
+
+            }
+
+        }
 
     }
 

@@ -1,10 +1,14 @@
 package com.sinergia.eLibrary.presentation.Account.View
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.sinergia.eLibrary.R
@@ -112,6 +116,7 @@ class AccountActivity : BaseActivity(), AccountContract.AccountView {
         account_userNIF.setText(currentUser.nif)
 
         account_userQR.setImageBitmap(QRCode.from(currentUser.email).bitmap())
+
     }
 
     override fun logOut() {
@@ -187,21 +192,65 @@ class AccountActivity : BaseActivity(), AccountContract.AccountView {
     // GALLERY METHODS
     override fun uploadGalleryImage() {
 
-        val galleryIntent = Intent(Intent.ACTION_PICK)
-        galleryIntent.type = "image/*"
-        startActivityForResult(galleryIntent, NeLSProject.GALLERY_INTETN_CODE)
+        if(NeLSProject.storagePermissionGranted){
+            val galleryIntent = Intent(Intent.ACTION_PICK)
+            galleryIntent.type = "image/*"
+            startActivityForResult(galleryIntent, NeLSProject.GALLERY_INTENT_CODE)
+        } else {
+            toastL(this, "Por favor permite que la app acceda al almacenamiento del dispositivo.")
+            checkAndSetGalleryPermissions()
+        }
 
+    }
+
+    // ACTICITY RESULTS METHODS
+    override fun checkAndSetGalleryPermissions() {
+        val permissionStatusRead = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+        val permissionStatusWrite = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+        if(permissionStatusRead == PackageManager.PERMISSION_GRANTED && permissionStatusWrite == PackageManager.PERMISSION_GRANTED) {
+            NeLSProject.storagePermissionGranted = true
+        } else {
+            if (permissionStatusRead != PackageManager.PERMISSION_GRANTED) ActivityCompat.requestPermissions(this, arrayOf(
+                Manifest.permission.READ_EXTERNAL_STORAGE), NeLSProject.READ_STORAGE_PERMISSIONS_CODE)
+            if (permissionStatusWrite != PackageManager.PERMISSION_GRANTED) ActivityCompat.requestPermissions(this, arrayOf(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE), NeLSProject.WRITE_STORAGE_PERMISSIONS_CODE)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, imageData: Intent?) {
 
         super.onActivityResult(requestCode, resultCode, imageData)
 
-        if(requestCode == NeLSProject.GALLERY_INTETN_CODE && resultCode == Activity.RESULT_OK){
+        if(requestCode == NeLSProject.GALLERY_INTENT_CODE && resultCode == Activity.RESULT_OK){
 
             var imageURI: Uri = imageData?.data!!
             accountPresenter?.uploadImage(imageURI)
 
         }
     }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when(requestCode) {
+            NeLSProject.READ_STORAGE_PERMISSIONS_CODE ->
+                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    NeLSProject.storagePermissionGranted = (
+                            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                                    ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                            )
+                } else {
+                    toastL(this, "No se podrá acceder al almacenamiento del dispositivo hasta que concedas todos los permisos.")
+                }
+            NeLSProject.WRITE_STORAGE_PERMISSIONS_CODE ->
+                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    NeLSProject.storagePermissionGranted = (
+                            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                                    ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                            )
+                } else {
+                    toastL(this, "No se podrá acceder al almacenamiento del dispositivo hasta que concedas todos los permisos.")
+                }
+        }
+    }
+
 }

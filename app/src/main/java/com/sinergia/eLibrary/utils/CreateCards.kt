@@ -1,6 +1,7 @@
 package com.sinergia.eLibrary.utils
 
 import android.content.Context
+import android.net.Uri
 import android.view.Gravity
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -8,6 +9,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getColor
+import com.bumptech.glide.Glide
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.data.Model.Resource
 
@@ -57,7 +59,17 @@ class CreateCards {
             leftMargin = 10
         }
         resourceImage.layoutParams = imageParams
-        resourceImage.setImageResource(R.drawable.biblioteca)
+        if(resource.imageUri != "noImage"){
+            Glide
+                .with(context)
+                .load(Uri.parse(resource.imageUri))
+                .fitCenter()
+                .centerCrop()
+                .into(resourceImage)
+        } else {
+            resourceImage.setImageResource(R.drawable.biblioteca)
+        }
+
 
         // CARD SEPARATOR
         var separator = LinearLayout(context)

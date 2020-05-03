@@ -13,9 +13,14 @@ class NeLSProject: Application() {
         var currentLibrary: Library?= null
         var currentResource: Resource ?= null
 
-        val CAMERA_PERMISSIONS_CODE = 1
-        val CAMERA_INTENT_CODE = 2
-        val GALLERY_INTETN_CODE = 3
+        var cameraPermissionGranted = false
+        var storagePermissionGranted = false
+
+        val CAMERA_PERMISSIONS_CODE = 10
+        val READ_STORAGE_PERMISSIONS_CODE = 11
+        val WRITE_STORAGE_PERMISSIONS_CODE = 12
+        val CAMERA_INTENT_CODE = 20
+        val GALLERY_INTENT_CODE = 21
     }
 
 

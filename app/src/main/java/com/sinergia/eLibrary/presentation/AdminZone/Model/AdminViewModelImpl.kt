@@ -1,5 +1,6 @@
 package com.sinergia.eLibrary.presentation.AdminZone.Model
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.GeoPoint
 import com.sinergia.eLibrary.data.Model.*
@@ -12,6 +13,7 @@ class AdminViewModelImpl: ViewModel(), AdminViewModel {
     val reserveUseCases = ReserveUseCases()
     val loanUseCases = LoanUseCases()
     val userUseCases = UserUseCases()
+    val fileUseCases = FileUseCases()
 
     // RESOURCES METHODS
     override suspend fun addNewResource(
@@ -38,6 +40,10 @@ class AdminViewModelImpl: ViewModel(), AdminViewModel {
         resourceUseCase.setResource(resource)
     }
 
+    override suspend fun setResourceImage(resourceId: String, resourceImageURI: Uri): Uri {
+        return fileUseCases.uploadResourceImage(resourceId, resourceImageURI)
+    }
+
     override suspend fun getAllLibraries(): ArrayList<Library> {
         return libraryUseCases.getAllLibraries()
     }
@@ -53,6 +59,10 @@ class AdminViewModelImpl: ViewModel(), AdminViewModel {
 
     override suspend fun setLibrary(library: Library) {
         libraryUseCases.setLibrary(library)
+    }
+
+    override suspend fun setLibraryImage(libraryId: String, libraryImageURI: Uri): Uri {
+        return fileUseCases.uploadLibraryImage(libraryId, libraryImageURI)
     }
 
     // RESERVE AND LOAN METHODS

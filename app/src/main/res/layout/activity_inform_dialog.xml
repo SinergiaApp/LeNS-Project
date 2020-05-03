@@ -23,7 +23,7 @@
         >
 
         <TextView
-            android:id="@+id/confirm_dialog_title"
+            android:id="@+id/inform_dialog_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TITULO DIALOGO"
@@ -38,10 +38,10 @@
             android:background="@color/colorWhite"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
-        />
+            />
 
         <TextView
-            android:id="@+id/confirm_dialog_description"
+            android:id="@+id/inform_dialog_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorWhite"
@@ -58,7 +58,7 @@
             android:paddingTop="20dp">
 
             <Button
-                android:id="@+id/confirm_dialog_accept_btn"
+                android:id="@+id/inform_dialog_accept_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -66,16 +66,6 @@
                 android:text="@string/BTN_ACCEPT"
                 android:textSize="25dp"
                 android:layout_marginRight="20dp"
-                />
-
-            <Button
-                android:id="@+id/confirm_dialog_cancel_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/style_dialog_button"
-                android:text="@string/BTN_CANCEL"
-                android:textSize="25dp"
                 />
 
         </LinearLayout>

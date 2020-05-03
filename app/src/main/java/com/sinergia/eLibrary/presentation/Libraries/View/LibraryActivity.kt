@@ -1,9 +1,11 @@
 package com.sinergia.eLibrary.presentation.Libraries.View
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
+import com.bumptech.glide.Glide
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.data.Model.Library
@@ -13,6 +15,7 @@ import com.sinergia.eLibrary.presentation.Libraries.Model.LibraryViewModelImpl
 import com.sinergia.eLibrary.presentation.Libraries.Presenter.LibraryPresenter
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import com.sinergia.eLibrary.presentation.NeLSProject
+import kotlinx.android.synthetic.main.activity_account.*
 import kotlinx.android.synthetic.main.activity_catalog.*
 import kotlinx.android.synthetic.main.activity_library.*
 import kotlinx.android.synthetic.main.layout_headder_bar.*
@@ -77,6 +80,15 @@ class LibraryActivity : BaseActivity(), LibraryContract.LibraryView {
 
         library_name.text =  library?.name
         library_address.text = library?.address
+
+        if(library!!.imageUri != "noImage"){
+            Glide
+                .with(this)
+                .load(Uri.parse(library!!.imageUri))
+                .fitCenter()
+                .centerCrop()
+                .into(library_image)
+        }
 
     }
 

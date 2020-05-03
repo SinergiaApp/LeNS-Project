@@ -12,6 +12,7 @@ data class Resource(
     var likes: MutableList<String> = mutableListOf(),
     var dislikes: MutableList<String> = mutableListOf(),
     var isOnline: Boolean = false,
-    var urlOnline: String = ""
+    var urlOnline: String = "",
+    var imageUri: String = "noImage"
 
 )

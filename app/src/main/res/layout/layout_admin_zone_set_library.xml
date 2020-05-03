@@ -186,17 +186,39 @@
                 app:indicatorColor="@color/colorBlack" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/admin_zone_setLibrary_btn"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/style_main_button"
-            android:fontFamily="Verdana"
-            android:text="MODIFICAR BIBLIOTECA"
-            android:textColor="@color/colorWhite"
-            android:enabled="false"
-            android:clickable="false"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/admin_zone_setLibrary_btn"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:background="@drawable/style_main_button"
+                android:fontFamily="Verdana"
+                android:text="@string/BTN_UPDATE"
+                android:textColor="@color/colorWhite"
+                android:enabled="false"
+                android:clickable="false"/>
+            <Button
+                android:id="@+id/admin_zone_setLibraryImage_btn"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:background="@drawable/style_main_button"
+                android:fontFamily="Verdana"
+                android:text="@string/BTN_UPDATEIMAGE"
+                android:textColor="@color/colorWhite"
+                android:enabled="false"
+                android:clickable="false"/>
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

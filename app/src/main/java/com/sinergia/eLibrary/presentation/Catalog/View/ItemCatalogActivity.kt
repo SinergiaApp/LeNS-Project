@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.RadioButton
 import androidx.lifecycle.ViewModelProviders
+import com.bumptech.glide.Glide
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.data.Model.Library
@@ -16,6 +17,7 @@ import com.sinergia.eLibrary.presentation.Catalog.Presenter.ItemCatalogPresenter
 import com.sinergia.eLibrary.presentation.Dialogs.ConfirmDialog.ConfirmDialogActivity
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import com.sinergia.eLibrary.presentation.NeLSProject
+import kotlinx.android.synthetic.main.activity_account.*
 import kotlinx.android.synthetic.main.activity_item_catalog.*
 import kotlinx.android.synthetic.main.layout_headder_bar.*
 import com.sinergia.eLibrary.data.Model.Resource as Resource
@@ -168,6 +170,16 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
     override fun initItemCatalogContent(resource: Resource?, libraries: ArrayList<Library>?) {
 
         this.currentResource = resource
+
+        if(currentResource!!.imageUri != "noImage"){
+            Glide
+                .with(this)
+                .load(Uri.parse(currentResource!!.imageUri))
+                .fitCenter()
+                .centerCrop()
+                .into(item_catalog_image)
+        }
+
         item_catalog_title.text = resource?.title
         item_catalog_isbn.text = "ISBN: \n" + resource?.isbn
         item_catalog_author.text = "Autor: \n" + resource?.author

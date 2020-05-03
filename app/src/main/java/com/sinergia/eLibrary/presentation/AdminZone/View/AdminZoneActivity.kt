@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
@@ -27,6 +28,7 @@ import com.sinergia.eLibrary.presentation.AdminZone.Model.AdminViewModelImpl
 import com.sinergia.eLibrary.presentation.CameraScan.View.CameraScanActivity
 import com.sinergia.eLibrary.presentation.Catalog.View.CatalogActivity
 import com.sinergia.eLibrary.presentation.Dialogs.ConfirmDialog.ConfirmDialogActivity
+import com.sinergia.eLibrary.presentation.Dialogs.ConfirmDialog.InformDialogActivity
 import com.sinergia.eLibrary.presentation.Libraries.View.LibraiesActivity
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import com.sinergia.eLibrary.presentation.NeLSProject
@@ -46,7 +48,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
     private lateinit var getedResource: Resource
 
     private lateinit var fillField: String
-    private var cameraPermissionGranted = false
+    private lateinit var sourceImage: String
     private var buttonRequestCameraPermission = false
 
     private var reserveChecked: Reserve ?= null
@@ -71,6 +73,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         admin_zone_setBookSearch_btn.setOnClickListener { getResourceToModify() }
         admin_zone_setResourceButton.setOnClickListener { showHideSetResource() }
         admin_zone_setResource_btn.setOnClickListener { setResource() }
+        admin_zone_setResourceImage_btn.setOnClickListener { uploadImageFromGallery("setResourceImage") }
 
         admin_zone_addLibraryButton.setOnClickListener { showHideAddLibrary() }
         admin_zone_addNewLibraryButton.setOnClickListener { createNewLibrary() }
@@ -79,6 +82,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         admin_zone_setLibrarySearch_btn.setOnClickListener { getLibraryToModify() }
         admin_zone_setLibraryButton.setOnClickListener { showHideSetLibrary() }
         admin_zone_setLibrary_btn.setOnClickListener { setLibrary() }
+        admin_zone_setLibraryImage_btn.setOnClickListener { uploadImageFromGallery("setLibraryImage") }
 
         admin_zone_loanManagementButton.setOnClickListener { showHideLoans() }
         admin_zone_loansSearch_btn.setOnClickListener { getUserLoansAndReserves() }
@@ -103,7 +107,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
 
         fillField = field
 
-        if(cameraPermissionGranted){
+        if(NeLSProject.cameraPermissionGranted){
             val scanIntent = Intent(this, CameraScanActivity::class.java)
             startActivityForResult(scanIntent, NeLSProject.CAMERA_INTENT_CODE)
         } else {
@@ -117,23 +121,69 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         val permissionStatus = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
 
         if(permissionStatus == PackageManager.PERMISSION_GRANTED ) {
-            cameraPermissionGranted = true
+            NeLSProject.cameraPermissionGranted = true
         } else {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), NeLSProject.CAMERA_PERMISSIONS_CODE)
         }
     }
 
+    override fun checkAndSetGalleryPermissions() {
+        val permissionStatusRead = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+        val permissionStatusWrite = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+        if(permissionStatusRead == PackageManager.PERMISSION_GRANTED && permissionStatusWrite == PackageManager.PERMISSION_GRANTED) {
+            NeLSProject.storagePermissionGranted = true
+        } else {
+            if (permissionStatusRead != PackageManager.PERMISSION_GRANTED) ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), NeLSProject.READ_STORAGE_PERMISSIONS_CODE)
+            if (permissionStatusWrite != PackageManager.PERMISSION_GRANTED) ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), NeLSProject.WRITE_STORAGE_PERMISSIONS_CODE)
+        }
+    }
+
+    // GALLERY METHODS
+    override fun uploadImageFromGallery(source: String) {
+
+        sourceImage = source
+
+        if(NeLSProject.storagePermissionGranted){
+            val galleryIntent = Intent(Intent.ACTION_PICK)
+            galleryIntent.type = "image/*"
+            startActivityForResult(galleryIntent, NeLSProject.GALLERY_INTENT_CODE)
+        } else {
+            toastL(this, "Por favor permite que la app acceda al almacenamiento del dispositivo.")
+            checkAndSetGalleryPermissions()
+        }
+
+    }
+
+    // ACTICITY RESULTS METHODS
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == NeLSProject.CAMERA_INTENT_CODE && resultCode == Activity.RESULT_OK){
+        if (requestCode == NeLSProject.CAMERA_INTENT_CODE && resultCode == Activity.RESULT_OK) {
 
-            if(data != null){
-                var resultBarCode = data.getStringExtra("codigo")
-                if(fillField == "setResource") admin_zone_setBookSearch.setText(resultBarCode)
-                if(fillField == "setLibrary") admin_zone_setLibrarySearch.setText(resultBarCode)
-                if(fillField == "loansManagement") admin_zone_loansSearch.setText(resultBarCode)
+            if (data != null) {
+                val resultBarCode = data.getStringExtra("codigo")
+                if (fillField == "setResource") admin_zone_setBookSearch.setText(resultBarCode)
+                if (fillField == "setLibrary") admin_zone_setLibrarySearch.setText(resultBarCode)
+                if (fillField == "loansManagement") admin_zone_loansSearch.setText(resultBarCode)
             } else {
                 toastL(this, "Imposible leer el código, vuelve a intentarlo.")
+            }
+
+        }
+
+        if (requestCode == NeLSProject.GALLERY_INTENT_CODE && resultCode == Activity.RESULT_OK) {
+
+            if (data != null) {
+                if (sourceImage == "setLibraryImage") {
+                    val imageURI: Uri = data.data!!
+                    adminPresenter.setLibraryImage(imageURI)
+                }
+                if (sourceImage == "setResourceImage") {
+                    val imageURI: Uri = data.data!!
+                    adminPresenter.setResourceImage(imageURI)
+                }
+            } else {
+                toastL(this, "Imposible cargar imagen, vuelve a intentarlo.")
             }
 
         }
@@ -144,9 +194,27 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
             NeLSProject.CAMERA_PERMISSIONS_CODE ->
                 if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (buttonRequestCameraPermission) startScan(fillField)
-                    cameraPermissionGranted = true
+                    NeLSProject.cameraPermissionGranted = true
                 } else {
-                    toastL(this, "El escaneo no se podrá llevar a cabo hasta que no concedas los permisos de usar la cámara.")
+                    toastL(this, "El escaneo no se podrá llevar a cabo hasta que concedas los permisos de usar la cámara.")
+                }
+            NeLSProject.READ_STORAGE_PERMISSIONS_CODE ->
+                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    NeLSProject.storagePermissionGranted = (
+                        ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                        ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                    )
+                } else {
+                    toastL(this, "No se podrá acceder al almacenamiento del dispositivo hasta que concedas todos los permisos.")
+                }
+            NeLSProject.WRITE_STORAGE_PERMISSIONS_CODE ->
+                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    NeLSProject.storagePermissionGranted = (
+                        ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                        ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                    )
+                } else {
+                    toastL(this, "No se podrá acceder al almacenamiento del dispositivo hasta que concedas todos los permisos.")
                 }
         }
     }
@@ -158,6 +226,23 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
 
     override fun showMessage(message: String) {
         toastL(this,message)
+    }
+
+    override fun informWithDialog(message: String) {
+        val informDialog = InformDialogActivity
+            .Buider()
+            .setTitleText("Información")
+            .setDescriptionText(message)
+            .setAcceptButtonText(getString(R.string.BTN_ACCEPT))
+            .buid()
+
+        informDialog.show(supportFragmentManager, "FinalizeLoanDialog")
+        informDialog.isCancelable = false
+        informDialog.setDialogOnClickButtonListener(object: InformDialogActivity.DialogOnClickButtonListener{
+            override fun clickAcceptButton() {
+                informDialog.dismiss()
+            }
+        })
     }
 
     override fun navigateToCatalog() {
@@ -277,14 +362,18 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
             admin_zone_setResourceProgressBar.visibility = View.INVISIBLE
         }
 
-        override fun enableSetResourceButton() {
+        override fun enableSetResourceButtons() {
             admin_zone_setResource_btn.isEnabled = true
             admin_zone_setResource_btn.isClickable = true
+            admin_zone_setResourceImage_btn.isEnabled = true
+            admin_zone_setResourceImage_btn.isClickable = true
         }
 
-        override fun disableSetResourceButton() {
+        override fun disableSetResourceButtons() {
             admin_zone_setResource_btn.isEnabled = false
             admin_zone_setResource_btn.isClickable = false
+            admin_zone_setResourceImage_btn.isEnabled = false
+            admin_zone_setResourceImage_btn.isClickable = false
         }
 
         override fun enableSearchResourceToModifyButton() {
@@ -313,7 +402,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         override fun initSetResourceContent(resource: Resource?, libraries: ArrayList<Library>?) {
 
             this.getedResource = resource!!
-            var autores: String = ""
+            var autores = ""
             for(autor in resource.author){
                 autores += "$autor;"
             }
@@ -385,9 +474,9 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
 
             } else {
 
-                var authors = author.split(";")
+                val authors = author.split(";")
 
-                var disponibility = mutableMapOf<String, Int>()
+                val disponibility = mutableMapOf<String, Int>()
                 for(view in admin_zone_setBookDisponibility.children){
                     if( view is EditText  ) {
                         val disp = view as EditText
@@ -508,14 +597,18 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
             admin_zone_setLibrarySearch_btn.isClickable = false
         }
 
-        override fun enableSetLibraryButton() {
+        override fun enableSetLibraryButtons() {
             admin_zone_setLibrary_btn.isEnabled = true
             admin_zone_setLibrary_btn.isClickable = true
+            admin_zone_setLibraryImage_btn.isEnabled = true
+            admin_zone_setLibraryImage_btn.isClickable = true
         }
 
-        override fun disableSetLibraryButton() {
+        override fun disableSetLibraryButtons() {
             admin_zone_setLibrary_btn.isEnabled = false
             admin_zone_setLibrary_btn.isClickable = false
+            admin_zone_setLibraryImage_btn.isEnabled = false
+            admin_zone_setLibraryImage_btn.isClickable = false
         }
 
         override fun showSetLibraryContent() {
@@ -699,7 +792,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         for(reserve in reserves){
 
             val reserveText = "ISBN: ${reserve.resourceId}.\nTítulo: ${reserve.resourceName}.\nBiblioteca: ${reserve.libraryId}."
-            var reserveRadio = RadioButton(this)
+            val reserveRadio = RadioButton(this)
             reserveRadio.text = reserveText
             reserveRadio.setOnClickListener { this.reserveChecked = reserve }
             admin_zone_loansContent_reserves_list.addView(reserveRadio)
@@ -711,7 +804,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         for(loan in loans){
 
             val loanText = "ISBN: ${loan.resourceId}.\nTítulo: ${loan.resourceName}.\nBiblioteca: ${loan.libraryId}."
-            var loanRadio = RadioButton(this)
+            val loanRadio = RadioButton(this)
             loanRadio.text = loanText
             loanRadio.setOnClickListener { this.loanChecked = loan }
             admin_zone_loansContent_loans_list.addView(loanRadio)
@@ -739,7 +832,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
                 .setCancelButtonText(getString(R.string.BTN_CANCEL))
                 .buid()
 
-            reserveDialog.show(supportFragmentManager!!, "InitLoanDialog")
+            reserveDialog.show(supportFragmentManager, "InitLoanDialog")
             reserveDialog.isCancelable = false
             reserveDialog.setDialogOnClickButtonListener(object: ConfirmDialogActivity.DialogOnClickButtonListener{
                 override fun clickAcceptButton() {

@@ -30,7 +30,6 @@ class FavouritesActivity : BaseActivity(), FavouritesContract.FavouritesView {
     private lateinit var favouritesPresenter: FavouritesContract.FavouritesPresenter
     private lateinit var favouritesViewModel: FavouritesViewModel
 
-    private var cameraPermissionGranted = false
     private var buttonRequestCameraPermission = false
 
     private val cardUtils = CreateCards()
@@ -72,7 +71,7 @@ class FavouritesActivity : BaseActivity(), FavouritesContract.FavouritesView {
 
     // CAMERA METHODS
     override fun startScan() {
-        if(cameraPermissionGranted){
+        if(NeLSProject.cameraPermissionGranted){
             val scanIntent = Intent(this, CameraScanActivity::class.java)
             startActivityForResult(scanIntent, NeLSProject.CAMERA_INTENT_CODE)
         } else {
@@ -86,7 +85,7 @@ class FavouritesActivity : BaseActivity(), FavouritesContract.FavouritesView {
         val permissionStatus = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
 
         if(permissionStatus == PackageManager.PERMISSION_GRANTED ) {
-            cameraPermissionGranted = true
+            NeLSProject.cameraPermissionGranted = true
         } else {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), NeLSProject.CAMERA_PERMISSIONS_CODE)
         }
@@ -111,7 +110,7 @@ class FavouritesActivity : BaseActivity(), FavouritesContract.FavouritesView {
             NeLSProject.CAMERA_PERMISSIONS_CODE ->
                 if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (buttonRequestCameraPermission) startScan()
-                    cameraPermissionGranted = true
+                    NeLSProject.cameraPermissionGranted = true
                 } else {
                     toastL(this, "El escaneo no se podrá llevar a cabo hasta que no concedas los permisos de usar la cámara.")
                 }

@@ -1,5 +1,6 @@
 package com.sinergia.eLibrary.presentation.AdminZone
 
+import android.net.Uri
 import com.google.firebase.firestore.GeoPoint
 import com.sinergia.eLibrary.data.Model.*
 
@@ -10,6 +11,7 @@ interface AdminZoneContract {
 
         fun showError(error: String?)
         fun showMessage(message: String)
+        fun informWithDialog(message: String)
 
         fun showHideAddResource()
         fun showAddResourceProgressBar()
@@ -23,8 +25,8 @@ interface AdminZoneContract {
         fun hideSetResourceProgressBar()
         fun enableSearchResourceToModifyButton()
         fun disableSearchResourceToModifyButton()
-        fun enableSetResourceButton()
-        fun disableSetResourceButton()
+        fun enableSetResourceButtons()
+        fun disableSetResourceButtons()
         fun showSetResouceContent()
         fun getResourceToModify()
         fun initSetResourceContent(resource: Resource?, libraries: ArrayList<Library>?)
@@ -42,8 +44,8 @@ interface AdminZoneContract {
         fun hideSetLibraryProgressBar()
         fun enableSearchLibraryToModifyButton()
         fun disableSearchLibraryToModifyButton()
-        fun enableSetLibraryButton()
-        fun disableSetLibraryButton()
+        fun enableSetLibraryButtons()
+        fun disableSetLibraryButtons()
         fun showSetLibraryContent()
         fun getLibraryToModify()
         fun initLibraryContent(library: Library?)
@@ -74,6 +76,9 @@ interface AdminZoneContract {
         fun startScan(field: String)
         fun checkAndSetCamentaPermissions()
 
+        fun checkAndSetGalleryPermissions()
+        fun uploadImageFromGallery(source: String)
+
         fun navigateToCatalog()
         fun navigateToLibraries()
         fun navigateToAdminZone()
@@ -103,11 +108,13 @@ interface AdminZoneContract {
 
         fun getResourceToModify(isbn: String)
         fun setResource(resource: Resource)
+        fun setResourceImage(recourceImageUri: Uri)
 
         fun addNewLibrary(nombre: String, direccion: String, geopoint: GeoPoint)
 
         fun getLibraryToModify(id: String)
         fun setLibrary(library: Library)
+        fun setLibraryImage(libraryImageUri: Uri)
 
         fun checkEmptyAddResourceFields(titulo: String, autor: String, isbn: String, edicion: String, editorial: String, sinopsis: String): Boolean
         fun checkEmptyAddResourceTitle(titulo: String): Boolean

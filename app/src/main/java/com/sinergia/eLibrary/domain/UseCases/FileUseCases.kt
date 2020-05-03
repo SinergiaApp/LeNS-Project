@@ -11,4 +11,12 @@ class FileUseCases {
         return nelsStorage.uploadImage(owner, imageURI)
     }
 
+    suspend fun uploadLibraryImage(libraryId: String, libraryImageURI: Uri): Uri{
+        return nelsStorage.uploadLibraryImage(libraryId, libraryImageURI)
+    }
+
+    suspend fun uploadResourceImage(resourceId: String, resourceImageURI: Uri): Uri{
+        return nelsStorage.uploadLibraryImage(resourceId, resourceImageURI)
+    }
+
 }

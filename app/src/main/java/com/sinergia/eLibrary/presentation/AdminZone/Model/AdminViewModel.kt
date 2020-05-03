@@ -1,5 +1,6 @@
 package com.sinergia.eLibrary.presentation.AdminZone.Model
 
+import android.net.Uri
 import com.google.firebase.firestore.GeoPoint
 import com.sinergia.eLibrary.data.Model.*
 
@@ -20,6 +21,7 @@ interface AdminViewModel {
 
     suspend fun getResourceToModify(isbn: String): Resource?
     suspend fun setResource(resource: Resource)
+    suspend fun setResourceImage(resourceId: String, resourceImageURI: Uri): Uri
 
     suspend fun addNewLibrary(nombre: String, direccion: String, geopoint: GeoPoint)
 
@@ -27,6 +29,7 @@ interface AdminViewModel {
 
     suspend fun getLibraryToModify(id: String): Library?
     suspend fun setLibrary(library: Library)
+    suspend fun setLibraryImage(libraryId: String, libraryImageURI: Uri): Uri
 
     suspend fun getUserPendingLoans(email: String): ArrayList<Loan>
     suspend fun getUserPendingReserves(email: String): ArrayList<Reserve>
