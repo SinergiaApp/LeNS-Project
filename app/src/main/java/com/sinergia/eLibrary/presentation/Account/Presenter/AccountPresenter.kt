@@ -21,8 +21,8 @@ class AccountPresenter(accountViewModel: AccountViewModel, accountInteractor: Ac
     val TAG = "[ACCOUNT_ACTIVITY]"
 
     var view: AccountContract.AccountView ?= null
-    var accountViewModel: AccountViewModel ?= null
-    var accountInteractor: AccountInteractor ?= null
+    private var accountViewModel: AccountViewModel ?= null
+    private var accountInteractor: AccountInteractor ?= null
 
     private val accountJob = Job()
 
@@ -73,8 +73,10 @@ class AccountPresenter(accountViewModel: AccountViewModel, accountInteractor: Ac
 
     override fun updateAccount(newUserAccount: User) {
 
-        view?.disableAllButtons()
-        view?.showProgressBar()
+        if(isViewAttach()){
+            view?.disableAllButtons()
+            view?.showProgressBar()
+        }
 
         launch{
 
@@ -131,8 +133,10 @@ class AccountPresenter(accountViewModel: AccountViewModel, accountInteractor: Ac
 
     override fun deleteAccount(user: User) {
 
-        view?.disableAllButtons()
-        view?.showProgressBar()
+        if(isViewAttach()){
+            view?.disableAllButtons()
+            view?.showProgressBar()
+        }
 
         launch{
 
@@ -170,8 +174,10 @@ class AccountPresenter(accountViewModel: AccountViewModel, accountInteractor: Ac
 
     override fun uploadImage(imageURI: Uri) {
 
-        view?.disableAllButtons()
-        view?.showProgressBar()
+        if(isViewAttach()){
+            view?.disableAllButtons()
+            view?.showProgressBar()
+        }
 
         launch{
 

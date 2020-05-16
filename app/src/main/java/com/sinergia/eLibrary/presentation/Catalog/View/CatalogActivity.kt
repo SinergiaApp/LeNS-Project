@@ -5,18 +5,15 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.presentation.Catalog.CatalogContract
 import kotlinx.android.synthetic.main.activity_catalog.*
-import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import com.google.common.base.Strings
-import com.google.firebase.auth.FirebaseAuth
 import com.sinergia.eLibrary.data.Model.Resource
 import com.sinergia.eLibrary.presentation.CameraScan.View.CameraScanActivity
 import com.sinergia.eLibrary.presentation.Catalog.Model.CatalogViewModel
@@ -24,7 +21,7 @@ import com.sinergia.eLibrary.presentation.Catalog.Model.CatalogViewModelImpl
 import com.sinergia.eLibrary.presentation.Catalog.Presenter.CatalogPresenter
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import com.sinergia.eLibrary.presentation.NeLSProject
-import com.sinergia.eLibrary.utils.CreateCards
+import com.sinergia.eLibrary.base.utils.CreateCards
 import kotlinx.android.synthetic.main.layout_headder_bar.*
 import kotlin.collections.ArrayList
 

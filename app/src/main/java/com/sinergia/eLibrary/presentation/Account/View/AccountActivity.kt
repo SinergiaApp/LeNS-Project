@@ -84,6 +84,7 @@ class AccountActivity : BaseActivity(), AccountContract.AccountView {
         account_update_btn.isClickable = true
         account_delete_btn.isEnabled = true
         account_delete_btn.isClickable = true
+        account_userAvatar.isClickable = true
     }
 
     override fun disableAllButtons() {
@@ -91,6 +92,7 @@ class AccountActivity : BaseActivity(), AccountContract.AccountView {
         account_update_btn.isClickable = false
         account_delete_btn.isEnabled = false
         account_delete_btn.isClickable = false
+        account_userAvatar.isClickable = false
     }
 
     override fun initAccountContent() {
@@ -140,7 +142,8 @@ class AccountActivity : BaseActivity(), AccountContract.AccountView {
             NeLSProject.currentUser.reserves,
             NeLSProject.currentUser.loans,
             NeLSProject.currentUser.favorites,
-            NeLSProject.currentUser.admin
+            NeLSProject.currentUser.admin,
+            NeLSProject.currentUser.avatar
         )
 
         accountPresenter.updateAccount(newUserAccount)

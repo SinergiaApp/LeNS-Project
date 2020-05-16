@@ -21,7 +21,7 @@ import com.sinergia.eLibrary.presentation.Favourites.model.FavouritesViewModelIm
 import com.sinergia.eLibrary.presentation.Favourites.presenter.FavouritesPresenter
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import com.sinergia.eLibrary.presentation.NeLSProject
-import com.sinergia.eLibrary.utils.CreateCards
+import com.sinergia.eLibrary.base.utils.CreateCards
 import kotlinx.android.synthetic.main.activity_favourites.*
 import kotlinx.android.synthetic.main.layout_headder_bar.*
 

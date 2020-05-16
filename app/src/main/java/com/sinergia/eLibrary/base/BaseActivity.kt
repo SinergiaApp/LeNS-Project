@@ -33,7 +33,5 @@ abstract class BaseActivity: AppCompatActivity() {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
-
-
 }
 

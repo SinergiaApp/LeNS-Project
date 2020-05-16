@@ -1,4 +1,4 @@
-package com.sinergia.eLibrary.utils
+package com.sinergia.eLibrary.base.utils
 
 import android.content.Context
 import android.net.Uri
