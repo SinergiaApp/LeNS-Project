@@ -107,7 +107,11 @@ class CreateCards {
         resourceDescription.addView(title)
 
         val authors = TextView(context)
-        val authorstxt = resource.author.toString()
+        var authorstxt = ""
+        for(author in resource.author){
+            authorstxt += "$author, "
+        }
+        authorstxt = authorstxt.substring(0, authorstxt.length-2)
         authors.setText("Autores: $authorstxt.")
         authors.setTextColor(ContextCompat.getColor(context, R.color.colorWhite))
         resourceDescription.addView(authors)

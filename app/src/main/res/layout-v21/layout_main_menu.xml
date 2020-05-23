@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical|center_horizontal"
-            android:textSize="35sp"
+            android:textSize="30sp"
             android:textColor="@color/colorBlack"
             android:text="BIBLIOTECAS" />
 
@@ -57,7 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical|center_horizontal"
-            android:textSize="35sp"
+            android:textSize="30sp"
             android:textColor="@color/colorBlack"
             android:text="CATALOGO" />
 
@@ -84,7 +84,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical|center_horizontal"
-            android:textSize="35sp"
+            android:textSize="30sp"
             android:textColor="@color/colorBlack"
             android:text="FAVORITOS" />
 
@@ -111,9 +111,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical|center_horizontal"
-            android:textSize="35sp"
+            android:textSize="30sp"
             android:textColor="@color/colorBlack"
-            android:text="NEURO LINGÜÍSTICA" />
+            android:text="NEUROLINGÜÍSTICA" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -138,7 +138,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical|center_horizontal"
-            android:textSize="35sp"
+            android:textSize="30sp"
             android:textColor="@color/colorBlack"
             android:text="MI CUENTA" />
 
@@ -166,7 +166,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical|center_horizontal"
-            android:textSize="35sp"
+            android:textSize="30sp"
             android:textColor="@color/colorBlack"
             android:text="ZONA GERENCIA" />
 

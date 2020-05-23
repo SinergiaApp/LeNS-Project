@@ -146,7 +146,7 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
                     .setCancelButtonText("CANCELAR")
                     .buid()
 
-                reserveDialog.show(supportFragmentManager!!, "ReserveDialog")
+                reserveDialog.show(supportFragmentManager, "ReserveDialog")
                 reserveDialog.isCancelable = false
                 reserveDialog.setDialogOnClickButtonListener(object: ConfirmDialogActivity.DialogOnClickButtonListener{
                     override fun clickAcceptButton() {
@@ -180,12 +180,18 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
                 .into(item_catalog_image)
         }
 
+        var authors = ""
+        for(author in currentResource!!.author){
+            authors += "$author, "
+        }
+        authors = authors.substring(0, authors.length-2)
+
         item_catalog_title.text = resource?.title
-        item_catalog_isbn.text = "ISBN: \n" + resource?.isbn
-        item_catalog_author.text = "Autor: \n" + resource?.author
-        item_catalog_publisher.text = "Editorioal: \n" + resource?.publisher
-        item_catalog_edition.text = "Edición: \n" + resource?.edition
-        item_catalog_sinopsis.text = "Sinopsis: \n" + resource?.sinopsis
+        item_catalog_isbn.text = "ISBN: \n ${resource?.isbn}"
+        item_catalog_author.text = "Autor: \n $authors"
+        item_catalog_publisher.text = "Editorioal: \n ${resource?.publisher}"
+        item_catalog_edition.text = "Edición: \n ${resource?.edition}"
+        item_catalog_sinopsis.text = "Sinopsis: \n ${resource?.sinopsis}"
         item_catalog_likes.text = resource?.likes?.size.toString()
         item_catalog_dislikes.text = resource?.dislikes?.size.toString()
 

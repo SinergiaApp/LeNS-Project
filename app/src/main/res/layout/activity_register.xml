@@ -174,13 +174,13 @@
 
 
                     <ImageView
-                        android:id="@+id/sssss"
+                        android:id="@+id/register_nificon"
                         android:layout_width="30dp"
                         android:layout_height="41dp"
                         android:layout_marginStart="8dp"
                         app:layout_constraintStart_toStartOf="@+id/register_nif"
                         app:layout_constraintTop_toBottomOf="@+id/usernifExplainText"
-                        app:srcCompat="@drawable/icon_mail" />
+                        app:srcCompat="@drawable/icon_nif" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

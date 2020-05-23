@@ -54,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
+            android:gravity="center_vertical|center_horizontal"
             android:paddingTop="20dp">
 
             <Button
@@ -64,7 +64,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/style_dialog_button"
                 android:text="@string/BTN_ACCEPT"
-                android:textSize="25dp"
+                android:textSize="20dp"
                 android:layout_marginRight="20dp"
                 />
 

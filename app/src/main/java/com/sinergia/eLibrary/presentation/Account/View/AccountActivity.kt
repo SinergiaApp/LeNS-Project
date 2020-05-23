@@ -209,15 +209,12 @@ class AccountActivity : BaseActivity(), AccountContract.AccountView {
     // ACTICITY RESULTS METHODS
     override fun checkAndSetGalleryPermissions() {
         val permissionStatusRead = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-        val permissionStatusWrite = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
-        if(permissionStatusRead == PackageManager.PERMISSION_GRANTED && permissionStatusWrite == PackageManager.PERMISSION_GRANTED) {
+        if(permissionStatusRead == PackageManager.PERMISSION_GRANTED) {
             NeLSProject.storagePermissionGranted = true
         } else {
             if (permissionStatusRead != PackageManager.PERMISSION_GRANTED) ActivityCompat.requestPermissions(this, arrayOf(
                 Manifest.permission.READ_EXTERNAL_STORAGE), NeLSProject.READ_STORAGE_PERMISSIONS_CODE)
-            if (permissionStatusWrite != PackageManager.PERMISSION_GRANTED) ActivityCompat.requestPermissions(this, arrayOf(
-                Manifest.permission.WRITE_EXTERNAL_STORAGE), NeLSProject.WRITE_STORAGE_PERMISSIONS_CODE)
         }
     }
 
@@ -238,18 +235,7 @@ class AccountActivity : BaseActivity(), AccountContract.AccountView {
             NeLSProject.READ_STORAGE_PERMISSIONS_CODE ->
                 if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     NeLSProject.storagePermissionGranted = (
-                            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
-                                    ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                            )
-                } else {
-                    toastL(this, "No se podrá acceder al almacenamiento del dispositivo hasta que concedas todos los permisos.")
-                }
-            NeLSProject.WRITE_STORAGE_PERMISSIONS_CODE ->
-                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    NeLSProject.storagePermissionGranted = (
-                            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
-                                    ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                            )
+                            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
                 } else {
                     toastL(this, "No se podrá acceder al almacenamiento del dispositivo hasta que concedas todos los permisos.")
                 }
