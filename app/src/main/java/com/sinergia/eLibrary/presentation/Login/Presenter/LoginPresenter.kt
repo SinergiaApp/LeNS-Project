@@ -1,6 +1,7 @@
 package com.sinergia.eLibrary.presentation.Login.Presenter
 
 import android.util.Log
+import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.domain.interactors.LoginInteractor.LoginInteractor
 import com.sinergia.eLibrary.base.Exceptions.FirebaseLoginException
 import com.sinergia.eLibrary.presentation.Login.LoginContract
@@ -73,10 +74,11 @@ class LoginPresenter(loginInteractor: LoginInteractor, loginViewModel: LoginView
                     val currentUser = loginViewModel?.getCurrentUser(email)
                     NeLSVars.adminUser = currentUser!!.admin
                     NeLSVars.currentUser = currentUser
+
                 }catch (error: FirebaseGetUserException){
 
                     val errorMsg = error.message
-                    if(isViewAttach()) view?.showError("No se ha podido recuperar tu usuario de la base de datos.")
+                    if(isViewAttach()) view?.showError(R.string.ERR_LOGIN)
 
                     Log.d(TAG, "ERROR: Cannot get user with email $email --> $errorMsg")
                 }
@@ -86,6 +88,7 @@ class LoginPresenter(loginInteractor: LoginInteractor, loginViewModel: LoginView
                     view?.hideProgressBar()
                     view?.enableLoginButton()
                     view?.navigateToMainPage()
+                    view?.showMessage(R.string.MSG_LOGIN)
 
                     Log.d(TAG, "Succesfully logged User -> ${NeLSVars.currentUser.toString()}.")
                 }
@@ -93,7 +96,7 @@ class LoginPresenter(loginInteractor: LoginInteractor, loginViewModel: LoginView
 
                 val errorMsg = error.message
                 if(isViewAttach()) {
-                    view?.showError(errorMsg)
+                    view?.showError(R.string.ERR_LOGIN)
                     view?.hideProgressBar()
                     view?.enableLoginButton()
                 }

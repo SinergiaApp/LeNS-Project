@@ -3,9 +3,10 @@ package com.sinergia.eLibrary.data.NeLS_DataBase
 import android.net.Uri
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import com.sinergia.eLibrary.base.Exceptions.FirebaseStorageGetDownloadURIException
-import com.sinergia.eLibrary.base.Exceptions.FirebaseStorageUploadImageException
+import com.sinergia.eLibrary.base.Exceptions.*
+import com.sinergia.eLibrary.data.Model.Article
 import kotlinx.coroutines.suspendCancellableCoroutine
+import java.io.File
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -126,6 +127,88 @@ class NelsStorage {
                 }
 
             }
+    }
+
+    suspend fun uploadArticle(articleId: String, articleUri: Uri): Uri = suspendCancellableCoroutine { uploadArticleContinuation ->
+
+        nelsStorage
+            .child("articles/$articleId")
+            .putFile(articleUri)
+            .addOnCompleteListener { uploadArticle ->
+
+                if(uploadArticle.isSuccessful){
+
+                    nelsStorage
+                        .child("resourceImages/$articleId")
+                        .downloadUrl
+                        .addOnCompleteListener{ downloadUri ->
+
+                            if(downloadUri.isSuccessful){
+                                uploadArticleContinuation.resume(downloadUri.result!!)
+                            } else {
+                                uploadArticleContinuation.resumeWithException(
+                                    FirebaseStorageGetDownloadURIException(
+                                        downloadUri.exception?.message.toString()
+                                    )
+                                )
+                            }
+
+                        }
+
+                } else {
+                    uploadArticleContinuation.resumeWithException(
+                        FirebaseStorageUploadArticleException(
+                            uploadArticle.exception?.message.toString()
+                        )
+                    )
+                }
+
+            }
+
+    }
+
+    suspend fun downloadArticle(article: Article): Unit = suspendCancellableCoroutine { downloadArticleContinuation ->
+
+        var localFile: File = File.createTempFile("documents", "pdf")
+
+        nelsStorage
+            .child("articles/${article.id}")
+            .getFile(localFile)
+            .addOnCompleteListener{ downloadArticle ->
+
+                if(downloadArticle.isSuccessful){
+                    downloadArticleContinuation.resume(Unit)
+                } else {
+                    downloadArticleContinuation.resumeWithException(
+                        FirebaseStorageDownload(
+                            downloadArticle.exception?.message.toString()
+                        )
+                    )
+                }
+
+            }
+
+    }
+
+    suspend fun deleteArticle(articleId: String): Unit = suspendCancellableCoroutine { deleteArticleContinuation ->
+
+        nelsStorage
+            .child("articles/$articleId")
+            .delete()
+            .addOnCompleteListener { deleteArticle ->
+
+                if(deleteArticle.isSuccessful){
+                    deleteArticleContinuation.resume(Unit)
+                } else {
+                    deleteArticleContinuation.resumeWithException(
+                        FirebaseStorageDeleteException(
+                            deleteArticle.exception?.message.toString()
+                        )
+                    )
+                }
+
+            }
+
     }
 
 }

@@ -53,8 +53,16 @@ class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
         toastS(this, error)
     }
 
+    override fun showError(error: Int) {
+        toastL(this, getString(error))
+    }
+
     override fun showMessage(message: String) {
         toastS(this, message)
+    }
+
+    override fun showMessage(message: Int) {
+        toastL(this, getString(message))
     }
 
     override fun showProgressBar() {
@@ -102,7 +110,7 @@ class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
                 register_email.error = "¡Cuidado! El campo 'Correo Electrónico' es obligatorio."
             }
             if (registerPresenter.checkEmptyRegisterNIF(nif)) {
-                register_lastname.error = "¡Cuidado! El campo 'NIF' es obligatorio."
+                register_nif.error = "¡Cuidado! El campo 'NIF' es obligatorio."
             }
             if (registerPresenter.checkEmptyRegisterPassword(password)) {
                 register_password.error = "¡Cuidado! El campo 'Contraseña' es obligatorio"

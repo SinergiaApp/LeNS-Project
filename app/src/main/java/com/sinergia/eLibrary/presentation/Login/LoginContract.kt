@@ -7,6 +7,8 @@ interface LoginContract {
 
         fun showError(error: String?)
         fun showMessage(message: String)
+        fun showError(error: Int)
+        fun showMessage(message: Int)
         fun showProgressBar()
         fun hideProgressBar()
         fun enableLoginButton()

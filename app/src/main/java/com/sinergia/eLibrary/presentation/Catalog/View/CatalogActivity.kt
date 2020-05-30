@@ -45,6 +45,7 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
 
         page_title.text = getPageTitle()
         menu_button.setOnClickListener { startActivity(Intent(this, MainMenuActivity::class.java)) }
+
         catalog_search_btn.setOnClickListener {
             if(Strings.isNullOrEmpty(catalog_search.text.toString())){
                 catalogPresenter.getAllResourcesToCatalog()

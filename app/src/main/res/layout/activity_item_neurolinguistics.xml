@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@drawable/background_page_gray"
+    tools:context=".presentation.Neurolinguistics.View.ItemNeurolinguisticsActivity">
+
+    <include layout="@layout/layout_headder_bar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:padding="20dp">
+
+            <com.wang.avi.AVLoadingIndicatorView
+                android:id="@+id/item_neuro_progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/AVLoadingIndicatorView.Large"
+                android:visibility="gone"
+                android:layout_margin="20dp"
+                app:indicatorName="BallPulseIndicator"
+                app:indicatorColor="@color/colorBlack" />
+
+            <TextView
+                android:id="@+id/item_neuro_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:text="Título del Artículo"
+                android:textAlignment="center"
+                android:textSize="30dp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/style_list_item_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/item_neuro_issn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="ISSN del Arículo."
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/item_neuro_authors"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="Autores del Artículo."
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/item_neuro_source"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="Fuente del Artículo."
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/item_neuro_edition"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="Edición del Artículo."
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/item_neuro_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="Descripción del Artículo."
+                    android:textSize="15dp" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/item_neuro_download_btn"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:background="@drawable/style_main_button"
+                android:fontFamily="Verdana"
+                android:text="@string/BTN_DOWNLOAD"
+                android:textColor="@color/colorWhite"
+                android:layout_margin="20dp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal|center_vertical">
+
+                <Button
+                    android:id="@+id/item_neuro_set_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/style_main_button"
+                    android:fontFamily="Verdana"
+                    android:text="@string/BTN_UPDATE"
+                    android:layout_marginRight="10dp"
+                    android:textColor="@color/colorWhite"
+                    />
+
+                <Button
+                    android:id="@+id/item_neuro_delete_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/style_main_button_danger"
+                    android:fontFamily="Verdana"
+                    android:text="@string/BTN_DETETE"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/colorWhite"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

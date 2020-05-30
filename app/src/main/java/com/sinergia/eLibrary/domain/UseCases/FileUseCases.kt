@@ -1,6 +1,7 @@
 package com.sinergia.eLibrary.domain.UseCases
 
 import android.net.Uri
+import com.sinergia.eLibrary.data.Model.Article
 import com.sinergia.eLibrary.data.NeLS_DataBase.NelsStorage
 
 class FileUseCases {
@@ -17,6 +18,18 @@ class FileUseCases {
 
     suspend fun uploadResourceImage(resourceId: String, resourceImageURI: Uri): Uri{
         return nelsStorage.uploadLibraryImage(resourceId, resourceImageURI)
+    }
+
+    suspend fun uploadArticle(articleId: String, articleUri: Uri): Uri{
+        return nelsStorage.uploadArticle(articleId, articleUri)
+    }
+
+    suspend fun downloadArticle(article: Article){
+        return nelsStorage.downloadArticle(article)
+    }
+
+    suspend fun deleteArticle(articleId: String){
+        return nelsStorage.deleteArticle(articleId)
     }
 
 }

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_page_gray"
+    tools:context=".presentation.Neurolinguistics.View.NeurolinguisticsActivity">
+
+    <ImageView
+        android:id="@+id/neuro_upload_btn"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:elevation="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/icon_upload" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include layout="@layout/layout_headder_bar" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:padding="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal">
+
+                        <EditText
+                            android:id="@+id/neuro_search"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginStart="0dp"
+                            android:layout_marginTop="1dp"
+                            android:background="@drawable/style_edit_text_login_register"
+                            android:ems="10"
+                            android:fontFamily="verdana"
+                            android:hint="Nombre del Artículo"
+                            android:inputType="text"
+                            android:paddingStart="50dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/neuro_search_icon"
+                            android:layout_width="30dp"
+                            android:layout_height="41dp"
+                            android:layout_alignStart="@+id/neuro_search"
+                            android:layout_alignTop="@+id/neuro_search"
+                            android:layout_marginStart="7dp"
+                            android:layout_marginTop="-2dp"
+                            app:layout_constraintStart_toStartOf="@+id/neuro_search"
+                            app:srcCompat="@drawable/icon_book" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal">
+
+                        <Button
+                            android:id="@+id/neuro_search_btn"
+                            android:layout_width="220dp"
+                            android:layout_height="52dp"
+                            android:layout_marginTop="19dp"
+                            android:layout_marginBottom="20dp"
+                            android:background="@drawable/style_main_button"
+                            android:fontFamily="Verdana"
+                            android:text="@string/BTN_SEARCH_ARTICLE"
+                            android:textColor="@color/colorWhite" />
+
+                        <com.wang.avi.AVLoadingIndicatorView
+                            android:id="@+id/neuro_progressBar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/AVLoadingIndicatorView.Large"
+                            android:visibility="gone"
+                            android:layout_margin="20dp"
+                            app:indicatorName="BallPulseIndicator"
+                            app:indicatorColor="@color/colorBlack" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/neuro_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

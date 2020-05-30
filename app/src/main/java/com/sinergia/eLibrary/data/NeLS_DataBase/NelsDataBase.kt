@@ -659,4 +659,104 @@ class NelsDataBase {
 
     }
 
+
+    // ARTICLE MEHTODS
+    suspend fun getAllArticles(): ArrayList<Article> = suspendCancellableCoroutine { getAllArticlesContunuation ->
+
+        var articlesList = arrayListOf<Article>()
+
+        nelsDB
+            .collection("loans")
+            .get()
+            .addOnCompleteListener {getAllArticles ->
+
+                if(getAllArticles.isSuccessful){
+
+                    for (article in getAllArticles.getResult()!!){
+
+                        val inputArticle = article.toObject(Article::class.java)
+                        inputArticle.id = article.id
+                        articlesList.add(inputArticle)
+
+                    }
+
+                    getAllArticlesContunuation.resume(articlesList)
+
+                } else {
+                    getAllArticlesContunuation.resumeWithException(
+                        FirebaseGetAllArticlesException(
+                            getAllArticles.exception?.message.toString()
+                        )
+                    )
+                }
+
+            }
+
+    }
+
+    suspend fun newArticle(newArticle: Article): Unit = suspendCancellableCoroutine { newArticleContinuation ->
+
+        nelsDB
+            .collection("articles")
+            .add(newArticle)
+            .addOnCompleteListener { addArticle ->
+
+                if(addArticle.isSuccessful){
+                    newArticleContinuation.resume(Unit)
+                } else {
+                    newArticleContinuation.resumeWithException(
+                        FirebaseAddArticleException(
+                            addArticle.exception?.message.toString()
+                        )
+                    )
+                }
+
+            }
+
+    }
+
+    suspend fun setArticle(settedArticle: Article): Unit = suspendCancellableCoroutine { setArticleContinuation ->
+
+        nelsDB
+            .document("articles/${settedArticle.id}")
+            .set(settedArticle)
+            .addOnCompleteListener { setArticle ->
+
+                if(setArticle.isSuccessful){
+                    setArticleContinuation.resume(Unit)
+                } else {
+                    setArticleContinuation.resumeWithException(
+                        FirebaseSetArticleException(
+                            setArticle.exception?.message.toString()
+                        )
+                    )
+                }
+
+            }
+
+    }
+
+    suspend fun deleteArticle(article: Article): Unit= suspendCancellableCoroutine { deleteArticleContinuation ->
+
+        nelsDB
+            .collection("articles")
+            .document(article.id)
+            .delete()
+            .addOnCompleteListener {deleteArticle ->
+
+                if(deleteArticle.isSuccessful){
+                    deleteArticleContinuation.resume(Unit)
+                } else {
+                    deleteArticleContinuation.resumeWithException(
+                        FirebaseDeleteArticleException(
+                            deleteArticle.exception?.message.toString()
+                        )
+                    )
+                }
+
+
+            }
+
+    }
+
 }

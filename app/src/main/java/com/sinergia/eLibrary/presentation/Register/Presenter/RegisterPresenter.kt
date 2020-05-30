@@ -1,6 +1,7 @@
 package com.sinergia.eLibrary.presentation.Register.Presenter
 
 import android.util.Log
+import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.domain.interactors.RegisterInteractor.RegisterInteractor
 import com.sinergia.eLibrary.base.Exceptions.FirebaseRegisterException
 import com.sinergia.eLibrary.base.Exceptions.FirebaseAddUserException
@@ -96,12 +97,14 @@ class RegisterPresenter(registerInteractor: RegisterInteractor, registerViewMode
             try {
                 registerInteractor?.register(newUser.name, newUser.email, password)
 
-                if(isViewAttach()){
+                Log.d(TAG, "Sucesfully register with email ${newUser.email}.")
+
+                if(isViewAttach()) {
                     view?.navigateToMainPage()
                     view?.hideProgressBar()
                     view?.enableRegisterButton()
-
-                    Log.d(TAG, "Sucesfully register with email ${newUser.email}.")
+                    view?.showMessage(R.string.MSG_REGISTER)
+                }
 
                     try {
 
@@ -118,11 +121,10 @@ class RegisterPresenter(registerInteractor: RegisterInteractor, registerViewMode
 
                     }
 
-                }
             }catch(error: FirebaseRegisterException){
 
                 val errorMsg = error.message
-                view?.showError(errorMsg)
+                view?.showError(R.string.ERR_REGISTER)
                 view?.hideProgressBar()
                 view?.enableRegisterButton()
 

@@ -17,7 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".presentation.Dialogs.ConfirmDialog.InformDialogActivity"></activity>
+        <activity android:name=".presentation.Neurolinguistics.View.ItemNeurolinguisticsActivity"></activity>
+        <activity android:name=".presentation.Neurolinguistics.View.NeurolinguisticsActivity" />
+        <activity android:name=".presentation.Dialogs.ConfirmDialog.InformDialogActivity" />
         <activity android:name=".presentation.Favourites.view.FavouritesActivity" />
         <activity android:name=".presentation.Dialogs.ConfirmDialog.ConfirmDialogActivity" />
         <activity android:name=".presentation.CameraScan.View.CameraScanActivity" /> <!-- MAIN ACTIVITY -->

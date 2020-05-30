@@ -48,8 +48,16 @@ class LoginActivity : BaseActivity(), LoginContract.LoginView {
         toastS(this, error)
     }
 
+    override fun showError(error: Int) {
+        toastL(this, getString(error))
+    }
+
     override fun showMessage(message: String) {
         toastS(this, message)
+    }
+
+    override fun showMessage(message: Int) {
+        toastL(this, getString(message))
     }
 
     override fun showProgressBar() {

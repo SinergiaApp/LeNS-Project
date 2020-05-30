@@ -10,6 +10,7 @@
     <string name="PG_CATALOG">Catálogo de Recursos</string>
     <string name="PG_LIBRARIES">Catálgo de Bibliotecas</string>
     <string name="PG_FAVOURITES">Favoritos</string>
+    <string name="PG_NEUROLINGUISTICS">Neurolingüística</string>
     <string name="PG_ADMIN_ZONE">Zona de Gerencia</string>
     <string name="PG_ACCOUNT">Mi Cuenta</string>
     <string name="PG_RESET_PASSWORD">Restablecer Contraseña</string>
@@ -19,6 +20,7 @@
 
     <!-- BUTTONS TITLES -->
     <string name="BTN_LOGIN">ACCEDER</string>
+    <string name="BTN_RESET_PASS">RESETEAR CONTRASEÑA</string>
     <string name="BTN_REGISTER">REGISTRARSE</string>
     <string name="BTN_ACCEPT">ACEPTAR</string>
     <string name="BTN_CONFIRM">CONFIRMAR</string>
@@ -38,8 +40,22 @@
     <string name="BTN_SEARCH">BUSCAR</string>
     <string name="BTN_SEARCH_BOOK">BUSCAR LIBRO</string>
     <string name="BTN_SEARCH_LIBRARY">BUSCAR BIBLIOTECA</string>
+    <string name="BTN_SEARCH_ARTICLE">BUSCAR ARTÍCULO</string>
     <string name="BTN_WATCH_ONLINE">VER EN LÍNEA</string>
     <string name="BTN_SEE_DISPONIBILITY">VER DISPONIBILIDAD</string>
+    <string name="BTN_DOWNLOAD">DESCARGAR</string>
 
+    <!-- INFO MESSAGES -->
+    <string name="MSG_LOGIN">¡Correcto! Bienvenido a NeLS Project.</string>
+    <string name="MSG_REGISTER">¡Se ha registrado con éxito en NeLS Project!.</string>
+
+    <!-- ERROR MESSAGES -->
+    <string name="ERR_LOGIN">Las credenciales introducidas no son correctas, por favor revísalas y vuelve a intentarlo.</string>
+    <string name="ERR_REGISTER">No se ha podido registrar su usuario, por favor inténtelo de nuevo.</string>
+    <string name="ERR_SEARCH">Vaya, no tenemos ningún recurso con ese título...</string>
+    <string name="ERR_NEURO_GETALL">No hemos podido recuperar la lista de artículos, intentalo más tarde.</string>
+    <string name="ERR_NEURO_DOWNLOAD">No hemos podido descragar la lista de artículos, intentalo más tarde.</string>
+    <string name="ERR_NEURO_SET">No hemos podido modificar el artículo, intentalo más tarde.</string>
+    <string name="ERR_NEURO_DELETE">No hemos podido borrar el artículo, intentalo más tarde.</string>
 
 </resources>
