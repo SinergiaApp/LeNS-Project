@@ -2,10 +2,7 @@ package com.sinergia.eLibrary.presentation.Account.Presenter
 
 import android.net.Uri
 import android.util.Log
-import com.sinergia.eLibrary.base.Exceptions.FirebaseAddUserException
-import com.sinergia.eLibrary.base.Exceptions.FirebaseDeleteUserException
-import com.sinergia.eLibrary.base.Exceptions.FirebaseSetUserException
-import com.sinergia.eLibrary.base.Exceptions.FirebaseStorageUploadImageException
+import com.sinergia.eLibrary.base.Exceptions.*
 import com.sinergia.eLibrary.data.Model.Loan
 import com.sinergia.eLibrary.data.Model.Reserve
 import com.sinergia.eLibrary.data.Model.User
@@ -89,12 +86,14 @@ class AccountPresenter(accountViewModel: AccountViewModel, accountInteractor: Ac
                 accountInteractor?.updateAccount(newUserAccount)
                 accountViewModel?.deleteUserForUpdate(newUserAccount)
                 accountViewModel?.addUserForUpdate(newUserAccount)
+                var userReserves = accountViewModel?.getUserPendingReserves(NeLSProject.currentUser.email)
+                var userLoans = accountViewModel?.getUserPendingLoans(NeLSProject.currentUser.email)
 
                 if(isViewAttach()){
                     view?.showMessage("Tu cuenta ha sido actualizada correctamente.")
                     view?.hideProgressBar()
                     view?.enableAllButtons()
-                    view?.initAccountContent()
+                    view?.initAccountContent(userReserves!!, userLoans!!)
                 }
 
                 Log.d(TAG, "Succesfully update account with email ${newUserAccount.email}.")
@@ -106,7 +105,7 @@ class AccountPresenter(accountViewModel: AccountViewModel, accountInteractor: Ac
                     view?.showError(errorMsg)
                     view?.hideProgressBar()
                     view?.enableAllButtons()
-                    view?.initAccountContent()
+                    getUserReservesAndLoans()
                 }
 
                 Log.d(TAG, "ERROR: Cannot update account with email ${newUserAccount.email} --> $errorMsg.")
@@ -118,7 +117,7 @@ class AccountPresenter(accountViewModel: AccountViewModel, accountInteractor: Ac
                     view?.showError(errorMsg)
                     view?.hideProgressBar()
                     view?.enableAllButtons()
-                    view?.initAccountContent()
+                    getUserReservesAndLoans()
                 }
 
 
@@ -188,12 +187,14 @@ class AccountPresenter(accountViewModel: AccountViewModel, accountInteractor: Ac
                 val newUserAvatar = accountViewModel?.uploadImage(NeLSProject.currentUser.email, imageURI)!!
                 NeLSProject.currentUser.avatar = newUserAvatar.toString()
                 accountViewModel?.setUserForUpdate(NeLSProject.currentUser)
+                var userReserves = accountViewModel?.getUserPendingReserves(NeLSProject.currentUser.email)
+                var userLoans = accountViewModel?.getUserPendingLoans(NeLSProject.currentUser.email)
 
                 if(isViewAttach()){
                     view?.showMessage("Tu avatar ha sido actualizado correctamente.")
                     view?.hideProgressBar()
                     view?.enableAllButtons()
-                    view?.initAccountContent()
+                    view?.initAccountContent(userReserves!!, userLoans!!)
                 }
 
             } catch (error: FirebaseStorageUploadImageException){
@@ -222,6 +223,55 @@ class AccountPresenter(accountViewModel: AccountViewModel, accountInteractor: Ac
 
 
         }
+    }
+
+    override fun getUserReservesAndLoans() {
+
+        Log.d(TAG, "Trying to get peding reserves and loans to user with email ${NeLSProject.currentUser.email}.")
+
+        launch{
+
+            try{
+
+                if(isViewAttach()){
+                    view?.disableAllButtons()
+                    view?.showProgressBar()
+                }
+
+                var userReserves = accountViewModel?.getUserPendingReserves(NeLSProject.currentUser.email)
+                var userLoans = accountViewModel?.getUserPendingLoans(NeLSProject.currentUser.email)
+
+                if(isViewAttach()){
+                    view?.enableAllButtons()
+                    view?.hideProgressBar()
+                    view?.initAccountContent(userReserves!!, userLoans!!)
+                }
+
+            } catch (error: FirebaseGetUserReservesException) {
+
+                val errorMsg = error.message
+                if(isViewAttach()){
+                    view?.showError(errorMsg)
+                    view?.hideProgressBar()
+                    view?.enableAllButtons()
+                }
+
+                Log.d(TAG, "Cannot get peding reserves to user with email ${NeLSProject.currentUser.email} --> $errorMsg.")
+
+            } catch (error: FirebaseGetUserLoansException) {
+
+                val errorMsg = error.message
+                if(isViewAttach()){
+                    view?.showError(errorMsg)
+                    view?.hideProgressBar()
+                    view?.enableAllButtons()
+                }
+
+                Log.d(TAG, "Cannot get peding loans to user with email ${NeLSProject.currentUser.email} --> $errorMsg.")
+
+            }
+        }
+
     }
 
 }

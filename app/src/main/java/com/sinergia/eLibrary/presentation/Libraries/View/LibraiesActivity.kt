@@ -3,6 +3,7 @@ package com.sinergia.eLibrary.presentation.Libraries.View
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.Gravity
@@ -13,6 +14,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
+import com.bumptech.glide.Glide
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.data.Model.Library
@@ -23,6 +25,7 @@ import com.sinergia.eLibrary.presentation.Libraries.Presenter.LibrariesPresenter
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import com.sinergia.eLibrary.presentation.NeLSProject
 import kotlinx.android.synthetic.main.activity_libraies.*
+import kotlinx.android.synthetic.main.activity_library.*
 import kotlinx.android.synthetic.main.layout_headder_bar.*
 
 class LibraiesActivity : BaseActivity(), LibrariesContract.LibrariesView {
@@ -91,14 +94,24 @@ class LibraiesActivity : BaseActivity(), LibrariesContract.LibrariesView {
                 resource.orientation = LinearLayout.VERTICAL
                 resource.setBackground(ContextCompat.getDrawable(this, R.drawable.style_list_resource))
                 resource.layoutParams = params
-                resource.setPadding(20,10,20,10)
+                resource.setPadding(20,20,20,20)
                 val description = LinearLayout(this)
                 description.setOrientation(LinearLayout.VERTICAL)
 
 
                 val imageLayout = RelativeLayout(this)
                 val image = ImageView(this)
-                image.setImageResource(R.drawable.icon_logonels)
+                if(library!!.imageUri != "noImage"){
+                    Glide
+                        .with(this)
+                        .load(Uri.parse(library!!.imageUri))
+                        .fitCenter()
+                        .centerCrop()
+                        .into(image)
+                } else {
+                    image.setImageResource(R.drawable.biblioteca)
+                }
+
                 imageLayout.addView(image)
                 val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 250)
                 imageLayout.setLayoutParams(layoutParams)

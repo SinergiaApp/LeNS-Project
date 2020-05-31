@@ -296,6 +296,54 @@
                 android:orientation="vertical"
                 android:gravity="center_horizontal">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textStart"
+                    android:text="RESERVAS:"
+                    android:textSize="18dp"/>
+
+                <LinearLayout
+                    android:id="@+id/account_reserves"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="left"
+                    android:layout_marginBottom="10dp"
+                    android:padding="10dp"
+                    android:background="@drawable/style_list_item_content">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Sin Reservas..."/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textStart"
+                    android:text="PRÉSTAMOS:"
+                    android:textSize="18dp"/>
+
+                <LinearLayout
+                    android:id="@+id/account_loans"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="left"
+                    android:layout_marginBottom="10dp"
+                    android:padding="10dp"
+                    android:background="@drawable/style_list_item_content">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Sin Préstamos..."/>
+
+                </LinearLayout>
+
                 <ImageView
                     android:id="@+id/account_userQR"
                     android:layout_width="200dp"

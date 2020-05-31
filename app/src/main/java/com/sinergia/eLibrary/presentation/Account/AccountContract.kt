@@ -15,7 +15,7 @@ interface AccountContract {
         fun hideProgressBar()
         fun enableAllButtons()
         fun disableAllButtons()
-        fun initAccountContent()
+        fun initAccountContent(userReserves: ArrayList<Reserve>, userLoans: ArrayList<Loan>)
 
         fun logOut()
         fun updateAccount()
@@ -26,6 +26,7 @@ interface AccountContract {
         fun checkAndSetGalleryPermissions()
         fun uploadGalleryImage()
 
+        fun getUserReservesAndLoans()
     }
 
     interface AccountPresenter{
@@ -44,6 +45,8 @@ interface AccountContract {
         fun deleteAccount(user: User)
 
         fun uploadImage(imageURI: Uri)
+
+        fun getUserReservesAndLoans()
 
     }
 

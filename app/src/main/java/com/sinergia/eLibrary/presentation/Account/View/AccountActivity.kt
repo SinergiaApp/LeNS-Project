@@ -7,12 +7,15 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
+import com.sinergia.eLibrary.data.Model.Loan
+import com.sinergia.eLibrary.data.Model.Reserve
 import com.sinergia.eLibrary.data.Model.User
 import com.sinergia.eLibrary.domain.interactors.AccountInteractor.AccountInteractorImpl
 import com.sinergia.eLibrary.presentation.Account.AccountContract
@@ -36,6 +39,7 @@ class AccountActivity : BaseActivity(), AccountContract.AccountView {
 
     // BASE ACTIVITY METHODS
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
 
         page_title.text = getPageTitle()
@@ -45,12 +49,12 @@ class AccountActivity : BaseActivity(), AccountContract.AccountView {
         accountPresenter.attachView(this)
         accountViewModel = ViewModelProviders.of(this).get(AccountViewModelImpl::class.java)
 
-        initAccountContent()
-
         account_userAvatar.setOnClickListener { uploadGalleryImage() }
         account_logout.setOnClickListener { logOut() }
         account_update_btn.setOnClickListener { updateAccount() }
         account_delete_btn.setOnClickListener { deleteAccount() }
+
+        getUserReservesAndLoans()
 
     }
 
@@ -95,7 +99,7 @@ class AccountActivity : BaseActivity(), AccountContract.AccountView {
         account_userAvatar.isClickable = false
     }
 
-    override fun initAccountContent() {
+    override fun initAccountContent(userReserves: ArrayList<Reserve>, userLoans: ArrayList<Loan>) {
 
         val currentUser = NeLSProject.currentUser
 
@@ -116,6 +120,24 @@ class AccountActivity : BaseActivity(), AccountContract.AccountView {
         account_userLastName2.setText(currentUser.lastName2)
         account_userMail.setText(currentUser.email)
         account_userNIF.setText(currentUser.nif)
+
+        if(currentUser.reserves.size > 0){
+            account_reserves.removeAllViews()
+            for(reserve in userReserves){
+                var currentReserve = TextView(this)
+                currentReserve.text = "(${reserve.reserveDate}) - ${reserve.resourceName}"
+                account_reserves.addView(currentReserve)
+            }
+        }
+
+        if(currentUser.loans.size > 0){
+            account_loans.removeAllViews()
+            for(loan in userLoans){
+                var currentLoan = TextView(this)
+                currentLoan.text = "(${loan.loanDate}) - ${loan.resourceName}"
+                account_loans.addView(currentLoan)
+            }
+        }
 
         account_userQR.setImageBitmap(QRCode.from(currentUser.email).bitmap())
 
@@ -204,6 +226,10 @@ class AccountActivity : BaseActivity(), AccountContract.AccountView {
             checkAndSetGalleryPermissions()
         }
 
+    }
+
+    override fun getUserReservesAndLoans() {
+        accountPresenter.getUserReservesAndLoans()
     }
 
     // ACTICITY RESULTS METHODS
