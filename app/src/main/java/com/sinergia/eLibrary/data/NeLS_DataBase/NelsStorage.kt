@@ -139,7 +139,7 @@ class NelsStorage {
                 if(uploadArticle.isSuccessful){
 
                     nelsStorage
-                        .child("resourceImages/$articleId")
+                        .child("articles/$articleId")
                         .downloadUrl
                         .addOnCompleteListener{ downloadUri ->
 

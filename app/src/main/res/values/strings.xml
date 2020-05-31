@@ -11,12 +11,56 @@
     <string name="PG_LIBRARIES">Catálgo de Bibliotecas</string>
     <string name="PG_FAVOURITES">Favoritos</string>
     <string name="PG_NEUROLINGUISTICS">Neurolingüística</string>
+    <string name="PG_UPLOAD_ARTICLE">Subir Artículo</string>
+    <string name="PG_SET_ARTICLE">Actualizar Artículo</string>
     <string name="PG_ADMIN_ZONE">Zona de Gerencia</string>
     <string name="PG_ACCOUNT">Mi Cuenta</string>
     <string name="PG_RESET_PASSWORD">Restablecer Contraseña</string>
 
 
     <!-- FORM TITLES -->
+    <string name="FR_NAME">Nombre:</string>
+    <string name="FR_LASTNAME1">Primer Apellido:</string>
+    <string name="FR_LASTNAME2">Segundo Apellido:</string>
+    <string name="FR_LASTNAME">Apellidos:</string>
+    <string name="FR_EMAIL">Correo Electrónico:</string>
+    <string name="FR_PASSWORD">Contraseña:</string>
+    <string name="FR_PASSWORD_REPEAT">Repite la Contraseña:</string>
+    <string name="FR_NIF">NIF:</string>
+    <string name="FR_TITLE">Título:</string>
+    <string name="FR_AUTHORS">Autores:</string>
+    <string name="FR_PUBLISHER">Editorial:</string>
+    <string name="FR_SOURCE">Fuente:</string>
+    <string name="FR_EDITION">Edición:</string>
+    <string name="FR_YEAR">Año de Publicación:</string>
+    <string name="FR_DESCRIPTION">Descripción:</string>
+    <string name="FR_SINOPSIS">Sinopsis:</string>
+    <string name="FR_ISBN">ISBN:</string>
+    <string name="FR_ISSN">ISSN:</string>
+    <string name="FR_ISONLINE">El Libro está disponible Online:</string>
+    <string name="FR_CATEGORY">Categoría del Recurso:</string>
+
+    <!-- FORM HINT TITLES -->
+    <string name="FRH_NAME">Nombre de usuario</string>
+    <string name="FRH_LASTNAME1">Primer apellido de ususario</string>
+    <string name="FRH_LASTNAME2">Segundo apellido de usuario</string>
+    <string name="FRH_LASTNAME">Apellido de usuario</string>
+    <string name="FRH_EMAIL">Correo electrónico de usuario</string>
+    <string name="FRH_PASSWORD">Contraseña de ususario</string>
+    <string name="FRH_PASSWORD_REPEAT">Repite la contraseña</string>
+    <string name="FRH_NIF">NIF de usuario</string>
+    <string name="FRH_TITLE">Título del recurso</string>
+    <string name="FRH_AUTHORS">Autores del recurso</string>
+    <string name="FRH_PUBLISHER">Editorial del recurso</string>
+    <string name="FRH_SOURCE">Fuente del recurso</string>
+    <string name="FRH_EDITION">Año de edición del recurso</string>
+    <string name="FRH_YEAR">Año de Publicación del recurso</string>
+    <string name="FRH_DESCRIPTION">Descripción del recurso</string>
+    <string name="FRH_SINOPSIS">Sinopsis del recurso</string>
+    <string name="FRH_ISBN">ISBN del recurso</string>
+    <string name="FRH_ISSN">ISSN del recurso</string>
+    <string name="FRH_ISONLINE">El Libro está disponible Online</string>
+
 
     <!-- BUTTONS TITLES -->
     <string name="BTN_LOGIN">ACCEDER</string>
@@ -44,10 +88,13 @@
     <string name="BTN_WATCH_ONLINE">VER EN LÍNEA</string>
     <string name="BTN_SEE_DISPONIBILITY">VER DISPONIBILIDAD</string>
     <string name="BTN_DOWNLOAD">DESCARGAR</string>
+    <string name="BTN_UPLOAD">SELECCIONAR Y SUBIR</string>
 
     <!-- INFO MESSAGES -->
     <string name="MSG_LOGIN">¡Correcto! Bienvenido a NeLS Project.</string>
     <string name="MSG_REGISTER">¡Se ha registrado con éxito en NeLS Project!.</string>
+    <string name="MSG_UPLOAD_ARTICLE">¡Se ha subido el nuevo artículo con éxtito!</string>
+    <string name="MSG_SET_ARTICLE">¡Se ha actualizado el nuevo artículo con éxtito!</string>
 
     <!-- ERROR MESSAGES -->
     <string name="ERR_LOGIN">Las credenciales introducidas no son correctas, por favor revísalas y vuelve a intentarlo.</string>
@@ -57,5 +104,7 @@
     <string name="ERR_NEURO_DOWNLOAD">No hemos podido descragar la lista de artículos, intentalo más tarde.</string>
     <string name="ERR_NEURO_SET">No hemos podido modificar el artículo, intentalo más tarde.</string>
     <string name="ERR_NEURO_DELETE">No hemos podido borrar el artículo, intentalo más tarde.</string>
+    <string name="ERR_UPLOAD_ARTICLE">No hemos podido subir el artículo, intentalo más tarde</string>
+    <string name="ERR_SET_ARTICLE">No hemos podido actualizar el artículo, intentalo más tarde</string>
 
 </resources>

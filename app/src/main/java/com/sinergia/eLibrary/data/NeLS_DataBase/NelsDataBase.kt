@@ -666,7 +666,7 @@ class NelsDataBase {
         var articlesList = arrayListOf<Article>()
 
         nelsDB
-            .collection("loans")
+            .collection("articles")
             .get()
             .addOnCompleteListener {getAllArticles ->
 
@@ -697,8 +697,8 @@ class NelsDataBase {
     suspend fun newArticle(newArticle: Article): Unit = suspendCancellableCoroutine { newArticleContinuation ->
 
         nelsDB
-            .collection("articles")
-            .add(newArticle)
+            .document("articles/${newArticle.id}")
+            .set(newArticle)
             .addOnCompleteListener { addArticle ->
 
                 if(addArticle.isSuccessful){

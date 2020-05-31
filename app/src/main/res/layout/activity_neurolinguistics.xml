@@ -117,7 +117,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:gravity="center_horizontal"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:text="SIN ARTÍCULOS AÚN..."
+                        android:textAlignment="center"/>
+
                 </LinearLayout>
 
             </LinearLayout>

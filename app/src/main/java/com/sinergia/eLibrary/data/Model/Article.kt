@@ -10,8 +10,8 @@ data class Article (
     var source: String = "Desconcido",
     var issn: String = "Desconcido",
     var descriptiom: String = "Desconcido",
-    var downloadURI: String = "Desconcido",
     var category: String = "Desconocido",
+    var downloadURI: String = "Desconcido",
     var id: String = "Identificador Desconocido"
 
 )

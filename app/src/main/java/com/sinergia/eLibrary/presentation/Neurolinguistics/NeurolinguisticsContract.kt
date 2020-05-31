@@ -24,6 +24,8 @@ interface NeurolinguisticsContract {
         fun search()
         fun uploadArticle()
 
+        fun navigateToNeurolinguistics()
+
     }
 
     interface ItemNeurolinguisticsView{
@@ -42,6 +44,8 @@ interface NeurolinguisticsContract {
         fun downloadArticle()
         fun setArticle()
         fun deleteArticle()
+
+        fun navigateToNeurolinguistics()
 
     }
 

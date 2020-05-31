@@ -153,7 +153,7 @@ class CreateCards {
             LinearLayout.LayoutParams.WRAP_CONTENT,
             LinearLayout.LayoutParams.MATCH_PARENT
         ).apply {
-            gravity = Gravity.LEFT
+            gravity = Gravity.CENTER_VERTICAL
             width = LinearLayout.LayoutParams.MATCH_PARENT
             height = LinearLayout.LayoutParams.WRAP_CONTENT
         }
@@ -202,17 +202,18 @@ class CreateCards {
         for(author in article.authors){
             authorstxt += "$author, "
         }
-        authorstxt = authorstxt.substring(0, authorstxt.length-2)
-        authorstxt += "."
+        if(authorstxt.length > 2){
+            authorstxt = authorstxt.substring(0, authorstxt.length-2)
+        }
         authors.setText("Autores: $authorstxt.")
         authors.setTextColor(ContextCompat.getColor(context, R.color.colorWhite))
         articleDescription.addView(authors)
 
         val issn = TextView(context)
         val issntxt = article.issn
-        issn.setText("Título: $issntxt.")
+        issn.setText("ISSN: $issntxt.")
         issn.setTextColor(ContextCompat.getColor(context, R.color.colorWhite))
-        articleDescription.addView(title)
+        articleDescription.addView(issn)
 
         cardContent.addView(articleImage)
         cardContent.addView(articleDescription)

@@ -14,6 +14,7 @@ import com.sinergia.eLibrary.presentation.NeLSProject
 import com.sinergia.eLibrary.presentation.Neurolinguistics.Model.NeurolinguisticsViewModelImpl
 import com.sinergia.eLibrary.presentation.Neurolinguistics.NeurolinguisticsContract
 import com.sinergia.eLibrary.presentation.Neurolinguistics.Presenter.NeurolinguisticsPresenter
+import com.sinergia.eLibrary.presentation.UploadArticle.View.UploadArticleActivity
 import kotlinx.android.synthetic.main.activity_neurolinguistics.*
 import kotlinx.android.synthetic.main.layout_headder_bar.*
 
@@ -96,12 +97,20 @@ class NeurolinguisticsActivity : BaseActivity(), NeurolinguisticsContract.Neurol
 
     override fun initCatalog(articlesList: ArrayList<Article>?) {
 
-        for(article in articlesList!!){
+        this.articlesList = articlesList!!
 
-            eraseCatalog()
-            var articleCard = createCards.createArticleCard(this, article)
-            articleCard.setOnClickListener { navigateToArticle(article) }
-            neuro_content.addView(articleCard)
+        if(articlesList!!.size > 0){
+
+            neuro_content.removeAllViews()
+
+            for(article in articlesList!!){
+
+                eraseCatalog()
+                var articleCard = createCards.createArticleCard(this, article)
+                articleCard.setOnClickListener { navigateToArticle(article) }
+                neuro_content.addView(articleCard)
+
+            }
 
         }
 
@@ -122,7 +131,13 @@ class NeurolinguisticsActivity : BaseActivity(), NeurolinguisticsContract.Neurol
     }
 
     override fun uploadArticle() {
-        TODO("Not yet implemented")
+        startActivity(Intent(this, UploadArticleActivity::class.java))
+    }
+
+    override fun navigateToNeurolinguistics() {
+        val intentNeurolinguistics = Intent(this, NeurolinguisticsActivity::class.java)
+        intentNeurolinguistics.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intentNeurolinguistics)
     }
 
     override fun onDetachedFromWindow() {

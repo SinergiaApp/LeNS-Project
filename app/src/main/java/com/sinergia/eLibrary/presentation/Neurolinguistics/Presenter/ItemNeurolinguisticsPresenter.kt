@@ -58,6 +58,7 @@ class ItemNeurolinguisticsPresenter(itemNeurolinguisticsViewModel: Neurolinguist
                 if(isViewAttach()){
                     view?.hideItemNeuroProgressBar()
                     view?.enableButtons()
+                    view?.navigateToNeurolinguistics()
                 }
 
                 Log.d(TAG, "Succesfully download article from database.")
@@ -99,6 +100,7 @@ class ItemNeurolinguisticsPresenter(itemNeurolinguisticsViewModel: Neurolinguist
                 if(isViewAttach()){
                     view?.hideItemNeuroProgressBar()
                     view?.enableButtons()
+                    view?.navigateToNeurolinguistics()
                 }
 
                 Log.d(TAG, "Succesfully delete article from database.")

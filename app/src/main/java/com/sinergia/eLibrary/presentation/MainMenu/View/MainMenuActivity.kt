@@ -12,6 +12,7 @@ import com.sinergia.eLibrary.presentation.Catalog.View.CatalogActivity
 import com.sinergia.eLibrary.presentation.Favourites.view.FavouritesActivity
 import com.sinergia.eLibrary.presentation.Libraries.View.LibraiesActivity
 import com.sinergia.eLibrary.presentation.NeLSProject
+import com.sinergia.eLibrary.presentation.Neurolinguistics.View.NeurolinguisticsActivity
 import kotlinx.android.synthetic.main.activity_main_menu.*
 import kotlinx.android.synthetic.main.layout_headder_bar.*
 import kotlinx.android.synthetic.main.layout_main_menu.*
@@ -83,11 +84,10 @@ class MainMenuActivity : BaseActivity(), MainMenuContract.MainContractView {
     }
 
     override fun goToNeurolinguisticZone() {
-        //val neurolinguisticIntent = Intent(this, ------::class.java)
-        //neurolinguisticIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-        //startActivity(neurolinguisticIntent)
-        //disableAllButtons()
-        toastL(this, "Este botón aún no te lleva a ningun sitio pringao.")
+        val neurolinguisticIntent = Intent(this, NeurolinguisticsActivity::class.java)
+        neurolinguisticIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(neurolinguisticIntent)
+        disableAllButtons()
     }
 
     override fun goToAccount() {
