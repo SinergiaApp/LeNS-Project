@@ -23,7 +23,7 @@ class AdminViewModelImpl: ViewModel(), AdminViewModel {
         edicion: String,
         editorial: String,
         sinopsis: String,
-        disponibility: MutableMap<String, Integer>,
+        disponibility: MutableMap<String, Int>,
         likes: MutableList<String>,
         dislikes: MutableList<String>,
         isOnline: Boolean,
@@ -38,6 +38,10 @@ class AdminViewModelImpl: ViewModel(), AdminViewModel {
     }
     override suspend fun setResource(resource: Resource) {
         resourceUseCase.setResource(resource)
+    }
+
+    override suspend fun deleteResource(deletedResource: Resource) {
+        resourceUseCase.deleteResource(deletedResource)
     }
 
     override suspend fun setResourceImage(resourceId: String, resourceImageURI: Uri): Uri {
@@ -59,6 +63,10 @@ class AdminViewModelImpl: ViewModel(), AdminViewModel {
 
     override suspend fun setLibrary(library: Library) {
         libraryUseCases.setLibrary(library)
+    }
+
+    override suspend fun deleteLibrary(deletedLibrary: Library) {
+        libraryUseCases.deleteLibray(deletedLibrary)
     }
 
     override suspend fun setLibraryImage(libraryId: String, libraryImageURI: Uri): Uri {

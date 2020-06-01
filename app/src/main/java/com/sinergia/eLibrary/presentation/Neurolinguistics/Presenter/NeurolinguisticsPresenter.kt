@@ -40,7 +40,7 @@ class NeurolinguisticsPresenter(neurolinguisticsViewModel: NeurolinguisticsViewM
         coroutineContext.cancel()
     }
 
-    override fun getAllArticlesToCatalog() {
+    override fun getAllArticlesToCatalog(category: String) {
 
         Log.d(TAG, "Trying to get Articles Resources.")
 
@@ -55,7 +55,14 @@ class NeurolinguisticsPresenter(neurolinguisticsViewModel: NeurolinguisticsViewM
 
             try{
 
-                var articlesList = neurolinguisticsViewModel?.getAllArticles()
+                var articlesList: ArrayList<Article> ?= null
+
+                if(category.isNullOrEmpty()){
+                    articlesList = neurolinguisticsViewModel?.getAllArticles()
+                } else {
+                    articlesList = neurolinguisticsViewModel?.getAllArticlesWithCategory(category)
+                }
+
 
                 if(isViewAttach()){
                     view?.hideNeuroProgressBar()

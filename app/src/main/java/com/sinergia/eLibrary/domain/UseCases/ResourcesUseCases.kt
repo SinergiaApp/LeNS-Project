@@ -28,7 +28,7 @@ class ResourcesUseCases {
                             isbn: String, edicion:
                             String, editorial: String,
                             sinopsis: String,
-                            disponibility: MutableMap<String, Integer>,
+                            disponibility: MutableMap<String, Int>,
                             likes: MutableList<String>,
                             dislikes: MutableList<String>,
                             isOnline: Boolean,
@@ -39,6 +39,12 @@ class ResourcesUseCases {
 
     suspend fun setResource(resource: Resource){
         nelsDB.setResource(resource)
+    }
+
+    suspend fun deleteResource(deletedResource: Resource){
+
+        nelsDB.deleteResource(deletedResource)
+
     }
 
 }

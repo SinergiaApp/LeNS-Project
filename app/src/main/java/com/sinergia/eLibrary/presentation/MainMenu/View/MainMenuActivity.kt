@@ -11,6 +11,7 @@ import com.sinergia.eLibrary.presentation.MainMenu.MainMenuContract
 import com.sinergia.eLibrary.presentation.Catalog.View.CatalogActivity
 import com.sinergia.eLibrary.presentation.Favourites.view.FavouritesActivity
 import com.sinergia.eLibrary.presentation.Libraries.View.LibraiesActivity
+import com.sinergia.eLibrary.presentation.Main.View.MainActivity
 import com.sinergia.eLibrary.presentation.NeLSProject
 import com.sinergia.eLibrary.presentation.Neurolinguistics.View.NeurolinguisticsActivity
 import kotlinx.android.synthetic.main.activity_main_menu.*
@@ -53,6 +54,18 @@ class MainMenuActivity : BaseActivity(), MainMenuContract.MainContractView {
         return getString(R.string.PG_MAIN)
     }
 
+    override fun backButton() {
+        if(NeLSProject.backButtonPressedTwice){
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.putExtra("EXIT", true)
+            startActivity(intent)
+        } else {
+            toastL(this, getString(R.string.BTN_BACK))
+            NeLSProject.backButtonPressedTwice = true
+        }
+    }
+
 
     //MAIN MENU CONTRACT METHODS
     override fun showMessage(message: String?) {
@@ -65,6 +78,7 @@ class MainMenuActivity : BaseActivity(), MainMenuContract.MainContractView {
 
     override fun goToLibrary() {
         val librariesIntent = Intent(this, LibraiesActivity::class.java)
+        librariesIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(librariesIntent)
         disableAllButtons()
     }

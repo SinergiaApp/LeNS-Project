@@ -10,7 +10,6 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
@@ -47,7 +46,7 @@ class AccountActivity : BaseActivity(), AccountContract.AccountView {
 
         accountPresenter = AccountPresenter(AccountViewModelImpl(), AccountInteractorImpl())
         accountPresenter.attachView(this)
-        accountViewModel = ViewModelProviders.of(this).get(AccountViewModelImpl::class.java)
+        accountViewModel = AccountViewModelImpl()
 
         account_userAvatar.setOnClickListener { uploadGalleryImage() }
         account_logout.setOnClickListener { logOut() }
@@ -64,6 +63,18 @@ class AccountActivity : BaseActivity(), AccountContract.AccountView {
 
     override fun getPageTitle(): String {
         return getString(R.string.PG_ACCOUNT)
+    }
+
+    override fun backButton() {
+        if(NeLSProject.backButtonPressedTwice){
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.putExtra("EXIT", true)
+            startActivity(intent)
+        } else {
+            toastL(this, getString(R.string.BTN_BACK))
+            NeLSProject.backButtonPressedTwice = true
+        }
     }
 
     // ACCOUNT VIEW METHODS
@@ -165,6 +176,7 @@ class AccountActivity : BaseActivity(), AccountContract.AccountView {
             NeLSProject.currentUser.loans,
             NeLSProject.currentUser.favorites,
             NeLSProject.currentUser.admin,
+            NeLSProject.currentUser.researcher,
             NeLSProject.currentUser.avatar
         )
 
@@ -185,7 +197,7 @@ class AccountActivity : BaseActivity(), AccountContract.AccountView {
             .setCancelButtonText("CANCELAR")
             .buid()
 
-        reserveDialog.show(supportFragmentManager!!, "ReserveDialog")
+        reserveDialog.show(supportFragmentManager, "ReserveDialog")
         reserveDialog.isCancelable = false
         reserveDialog.setDialogOnClickButtonListener(object: ConfirmDialogActivity.DialogOnClickButtonListener{
             override fun clickAcceptButton() {
@@ -251,7 +263,7 @@ class AccountActivity : BaseActivity(), AccountContract.AccountView {
         if(requestCode == NeLSProject.GALLERY_INTENT_CODE && resultCode == Activity.RESULT_OK){
 
             var imageURI: Uri = imageData?.data!!
-            accountPresenter?.uploadImage(imageURI)
+            accountPresenter.uploadImage(imageURI)
 
         }
     }

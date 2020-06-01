@@ -12,6 +12,7 @@ interface NeurolinguisticsContract {
         fun showMessage(message: Int)
         fun showNeuroProgressBar()
         fun hideNeuroProgressBar()
+        fun showUploadButton()
         fun showContent()
         fun hideContent()
         fun enableUploadButton()
@@ -36,6 +37,7 @@ interface NeurolinguisticsContract {
         fun showMessage(message: Int)
         fun showItemNeuroProgressBar()
         fun hideItemNeuroProgressBar()
+        fun showUpdateAndDeleteButtons()
         fun enableButtons()
         fun disableButtons()
 
@@ -55,9 +57,9 @@ interface NeurolinguisticsContract {
         fun dettachView()
         fun isViewAttach(): Boolean
         fun dettachJob()
-        fun getAllArticlesToCatalog()
+        fun getAllArticlesToCatalog(category: String)
 
-        fun search(articlesList: ArrayList<Article>, pattern: String)
+        fun search(articlesList: ArrayList<Article>, searcher: String)
 
     }
 

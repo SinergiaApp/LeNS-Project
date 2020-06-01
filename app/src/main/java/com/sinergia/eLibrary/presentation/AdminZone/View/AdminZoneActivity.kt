@@ -14,7 +14,6 @@ import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
-import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.firestore.GeoPoint
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
@@ -30,6 +29,7 @@ import com.sinergia.eLibrary.presentation.Catalog.View.CatalogActivity
 import com.sinergia.eLibrary.presentation.Dialogs.ConfirmDialog.ConfirmDialogActivity
 import com.sinergia.eLibrary.presentation.Dialogs.ConfirmDialog.InformDialogActivity
 import com.sinergia.eLibrary.presentation.Libraries.View.LibraiesActivity
+import com.sinergia.eLibrary.presentation.Main.View.MainActivity
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import com.sinergia.eLibrary.presentation.NeLSProject
 import kotlinx.android.synthetic.main.layout_admin_zone.*
@@ -64,7 +64,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
 
         adminPresenter = com.sinergia.eLibrary.presentation.AdminZone.Presenter.AdminZonePresenter(AdminViewModelImpl())
         adminPresenter.attachView(this)
-        adminViewModel = ViewModelProviders.of(this).get(AdminViewModelImpl::class.java)
+        adminViewModel = AdminViewModelImpl()
 
         admin_zone_addResourceButton.setOnClickListener { showHideAddResource() }
         admin_zone_addNewResourceButton.setOnClickListener { createNewResource() }
@@ -100,6 +100,18 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
 
     override fun getPageTitle(): String {
         return getString(R.string.PG_ADMIN_ZONE)
+    }
+
+    override fun backButton() {
+        if(NeLSProject.backButtonPressedTwice){
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.putExtra("EXIT", true)
+            startActivity(intent)
+        } else {
+            toastL(this, getString(R.string.BTN_BACK))
+            NeLSProject.backButtonPressedTwice = true
+        }
     }
 
     // CAMERA METHODS
@@ -272,7 +284,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
             val edicion = admin_zone_bookEdition.text.toString()
             val editorial = admin_zone_bookPublisher.text.toString()
             val sinopsis = admin_zone_bookSinosis.text.toString()
-            val librariesDisponibility: MutableMap<String, Integer> = mutableMapOf()
+            val librariesDisponibility: MutableMap<String, Int> = mutableMapOf()
             val isOnline: Boolean = admin_zone_isOnline.isChecked
             val urlOnline: String = admin_zone_urlOnline.text.toString()
 
@@ -353,6 +365,8 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         override fun enableSetResourceButtons() {
             admin_zone_setResource_btn.isEnabled = true
             admin_zone_setResource_btn.isClickable = true
+            admin_zone_deleteResource_btn.isEnabled = true
+            admin_zone_deleteResource_btn.isClickable = true
             admin_zone_setResourceImage_btn.isEnabled = true
             admin_zone_setResourceImage_btn.isClickable = true
         }
@@ -360,6 +374,8 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         override fun disableSetResourceButtons() {
             admin_zone_setResource_btn.isEnabled = false
             admin_zone_setResource_btn.isClickable = false
+            admin_zone_deleteResource_btn.isEnabled = false
+            admin_zone_deleteResource_btn.isClickable = false
             admin_zone_setResourceImage_btn.isEnabled = false
             admin_zone_setResourceImage_btn.isClickable = false
         }
@@ -467,7 +483,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
                 val disponibility = mutableMapOf<String, Int>()
                 for(view in admin_zone_setBookDisponibility.children){
                     if( view is EditText  ) {
-                        val disp = view as EditText
+                        val disp = view
                         var dispNumber = 0
                         if(disp.text.toString() != "") dispNumber = disp.text.toString().trim().toInt()
                         disponibility[view.getTag().toString()] = dispNumber
@@ -482,8 +498,12 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
 
         }
 
+    override fun deleteResource() {
+        adminPresenter.deleteResource(NeLSProject.currentResource!!)
+    }
 
-        //CREATE LIBRARY METHODS
+
+    //CREATE LIBRARY METHODS
         override fun showHideAddLibrary() {
             if(admin_zone_addLibraryWindow.visibility == View.GONE){
                 admin_zone_addLibraryWindow.visibility = View.VISIBLE
@@ -588,6 +608,8 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         override fun enableSetLibraryButtons() {
             admin_zone_setLibrary_btn.isEnabled = true
             admin_zone_setLibrary_btn.isClickable = true
+            admin_zone_deleteLibrary_btn.isEnabled = true
+            admin_zone_deleteLibrary_btn.isClickable = true
             admin_zone_setLibraryImage_btn.isEnabled = true
             admin_zone_setLibraryImage_btn.isClickable = true
         }
@@ -595,6 +617,8 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         override fun disableSetLibraryButtons() {
             admin_zone_setLibrary_btn.isEnabled = false
             admin_zone_setLibrary_btn.isClickable = false
+            admin_zone_deleteLibrary_btn.isEnabled = false
+            admin_zone_deleteLibrary_btn.isClickable = false
             admin_zone_setLibraryImage_btn.isEnabled = false
             admin_zone_setLibraryImage_btn.isClickable = false
         }
@@ -669,6 +693,10 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
             }
 
         }
+
+    override fun deleteLibrary() {
+        adminPresenter.deleteLibrary(NeLSProject.currentLibrary!!)
+    }
 
     //LOANS METHODS
     override fun showHideLoans() {
@@ -857,7 +885,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
                 .setCancelButtonText(getString(R.string.BTN_NO))
                 .buid()
 
-            reserveDialog.show(supportFragmentManager!!, "CancelReserveDialog")
+            reserveDialog.show(supportFragmentManager, "CancelReserveDialog")
             reserveDialog.isCancelable = false
             reserveDialog.setDialogOnClickButtonListener(object: ConfirmDialogActivity.DialogOnClickButtonListener{
                 override fun clickAcceptButton() {
@@ -895,7 +923,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
                 .setCancelButtonText(getString(R.string.BTN_CANCEL))
                 .buid()
 
-            reserveDialog.show(supportFragmentManager!!, "EnlargeLoanDialog")
+            reserveDialog.show(supportFragmentManager, "EnlargeLoanDialog")
             reserveDialog.isCancelable = false
             reserveDialog.setDialogOnClickButtonListener(object: ConfirmDialogActivity.DialogOnClickButtonListener{
                 override fun clickAcceptButton() {
@@ -934,7 +962,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
                 .setCancelButtonText(getString(R.string.BTN_NO))
                 .buid()
 
-            reserveDialog.show(supportFragmentManager!!, "FinalizeLoanDialog")
+            reserveDialog.show(supportFragmentManager, "FinalizeLoanDialog")
             reserveDialog.isCancelable = false
             reserveDialog.setDialogOnClickButtonListener(object: ConfirmDialogActivity.DialogOnClickButtonListener{
                 override fun clickAcceptButton() {

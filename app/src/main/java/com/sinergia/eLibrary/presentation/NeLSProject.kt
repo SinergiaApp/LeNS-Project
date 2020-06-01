@@ -26,6 +26,8 @@ class NeLSProject: Application() {
 
         val ARTICLE_CATEGORIES: List<String> = listOf("Conceptos Básicos", "El Lenguaje en el Cerebro", "Trastornos del Lenguaje", "Afasia")
 
+        var backButtonPressedTwice: Boolean = false
+
     }
 
 

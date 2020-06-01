@@ -4,11 +4,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.RadioButton
 import android.widget.Toast
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.base.utils.CreateCards
 import com.sinergia.eLibrary.data.Model.Article
+import com.sinergia.eLibrary.presentation.Main.View.MainActivity
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import com.sinergia.eLibrary.presentation.NeLSProject
 import com.sinergia.eLibrary.presentation.Neurolinguistics.Model.NeurolinguisticsViewModelImpl
@@ -40,7 +42,7 @@ class NeurolinguisticsActivity : BaseActivity(), NeurolinguisticsContract.Neurol
         neuro_search_btn.setOnClickListener{ search() }
         neuro_upload_btn.setOnClickListener { uploadArticle() }
 
-        neuroPresenter.getAllArticlesToCatalog()
+        neuroPresenter.getAllArticlesToCatalog("")
 
     }
 
@@ -50,6 +52,18 @@ class NeurolinguisticsActivity : BaseActivity(), NeurolinguisticsContract.Neurol
 
     override fun getPageTitle(): String {
         return getString(R.string.PG_NEUROLINGUISTICS)
+    }
+
+    override fun backButton() {
+        if(NeLSProject.backButtonPressedTwice){
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.putExtra("EXIT", true)
+            startActivity(intent)
+        } else {
+            toastL(this, getString(R.string.BTN_BACK))
+            NeLSProject.backButtonPressedTwice = true
+        }
     }
 
     //VIEW METHODS
@@ -77,6 +91,10 @@ class NeurolinguisticsActivity : BaseActivity(), NeurolinguisticsContract.Neurol
         neuro_progressBar.visibility = View.GONE
     }
 
+    override fun showUploadButton() {
+        neuro_upload_btn.visibility = View.VISIBLE
+    }
+
     override fun showContent() {
         neuro_content.visibility = View.VISIBLE
     }
@@ -99,11 +117,11 @@ class NeurolinguisticsActivity : BaseActivity(), NeurolinguisticsContract.Neurol
 
         this.articlesList = articlesList!!
 
-        if(articlesList!!.size > 0){
+        if(articlesList.size > 0){
 
             neuro_content.removeAllViews()
 
-            for(article in articlesList!!){
+            for(article in articlesList){
 
                 eraseCatalog()
                 var articleCard = createCards.createArticleCard(this, article)
@@ -114,11 +132,27 @@ class NeurolinguisticsActivity : BaseActivity(), NeurolinguisticsContract.Neurol
 
         }
 
+        neuro_search_categories.removeAllViews()
+        var categoryRadio = RadioButton(this)
+        categoryRadio.text = "Todas"
+        categoryRadio.setOnClickListener { neuroPresenter.getAllArticlesToCatalog("") }
+        neuro_search_categories.addView(categoryRadio)
+        for(category in NeLSProject.ARTICLE_CATEGORIES){
+            categoryRadio = RadioButton(this)
+            categoryRadio.text = category
+            categoryRadio.setOnClickListener { neuroPresenter.getAllArticlesToCatalog(category) }
+            neuro_search_categories.addView(categoryRadio)
+        }
+
+        if(NeLSProject.currentUser.researcher) showUploadButton()
+
     }
 
     override fun navigateToArticle(article: Article) {
         NeLSProject.currentArticle = article
-        startActivity(Intent(this, ItemNeurolinguisticsActivity::class.java))
+        val intentItemNeurolinguistics =Intent(this, ItemNeurolinguisticsActivity::class.java)
+        intentItemNeurolinguistics.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intentItemNeurolinguistics)
     }
 
     override fun eraseCatalog() {
@@ -131,7 +165,9 @@ class NeurolinguisticsActivity : BaseActivity(), NeurolinguisticsContract.Neurol
     }
 
     override fun uploadArticle() {
-        startActivity(Intent(this, UploadArticleActivity::class.java))
+        val intentUploadArticle = Intent(this, UploadArticleActivity::class.java)
+        intentUploadArticle.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intentUploadArticle)
     }
 
     override fun navigateToNeurolinguistics() {

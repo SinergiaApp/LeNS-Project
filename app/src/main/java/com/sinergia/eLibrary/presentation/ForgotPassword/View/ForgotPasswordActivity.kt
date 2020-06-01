@@ -9,6 +9,8 @@ import com.sinergia.eLibrary.domain.interactors.ForgotPasswordInteractor.ForgotP
 import com.sinergia.eLibrary.presentation.ForgotPassword.ForgotPasswordContract
 import com.sinergia.eLibrary.presentation.ForgotPassword.Presenter.ForgotPasswordPresenter
 import com.sinergia.eLibrary.presentation.Login.View.LoginActivity
+import com.sinergia.eLibrary.presentation.Main.View.MainActivity
+import com.sinergia.eLibrary.presentation.NeLSProject
 import kotlinx.android.synthetic.main.activity_forgot_password.*
 
 class ForgotPasswordActivity : BaseActivity(), ForgotPasswordContract.ForgotPasswordView {
@@ -32,6 +34,18 @@ class ForgotPasswordActivity : BaseActivity(), ForgotPasswordContract.ForgotPass
 
     override fun getPageTitle(): String {
         return getString(R.string.PG_RESET_PASSWORD)
+    }
+
+    override fun backButton() {
+        if(NeLSProject.backButtonPressedTwice){
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.putExtra("EXIT", true)
+            startActivity(intent)
+        } else {
+            toastL(this, getString(R.string.BTN_BACK))
+            NeLSProject.backButtonPressedTwice = true
+        }
     }
 
     //FORGOT PASSWORD CONTRACT METHODS

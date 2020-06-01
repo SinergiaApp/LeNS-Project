@@ -3,19 +3,18 @@ package com.sinergia.eLibrary.presentation.Login.View
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.ViewModelProviders
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.domain.interactors.LoginInteractor.LoginInteractorImpl
 import com.sinergia.eLibrary.presentation.ForgotPassword.View.ForgotPasswordActivity
 import com.sinergia.eLibrary.presentation.Login.LoginContract
 import com.sinergia.eLibrary.presentation.Login.Presenter.LoginPresenter
-import com.sinergia.eLibrary.presentation.Catalog.View.CatalogActivity
 import com.sinergia.eLibrary.presentation.Login.Model.LoginViewModel
 import com.sinergia.eLibrary.presentation.Login.Model.LoginViewModelImpl
+import com.sinergia.eLibrary.presentation.Main.View.MainActivity
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
+import com.sinergia.eLibrary.presentation.NeLSProject
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_main.*
 
 class LoginActivity : BaseActivity(), LoginContract.LoginView {
 
@@ -28,7 +27,7 @@ class LoginActivity : BaseActivity(), LoginContract.LoginView {
         super.onCreate(savedInstanceState)
         loginPresenter = LoginPresenter(LoginInteractorImpl(), LoginViewModelImpl())
         loginPresenter.attachView(this)
-        loginViewModel = ViewModelProviders.of(this).get(LoginViewModelImpl::class.java)
+        loginViewModel = LoginViewModelImpl()
 
         login_pass_forgotten.setOnClickListener() { forgotPass() }
         login_btn.setOnClickListener(){ login() }
@@ -41,6 +40,18 @@ class LoginActivity : BaseActivity(), LoginContract.LoginView {
 
     override fun getPageTitle(): String {
         return getString(R.string.PG_LOGIN)
+    }
+
+    override fun backButton() {
+        if(NeLSProject.backButtonPressedTwice){
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.putExtra("EXIT", true)
+            startActivity(intent)
+        } else {
+            toastL(this, getString(R.string.BTN_BACK))
+            NeLSProject.backButtonPressedTwice = true
+        }
     }
 
     //LOGIN CONTRACT METHODS
@@ -80,6 +91,7 @@ class LoginActivity : BaseActivity(), LoginContract.LoginView {
 
     override fun forgotPass() {
         var forgotPasswordIntent = Intent(this@LoginActivity, ForgotPasswordActivity::class.java)
+        forgotPasswordIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(forgotPasswordIntent)
     }
 

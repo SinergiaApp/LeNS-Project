@@ -178,7 +178,9 @@ class ItemCatalogPresenter(itemCatalogViewModel: ItemCatalogViewModelImpl): Item
             newUserReserves,
             currentUser.loans,
             currentUser.favorites,
-            currentUser.admin
+            currentUser.admin,
+            currentUser.researcher,
+            currentUser.avatar
         )
 
 

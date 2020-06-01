@@ -31,6 +31,7 @@ interface AdminZoneContract {
         fun getResourceToModify()
         fun initSetResourceContent(resource: Resource?, libraries: ArrayList<Library>?)
         fun setResource()
+        fun deleteResource()
 
         fun showHideAddLibrary()
         fun showAddLibraryProgressBar()
@@ -50,6 +51,7 @@ interface AdminZoneContract {
         fun getLibraryToModify()
         fun initLibraryContent(library: Library?)
         fun setLibrary()
+        fun deleteLibrary()
 
         fun showHideLoans()
         fun showLoansManagementContent()
@@ -99,7 +101,7 @@ interface AdminZoneContract {
             edicion: String,
             editorial: String,
             sinopsis: String,
-            librariesDisponibility: MutableMap<String, Integer>,
+            librariesDisponibility: MutableMap<String, Int>,
             likes: MutableList<String>,
             dislikes: MutableList<String>,
             isOnline: Boolean,
@@ -108,12 +110,14 @@ interface AdminZoneContract {
 
         fun getResourceToModify(isbn: String)
         fun setResource(resource: Resource)
-        fun setResourceImage(recourceImageUri: Uri)
+        fun deleteResource(deletedResource: Resource)
+        fun setResourceImage(resourceImageUri: Uri)
 
         fun addNewLibrary(nombre: String, direccion: String, geopoint: GeoPoint)
 
         fun getLibraryToModify(id: String)
         fun setLibrary(library: Library)
+        fun deleteLibrary(deletedLibrary: Library)
         fun setLibraryImage(libraryImageUri: Uri)
 
         fun checkEmptyAddResourceFields(titulo: String, autor: String, isbn: String, edicion: String, editorial: String, sinopsis: String): Boolean

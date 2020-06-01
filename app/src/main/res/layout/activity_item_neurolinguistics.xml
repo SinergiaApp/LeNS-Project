@@ -136,6 +136,7 @@
                     android:text="@string/BTN_UPDATE"
                     android:layout_marginRight="10dp"
                     android:textColor="@color/colorWhite"
+                    android:visibility="gone"
                     />
 
                 <Button
@@ -148,6 +149,7 @@
                     android:text="@string/BTN_DETETE"
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/colorWhite"
+                    android:visibility="gone"
                     />
 
             </LinearLayout>

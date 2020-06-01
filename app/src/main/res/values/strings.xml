@@ -89,6 +89,7 @@
     <string name="BTN_SEE_DISPONIBILITY">VER DISPONIBILIDAD</string>
     <string name="BTN_DOWNLOAD">DESCARGAR</string>
     <string name="BTN_UPLOAD">SELECCIONAR Y SUBIR</string>
+    <string name="BTN_BACK">Presiona de nuevo para salir de la aplicación.</string>
 
     <!-- INFO MESSAGES -->
     <string name="MSG_LOGIN">¡Correcto! Bienvenido a NeLS Project.</string>

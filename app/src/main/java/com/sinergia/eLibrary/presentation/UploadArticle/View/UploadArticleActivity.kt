@@ -5,19 +5,16 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.RadioButton
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProviders
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.data.Model.Article
-import com.sinergia.eLibrary.presentation.Catalog.CatalogContract
-import com.sinergia.eLibrary.presentation.Catalog.Model.CatalogViewModel
 import com.sinergia.eLibrary.presentation.Dialogs.ConfirmDialog.ConfirmDialogActivity
+import com.sinergia.eLibrary.presentation.Main.View.MainActivity
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import com.sinergia.eLibrary.presentation.NeLSProject
 import com.sinergia.eLibrary.presentation.Neurolinguistics.View.NeurolinguisticsActivity
@@ -27,7 +24,6 @@ import com.sinergia.eLibrary.presentation.UploadArticle.Presenter.UploadArticleP
 import com.sinergia.eLibrary.presentation.UploadArticle.UploadArticleContract
 import kotlinx.android.synthetic.main.activity_upload_article.*
 import kotlinx.android.synthetic.main.layout_headder_bar.*
-import java.sql.DatabaseMetaData
 import java.time.LocalDateTime
 
 class UploadArticleActivity : BaseActivity(), UploadArticleContract.UploadArticleView {
@@ -62,6 +58,18 @@ class UploadArticleActivity : BaseActivity(), UploadArticleContract.UploadArticl
 
     override fun getPageTitle(): String {
         return getString(R.string.PG_UPLOAD_ARTICLE)
+    }
+
+    override fun backButton() {
+        if(NeLSProject.backButtonPressedTwice){
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.putExtra("EXIT", true)
+            startActivity(intent)
+        } else {
+            toastL(this, getString(R.string.BTN_BACK))
+            NeLSProject.backButtonPressedTwice = true
+        }
     }
 
     // VIEW METHODS
@@ -155,6 +163,7 @@ class UploadArticleActivity : BaseActivity(), UploadArticleContract.UploadArticl
                 articleISSN,
                 articleDesciption,
                 selectedCategory,
+                NeLSProject.currentUser.email,
                 "Desconocido",
                 articleId
             )
@@ -175,7 +184,7 @@ class UploadArticleActivity : BaseActivity(), UploadArticleContract.UploadArticl
                     .setCancelButtonText(getString(R.string.BTN_NO))
                     .buid()
 
-                reserveDialog.show(supportFragmentManager!!, "ReserveDialog")
+                reserveDialog.show(supportFragmentManager, "ReserveDialog")
                 reserveDialog.isCancelable = false
                 reserveDialog.setDialogOnClickButtonListener(object: ConfirmDialogActivity.DialogOnClickButtonListener{
                     override fun clickAcceptButton() {
@@ -237,7 +246,7 @@ class UploadArticleActivity : BaseActivity(), UploadArticleContract.UploadArticl
         if(requestCode == NeLSProject.GALLERY_INTENT_CODE && resultCode == Activity.RESULT_OK){
 
             var fileURI: Uri = fileData?.data!!
-            uploadArticlePresenter?.uploadArticle(newArticle, fileURI)
+            uploadArticlePresenter.uploadArticle(newArticle, fileURI)
 
         }
     }

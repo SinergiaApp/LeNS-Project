@@ -11,6 +11,10 @@ class ArticleUseCases {
         return nelsDB.getAllArticles()
     }
 
+    suspend fun getAllArticlesWithCategory(category: String): ArrayList<Article> {
+        return nelsDB.getAllArticlesWithCategory(category)
+    }
+
     suspend fun newArticle(newArticle: Article){
         return nelsDB.newArticle(newArticle)
     }

@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProviders
 import com.google.common.base.Strings
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
@@ -22,6 +21,7 @@ import com.sinergia.eLibrary.presentation.Favourites.presenter.FavouritesPresent
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import com.sinergia.eLibrary.presentation.NeLSProject
 import com.sinergia.eLibrary.base.utils.CreateCards
+import com.sinergia.eLibrary.presentation.Main.View.MainActivity
 import kotlinx.android.synthetic.main.activity_favourites.*
 import kotlinx.android.synthetic.main.layout_headder_bar.*
 
@@ -42,7 +42,7 @@ class FavouritesActivity : BaseActivity(), FavouritesContract.FavouritesView {
 
         favouritesPresenter = FavouritesPresenter(FavouritesViewModelImpl())
         favouritesPresenter.attachView(this)
-        favouritesViewModel = ViewModelProviders.of(this).get(FavouritesViewModelImpl::class.java)
+        favouritesViewModel = FavouritesViewModelImpl()
 
         page_title.text = getPageTitle()
         menu_button.setOnClickListener { startActivity(Intent(this, MainMenuActivity::class.java)) }
@@ -66,6 +66,18 @@ class FavouritesActivity : BaseActivity(), FavouritesContract.FavouritesView {
 
     override fun getPageTitle(): String {
         return getString(R.string.PG_FAVOURITES)
+    }
+
+    override fun backButton() {
+        if(NeLSProject.backButtonPressedTwice){
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.putExtra("EXIT", true)
+            startActivity(intent)
+        } else {
+            toastL(this, getString(R.string.BTN_BACK))
+            NeLSProject.backButtonPressedTwice = true
+        }
     }
 
 
@@ -162,7 +174,9 @@ class FavouritesActivity : BaseActivity(), FavouritesContract.FavouritesView {
 
     override fun navigateToBook(resource: Resource) {
         NeLSProject.currentResource = resource
-        startActivity(Intent(this, ItemCatalogActivity::class.java))
+        val intetnItemCatalog = Intent(this, ItemCatalogActivity::class.java)
+        intetnItemCatalog.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intetnItemCatalog)
     }
 
     override fun eraseFavourites() {

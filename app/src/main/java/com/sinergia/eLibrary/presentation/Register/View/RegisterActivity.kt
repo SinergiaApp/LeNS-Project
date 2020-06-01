@@ -9,6 +9,8 @@ import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.data.Model.User
 import com.sinergia.eLibrary.domain.interactors.RegisterInteractor.RegisterInteractorImpl
 import com.sinergia.eLibrary.presentation.Catalog.View.CatalogActivity
+import com.sinergia.eLibrary.presentation.Main.View.MainActivity
+import com.sinergia.eLibrary.presentation.NeLSProject
 import com.sinergia.eLibrary.presentation.Register.Model.RegisterViewModelImpl
 import com.sinergia.eLibrary.presentation.Register.Presenter.RegisterPresenter
 import com.sinergia.eLibrary.presentation.Register.RegisterContract
@@ -34,6 +36,18 @@ class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
 
     override fun getPageTitle(): String {
         return getString(R.string.PG_REGISTER)
+    }
+
+    override fun backButton() {
+        if(NeLSProject.backButtonPressedTwice){
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.putExtra("EXIT", true)
+            startActivity(intent)
+        } else {
+            toastL(this, getString(R.string.BTN_BACK))
+            NeLSProject.backButtonPressedTwice = true
+        }
     }
 
     //REGISTER CONTRACT METHODS

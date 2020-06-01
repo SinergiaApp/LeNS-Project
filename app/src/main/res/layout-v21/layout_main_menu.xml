@@ -59,7 +59,7 @@
             android:gravity="center_vertical|center_horizontal"
             android:textSize="30sp"
             android:textColor="@color/colorBlack"
-            android:text="CATALOGO" />
+            android:text="CATÁLOGO" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

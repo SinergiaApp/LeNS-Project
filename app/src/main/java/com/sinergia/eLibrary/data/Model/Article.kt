@@ -11,6 +11,7 @@ data class Article (
     var issn: String = "Desconcido",
     var descriptiom: String = "Desconcido",
     var category: String = "Desconocido",
+    var owner: String = "Desconocido",
     var downloadURI: String = "Desconcido",
     var id: String = "Identificador Desconocido"
 

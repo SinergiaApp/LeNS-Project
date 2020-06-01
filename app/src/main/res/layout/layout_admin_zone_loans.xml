@@ -97,7 +97,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:id="@+id/admin_zone_loansContent_reserves"
@@ -170,7 +170,7 @@
                     android:fontFamily="Verdana"
                     android:text="@string/BTN_CANCEL"
                     android:layout_marginLeft="10dp"
-                    android:textColor="@color/colorRedDanger"
+                    android:textColor="@color/colorWhite"
                     />
 
             </LinearLayout>

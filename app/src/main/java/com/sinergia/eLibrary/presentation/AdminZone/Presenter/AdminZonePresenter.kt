@@ -111,7 +111,7 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
         edicion: String,
         editorial: String,
         sinopsis: String,
-        librariesDisponibility: MutableMap<String, Integer>,
+        librariesDisponibility: MutableMap<String, Int>,
         likes: MutableList<String>,
         dislikes: MutableList<String>,
         isOnline: Boolean,
@@ -212,6 +212,7 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
             try{
 
                 currentResource = adminViewModel?.getResourceToModify(isbn)!!
+                NeLSProject.currentResource = currentResource
                 val libraries = adminViewModel?.getAllLibraries()
 
                 if(isViewAttach()){
@@ -279,6 +280,48 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
                 }
 
                 Log.d(TAG, "ERROR: Cannot modify Resource with isbn ${resource.isbn} --> $errorMsg.")
+
+            }
+
+        }
+
+    }
+
+    override fun deleteResource(deletedResource: Resource) {
+
+        launch{
+
+            Log.d(TAG, "Trying to delete Resource with isbn ${deletedResource.isbn}.")
+            if(isViewAttach()){
+                view?.showSetResourceProgressBar()
+                view?.disableSetResourceButtons()
+            }
+
+            try{
+
+                adminViewModel?.deleteResource(deletedResource)
+
+                if(isViewAttach()){
+                    view?.hideSetResourceProgressBar()
+                    view?.enableSetResourceButtons()
+                    view?.showMessage("El recurso se ha eliminado satisfactoriamente.")
+                    view?.navigateToCatalog()
+
+                }
+
+                Log.d(TAG, "Succesfully deleted Resource with isbn ${deletedResource.isbn}.")
+
+            } catch (error: FirebaseSetResourceException){
+
+                val errorMsg = error.message.toString()
+
+                if(isViewAttach()){
+                    view?.showError(errorMsg)
+                    view?.hideSetResourceProgressBar()
+                    view?.enableSetResourceButtons()
+                }
+
+                Log.d(TAG, "ERROR: Cannot delete Resource with isbn ${deletedResource.isbn} --> $errorMsg.")
 
             }
 
@@ -471,6 +514,7 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
             try{
 
                 currentLibrary = adminViewModel?.getLibraryToModify(id)!!
+                NeLSProject.currentLibrary = currentLibrary
 
                 if(isViewAttach()) {
                     view?.hideSetLibraryProgressBar()
@@ -543,7 +587,48 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
 
     }
 
-    override fun setLibraryImage(libraryImageURI: Uri) {
+    override fun deleteLibrary(deletedLibrary: Library) {
+
+        Log.d(TAG, "Trying to delete Library with id ${deletedLibrary.id}.")
+        view?.showSetLibraryProgressBar()
+        view?.disableSearchLibraryToModifyButton()
+        view?.disableSetLibraryButtons()
+
+        launch{
+
+            try {
+
+                adminViewModel?.deleteLibrary(deletedLibrary)
+
+                if(isViewAttach()){
+                    view?.hideSetLibraryProgressBar()
+                    view?.enableSetLibraryButtons()
+                    view?.showMessage("La Biblioteca se ha eliminado satisfactoriamente.")
+                    view?.navigateToLibraries()
+                }
+
+                Log.d(TAG, "Succesfully deleted Library with id ${deletedLibrary.id}.")
+
+            } catch (error: FirebaseSetLibraryException){
+
+                val errorMsg = error.message.toString()
+
+                if(isViewAttach()){
+                    view?.showError(errorMsg)
+                    view?.hideSetLibraryProgressBar()
+                    view?.enableSearchLibraryToModifyButton()
+                    view?.enableSetLibraryButtons()
+                }
+
+                Log.d(TAG, "ERROR: Cannot delete Library with id ${deletedLibrary.id}--> $errorMsg.")
+
+            }
+
+        }
+
+    }
+
+    override fun setLibraryImage(libraryImageUri: Uri) {
 
         Log.d(TAG, "Trying to modify Library Image with id ${currentLibrary.id}.")
         view?.showSetLibraryProgressBar()
@@ -560,7 +645,7 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
                     view?.disableSetLibraryButtons()
                 }
 
-                val newLibraryImageUri = adminViewModel?.setLibraryImage(currentLibrary.id, libraryImageURI)
+                val newLibraryImageUri = adminViewModel?.setLibraryImage(currentLibrary.id, libraryImageUri)
                 currentLibrary.imageUri = newLibraryImageUri.toString()
                 adminViewModel?.setLibrary(currentLibrary)
 
@@ -721,7 +806,9 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
             newUserReserves,
             newUserLoans,
             currentUser.favorites,
-            currentUser.admin
+            currentUser.admin,
+            currentUser.researcher,
+            currentUser.avatar
         )
 
         launch{
@@ -833,7 +920,9 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
             newUserReserves,
             currentUser.loans,
             currentUser.favorites,
-            currentUser.admin
+            currentUser.admin,
+            currentUser.researcher,
+            currentUser.avatar
         )
 
         launch{
@@ -1004,7 +1093,9 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
             currentUser.reserves,
             newUserLoans,
             currentUser.favorites,
-            currentUser.admin
+            currentUser.admin,
+            currentUser.researcher,
+            currentUser.avatar
         )
 
         launch{

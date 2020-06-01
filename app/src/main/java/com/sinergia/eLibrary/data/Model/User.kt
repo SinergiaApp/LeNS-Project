@@ -13,6 +13,7 @@ data class User(
     var loans: MutableList<String> = mutableListOf<String>(),
     var favorites: MutableList<String> = mutableListOf<String>(),
     var admin: Boolean = false,
+    var researcher: Boolean = false,
     var avatar: String = "SinAvatar"
 
 )

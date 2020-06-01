@@ -205,19 +205,32 @@
                 android:enabled="false"
                 android:clickable="false"/>
             <Button
-                android:id="@+id/admin_zone_setLibraryImage_btn"
+                android:id="@+id/admin_zone_deleteLibrary_btn"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
-                android:background="@drawable/style_main_button"
+                android:background="@drawable/style_main_button_danger"
                 android:fontFamily="Verdana"
-                android:text="@string/BTN_UPDATEIMAGE"
+                android:text="@string/BTN_DETETE"
                 android:textColor="@color/colorWhite"
                 android:enabled="false"
                 android:clickable="false"/>
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/admin_zone_setLibraryImage_btn"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:background="@drawable/style_main_button"
+            android:fontFamily="Verdana"
+            android:text="@string/BTN_UPDATEIMAGE"
+            android:textColor="@color/colorWhite"
+            android:enabled="false"
+            android:clickable="false"/>
 
 
     </LinearLayout>

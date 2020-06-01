@@ -15,6 +15,10 @@ class NeurolinguisticsViewModelImpl: ViewModel(), NeurolinguisticsViewModel {
         return articleUseCases.getAllArticles()
     }
 
+    override suspend fun getAllArticlesWithCategory(category: String): ArrayList<Article> {
+        return articleUseCases.getAllArticlesWithCategory(category)
+    }
+
     override suspend fun deleteArticle(article: Article) {
         return articleUseCases.deleteArticle(article)
     }

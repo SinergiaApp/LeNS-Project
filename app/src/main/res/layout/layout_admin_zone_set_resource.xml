@@ -113,7 +113,8 @@
             android:textColor="@color/colorBlack"
             android:inputType="textCapSentences"
             android:ems="2"
-            android:hint="Nombre del Libro"/>
+            android:hint="Nombre del Libro"
+            android:visibility="visible"/>
 
         <TextView
             android:id="@+id/setBookExplainText2"
@@ -131,7 +132,8 @@
             android:textColor="@color/colorBlack"
             android:inputType="textCapSentences"
             android:ems="2"
-            android:hint="Autor del Libro"/>
+            android:hint="Autor del Libro"
+            android:visibility="visible"/>
 
         <TextView
             android:id="@+id/setBookExplainText3"
@@ -149,7 +151,8 @@
             android:textColor="@color/colorBlack"
             android:inputType="textCapSentences"
             android:ems="2"
-            android:hint="Edición del Libro"/>
+            android:hint="Edición del Libro"
+            android:visibility="visible"/>
 
         <TextView
             android:id="@+id/setBookExplainText4"
@@ -167,7 +170,8 @@
             android:textColor="@color/colorBlack"
             android:inputType="textCapSentences"
             android:ems="2"
-            android:hint="Editorial del Libro"/>
+            android:hint="Editorial del Libro"
+            android:visibility="visible"/>
 
         <TextView
             android:id="@+id/setBookExplainText6"
@@ -253,7 +257,7 @@
                 android:id="@+id/admin_zone_setResource_btn"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:layout_marginBottom="10dp"
+                android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/style_main_button"
                 android:fontFamily="Verdana"
@@ -263,19 +267,32 @@
                 android:clickable="false"/>
 
             <Button
-                android:id="@+id/admin_zone_setResourceImage_btn"
+                android:id="@+id/admin_zone_deleteResource_btn"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:layout_marginBottom="10dp"
+                android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/style_main_button"
+                android:background="@drawable/style_main_button_danger"
                 android:fontFamily="Verdana"
-                android:text="@string/BTN_UPDATEIMAGE"
+                android:text="@string/BTN_DETETE"
                 android:textColor="@color/colorWhite"
                 android:enabled="false"
                 android:clickable="false"/>
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/admin_zone_setResourceImage_btn"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/style_main_button"
+            android:fontFamily="Verdana"
+            android:text="@string/BTN_UPDATEIMAGE"
+            android:textColor="@color/colorWhite"
+            android:enabled="false"
+            android:clickable="false"/>
 
     </LinearLayout>
 

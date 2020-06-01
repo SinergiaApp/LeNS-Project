@@ -9,6 +9,9 @@ interface MainContract {
         fun showProgressBar()
         fun hideProgressBar()
 
+        fun enableButtons()
+        fun disableButtons()
+
         fun navToLoginPage()
         fun navToRegisterPage()
         fun googleLogin()

@@ -7,6 +7,7 @@ import android.view.View
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.presentation.Dialogs.ConfirmDialog.ConfirmDialogActivity
+import com.sinergia.eLibrary.presentation.Main.View.MainActivity
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import com.sinergia.eLibrary.presentation.NeLSProject
 import com.sinergia.eLibrary.presentation.Neurolinguistics.Model.NeurolinguisticsViewModelImpl
@@ -47,6 +48,18 @@ class ItemNeurolinguisticsActivity : BaseActivity(), NeurolinguisticsContract.It
         return NeLSProject.currentArticle!!.title
     }
 
+    override fun backButton() {
+        if(NeLSProject.backButtonPressedTwice){
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.putExtra("EXIT", true)
+            startActivity(intent)
+        } else {
+            toastL(this, getString(R.string.BTN_BACK))
+            NeLSProject.backButtonPressedTwice = true
+        }
+    }
+
     // VIEW METHODS
     override fun showError(error: String) {
         toastL(this, error)
@@ -70,6 +83,11 @@ class ItemNeurolinguisticsActivity : BaseActivity(), NeurolinguisticsContract.It
 
     override fun hideItemNeuroProgressBar() {
         item_neuro_progressBar.visibility = View.GONE
+    }
+
+    override fun showUpdateAndDeleteButtons() {
+        item_neuro_set_btn.visibility = View.VISIBLE
+        item_neuro_delete_btn.visibility = View.VISIBLE
     }
 
     override fun enableButtons() {
@@ -114,6 +132,8 @@ class ItemNeurolinguisticsActivity : BaseActivity(), NeurolinguisticsContract.It
         item_neuro_edition.text = edition
         item_neuro_description.text = description
 
+        if(NeLSProject.currentArticle!!.owner == NeLSProject.currentUser.email) showUpdateAndDeleteButtons()
+
     }
 
     override fun downloadArticle() {
@@ -121,7 +141,9 @@ class ItemNeurolinguisticsActivity : BaseActivity(), NeurolinguisticsContract.It
     }
 
     override fun setArticle() {
-        startActivity(Intent(this, SetArticleActivity::class.java))
+        val intentSetArticle = Intent(this, SetArticleActivity::class.java)
+        intentSetArticle.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intentSetArticle)
     }
 
     override fun deleteArticle() {
@@ -137,7 +159,7 @@ class ItemNeurolinguisticsActivity : BaseActivity(), NeurolinguisticsContract.It
             .setCancelButtonText(getString(R.string.BTN_NO))
             .buid()
 
-        reserveDialog.show(supportFragmentManager!!, "ReserveDialog")
+        reserveDialog.show(supportFragmentManager, "ReserveDialog")
         reserveDialog.isCancelable = false
         reserveDialog.setDialogOnClickButtonListener(object: ConfirmDialogActivity.DialogOnClickButtonListener{
             override fun clickAcceptButton() {

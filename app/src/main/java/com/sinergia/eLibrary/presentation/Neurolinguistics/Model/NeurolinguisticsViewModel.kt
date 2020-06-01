@@ -7,6 +7,8 @@ interface NeurolinguisticsViewModel {
 
     suspend fun getAllArticles(): ArrayList<Article>
 
+    suspend fun getAllArticlesWithCategory(category: String): ArrayList<Article>
+
     suspend fun deleteArticle(article: Article)
 
     suspend fun downloadArticle(article: Article)

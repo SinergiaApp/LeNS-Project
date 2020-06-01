@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.RadioButton
-import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
@@ -15,9 +14,9 @@ import com.sinergia.eLibrary.presentation.Catalog.Model.ItemCatalogViewModel
 import com.sinergia.eLibrary.presentation.Catalog.Model.ItemCatalogViewModelImpl
 import com.sinergia.eLibrary.presentation.Catalog.Presenter.ItemCatalogPresenter
 import com.sinergia.eLibrary.presentation.Dialogs.ConfirmDialog.ConfirmDialogActivity
+import com.sinergia.eLibrary.presentation.Main.View.MainActivity
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import com.sinergia.eLibrary.presentation.NeLSProject
-import kotlinx.android.synthetic.main.activity_account.*
 import kotlinx.android.synthetic.main.activity_item_catalog.*
 import kotlinx.android.synthetic.main.layout_headder_bar.*
 import com.sinergia.eLibrary.data.Model.Resource as Resource
@@ -36,7 +35,7 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
 
         itemCatalogPresenter = ItemCatalogPresenter(ItemCatalogViewModelImpl())
         itemCatalogPresenter.attachView(this)
-        itemCatalogViewModel = ViewModelProviders.of(this).get(ItemCatalogViewModelImpl::class.java)
+        itemCatalogViewModel = ItemCatalogViewModelImpl()
 
         page_title.text = getPageTitle()
         menu_button.setOnClickListener { startActivity(Intent(this, MainMenuActivity::class.java)) }
@@ -55,6 +54,18 @@ class ItemCatalogActivity : BaseActivity(), ItemCatalogContract.ItemCatalogView 
 
     override fun getPageTitle(): String {
         return NeLSProject.currentResource!!.title
+    }
+
+    override fun backButton() {
+        if(NeLSProject.backButtonPressedTwice){
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.putExtra("EXIT", true)
+            startActivity(intent)
+        } else {
+            toastL(this, getString(R.string.BTN_BACK))
+            NeLSProject.backButtonPressedTwice = true
+        }
     }
 
     //ITEM CATALOG CONTRACT METHODS

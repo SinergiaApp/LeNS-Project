@@ -55,7 +55,7 @@ class NelsDataBase {
             .get()
             .addOnCompleteListener {user ->
                 if(user.isSuccessful){
-                    val currentUser = user.getResult()!!.toObject(User::class.java)
+                    val currentUser = user.result!!.toObject(User::class.java)
                     getUserContinue.resume(currentUser!!)
                 } else {
                     getUserContinue.resumeWithException(
@@ -121,7 +121,7 @@ class NelsDataBase {
             .addOnCompleteListener{ resources ->
                 if(resources.isSuccessful){
 
-                    for (resource in resources.getResult()!!){
+                    for (resource in resources.result!!){
                         val inputResource: Resource = resource.toObject(Resource::class.java)
                         resourcesList.add(inputResource)
                     }
@@ -150,7 +150,7 @@ class NelsDataBase {
 
                 if(getFavouriteResources.isSuccessful){
 
-                    for (resource in getFavouriteResources.getResult()!!){
+                    for (resource in getFavouriteResources.result!!){
                         val inputResource: Resource = resource.toObject(Resource::class.java)
                         resourcesList.add(inputResource)
                     }
@@ -203,7 +203,7 @@ class NelsDataBase {
 
                 if(getFavouriteResource.isSuccessful){
 
-                    val resourceDB = getFavouriteResource.getResult()?.toObject(Resource::class.java)
+                    val resourceDB = getFavouriteResource.result?.toObject(Resource::class.java)
 
                     if(resourceDB == null || !resourceDB.likes.contains(NeLSProject.currentUser.email)) {
                         getFavouriteResourceContinuation.resumeWithException(
@@ -236,7 +236,7 @@ class NelsDataBase {
         edicion: String,
         editorial: String,
         sinopsis: String,
-        disponibility: MutableMap<String, Integer>,
+        disponibility: MutableMap<String, Int>,
         likes: MutableList<String>,
         dislikes: MutableList<String>,
         isOnline: Boolean,
@@ -299,6 +299,29 @@ class NelsDataBase {
 
     }
 
+    suspend fun deleteResource(deletedResource: Resource): Unit = suspendCancellableCoroutine { deleteResourceContinuation ->
+
+        nelsDB
+            .collection("resources")
+            .document(deletedResource.isbn)
+            .delete()
+            .addOnCompleteListener { deleteResource ->
+
+                if(deleteResource.isSuccessful){
+                    deleteResourceContinuation.resume(Unit)
+                } else {
+                    deleteResourceContinuation.resumeWithException(
+                        FirebaseDeleteResourceException(
+                            deleteResource.exception?.message.toString()
+                        )
+                    )
+                }
+
+            }
+
+
+    }
+
 
     //LIBRARY METHODS
     suspend fun addLibrary(nombre: String, direccion: String, geopoint: GeoPoint): Unit = suspendCancellableCoroutine{addLibraryContinuation ->
@@ -338,7 +361,7 @@ class NelsDataBase {
 
                 if(libraries.isSuccessful){
 
-                    for (library in libraries.getResult()!!){
+                    for (library in libraries.result!!){
 
                         val inputLibrary = library.toObject(Library::class.java)
                         inputLibrary.id = library.id
@@ -367,29 +390,30 @@ class NelsDataBase {
         nelsDB
             .collection("libraries")
             .document(id)
-            .get()
-            .addOnSuccessListener { library ->
+            .get().addOnCompleteListener{ getLibrary ->
 
-                val libraryDB = library.toObject(Library::class.java)
+                if(getLibrary.isSuccessful){
 
-                if(libraryDB == null){
+                    val libraryDB = getLibrary.result!!.toObject(Library::class.java)
+
+                    if(libraryDB == null){
+                        getLibraryContinuation.resumeWithException(
+                            FirebaseGetLibraryException(
+                                "Vaya... no tenemos la Biblioteca con Identificador $id."
+                            )
+                        )
+                    } else {
+                        libraryDB.id = getLibrary.result!!.id
+                        getLibraryContinuation.resume(libraryDB)
+                    }
+
+                } else {
                     getLibraryContinuation.resumeWithException(
                         FirebaseGetLibraryException(
                             "Vaya... no tenemos la Biblioteca con Identificador $id."
                         )
                     )
-                } else {
-                    libraryDB.id = library.id
-                    getLibraryContinuation.resume(libraryDB)
                 }
-
-            }
-            .addOnFailureListener{getLibraryException ->
-                getLibraryContinuation.resumeWithException(
-                    FirebaseGetLibraryException(
-                        "Vaya... no tenemos la Biblioteca con Identificador $id."
-                    )
-                )
 
             }
 
@@ -423,6 +447,28 @@ class NelsDataBase {
 
     }
 
+    suspend fun deleteLibrary(deletedLibrary: Library): Unit = suspendCancellableCoroutine { deleteLibraryContinuation ->
+
+        nelsDB
+            .collection("libraries")
+            .document(deletedLibrary.id)
+            .delete()
+            .addOnCompleteListener { deleteLibrary ->
+
+                if(deleteLibrary.isSuccessful){
+                    deleteLibraryContinuation.resume(Unit)
+                } else {
+                    deleteLibraryContinuation.resumeWithException(
+                        FirebaseDeleteLibraryException(
+                            deleteLibrary.exception?.message.toString()
+                        )
+                    )
+                }
+
+            }
+
+    }
+
     // RESERVE METHODS
     suspend fun getUserPendingReserves(email: String): ArrayList<Reserve> = suspendCancellableCoroutine { getUserPendingReservesContinue ->
 
@@ -436,7 +482,7 @@ class NelsDataBase {
 
                 if(getUserPendingReserves.isSuccessful){
 
-                    for (userPendingReserve in getUserPendingReserves.getResult()!!) {
+                    for (userPendingReserve in getUserPendingReserves.result!!) {
 
                         val inputUserPendingReserve = userPendingReserve.toObject(Reserve::class.java)
                         userPendingReservesList.add(inputUserPendingReserve)
@@ -554,7 +600,7 @@ class NelsDataBase {
             .addOnCompleteListener {userPendingLoans ->
                 if(userPendingLoans.isSuccessful){
 
-                    for (userPendingLoan in userPendingLoans.getResult()!!){
+                    for (userPendingLoan in userPendingLoans.result!!){
 
                         val inputUserPendingLoan = userPendingLoan.toObject(Loan::class.java)
                         inputUserPendingLoan.id = userPendingLoan.id
@@ -672,7 +718,41 @@ class NelsDataBase {
 
                 if(getAllArticles.isSuccessful){
 
-                    for (article in getAllArticles.getResult()!!){
+                    for (article in getAllArticles.result!!){
+
+                        val inputArticle = article.toObject(Article::class.java)
+                        inputArticle.id = article.id
+                        articlesList.add(inputArticle)
+
+                    }
+
+                    getAllArticlesContunuation.resume(articlesList)
+
+                } else {
+                    getAllArticlesContunuation.resumeWithException(
+                        FirebaseGetAllArticlesException(
+                            getAllArticles.exception?.message.toString()
+                        )
+                    )
+                }
+
+            }
+
+    }
+
+    suspend fun getAllArticlesWithCategory(category: String): ArrayList<Article> = suspendCancellableCoroutine { getAllArticlesContunuation ->
+
+        var articlesList = arrayListOf<Article>()
+
+        nelsDB
+            .collection("articles")
+            .whereEqualTo("category", category)
+            .get()
+            .addOnCompleteListener {getAllArticles ->
+
+                if(getAllArticles.isSuccessful){
+
+                    for (article in getAllArticles.result!!){
 
                         val inputArticle = article.toObject(Article::class.java)
                         inputArticle.id = article.id

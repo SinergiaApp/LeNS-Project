@@ -12,7 +12,6 @@ import com.sinergia.eLibrary.presentation.Catalog.CatalogContract
 import kotlinx.android.synthetic.main.activity_catalog.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProviders
 import com.google.common.base.Strings
 import com.sinergia.eLibrary.data.Model.Resource
 import com.sinergia.eLibrary.presentation.CameraScan.View.CameraScanActivity
@@ -22,6 +21,7 @@ import com.sinergia.eLibrary.presentation.Catalog.Presenter.CatalogPresenter
 import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import com.sinergia.eLibrary.presentation.NeLSProject
 import com.sinergia.eLibrary.base.utils.CreateCards
+import com.sinergia.eLibrary.presentation.Main.View.MainActivity
 import kotlinx.android.synthetic.main.layout_headder_bar.*
 import kotlin.collections.ArrayList
 
@@ -41,7 +41,7 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
 
         catalogPresenter = CatalogPresenter(CatalogViewModelImpl())
         catalogPresenter.attachView(this)
-        catalogViewModel = ViewModelProviders.of(this).get(CatalogViewModelImpl::class.java)
+        catalogViewModel = CatalogViewModelImpl()
 
         page_title.text = getPageTitle()
         menu_button.setOnClickListener { startActivity(Intent(this, MainMenuActivity::class.java)) }
@@ -66,6 +66,18 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
 
     override fun getPageTitle(): String {
         return getString(R.string.PG_CATALOG)
+    }
+
+    override fun backButton() {
+        if(NeLSProject.backButtonPressedTwice){
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.putExtra("EXIT", true)
+            startActivity(intent)
+        } else {
+            toastL(this, getString(R.string.BTN_BACK))
+            NeLSProject.backButtonPressedTwice = true
+        }
     }
 
     // CAMERA METHODS
@@ -139,7 +151,7 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
             toastL(this, "Vaya... Parece que no hay ningún recurso en la Base de Datos...")
         } else {
 
-            for(resource in resourcesList!!){
+            for(resource in resourcesList){
                 var resourceCard = cardUtils.createResourceCard(this, resource)
                 resourceCard.setOnClickListener { navigateToBook(resource) }
                 catalog_content.addView(resourceCard)
@@ -158,16 +170,11 @@ class CatalogActivity: BaseActivity(), CatalogContract.CatalogView {
         }
     }
 
-    override fun goToMainMenu() {
-        val mainMenuIntent = Intent(this, MainMenuActivity::class.java)
-        val activityName : String = getPageTitle()
-        mainMenuIntent.putExtra("activityName", activityName)
-        startActivity(mainMenuIntent)
-    }
-
     override fun navigateToBook(resource: Resource) {
         NeLSProject.currentResource = resource
-        startActivity(Intent(this, ItemCatalogActivity::class.java))
+        val intentItemCatalog = Intent(this, ItemCatalogActivity::class.java)
+        intentItemCatalog.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intentItemCatalog)
     }
 
     override fun eraseCatalog() {

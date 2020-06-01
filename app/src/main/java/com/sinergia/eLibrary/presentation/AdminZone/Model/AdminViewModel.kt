@@ -13,7 +13,7 @@ interface AdminViewModel {
         edicion: String,
         editorial: String,
         sinopsis: String,
-        disponibility: MutableMap<String, Integer>,
+        disponibility: MutableMap<String, Int>,
         likes: MutableList<String>,
         dislikes: MutableList<String>,
         isOnline: Boolean,
@@ -21,6 +21,7 @@ interface AdminViewModel {
 
     suspend fun getResourceToModify(isbn: String): Resource?
     suspend fun setResource(resource: Resource)
+    suspend fun deleteResource(deletedResource: Resource)
     suspend fun setResourceImage(resourceId: String, resourceImageURI: Uri): Uri
 
     suspend fun addNewLibrary(nombre: String, direccion: String, geopoint: GeoPoint)
@@ -29,6 +30,7 @@ interface AdminViewModel {
 
     suspend fun getLibraryToModify(id: String): Library?
     suspend fun setLibrary(library: Library)
+    suspend fun deleteLibrary(deletedLibrary: Library)
     suspend fun setLibraryImage(libraryId: String, libraryImageURI: Uri): Uri
 
     suspend fun getUserPendingLoans(email: String): ArrayList<Loan>

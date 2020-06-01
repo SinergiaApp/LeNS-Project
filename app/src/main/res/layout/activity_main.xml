@@ -26,6 +26,15 @@
                 android:layout_margin="20dp"
                 android:src="@drawable/icon_logonels"/>
 
+            <com.wang.avi.AVLoadingIndicatorView
+                android:id="@+id/main_progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/AVLoadingIndicatorView.Large"
+                android:visibility="invisible"
+                android:layout_margin="20dp"
+                app:indicatorName="BallPulseIndicator"
+                app:indicatorColor="@color/colorBlack" />
 
             <Button
                 android:id="@+id/main_login_btn"

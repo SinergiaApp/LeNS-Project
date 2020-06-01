@@ -7,8 +7,6 @@ interface CatalogContract {
 
     interface CatalogView{
 
-        fun goToMainMenu()
-
         fun showError(error: String?)
         fun showMessage(message: String)
         fun showCatalogrogressBar()
