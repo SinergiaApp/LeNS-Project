@@ -18,35 +18,38 @@ class NelsStorage {
 
         nelsStorage
             .child("images/$owner")
-            .downloadUrl
-            .addOnCompleteListener { getDownLoadURI ->
+            .putFile(imageURI)
+            .addOnCompleteListener { uploadImage ->
 
-            if(getDownLoadURI.isSuccessful){
+                if(uploadImage.isSuccessful){
 
-                nelsStorage
-                    .child("images/$owner")
-                    .putFile(imageURI)
-                    .addOnCompleteListener { uploadImage ->
+                    nelsStorage
+                        .child("images/$owner")
+                        .downloadUrl
+                        .addOnCompleteListener { getDownLoadURI ->
 
-                        if(uploadImage.isSuccessful){
+                            if(getDownLoadURI.isSuccessful){
 
-                            uploadImageContinuation.resume(getDownLoadURI.result!!)
+                                uploadImageContinuation.resume(getDownLoadURI.result!!)
 
-                        } else {
-                            uploadImageContinuation.resumeWithException(
-                                FirebaseStorageUploadImageException(uploadImage.exception?.message.toString())
-                            )
+                            } else {
+
+                                uploadImageContinuation.resumeWithException(
+                                    FirebaseStorageGetDownloadURIException(getDownLoadURI.exception?.message.toString())
+                                )
+
+                            }
+
                         }
 
-                    }
 
-            } else {
-                uploadImageContinuation.resumeWithException(
-                    FirebaseStorageGetDownloadURIException(getDownLoadURI.exception?.message.toString())
-                )
+                } else {
+                    uploadImageContinuation.resumeWithException(
+                        FirebaseStorageUploadImageException(uploadImage.exception?.message.toString())
+                    )
+                }
+
             }
-
-        }
 
     }
 

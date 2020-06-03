@@ -5,6 +5,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import com.bumptech.glide.Glide
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.data.Model.Library
@@ -18,15 +24,19 @@ import com.sinergia.eLibrary.presentation.NeLSProject
 import kotlinx.android.synthetic.main.activity_library.*
 import kotlinx.android.synthetic.main.layout_headder_bar.*
 
-class LibraryActivity : BaseActivity(), LibraryContract.LibraryView {
+class LibraryActivity : BaseActivity(), LibraryContract.LibraryView, OnMapReadyCallback {
 
     private lateinit var libraryPresenter: LibraryContract.LibraryPresenter
     private lateinit var libraryViewModel: LibraryViewModel
-
+    private lateinit var libraryMap: GoogleMap
+    private var currentLibrary: Library ?= null
 
     //BASE ACTIVITY METHODS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.library_map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
 
         libraryPresenter = LibraryPresenter(LibraryViewModelImpl())
         libraryPresenter.attachView(this)
@@ -88,10 +98,12 @@ class LibraryActivity : BaseActivity(), LibraryContract.LibraryView {
 
     override fun initLibraryContent(library: Library?) {
 
-        library_name.text =  library?.name
-        library_address.text = library?.address
+        currentLibrary = library!!
 
-        if(library!!.imageUri != "noImage"){
+        library_name.text =  library.name
+        library_address.text = library.address
+
+        if(library.imageUri != "noImage"){
             Glide
                 .with(this)
                 .load(Uri.parse(library.imageUri))
@@ -99,6 +111,13 @@ class LibraryActivity : BaseActivity(), LibraryContract.LibraryView {
                 .centerCrop()
                 .into(library_image)
         }
+
+        while(libraryMap == null){}
+        val lat: Double = currentLibrary!!.geopoint.latitude
+        val lon: Double = currentLibrary!!.geopoint.longitude
+        val libraryLocation = LatLng(lat, lon)
+        libraryMap.addMarker(MarkerOptions().position(libraryLocation).title(currentLibrary!!.name))
+        libraryMap.moveCamera(CameraUpdateFactory.newLatLng(libraryLocation))
 
     }
 
@@ -110,6 +129,12 @@ class LibraryActivity : BaseActivity(), LibraryContract.LibraryView {
     override fun onDestroy() {
         super.onDestroy()
         libraryPresenter.dettachView()
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+
+        libraryMap = googleMap
+
     }
 
 }

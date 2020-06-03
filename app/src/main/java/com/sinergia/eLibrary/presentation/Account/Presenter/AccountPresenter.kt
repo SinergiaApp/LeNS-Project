@@ -49,7 +49,7 @@ class AccountPresenter(accountViewModel: AccountViewModel, accountInteractor: Ac
     }
 
     override fun userCanBeDeleted(reserves: MutableList<String>, loans: MutableList<String>): Boolean {
-        return checkEmptyAcountReserves(reserves) && checkEmptyAcountLoans(loans)
+        return (checkEmptyAcountReserves(reserves) && checkEmptyAcountLoans(loans))
     }
 
     override fun checkEmptyAcountReserves(reserves: MutableList<String>): Boolean {

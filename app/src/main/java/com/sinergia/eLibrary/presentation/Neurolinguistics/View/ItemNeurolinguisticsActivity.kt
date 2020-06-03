@@ -1,7 +1,7 @@
 package com.sinergia.eLibrary.presentation.Neurolinguistics.View
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import com.sinergia.eLibrary.R
@@ -137,7 +137,8 @@ class ItemNeurolinguisticsActivity : BaseActivity(), NeurolinguisticsContract.It
     }
 
     override fun downloadArticle() {
-        itemNeuroPresenter.downloadArticle()
+        //itemNeuroPresenter.downloadArticle()
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(NeLSProject.currentArticle!!.downloadURI)))
     }
 
     override fun setArticle() {

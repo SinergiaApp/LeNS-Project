@@ -73,6 +73,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         admin_zone_setBookSearch_btn.setOnClickListener { getResourceToModify() }
         admin_zone_setResourceButton.setOnClickListener { showHideSetResource() }
         admin_zone_setResource_btn.setOnClickListener { setResource() }
+        admin_zone_deleteResource_btn.setOnClickListener { deleteResource() }
         admin_zone_setResourceImage_btn.setOnClickListener { uploadImageFromGallery("setResourceImage") }
 
         admin_zone_addLibraryButton.setOnClickListener { showHideAddLibrary() }
@@ -82,6 +83,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         admin_zone_setLibrarySearch_btn.setOnClickListener { getLibraryToModify() }
         admin_zone_setLibraryButton.setOnClickListener { showHideSetLibrary() }
         admin_zone_setLibrary_btn.setOnClickListener { setLibrary() }
+        admin_zone_deleteLibrary_btn.setOnClickListener { deleteLibrary() }
         admin_zone_setLibraryImage_btn.setOnClickListener { uploadImageFromGallery("setLibraryImage") }
 
         admin_zone_loanManagementButton.setOnClickListener { showHideLoans() }

@@ -107,5 +107,6 @@
     <string name="ERR_NEURO_DELETE">No hemos podido borrar el artículo, intentalo más tarde.</string>
     <string name="ERR_UPLOAD_ARTICLE">No hemos podido subir el artículo, intentalo más tarde</string>
     <string name="ERR_SET_ARTICLE">No hemos podido actualizar el artículo, intentalo más tarde</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>

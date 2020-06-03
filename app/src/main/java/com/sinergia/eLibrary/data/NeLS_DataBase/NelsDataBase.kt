@@ -27,7 +27,9 @@ class NelsDataBase {
             "reserves" to newUser.reserves,
             "loans" to newUser.loans,
             "favorites" to newUser.favorites,
-            "admin" to newUser.admin
+            "admin" to newUser.admin,
+            "researcher" to newUser.researcher,
+            "avatar" to newUser.avatar
         )
 
         nelsDB

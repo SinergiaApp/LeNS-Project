@@ -2,6 +2,7 @@ package com.sinergia.eLibrary.presentation.Favourites.presenter
 
 import android.util.Log
 import com.sinergia.eLibrary.base.Exceptions.FirebaseGetAllResourcesException
+import com.sinergia.eLibrary.base.Exceptions.FirebaseGetResourceException
 import com.sinergia.eLibrary.presentation.Favourites.FavouritesContract
 import com.sinergia.eLibrary.presentation.Favourites.model.FavouritesViewModel
 import com.sinergia.eLibrary.presentation.NeLSProject
@@ -100,7 +101,7 @@ class FavouritesPresenter(favouritesViewModel: FavouritesViewModel): FavouritesC
 
                 Log.d(TAG, "Succesfully get Favourite Resource.")
 
-            } catch (error: FirebaseGetAllResourcesException){
+            } catch (error: FirebaseGetResourceException){
 
                 val errorMsg = error.message
 

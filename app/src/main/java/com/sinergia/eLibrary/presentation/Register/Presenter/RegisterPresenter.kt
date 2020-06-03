@@ -6,6 +6,7 @@ import com.sinergia.eLibrary.domain.interactors.RegisterInteractor.RegisterInter
 import com.sinergia.eLibrary.base.Exceptions.FirebaseRegisterException
 import com.sinergia.eLibrary.base.Exceptions.FirebaseAddUserException
 import com.sinergia.eLibrary.data.Model.User
+import com.sinergia.eLibrary.presentation.NeLSProject
 import com.sinergia.eLibrary.presentation.Register.Model.RegisterViewModel
 import com.sinergia.eLibrary.presentation.Register.RegisterContract
 import kotlinx.coroutines.*
@@ -96,6 +97,7 @@ class RegisterPresenter(registerInteractor: RegisterInteractor, registerViewMode
 
             try {
                 registerInteractor?.register(newUser.name, newUser.email, password)
+                NeLSProject.currentUser = newUser
 
                 Log.d(TAG, "Sucesfully register with email ${newUser.email}.")
 

@@ -204,7 +204,7 @@ class AccountActivity : BaseActivity(), AccountContract.AccountView {
                 if(!accountPresenter.userCanBeDeleted(NeLSProject.currentUser.reserves, NeLSProject.currentUser.loans)){
 
                     if(!accountPresenter.checkEmptyAcountReserves(NeLSProject.currentUser.reserves)) showError("Tienes reservas pendientes, no puedes eliminar tu cuenta.")
-                    if(!accountPresenter.checkEmptyAcountLoans(NeLSProject.currentUser.loans)) showError("Tienes reservas pendientes, no puedes eliminar tu cuenta.")
+                    if(!accountPresenter.checkEmptyAcountLoans(NeLSProject.currentUser.loans)) showError("Tienes préstamos pendientes, no puedes eliminar tu cuenta.")
 
                 } else {
                     accountPresenter.deleteAccount(NeLSProject.currentUser)

@@ -10,6 +10,7 @@ import com.sinergia.eLibrary.data.Model.User
 import com.sinergia.eLibrary.domain.interactors.RegisterInteractor.RegisterInteractorImpl
 import com.sinergia.eLibrary.presentation.Catalog.View.CatalogActivity
 import com.sinergia.eLibrary.presentation.Main.View.MainActivity
+import com.sinergia.eLibrary.presentation.MainMenu.View.MainMenuActivity
 import com.sinergia.eLibrary.presentation.NeLSProject
 import com.sinergia.eLibrary.presentation.Register.Model.RegisterViewModelImpl
 import com.sinergia.eLibrary.presentation.Register.Presenter.RegisterPresenter
@@ -52,7 +53,7 @@ class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
 
     //REGISTER CONTRACT METHODS
     override fun navigateToMainPage() {
-        val intentMainPage = Intent(this, CatalogActivity::class.java)
+        val intentMainPage = Intent(this, MainMenuActivity::class.java)
         intentMainPage.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intentMainPage)
     }
@@ -101,8 +102,16 @@ class RegisterActivity : BaseActivity(), RegisterContract.RegisterView {
 
         val name:String = register_name.text.toString().trim()
         val lastNames:String = register_lastname.text.toString()
-        val lastName1 = lastNames.substring(0, lastNames.indexOf(" "))
-        val lastName2 = lastNames.substring(lastNames.indexOf(" ")+1)
+
+        var lastName1: String
+        var lastName2: String
+        if(lastNames.contains(" ")){
+            lastName1 = lastNames.substring(0, lastNames.indexOf(" "))
+            lastName2 = lastNames.substring(lastNames.indexOf(" ")+1)
+        } else {
+            lastName1 = lastNames
+            lastName2 = ""
+        }
 
         val email:String = register_email.text.toString().trim()
         val nif:String = register_nif.text.toString().trim()

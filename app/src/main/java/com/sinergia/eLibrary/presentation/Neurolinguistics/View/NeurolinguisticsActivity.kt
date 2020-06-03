@@ -119,11 +119,10 @@ class NeurolinguisticsActivity : BaseActivity(), NeurolinguisticsContract.Neurol
 
         if(articlesList.size > 0){
 
-            neuro_content.removeAllViews()
+            eraseCatalog()
 
             for(article in articlesList){
 
-                eraseCatalog()
                 var articleCard = createCards.createArticleCard(this, article)
                 articleCard.setOnClickListener { navigateToArticle(article) }
                 neuro_content.addView(articleCard)
