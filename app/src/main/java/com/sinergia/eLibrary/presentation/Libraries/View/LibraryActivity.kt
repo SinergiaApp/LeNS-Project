@@ -117,7 +117,7 @@ class LibraryActivity : BaseActivity(), LibraryContract.LibraryView, OnMapReadyC
         val lon: Double = currentLibrary!!.geopoint.longitude
         val libraryLocation = LatLng(lat, lon)
         libraryMap.addMarker(MarkerOptions().position(libraryLocation).title(currentLibrary!!.name))
-        libraryMap.moveCamera(CameraUpdateFactory.newLatLng(libraryLocation))
+        libraryMap.moveCamera(CameraUpdateFactory.newLatLngZoom(libraryLocation, 14.0f))
 
     }
 

@@ -38,6 +38,9 @@ interface AdminViewModel {
     suspend fun setReserve(settedReserve: Reserve)
     suspend fun addLoan(newLoan: Loan)
     suspend fun setLoan(loan: Loan)
+    suspend fun finalizeLoan(finalizesLoan: Loan)
+    suspend fun cancelReserve(cancelledReserve: Reserve)
     suspend fun setUser(settedUser: User)
+    suspend fun getResource(isbn: String): Resource
 
 }

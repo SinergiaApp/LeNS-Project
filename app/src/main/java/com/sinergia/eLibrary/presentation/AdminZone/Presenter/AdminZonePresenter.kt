@@ -129,10 +129,9 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
                     view?.hideAddResourceProgressBar()
                     view?.enableAddResourceButton()
                     view?.showMessage("El Recurso se ha creado satisfactoriamente.")
-                    view?.informWithDialog("¡El recurso ha sido creado!. \nRecuerda, es necesario que modifiques " +
-                            "la imagen que se muestra en la ficha del recurso, para debes dirigirte a la edición " +
+                    view?.inforNewResourcemWithDialog("¡El recurso ha sido creado!. \nRecuerda, es necesario que modifiques " +
+                            "la imagen que se muestra en la ficha del recurso. Para ello, debes dirigirte a la edición " +
                             "de recursos en la zona de gerencia, buscar el recurso que acabas de crear y modificar su imagen.")
-                    view?.navigateToCatalog()
                 }
 
                 Log.d(TAG, "Succesfully create new Resource.")
@@ -434,10 +433,10 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
                     view?.hideAddLibraryProgressBar()
                     view?.enableAddLibraryButton()
                     view?.showMessage("La Biblioteca se ha creado satisfactoriamente.")
-                    view?.informWithDialog("¡La biblioteca ha sido creada!. \nRecuerda, es necesario que modifiques " +
-                            "la imagen que se muestra en la ficha de la biblioteca, para debes dirigirte a la edición " +
+                    view?.inforNewLibrarymWithDialog("¡La biblioteca ha sido creada!. \nRecuerda, es necesario que modifiques " +
+                            "la imagen que se muestra en la ficha de la biblioteca. Para ello, debes dirigirte a la edición " +
                             "de bibliotecas en la zona de gerencia, buscar la biblioteca que acabas de crear y modificar su imagen.")
-                    view?.navigateToCatalog()
+
                 }
                 Log.d(TAG, "Succesfully creates new LibraryActivity.")
 
@@ -789,7 +788,8 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
             reserve.userMail,
             reserve.resourceId,
             reserve.resourceName,
-            reserve.libraryId
+            reserve.libraryId,
+            LocalDateTime.now().toString()
         )
 
         val currentUser = NeLSProject.currentUser
@@ -820,6 +820,7 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
                 adminViewModel?.setReserve(settedReserve)
                 adminViewModel?.addLoan(newLoan)
                 adminViewModel?.setUser(settedUser)
+                NeLSProject.currentUser=settedUser
                 if(isViewAttach()){
                     view?.hideLoanManagementProgressBar()
                     view?.showMessage("El Préstamo se ha llevado a cabo con éxito, ¡Dile que lo disfrute!.")
@@ -904,7 +905,8 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
             NeLSProject.currentResource!!.likes,
             NeLSProject.currentResource!!.dislikes,
             NeLSProject.currentResource!!.isOnline,
-            NeLSProject.currentResource!!.urlOnline
+            NeLSProject.currentResource!!.urlOnline,
+            NeLSProject.currentResource!!.imageUri
 
         )
 
@@ -934,9 +936,10 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
                 adminViewModel?.setReserve(settedReserve)
                 adminViewModel?.setResource(settedResource)
                 adminViewModel?.setUser(settedUser)
+                NeLSProject.currentUser=settedUser
                 if(isViewAttach()){
                     view?.hideLoanManagementProgressBar()
-                    view?.showMessage("El Préstamo se ha llevado a cabo con éxito, ¡Dile que lo disfrute!.")
+                    view?.showMessage("La Reserva se ha cancelado con éxito.")
                     view?.navigateToAdminZone()
                 }
 
@@ -1053,63 +1056,67 @@ class AdminZonePresenter(adminViewModel: AdminViewModelImpl): AdminZoneContract.
 
     override fun finalizeLoan(loan: Loan) {
 
-        var newResourceDisponibility = NeLSProject.currentResource!!.disponibility
-        newResourceDisponibility.set(loan.libraryId, newResourceDisponibility[loan.libraryId]!!+1)
-        var settedResource = Resource(
-            NeLSProject.currentResource!!.title,
-            NeLSProject.currentResource!!.author,
-            NeLSProject.currentResource!!.publisher,
-            NeLSProject.currentResource!!.edition,
-            NeLSProject.currentResource!!.sinopsis,
-            NeLSProject.currentResource!!.isbn,
-            newResourceDisponibility,
-            NeLSProject.currentResource!!.likes,
-            NeLSProject.currentResource!!.dislikes,
-            NeLSProject.currentResource!!.isOnline,
-            NeLSProject.currentResource!!.urlOnline
-
-        )
-
-        val finalizedLoan = Loan(
-            loan.userMail,
-            loan.resourceId,
-            loan.resourceName,
-            loan.libraryId,
-            loan.loanDate,
-            LocalDateTime.now().toString(),
-            "Finalized",
-            loan.id
-        )
-
-        val currentUser = NeLSProject.currentUser
-        var newUserLoans = currentUser.loans
-        newUserLoans.remove(loan.resourceId)
-        val settedUser = User(
-            currentUser.name,
-            currentUser.lastName1,
-            currentUser.lastName2,
-            currentUser.email,
-            currentUser.nif,
-            currentUser.reserves,
-            newUserLoans,
-            currentUser.favorites,
-            currentUser.admin,
-            currentUser.researcher,
-            currentUser.avatar
-        )
-
         launch{
 
             view?.showLoanManagementProgressBar()
             view?.disableAllLoanReserveButtons()
 
             try{
+
+                var currentResource = adminViewModel?.getResource(loan.resourceId)
+                var newResourceDisponibility = currentResource!!.disponibility
+                newResourceDisponibility.set(loan.libraryId, newResourceDisponibility[loan.libraryId]!!+1)
+                var settedResource = Resource(
+                    currentResource.title,
+                    currentResource.author,
+                    currentResource.publisher,
+                    currentResource.edition,
+                    currentResource.sinopsis,
+                    currentResource.isbn,
+                    newResourceDisponibility,
+                    currentResource.likes,
+                    currentResource.dislikes,
+                    currentResource.isOnline,
+                    currentResource.urlOnline,
+                    NeLSProject.currentResource!!.imageUri
+
+                )
+
+                val finalizedLoan = Loan(
+                    loan.userMail,
+                    loan.resourceId,
+                    loan.resourceName,
+                    loan.libraryId,
+                    loan.loanDate,
+                    LocalDateTime.now().toString(),
+                    "Finalized",
+                    loan.id
+                )
+
+                val currentUser = NeLSProject.currentUser
+                var newUserLoans = currentUser.loans
+                newUserLoans.remove(loan.resourceId)
+                val settedUser = User(
+                    currentUser.name,
+                    currentUser.lastName1,
+                    currentUser.lastName2,
+                    currentUser.email,
+                    currentUser.nif,
+                    currentUser.reserves,
+                    newUserLoans,
+                    currentUser.favorites,
+                    currentUser.admin,
+                    currentUser.researcher,
+                    currentUser.avatar
+                )
+
                 adminViewModel?.setResource(settedResource)
                 adminViewModel?.setLoan(finalizedLoan)
                 adminViewModel?.setUser(settedUser)
+                NeLSProject.currentUser=settedUser
                 if(isViewAttach()){
                     view?.hideLoanManagementProgressBar()
-                    view?.showMessage("El Préstamo se ha finalizado con éxito, ¡Dile que lo disfrute!.")
+                    view?.showMessage("El Préstamo se ha finalizado con éxito.")
                     view?.navigateToAdminZone()
                 }
 

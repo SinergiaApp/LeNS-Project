@@ -59,7 +59,7 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/style_edit_text_login_register"
         android:textColor="@color/colorBlack"
-        android:inputType="textCapSentences"
+        android:inputType="number"
         android:ems="2"
         android:hint="Edición del Libro"/>
 

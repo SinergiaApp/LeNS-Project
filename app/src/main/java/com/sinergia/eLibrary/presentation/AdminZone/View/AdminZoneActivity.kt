@@ -230,7 +230,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
         toastL(this,message)
     }
 
-    override fun informWithDialog(message: String) {
+    override fun inforNewLibrarymWithDialog(message: String) {
         val informDialog = InformDialogActivity
             .Buider()
             .setTitleText("Información")
@@ -238,11 +238,30 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
             .setAcceptButtonText(getString(R.string.BTN_ACCEPT))
             .buid()
 
-        informDialog.show(supportFragmentManager, "FinalizeLoanDialog")
+        informDialog.show(supportFragmentManager, "NewLibraryDialog")
         informDialog.isCancelable = false
         informDialog.setDialogOnClickButtonListener(object: InformDialogActivity.DialogOnClickButtonListener{
             override fun clickAcceptButton() {
                 informDialog.dismiss()
+                navigateToLibraries()
+            }
+        })
+    }
+
+    override fun inforNewResourcemWithDialog(message: String) {
+        val informDialog = InformDialogActivity
+            .Buider()
+            .setTitleText("Información")
+            .setDescriptionText(message)
+            .setAcceptButtonText(getString(R.string.BTN_ACCEPT))
+            .buid()
+
+        informDialog.show(supportFragmentManager, "NewResourceDialog")
+        informDialog.isCancelable = false
+        informDialog.setDialogOnClickButtonListener(object: InformDialogActivity.DialogOnClickButtonListener{
+            override fun clickAcceptButton() {
+                informDialog.dismiss()
+                navigateToCatalog()
             }
         })
     }
@@ -492,7 +511,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
                     }
                 }
 
-                val setedResource = Resource(title, authors, publisher, edition, sinopsis, isbn, disponibility, likes, dislikes, isOnline, urlOnline)
+                val setedResource = Resource(title, authors, publisher, edition, sinopsis, isbn, disponibility, likes, dislikes, isOnline, urlOnline, NeLSProject.currentResource!!.imageUri)
 
                 adminPresenter.setResource(setedResource)
 
@@ -839,7 +858,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
 
             val reserveDialog = ConfirmDialogActivity
                 .Buider()
-                .setTitleText("Confirmar Reserva")
+                .setTitleText("Confirmar Préstamo")
                 .setDescriptionText(
                     "Está a punto de iniciar el préstamo del recurso ${reserveChecked?.resourceName} con ISBN ${reserveChecked?.resourceId}. " +
                             "Informa al usuario de que el dispone de 5(Cinco) días hábiles para devolver el recurso, periodo tras el cual se le aplicará una sanción. " +
@@ -876,7 +895,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
 
             val reserveDialog = ConfirmDialogActivity
                 .Buider()
-                .setTitleText("Confirmar Reserva")
+                .setTitleText("Confirmar Cancelación")
                 .setDescriptionText(
                     "Está a punto de cancelar la reserva del recurso ${reserveChecked?.resourceName} con ISBN ${reserveChecked?.resourceId}. " +
                             "Informa al usuario de que el recurso volverá a estar dispobnible para otros usuarios y que deberá realizar una nueva reserva " +
@@ -913,7 +932,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
 
             val reserveDialog = ConfirmDialogActivity
                 .Buider()
-                .setTitleText("Confirmar Reserva")
+                .setTitleText("Confirmar Prolongación")
                 .setDescriptionText(
                     "Está a punto de ampliar el préstamo del recurso ${loanChecked?.resourceName} con ISBN ${loanChecked?.resourceId}. " +
                             "Informa al usuario de que dispondrá de 5(Cinco) días hábiles adicionales a partir de hoy para devolver el recurso, periodo tras el cual " +
@@ -952,7 +971,7 @@ class AdminZoneActivity : BaseActivity(), AdminZoneContract.AdminZoneView {
 
             val reserveDialog = ConfirmDialogActivity
                 .Buider()
-                .setTitleText("Confirmar Reserva")
+                .setTitleText("Confirmar Finalización")
                 .setDescriptionText(
                     "Está a punto de finalizar el préstamo del recurso ${reserveChecked?.resourceName} con ISBN ${reserveChecked?.resourceId}. " +
                             "Informa al usuario de que el recurso volverá a estar dispobnible para otros usuarios y que deberá realizar una nueva reserva " +

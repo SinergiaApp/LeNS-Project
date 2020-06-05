@@ -610,7 +610,36 @@ class NelsDataBase {
 
                     }
 
-                    getUserPendingLoansContinuation.resume(userPendingLoansList)
+                    nelsDB
+                        .collection("loans")
+                        .whereEqualTo("userMail", email)
+                        .whereEqualTo("status", "Enlarge")
+                        .get()
+                        .addOnCompleteListener {userEnlargedLoans ->
+
+                            if(userEnlargedLoans.isSuccessful){
+
+                                for (userEnlargedLoan in userEnlargedLoans.result!!){
+
+                                    val inputUserEnlargedLoan = userEnlargedLoan.toObject(Loan::class.java)
+                                    inputUserEnlargedLoan.id = userEnlargedLoan.id
+                                    userPendingLoansList.add(inputUserEnlargedLoan)
+
+                                }
+
+                                getUserPendingLoansContinuation.resume(userPendingLoansList)
+
+                            } else {
+
+                                getUserPendingLoansContinuation.resumeWithException(
+                                    FirebaseGetUserLoansException(
+                                        userEnlargedLoans.exception?.message.toString()
+                                    )
+                                )
+
+                            }
+
+                        }
 
                 } else {
 
@@ -685,7 +714,7 @@ class NelsDataBase {
 
     }
 
-    suspend fun cancelLoan(cancelledLoan: String): Unit = suspendCancellableCoroutine { cancelLoanContinuation ->
+    suspend fun finalizeLoan(cancelledLoan: String): Unit = suspendCancellableCoroutine { cancelLoanContinuation ->
 
         nelsDB
             .collection("loans")

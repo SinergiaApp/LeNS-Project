@@ -19,8 +19,8 @@ class LoanUseCases {
         return nelsDB.setLoan(loan)
     }
 
-    suspend fun cancelLoan(cancelledLoan: String){
-        return nelsDB.cancelLoan(cancelledLoan)
+    suspend fun finalizeLoan(cancelledLoan: String){
+        return nelsDB.finalizeLoan(cancelledLoan)
     }
 
 }

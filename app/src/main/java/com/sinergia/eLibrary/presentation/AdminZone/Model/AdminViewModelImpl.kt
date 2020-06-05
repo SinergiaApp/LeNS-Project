@@ -94,8 +94,20 @@ class AdminViewModelImpl: ViewModel(), AdminViewModel {
         return loanUseCases.setLoan(loan)
     }
 
+    override suspend fun finalizeLoan(finalizedLoan: Loan) {
+        loanUseCases.finalizeLoan(finalizedLoan.id)
+    }
+
+    override suspend fun cancelReserve(cancelledReserve: Reserve) {
+        reserveUseCases.cancelReserve(cancelledReserve.id)
+    }
+
     override suspend fun setUser(settedUser: User) {
         return userUseCases.setUser(settedUser)
+    }
+
+    override suspend fun getResource(isbn: String): Resource {
+        return resourceUseCase.getResource(isbn)!!
     }
 
 }

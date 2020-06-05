@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.RadioButton
+import androidx.core.view.children
 import com.sinergia.eLibrary.R
 import com.sinergia.eLibrary.base.BaseActivity
 import com.sinergia.eLibrary.data.Model.Article
@@ -24,7 +25,7 @@ class SetArticleActivity : BaseActivity(), SetArticleContract.SetArticleView {
     private lateinit var setArticlePresenter: SetArticleContract.SetArticlePresenter
     private lateinit var setArticleViewModel: SetArticleViewModel
 
-    private lateinit var selectedCategory: String
+    private var selectedCategory: String ?= null
 
     // BASE ACTIVITY METHODS
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -118,7 +119,7 @@ class SetArticleActivity : BaseActivity(), SetArticleContract.SetArticleView {
         for(category in NeLSProject.ARTICLE_CATEGORIES){
             var radioCategory = RadioButton(this)
             radioCategory.setText(category)
-            if(category == NeLSProject.currentArticle!!.category) radioCategory.isSelected = true
+            radioCategory.tag = category
             radioCategory.setOnClickListener { selectedCategory = category }
             set_article_category.addView(radioCategory)
         }
@@ -126,81 +127,87 @@ class SetArticleActivity : BaseActivity(), SetArticleContract.SetArticleView {
 
     override fun setArticle() {
 
-        var articleISSN = set_article_ISSN.text.toString()
-        var articleTitle = set_article_title.text.toString()
-        var articleAuthors = arrayListOf<String>()
-        var articleEdition = Integer.parseInt(set_article_edition.text.toString())
-        var articleSource = set_article_source.text.toString()
-        var articleDesciption = set_article_description.text.toString()
-
-        for(author in set_article_authors.text.toString().split(";")){
-            articleAuthors.add(author)
-        }
-
-        if(setArticlePresenter.checkEmptyFileds(articleTitle, articleAuthors, articleEdition, articleSource, articleDesciption)){
-
-            if(setArticlePresenter.checkEmptyArticleTitle(articleTitle)) {
-                set_article_title.error = "El campo 'Título' es obligatorio."
-            }
-            if(setArticlePresenter.checkEmptyArticleAuthors(articleAuthors)){
-                set_article_authors.error = "El campo 'Autores' es obligatorio."
-            }
-            if(setArticlePresenter.checkEmptyArticleEdition(articleEdition)){
-                set_article_edition.error = "El campo 'Edición' es obligatorio."
-            }
-            if(setArticlePresenter.checkEmptyArticleSource(articleSource)){
-                set_article_source.error = "El campo 'Fuente' es obligatorio."
-            }
-            if(setArticlePresenter.checkEmptyArticleDescrption(articleDesciption)){
-                set_article_description.error = "El campo 'Descripción' es obligatorio."
-            }
-
+        if(selectedCategory == null){
+            showError("Por favor, indica la categoría.")
         } else {
 
-            var settedArticle = Article(
-                articleTitle,
-                articleAuthors,
-                articleEdition,
-                articleSource,
-                articleISSN,
-                articleDesciption,
-                selectedCategory,
-                NeLSProject.currentUser.email,
-                NeLSProject.currentArticle!!.downloadURI,
-                NeLSProject.currentArticle!!.id
-            )
+            var articleISSN = set_article_ISSN.text.toString()
+            var articleTitle = set_article_title.text.toString()
+            var articleAuthors = arrayListOf<String>()
+            var articleEdition = Integer.parseInt(set_article_edition.text.toString())
+            var articleSource = set_article_source.text.toString()
+            var articleDesciption = set_article_description.text.toString()
 
-            if(setArticlePresenter.checkEmptyArticleISSN(articleISSN)){
-
-                val reserveDialog = ConfirmDialogActivity
-                    .Buider()
-                    .setTitleText("Confirmar Eliminación Permanente de Cuenta")
-                    .setDescriptionText(
-                        "AVISO: \n Está a punto de subir un artículo sin ISSN, ¿Desea continuar?."
-                    )
-                    .setAcceptButtonText(getString(R.string.BTN_YES))
-                    .setCancelButtonText(getString(R.string.BTN_NO))
-                    .buid()
-
-                reserveDialog.show(supportFragmentManager, "ReserveDialog")
-                reserveDialog.isCancelable = false
-                reserveDialog.setDialogOnClickButtonListener(object: ConfirmDialogActivity.DialogOnClickButtonListener{
-                    override fun clickAcceptButton() {
-                        reserveDialog.dismiss()
-                        setArticlePresenter.setArticle(settedArticle)
-                    }
-
-                    override fun clickCancelButton() {
-                        reserveDialog.dismiss()
-                    }
-
-                })
-
-            } else {
-                setArticlePresenter.setArticle(settedArticle)
+            for(author in set_article_authors.text.toString().split(";")){
+                articleAuthors.add(author)
             }
 
+            if(setArticlePresenter.checkEmptyFileds(articleTitle, articleAuthors, articleEdition, articleSource, articleDesciption)){
+
+                if(setArticlePresenter.checkEmptyArticleTitle(articleTitle)) {
+                    set_article_title.error = "El campo 'Título' es obligatorio."
+                }
+                if(setArticlePresenter.checkEmptyArticleAuthors(articleAuthors)){
+                    set_article_authors.error = "El campo 'Autores' es obligatorio."
+                }
+                if(setArticlePresenter.checkEmptyArticleEdition(articleEdition)){
+                    set_article_edition.error = "El campo 'Edición' es obligatorio."
+                }
+                if(setArticlePresenter.checkEmptyArticleSource(articleSource)){
+                    set_article_source.error = "El campo 'Fuente' es obligatorio."
+                }
+                if(setArticlePresenter.checkEmptyArticleDescrption(articleDesciption)){
+                    set_article_description.error = "El campo 'Descripción' es obligatorio."
+                }
+
+            } else {
+
+                var settedArticle = Article(
+                    articleTitle,
+                    articleAuthors,
+                    articleEdition,
+                    articleSource,
+                    articleISSN,
+                    articleDesciption,
+                    selectedCategory!!,
+                    NeLSProject.currentUser.email,
+                    NeLSProject.currentArticle!!.downloadURI,
+                    NeLSProject.currentArticle!!.id
+                )
+
+                if(setArticlePresenter.checkEmptyArticleISSN(articleISSN)){
+
+                    val reserveDialog = ConfirmDialogActivity
+                        .Buider()
+                        .setTitleText("Confirmar Eliminación Permanente de Cuenta")
+                        .setDescriptionText(
+                            "AVISO: \n Está a punto de subir un artículo sin ISSN, ¿Desea continuar?."
+                        )
+                        .setAcceptButtonText(getString(R.string.BTN_YES))
+                        .setCancelButtonText(getString(R.string.BTN_NO))
+                        .buid()
+
+                    reserveDialog.show(supportFragmentManager, "ReserveDialog")
+                    reserveDialog.isCancelable = false
+                    reserveDialog.setDialogOnClickButtonListener(object: ConfirmDialogActivity.DialogOnClickButtonListener{
+                        override fun clickAcceptButton() {
+                            reserveDialog.dismiss()
+                            setArticlePresenter.setArticle(settedArticle)
+                        }
+
+                        override fun clickCancelButton() {
+                            reserveDialog.dismiss()
+                        }
+
+                    })
+
+                } else {
+                    setArticlePresenter.setArticle(settedArticle)
+                }
+
+            }
         }
+
 
 
     }

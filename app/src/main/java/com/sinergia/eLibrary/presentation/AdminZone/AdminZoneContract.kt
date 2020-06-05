@@ -11,7 +11,8 @@ interface AdminZoneContract {
 
         fun showError(error: String?)
         fun showMessage(message: String)
-        fun informWithDialog(message: String)
+        fun inforNewLibrarymWithDialog(message: String)
+        fun inforNewResourcemWithDialog(message: String)
 
         fun showHideAddResource()
         fun showAddResourceProgressBar()

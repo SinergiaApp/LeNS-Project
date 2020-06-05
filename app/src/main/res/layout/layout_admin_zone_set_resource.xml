@@ -73,7 +73,7 @@
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/style_main_button"
                 android:fontFamily="Verdana"
-                android:text="BUSCAR LIRBO"
+                android:text="@string/BTN_SEARCH_BOOK"
                 android:textColor="@color/colorWhite" />
 
         </LinearLayout>
@@ -149,7 +149,7 @@
             android:layout_marginBottom="10dp"
             android:background="@drawable/style_edit_text_login_register"
             android:textColor="@color/colorBlack"
-            android:inputType="textCapSentences"
+            android:inputType="number"
             android:ems="2"
             android:hint="Edición del Libro"
             android:visibility="visible"/>

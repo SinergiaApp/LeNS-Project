@@ -60,7 +60,7 @@
         android:background="@drawable/style_edit_text_login_register"
         android:textColor="@color/colorBlack"
         android:ems="2"
-        android:inputType="numberSigned"
+        android:inputType="text"
         android:hint="Localización (Latitud)" />
     <EditText
         android:id="@+id/admin_zone_libraryGeoPoint2"
@@ -71,7 +71,7 @@
         android:background="@drawable/style_edit_text_login_register"
         android:textColor="@color/colorBlack"
         android:ems="2"
-        android:inputType="numberSigned"
+        android:inputType="text"
         android:hint="Localización (Longitud)" />
 
     <LinearLayout
